@@ -1,4 +1,5 @@
-# Math 3800: Undergraduate Machine Learning -- Honors Course
+# Math 3094 
+## Undergraduate Machine Learning 
 
 - Kyu-Hwan Lee
 - Jeremy Teitelbaum
