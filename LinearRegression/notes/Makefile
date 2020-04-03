@@ -1,11 +1,9 @@
-all : 00-regression.tex 00-regression.html 00-regression.pdf
+paper: main.md
+	pandoc -N --standalone   --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --filter pandoc-citeproc  -t latex -o main.tex main.md
 
-00-regression.tex : 00-regression.md macros.tex metadata.md references.md
-	pandoc -s -t latex -H macros.tex -o 00-regression.tex metadata.md  00-regression.md references.md
+pdf: paper
+	pdflatex main.tex
+	pdflatex main.tex
 
-00-regression.html : 00-regression.tex
-	pandoc -s -t html 00-regression.tex -o 00-regression.html
-
-00-regression.pdf : 00-regression.tex
-	pdflatex 00-regression.tex
-
+html: main.md
+	pandoc -N --standalone --mathjax --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --filter pandoc-citeproc   -t html -o main.html main.md
