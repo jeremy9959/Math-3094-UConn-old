@@ -28,16 +28,16 @@
 <h1 id="linear-regression"><span class="header-section-number">1</span> Linear Regression</h1>
 <h2 id="sec:Intro"><span class="header-section-number">1.1</span> Introduction</h2>
 <p>Suppose that we are trying to study two quantities <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that we suspect are related – at least approximately – by a linear equation <span class="math inline">\(y=ax+b\)</span>. Sometimes this linear relationship is predicted by theoretical considerations, and sometimes it is just an empirical hypothesis.</p>
-<p>For example, if we are trying to determine the velocity of an object travelling towards us at constant speed, and we measure measure the distances <span class="math inline">\(d_1, d_2, \ldots, d_n\)</span> between us and the object at a series of times <span class="math inline">\(t_1, t_2, \ldots, t_n\)</span>, then since “distance equals rate times time” we have a theoretical foundation for the assumption that <span class="math inline">\(d=rt+b\)</span> for some constants <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span>. On the other hand, because of unavoidable experimental errors, we can’t expect that this relationship will hold exactly for the observed data; instead, we likely get a graph like that shown in fig. <a href="#fig:dvt">1</a>.</p>
+<p>For example, if we are trying to determine the velocity of an object travelling towards us at constant speed, and we measure measure the distances <span class="math inline">\(d_1, d_2, \ldots, d_n\)</span> between us and the object at a series of times <span class="math inline">\(t_1, t_2, \ldots, t_n\)</span>, then since “distance equals rate times time” we have a theoretical foundation for the assumption that <span class="math inline">\(d=rt+b\)</span> for some constants <span class="math inline">\(r\)</span> and <span class="math inline">\(b\)</span>. On the other hand, because of unavoidable experimental errors, we can’t expect that this relationship will hold exactly for the observed data; instead, we likely get a graph like that shown in fig. <a href="#fig:dvt">1</a>. We’ve drawn a line on the plot that seems to capture the true slope (and hence velocity) of the object.</p>
 <div id="fig:dvt" class="fignos">
 <figure>
-<img src="../img/mpg-vs-displacement.png" alt="Figure 1: Physics Experiment" style="width:3in" /><figcaption><span>Figure 1:</span> Physics Experiment</figcaption>
+<img src="../img/distance-vs-time.png" alt="Figure 1: Physics Experiment" style="width:50.0%" /><figcaption><span>Figure 1:</span> Physics Experiment</figcaption>
 </figure>
 </div>
 <p>On the other hand, we might look at a graph such as fig. <a href="#fig:mpg-vs-displacement">2</a>, which plots the gas mileage of various car models against their engine size (displacement), and observe a general trend in which bigger engines get lower mileage. In this situation we could ask for the best line of the form <span class="math inline">\(y=mx+b\)</span> that captures this relationship and use that to make general conclusions without necessarily having an underlying theory.</p>
 <div id="fig:mpg-vs-displacement" class="fignos">
 <figure>
-<img src="../img/mpg-vs-displacement.png" alt="Figure 2: MPG vs Displacement ([1])" style="width:3in" /><figcaption><span>Figure 2:</span> MPG vs Displacement (<span class="citation" data-cites="irvine">[<a href="#ref-irvine">1</a>]</span>)</figcaption>
+<img src="../img/mpg-vs-displacement.png" alt="Figure 2: MPG vs Displacement ([1])" style="width:50.0%" /><figcaption><span>Figure 2:</span> MPG vs Displacement (<span class="citation" data-cites="irvine">[<a href="#ref-irvine">1</a>]</span>)</figcaption>
 </figure>
 </div>
 <h2 id="sec:Calculus"><span class="header-section-number">1.2</span> Least Squares (via Calculus)</h2>
@@ -85,7 +85,7 @@ E = \left[\begin{matrix} 1 \cr 1 \cr \vdots \cr 1\end{matrix}\right].
 <p>First, let’s assume that <span class="math inline">\(E\)</span> and <span class="math inline">\(X\)</span> are linearly independent. If not, then <span class="math inline">\(X\)</span> is a constant vector (why?) which we already know is a problem from section <a href="#sec:Calculus">1.2</a>, Exercise 2. Therefore <span class="math inline">\(E\)</span> and <span class="math inline">\(X\)</span> span a plane in <span class="math inline">\(\mathbf{R}^{n}\)</span>.</p>
 <div id="fig:perp" class="fignos">
 <figure>
-<img src="../img/mpg-vs-displacement.png" alt="Figure 3: Distance to A Plane" style="width:3in" /><figcaption><span>Figure 3:</span> Distance to A Plane</figcaption>
+<img src="../img/distance-to-plane.png" alt="Figure 3: Distance to A Plane" style="width:50.0%" /><figcaption><span>Figure 3:</span> Distance to A Plane</figcaption>
 </figure>
 </div>
 <p>Now if our data points <span class="math inline">\((x_i,y_i)\)</span> all <em>did</em> lie on a line <span class="math inline">\(y=mx+b\)</span>, then the three vectors <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, and <span class="math inline">\(E\)</span> would be linearly dependent:</p>
@@ -176,6 +176,7 @@ MSE(M) = \|Y - XM\|^2
 <p><span class="math display">\[
 M=\left[\begin{matrix} m_1 \\ m_2 \\ \cdots \\ m_k \\ m_{k+1}\end{matrix}\right].
 \]</span></p>
+<p><strong>Remark:</strong> Later on (see section <a href="#sec:variance">1.6</a>) we will see that if we “center” our features about their mean, by subtracting the average value of each column of <span class="math inline">\(X\)</span> from that column; and we also subtract the average value of <span class="math inline">\(Y\)</span> from the entries of <span class="math inline">\(Y\)</span>, then the <span class="math inline">\(b\)</span> that emerges from the least squares fit is zero. As a result, instead of adding a column of <span class="math inline">\(1\)</span>’s, you can change coordinates to center each feature about its mean, and keep your <span class="math inline">\(X\)</span> matrix <span class="math inline">\(N\times k\)</span>.</p>
 <p>The Calculus approach to minimizing the <span class="math inline">\(MSE\)</span> is to take its partial derivatives with respect to the <span class="math inline">\(m_{i}\)</span> and set them to zero. Let’s first work out the derivatives in a nice form for later.</p>
 <p><strong>Proposition:</strong> The gradient of <span class="math inline">\(MSE(M)=E\)</span> is given by</p>
 <p><span id="eq:gradient" class="eqnos"><span class="math display">\[
@@ -185,7 +186,7 @@ M=\left[\begin{matrix} m_1 \\ m_2 \\ \cdots \\ m_k \\ m_{k+1}\end{matrix}\right]
 <p><strong>Proof:</strong> First, remember that the <span class="math inline">\(ij\)</span> entry of <span class="math inline">\(X^{\intercal}\)</span> is the <span class="math inline">\(ji\)</span> entry of <span class="math inline">\(X\)</span>. Also, we will use the notation <span class="math inline">\(X[j,:]\)</span> to mean the <span class="math inline">\(j^{th}\)</span> row of <span class="math inline">\(X\)</span> and <span class="math inline">\(X[:,i]\)</span> to mean the <span class="math inline">\(i^{th}\)</span> column of <span class="math inline">\(X\)</span>. (This is copied from the Python programming language; the ‘:’ means that index runs over all possibilities).</p>
 <p>Since <span class="math display">\[
 E = \sum_{j=1}^{N} (Y_j-\sum_{s=1}^{k+1} X_{js}M_{s})^2
-\]</span> we compute: <span id="eq:gradient" class="eqnos"><span class="math display">\[\begin{aligned}
+\]</span> we compute: <span id="eq:gradient2" class="eqnos"><span class="math display">\[\begin{aligned}
 \frac{\partial}{\partial m_t}E &amp;= -2\sum_{j=1}^{N} X_{jt}(Y_{j}-\sum_{s=1}^{k+1} X_{js}M_{s}) \\
 &amp;= -2(\sum_{j=1}^{N} Y_{j}X_{jt} - \sum_{j=1}^{N}\sum_{s=1}^{k+1} X_{jt}X_{js}M_{s}) \\
 &amp;= -2(\sum_{j=1}^{N} X^{\intercal}_{tj}Y_{j} -\sum_{j=1}^{N}\sum_{s=1}^{k+1} X^{\intercal}_{tj}X_{js}M_{s}) \\
@@ -194,13 +195,13 @@ E = \sum_{j=1}^{N} (Y_j-\sum_{s=1}^{k+1} X_{js}M_{s})^2
 &amp;= -2(X^{\intercal}[t,:]Y - (X^{\intercal}X)[t,:]M)\\
 \end{aligned}\]</span><span class="eqnos-number">(6)</span></span></p>
 <p>Stacking up the different rows to make <span class="math inline">\(E\)</span> yields the desired formula.</p>
-<p><strong>Proposition:</strong> Assume that <span class="math inline">\(D=X^{\intercal}X\)</span> is invertible (notice that it is a <span class="math inline">\((k+1)\times(k+1)\)</span> square matrix so this makes sense). The solution <span class="math inline">\(M\)</span> to the multivariate least squares problem is <span class="math display">\[
+<p><strong>Proposition:</strong> Assume that <span class="math inline">\(D=X^{\intercal}X\)</span> is invertible (notice that it is a <span class="math inline">\((k+1)\times(k+1)\)</span> square matrix so this makes sense). The solution <span class="math inline">\(M\)</span> to the multivariate least squares problem is <span id="eq:Msolution" class="eqnos"><span class="math display">\[
 M = D^{-1}X^{\intercal}Y
-\]</span> and the “predicted value” <span class="math inline">\(\hat{Y}\)</span> for <span class="math inline">\(Y\)</span> is <span id="eq:projection" class="eqnos"><span class="math display">\[
+\]</span><span class="eqnos-number">(7)</span></span> and the “predicted value” <span class="math inline">\(\hat{Y}\)</span> for <span class="math inline">\(Y\)</span> is <span id="eq:projection" class="eqnos"><span class="math display">\[
 \hat{Y} = XD^{-1}X^{\intercal}Y.
-\]</span><span class="eqnos-number">(7)</span></span></p>
+\]</span><span class="eqnos-number">(8)</span></span></p>
 <h2 id="the-multivariate-case-geometry"><span class="header-section-number">1.5</span> The Multivariate Case (Geometry)</h2>
-<p>Let’s look more closely at the equation obtained by setting the gradient of the error, eq. <a href="#eq:gradient">6</a>, to zero. Remember that <span class="math inline">\(M\)</span> is the unknown vector in this equation, everything else is known:</p>
+<p>Let’s look more closely at the equation obtained by setting the gradient of the error, eq. <a href="#eq:gradient">5</a>, to zero. Remember that <span class="math inline">\(M\)</span> is the unknown vector in this equation, everything else is known:</p>
 <p><span class="math display">\[
 X^{\intercal}Y = X^{\intercal}XM
 \]</span></p>
@@ -217,7 +218,7 @@ X^{\intercal}\cdot (Y-XM)=0
 <p>says that <span class="math inline">\(Y-XM\)</span> is orthogonal to <span class="math inline">\(H\)</span>. This argument establishes the following proposition.</p>
 <p><strong>Proposition:</strong> Just as in the simple one-dimensional case, the predicted value <span class="math inline">\(\hat{Y}\)</span> of the least squares problem is the point in <span class="math inline">\(H\)</span> closest to <span class="math inline">\(Y\)</span> – or in other words the point <span class="math inline">\(\hat{Y}\)</span> in <span class="math inline">\(H\)</span> such that <span class="math inline">\(Y-\hat{Y}\)</span> is perpendicular to <span class="math inline">\(H\)</span>.</p>
 <h3 id="orthogonal-projection"><span class="header-section-number">1.5.1</span> Orthogonal Projection</h3>
-<p>Recall that we introduced the notation <span class="math inline">\(D=X^{\intercal}X\)</span>, and let’s assume, for now, that <span class="math inline">\(D\)</span> is an invertible matrix. We have the formula (see eq. <a href="#eq:projection">7</a>): <span class="math display">\[
+<p>Recall that we introduced the notation <span class="math inline">\(D=X^{\intercal}X\)</span>, and let’s assume, for now, that <span class="math inline">\(D\)</span> is an invertible matrix. We have the formula (see eq. <a href="#eq:projection">8</a>): <span class="math display">\[
 \hat{Y} = XD^{-1}X^{\intercal}Y.
 \]</span> <strong>Proposition:</strong> The matrix <span class="math inline">\(P=XD^{-1}X^{\intercal}\)</span> is an <span class="math inline">\(N\times N\)</span> matrix called the orthogonal projection operator onto the subspace <span class="math inline">\(H\)</span> spanned by the columns of <span class="math inline">\(X\)</span>. It has the following properties:</p>
 <ul>
@@ -234,7 +235,8 @@ X^{\intercal}PY = X^{\intercal}XD^{-1}X^{\intercal}Y = X^{\intercal}Y
 PP = XD^{-1}X^{\intercal}XD^{-1}X^{\intercal} = XD^{-1}X^{\intercal}=P.
 \]</span></p>
 <p>It should be clear from the above discussion that the matrix <span class="math inline">\(D=X^{\intercal}X\)</span> plays an important role in the study of this problem. In particular it must be invertible or our analysis above breaks down. In the next section we will look more closely at this matrix and what information it encodes about our data.</p>
-<h3 id="variance-covariance-and-the-covariance-matrix"><span class="header-section-number">1.5.2</span> Variance, Covariance and the Covariance Matrix</h3>
+<h2 id="sec:variance"><span class="header-section-number">1.6</span> Variance, Covariance and the Covariance Matrix</h2>
+<h3 id="centered-coordinates"><span class="header-section-number">1.6.1</span> Centered coordinates</h3>
 <p>Recall from last section that the matrix <span class="math inline">\(D=X^{\intercal}X\)</span> is of central importance to the study of the multivariate least squares problem. Let’s look at it more closely.</p>
 <p><strong>Lemma:</strong> The <span class="math inline">\(i,j\)</span> entry of <span class="math inline">\(D\)</span> is the dot product <span class="math display">\[
 D_{ij}=X[:,i]\cdot X[:,j]
@@ -242,7 +244,7 @@ D_{ij}=X[:,i]\cdot X[:,j]
 <p><strong>Proof:</strong> In the matrix multiplication <span class="math inline">\(X^{\intercal}X\)</span>, the <span class="math inline">\(i^{th}\)</span> row of <span class="math inline">\(X^{\intercal}\)</span> gets “dotted” with the <span class="math inline">\(j^{th}\)</span> column of <span class="math inline">\(X\)</span> to product the <span class="math inline">\(i,j\)</span> entry. But the <span class="math inline">\(i^{th}\)</span> row of <span class="math inline">\(X^{\intercal}\)</span> is the <span class="math inline">\(i^{th}\)</span> column of <span class="math inline">\(X\)</span>, as asserted in the statement of the lemma.</p>
 <p>A crucial point in our construction above relied on the matrix <span class="math inline">\(D\)</span> being invertible. The following Lemma shows that <span class="math inline">\(D\)</span> fails to be invertible only when the different features (the columns of <span class="math inline">\(X\)</span>) are linearly dependent.</p>
 <p><strong>Lemma:</strong> <span class="math inline">\(D\)</span> is not invertible if and only if the columns of <span class="math inline">\(X\)</span> are linearly dependent.</p>
-<p><strong>Proof:</strong> If the columns of <span class="math inline">\(X\)</span> are linearly dependent, then there is a nonzero vector <span class="math inline">\(m\)</span> so that <span class="math inline">\(Xm=0\)</span>. In that case clearly <span class="math inline">\(Dm=X^{\intercal}Xm=0\)</span> so <span class="math inline">\(D\)</span> is not invertible. Suppose <span class="math inline">\(D\)</span> is not invertible. Then there is a nonzero vector <span class="math inline">\(m\)</span> with <span class="math inline">\(Dm=X^{\intercal}Xm=0\)</span>. This means that the vector <span class="math inline">\(Xm\)</span> is orthogonal to all of the columns of <span class="math inline">\(X\)</span>. That in turn means that <span class="math inline">\(Xm=0\)</span> so the columns of <span class="math inline">\(X\)</span> are linearly dependent.</p>
+<p><strong>Proof:</strong> If the columns of <span class="math inline">\(X\)</span> are linearly dependent, then there is a nonzero vector <span class="math inline">\(m\)</span> so that <span class="math inline">\(Xm=0\)</span>. In that case clearly <span class="math inline">\(Dm=X^{\intercal}Xm=0\)</span> so <span class="math inline">\(D\)</span> is not invertible. Suppose <span class="math inline">\(D\)</span> is not invertible. Then there is a nonzero vector <span class="math inline">\(m\)</span> with <span class="math inline">\(Dm=X^{\intercal}Xm=0\)</span>. This means that the vector <span class="math inline">\(Xm\)</span> is orthogonal to all of the columns of <span class="math inline">\(X\)</span>. Since <span class="math inline">\(Xm\)</span> belongs to the span <span class="math inline">\(H\)</span> of the columns of <span class="math inline">\(X\)</span>, if it is orthogonal to <span class="math inline">\(H\)</span> it must be zero.</p>
 <p>In fact, the matrix <span class="math inline">\(D\)</span> captures some important statistical measures of our data, but to see this clearly we need to make a slight change of basis. First recall that <span class="math inline">\(X[:,k+1]\)</span> is our column of all <span class="math inline">\(1\)</span>, added to handle the intercept. As a result, the dot product <span class="math inline">\(X[:,i]\cdot X[:,k+1]\)</span> is the sum of the entries in the <span class="math inline">\(i^{th}\)</span> column, and so if we let <span class="math inline">\(\mu_{i}\)</span> denote the average value of the entries in column <span class="math inline">\(i\)</span>, we have <span class="math display">\[
 \mu_{i} = \frac{1}{N}(X[:,i]\cdot X[:,k+1])
 \]</span></p>
@@ -258,15 +260,76 @@ X_{0}[:,i] = X[:,i]-\frac{1}{N}(X[:,i]\cdot X[:,k+1])X[:,k+1] = X[:,i]-\mu_{i}X[
 M_{0} = D_{0}^{-1}X_{0}^{\intercal}Y
 \]</span></p>
 <p>where <span class="math inline">\(D_{0}=X_{0}^{\intercal}X_{0}.\)</span></p>
-<p><strong>Proposition:</strong> The matrix <span class="math inline">\(D_{0}\)</span> has a block form. Its upper left block is <span class="math inline">\(k\times k\)</span> symmetric block with entries <span class="math display">\[
-(D_{0})_{ij} = (X[:,i]-\mu_{i}X[:,k+1])\cdot(X[:,j]-\mu_{j}X[:,k+1]).
+<p><strong>Proposition:</strong> The matrix <span class="math inline">\(D_{0}\)</span> has a block form. Its upper left block is a <span class="math inline">\(k\times k\)</span> symmetric block with entries <span class="math display">\[
+(D_{0})_{ij} = (X[:,i]-\mu_{i}X[:,k+1])\cdot(X[:,j]-\mu_{j}X[:,k+1])
 \]</span> Its <span class="math inline">\((k+1)^{st}\)</span> row and column are all zero, except for the <span class="math inline">\((k+1),(k+1)\)</span> entry, which is <span class="math inline">\(N\)</span>.</p>
 <p><strong>Proof:</strong> This follows from the fact that the last row and column entries are (for <span class="math inline">\(i\not=k+1\)</span>): <span class="math display">\[
 (X[:,i]-\mu_{i}X[:,k+1])\cdot X[:,k+1] = (X[:,i]\cdot X[:,k+1])-N\mu_{i} = 0
 \]</span> and for <span class="math inline">\(i=k+1\)</span> we have <span class="math inline">\(X[:,k+1]\cdot X[:,k+1]=N\)</span> since that column is just <span class="math inline">\(N\)</span> <span class="math inline">\(1\)</span>’s.</p>
-<h3 id="exercises-1"><span class="header-section-number">1.5.3</span> Exercises</h3>
+<p><strong>Proposition:</strong> If the <span class="math inline">\(x\)</span> coordinates (the features) are centered so that they have mean zero, then the intercept <span class="math inline">\(b\)</span> is <span class="math display">\[
+\overline{Y} = \frac{1}{N}\sum y_{i}.
+\]</span></p>
+<p><strong>Proof:</strong> By centering the coordinates, we replace the matrix <span class="math inline">\(X\)</span> by <span class="math inline">\(X_{0}\)</span> and <span class="math inline">\(D\)</span> by <span class="math inline">\(D_{0}\)</span>. and we are trying to minimize <span class="math inline">\(\|Y-X_{0}M_{0}\|^2\)</span>. Use the formula from eq. <a href="#eq:Msolution">7</a> to see that <span class="math display">\[
+M_{0} = D_{0}^{-1}X_{0}^{\intercal}Y.
+\]</span> The <span class="math inline">\(b\)</span> value we are interested in is the last entry <span class="math inline">\(m_{k+1}\)</span> in <span class="math inline">\(M_{0}\)</span>. From the block form of <span class="math inline">\(D_{0}\)</span>, we know that <span class="math inline">\(D_{0}^{-1}\)</span> has bottom row and last column zero except for <span class="math inline">\(1/N\)</span> in position <span class="math inline">\((k+1)\times(k+1)\)</span>. Also <span class="math inline">\(X_{0}^{\intercal}\)</span> has last row consisting entirely of <span class="math inline">\(1\)</span>. So the bottom entry of <span class="math inline">\(X_{0}^{\intercal}Y\)</span> is <span class="math inline">\(\sum_{i=1}^{N} y_{i}\)</span>, and the bottom entry <span class="math inline">\(b\)</span> of <span class="math inline">\(D_{0}^{-1}X_{0}^{\intercal}Y\)</span> is <span class="math display">\[
+\mu_{Y} = \frac{1}{N}\sum_{i=1}^{N} y_{i}. 
+\]</span> as claimed.</p>
+<p><strong>Corollary:</strong> If we make a further change of coordinates to define <span class="math display">\[
+Y_{0} = Y - \mu_{Y}\left[\begin{matrix} 1 \\ 1 \\ \vdots \\ 1\end{matrix}\right]
+\]</span> then the associated <span class="math inline">\(b\)</span> is zero. As a result we can forget about the extra column of <span class="math inline">\(1&#39;s\)</span> that we added to <span class="math inline">\(X\)</span> to account for it and reduce the dimension of our entire problem by <span class="math inline">\(1\)</span>.</p>
+<p>Just to recap, if we center our data so that <span class="math inline">\(\mu_{Y}=0\)</span> and <span class="math inline">\(\mu_{i}=0\)</span> for <span class="math inline">\(i=1,\ldots, k\)</span>, then the least squares problem reduces to minimizing <span class="math display">\[
+E(M) = \|Y-XM\|^2
+\]</span> where <span class="math inline">\(X\)</span> is the <span class="math inline">\(N\times k\)</span> matrix with <span class="math inline">\(j^{th}\)</span> row <span class="math inline">\((x_{j1},x_{j2},\ldots, x_{jk})\)</span> for <span class="math inline">\(j=1,\ldots, N\)</span> and the solutions are as given in eq. <a href="#eq:Msolution">7</a> and eq. <a href="#eq:projection">8</a>.</p>
+<h3 id="the-covariance-matrix"><span class="header-section-number">1.6.2</span> The Covariance Matrix</h3>
+<p>Given our discussion in the last paragraph, let’s assume we begin with data <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> where <span class="math inline">\(Y\)</span> is an <span class="math inline">\(N\times 1\)</span> column vector and <span class="math inline">\(X\)</span> is an <span class="math inline">\(N\times k\)</span> matrix whose columns are features.</p>
+<p>Let <span class="math inline">\(X_{0}\)</span> and <span class="math inline">\(Y_{0}\)</span> be the associated <em>centered</em> data, so that <span class="math display">\[
+Y_{0} = Y -\mu_{Y}\left[\begin{matrix} 1 \\ 1 \\ \vdots \\ 1\end{matrix}\right]
+\]</span> where <span class="math inline">\(\mu_{Y} = \sum_{j=1}^{N} y_{j}\)</span>, and <span class="math display">\[
+X_0[:,i] = X[:,i] - \mu_{i}\left[\begin{matrix} 1 \\ 1 \\ \vdots \\ 1\end{matrix}\right],
+\]</span> where <span class="math inline">\(\mu_{i} = \sum_{j=1}^{N} x_{ji}\)</span>.</p>
+<p>The <span class="math inline">\(i,j\)</span>-entry of the matrix <span class="math inline">\(k\times k\)</span> matrix <span class="math inline">\(D_0=X_0^{\intercal}X_0\)</span> is the dot product of the <span class="math inline">\(i^{th}\)</span> and <span class="math inline">\(j^{th}\)</span> columns of <span class="math inline">\(X_{0}\)</span>, explicitly:</p>
+<p><span class="math display">\[\begin{aligned}
+(d_0)_{ij} &amp; = X_0[:,i]\cdot X_0[:,j]\\
+&amp;= \sum_{s=1}^{N} (x_0)_{si}(x_0)_{sj} \\
+&amp;= \sum_{s=1}^{N} (x_{si}-\mu_{i})(x_{sj}-\mu_{j}) 
+\end{aligned}
+\]</span></p>
+<p><strong>Definition:</strong> For <span class="math inline">\(i=j\)</span>, the quantity <span class="math display">\[
+\sigma_{ii} = \frac{1}{N} d_{ii} =\frac{1}{N}\sum_{s=1}^{N} (x_{si}-\mu_{i})^2
+\]</span> is called the <em>variance</em> of <span class="math inline">\(x_{i}\)</span>. The quantity <span class="math display">\[
+\sigma_{ij} = \frac{1}{N} d_{ii} =\frac{1}{N}\sum_{s=1}^{N} (x_{si}-\mu_{i}) (x_{sj}-\mu_{j})
+\]</span> is called the <em>covariance</em> of <span class="math inline">\(x_{i}\)</span> and <span class="math inline">\(x_{j}\)</span>. The matrix <span class="math inline">\(\Sigma=\frac{1}{N}D_0\)</span> is called the <em>covariance matrix</em> of the data <span class="math inline">\(X\)</span>.</p>
+<p><strong>Lemma:</strong> We can simplify the expression for the variance: <span class="math display">\[\begin{aligned}
+\sigma_{ii} &amp;= \frac{1}{N}\sum_{s=1}^{N} (x_{si}-\mu_{i})^2\\
+&amp;=\frac{1}{N}\sum_{s=1}^{N}( x_{si}^2-2x_{si}\mu_{i}+\mu_{i}^2)\\
+&amp;=\frac{1}{N}(\sum_{s=1}^{N} x_{si}^2  -2\mu_{i}\sum_{s=1}^{N} x_{si}+\mu_{i}^2 \\
+&amp;=\frac{1}{N}(\sum_{s=1}^{N} x_{si}^2) -2\mu_{i}^2 + \mu_{i}^2 \\
+&amp;=\frac{1}{N}(\sum_{s=1}^{N} x_{si}^2) -\mu_{i}^2 .
+\end{aligned}
+\]</span></p>
+<p>The variance is a statistical measure of how “spread out” the values of the feature <span class="math inline">\(X[:,i]\)</span> are around its mean. A high variance means the data is spread out; a small variance means it clusters around its mean.</p>
+<p>The covariance <span class="math inline">\(X[:,i]\)</span> and <span class="math inline">\(X[:,j]\)</span> measures how closely these two features are correlated – are they both large at the same time, and both small at the same time?</p>
+<p>The covariance matrix <span class="math inline">\(\Sigma\)</span> summarizes these relationships among the features. Later, we will see that the covariance matrix <span class="math inline">\(\Sigma\)</span> captures a great deal of information about the data. We will return to this in later chapters.</p>
+<h2 id="caveats-about-linear-regression"><span class="header-section-number">1.7</span> Caveats about Linear Regression</h2>
+<h3 id="basic-considerations"><span class="header-section-number">1.7.1</span> Basic considerations</h3>
+<p>Reflecting on our long discussion up to this point, we should take note of some of the potential pitfalls that lurk in the use of linear regression.</p>
 <ol type="1">
-<li>When proving that <span class="math inline">\(D\)</span> is invertible if and only if the columns of <span class="math inline">\(X\)</span> are linearly independent, we argued that if <span class="math inline">\(X^{\intercal}Xm=0\)</span> for a nonzero vector <span class="math inline">\(m\)</span>, it must be the case that <span class="math inline">\(Xm\)</span> is orthogonal to every column of <span class="math inline">\(X\)</span> and so <span class="math inline">\(Xm=0\)</span>. Flesh out this argument. For example, why is it the case that if <span class="math inline">\(v\in\mathbf{R}^{N}\)</span> is a linear combination of vectors <span class="math inline">\(x_1,\ldots, x_k\)</span> in <span class="math inline">\(\mathbf{R}^{N}\)</span>, and <span class="math inline">\(v\cdot x_i=0\)</span> for <span class="math inline">\(i=1,\ldots, k\)</span>, then <span class="math inline">\(v=0\)</span>?</li>
+<li><p>When we apply linear regression, we are explicitly assuming that the variable <span class="math inline">\(Y\)</span> is associated to <span class="math inline">\(X\)</span> via linear equations. This is a big assumption!</p></li>
+<li><p>When we use multilinear regression, we are assuming that changes in the different features have independent effects on the target variable <span class="math inline">\(y\)</span>. In other words, suppose that <span class="math inline">\(y=ax_1+bx_2\)</span>. Then an increase of <span class="math inline">\(x_1\)</span> by <span class="math inline">\(1\)</span> increases <span class="math inline">\(y\)</span> by <span class="math inline">\(a\)</span>, and an increase of <span class="math inline">\(x_2\)</span> by <span class="math inline">\(1\)</span> increases <span class="math inline">\(y\)</span> by <span class="math inline">\(b\)</span>. These effects are independent of one another and combine to yield an increase of <span class="math inline">\(a+b\)</span>.</p></li>
+<li><p>We showed in our discussion above that linear regression problem has a solution when the matrix <span class="math inline">\(D=X^{\intercal}X\)</span> is invertible, and this happens when the columns of <span class="math inline">\(D\)</span> are linearly independent. When working with real data, which is messy, we could have a situation in which the features we are studying are, in fact, dependent – but because of measurement error, the samples that we collected aren’t. In this case, the matrix <span class="math inline">\(D\)</span> will be “close” to being non-invertible, although formally still invertible. In this case, computing <span class="math inline">\(D^{-1}\)</span> leads to numerical instability and the solution we obtain is very unreliable.</p></li>
+</ol>
+<h3 id="simpsons-effect"><span class="header-section-number">1.7.2</span> Simpson’s Effect</h3>
+<p>Simpson’s effect is a famous phenomenon that illustrates that linear regression can be very misleading in some circumstances. It is often a product of “pooling” results from multiple experiments. Suppose, for example, that we are studying the relationship between a certain measure of blood chemistry and an individual’s weight gain or less on a particular diet. We do our experiments in three labs, the blue, green, and red labs. Each lab obtains similar results – higher levels of the blood marker correspond to greater weight gain, with a regression line of slope around 1. However, because of differences in the population that each lab is studying, some populations are more susceptible to weight gain and so the red lab sees a mean increase of almost 9 lbs while the blue lab sees a weight gain of only 3 lbs on average.</p>
+<p>The three groups of scientists pool their results to get a larger sample size and do a new regression. Surprise! Now the regression line has slope <span class="math inline">\(-1.6\)</span> and increasing amounts of the marker seem to lead to <em>less</em> weight gain!</p>
+<p>This is called Simpson’s effect, or Simpson’s paradox, and it shows that unknown factors (confounding factors) may cause linear regression to yield misleading results. This is particularly true when data from experiments conducted under different conditions is combined; in this case, the differences in experimental setting, called <em>batch effects</em>, can throw off the analysis very dramatically. See fig. <a href="#fig:simpsons">4</a> .</p>
+<div id="fig:simpsons" class="fignos">
+<figure>
+<img src="../img/SimpsonsEffect.png" alt="Figure 4: Simpson’s Effect" style="width:50.0%" /><figcaption><span>Figure 4:</span> Simpson’s Effect</figcaption>
+</figure>
+</div>
+<h3 id="exercises-1"><span class="header-section-number">1.7.3</span> Exercises</h3>
+<ol type="1">
+<li>When proving that <span class="math inline">\(D\)</span> is invertible if and only if the columns of <span class="math inline">\(X\)</span> are linearly independent, we argued that if <span class="math inline">\(X^{\intercal}Xm=0\)</span> for a nonzero vector <span class="math inline">\(m\)</span>, then <span class="math inline">\(Xm\)</span> is orthogonal to the span of the columns of <span class="math inline">\(X\)</span>, and is also an element of that span, and is therefore zero. Provide the details: show that if <span class="math inline">\(H\)</span> is a subspace of <span class="math inline">\(\mathbf{R}^{N}\)</span>, and <span class="math inline">\(x\)</span> is a vector in <span class="math inline">\(H\)</span> such that <span class="math inline">\(x\cdot h=0\)</span> for all <span class="math inline">\(h\in H\)</span>, then <span class="math inline">\(x=0\)</span>.</li>
 </ol>
 <h1 id="bibliography" class="unnumbered">References</h1>
 <div id="refs" class="references">
