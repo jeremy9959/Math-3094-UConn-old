@@ -523,9 +523,9 @@ $$
 $$
 \sigma_{ii} = \frac{1}{N} d_{ii} =\frac{1}{N}\sum_{s=1}^{N} (x_{si}-\mu_{i})^2
 $$
-is called the *variance* of $x_{i}$.  The quantity
+is called the *variance* of $x_{i}$.  For $i\not=j$, The quantity
 $$
-\sigma_{ij} = \frac{1}{N} d_{ii} =\frac{1}{N}\sum_{s=1}^{N} (x_{si}-\mu_{i}) (x_{sj}-\mu_{j})
+\sigma_{ij} = \frac{1}{N} d_{ij} =\frac{1}{N}\sum_{s=1}^{N} (x_{si}-\mu_{i}) (x_{sj}-\mu_{j})
 $$
 is called the *covariance* of $x_{i}$ and $x_{j}$.  The matrix $\Sigma=\frac{1}{N}D_0$
 is called the *covariance matrix*
@@ -589,9 +589,6 @@ conditions is combined; in this case, the differences in experimental setting, c
 very dramatically.  See +@fig:simpsons .
 
 ![Simpson's Effect](../img/SimpsonsEffect.png){#fig:simpsons width=50%}
-
-
-
 
 
 
