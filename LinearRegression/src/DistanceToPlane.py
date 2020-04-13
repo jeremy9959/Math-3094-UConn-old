@@ -1,5 +1,4 @@
-import pandas as pd
-from bokeh.models import ColumnDataSource, Label
+from bokeh.models import Label
 from bokeh.io import show, export_png
 from bokeh.plotting import figure
 

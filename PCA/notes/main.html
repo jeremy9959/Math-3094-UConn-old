@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Principal Components</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+  <!-- pandoc-eqnos: equation style -->
+  <style>
+    .eqnos { display: inline-block; position: relative; width: 100%; }
+    .eqnos br { display: none; }
+    .eqnos-number { position: absolute; right: 0em; top: 50%; line-height: 0; }
+  </style>
+</head>
+<body>
+<h1 id="principal-component-analysis"><span class="header-section-number">1</span> Principal Component Analysis</h1>
+<h2 id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p>Suppose that, as usual, we begin with a collection of measurements of different features for a group of samples. Some of these measurements will tell us quite a bit about the difference among our samples, while others may contain relatively little information. For example, if we are analyzing the effect of a certain weight loss regimen on a group of people, the age and weight of the subjects may have a great deal of influence on how successful the regimen is, while their blood pressure might not. One way to help identify which features are more significant is to ask whether or not the feature varies a lot among the different samples. If nearly all the measurements of a feature are the same, it can’t have much power in distinguishing the samples, while if the measurements vary a great deal then that feature has a chance to contain useful information.</p>
+<p>In this section we will discuss a way to measure the variability of measurements and then introduce principal component analysis (PCA). PCA is a method for finding which linear combinations of measurements have the greatest variability and therefore might contain the most information. It also allows us to identify combinations of measurements that don’t vary much at all. Combining this information, we can sometimes replace our original system of features with a smaller set that still captures most of the interesting information in our data, and thereby find hidden characteristics of the data and simplify our analysis a great deal.</p>
+<h2 id="variance-and-covariance"><span class="header-section-number">1.2</span> Variance and Covariance</h2>
+<h3 id="variance"><span class="header-section-number">1.2.1</span> Variance</h3>
+<p>Suppose that we have a collection of measurements <span class="math inline">\((x_1,\ldots, x_n)\)</span> of a particular feature <span class="math inline">\(X\)</span>. For example, <span class="math inline">\(x_i\)</span> might be the initial weight of the <span class="math inline">\(ith\)</span> participant in our weight loss study. The mean of the values <span class="math inline">\((x_1,\ldots, x_n)\)</span> is</p>
+<p><span class="math display">\[
+\mu_{X} = \frac{1}{n}\sum_{i=1}^{n} x_{i}.
+\]</span></p>
+<p>The simplest measure of the variability of the data is called its <em>variance.</em></p>
+<p><strong>Definition:</strong> The (sample) variance of the data <span class="math inline">\(x_1,\ldots, x_n\)</span> is</p>
+<p><span id="eq:variance" class="eqnos"><span class="math display">\[
+\sigma_{X}^2 = \frac{1}{n}\sum_{i=1}^{n} (x_{i}-\mu_{X})^2 = \frac{1}{n}\sum_{i=1}^{n} x_{i}^2 - \mu_{X}^2
+\]</span><span class="eqnos-number">(1)</span></span></p>
+<p>The square root of the variance is called the <em>standard deviation.</em></p>
+<p>As we see from the formula, the variance is a measure of how ‘spread out’ the data is from the mean.</p>
+<p>Recall that in our discussion of linear regression we thought of our set of measurements <span class="math inline">\(x_1,\ldots, x_n\)</span> as a vector – it’s one of the columns of our data matrix. From that point of view, the variance has a geometric interpretation – it is <span class="math inline">\(\frac{1}{N}\)</span> times the square of the distance from the point <span class="math inline">\(X=(x_1,\ldots, x_n)\)</span> to the point <span class="math inline">\(\mu_{X}(1,1,\ldots,1)=\mu_{X}E\)</span>:</p>
+<p><span class="math display">\[
+\sigma_{X}^2 = \frac{1}{n}\|X-\mu_{X}E\|^2.
+\]</span></p>
+<h3 id="covariance"><span class="header-section-number">1.2.2</span> Covariance</h3>
+<p>The variance measures the dispersion of measures of a single feature. Often, we have measurements of multiple features and we might want to know something about how two features are related. The <em>covariance</em> is a measure of whether two features tend to be related, in the sense that when one increases, the other one increases; or when one increases, the other one decreases.</p>
+<p><strong>Definition:</strong> Given measurements <span class="math inline">\((x_1,\ldots, x_n)\)</span> and <span class="math inline">\((y_1,\ldots, y_n)\)</span> of two features <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the covariance of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is</p>
+<p><span id="eq:covariance" class="eqnos"><span class="math display">\[
+\sigma_{XY} = \frac{1}{N}\sum_{i=1}^{N} x_iy_i
+\]</span><span class="eqnos-number">(2)</span></span></p>
+<p>There is a nice geometric interpretation of this, as well, in terms of the dot product. If <span class="math inline">\(X=(x_1,\ldots, x_n)\)</span> and <span class="math inline">\(Y=(y_1\ldots,y_n)\)</span> then</p>
+<p><span class="math display">\[
+\sigma_{XY} = \frac{1}{N} ((X-\mu_{X})\cdot (Y-\mu_{Y}).
+\]</span></p>
+<p>From this point of view, we can see that <span class="math inline">\(\sigma_{XY}\)</span> is positive if the <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> vectors “point roughly in the same direction” and its negative if they “point roughly in the opposite direction.”</p>
+<h3 id="correlation"><span class="header-section-number">1.2.3</span> Correlation</h3>
+<p>One problem with interpreting the variance and covariance is that we don’t have a scale – for example, if <span class="math inline">\(\sigma_{XY}\)</span> is large and positive, then we’d like to say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are closely related, but it could be just that the entries of <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> are large. Here, though, we can really take advantage of the geometric interpretation. Recall that the dot product of two vectors has the following geometric interpretation:</p>
+<p><span class="math display">\[
+a \cdot b = \|a\|\|b\|\cos(\theta)
+\]</span></p>
+<p>where <span class="math inline">\(\theta\)</span> is the angle between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. So</p>
+<p><span class="math display">\[
+\cos(\theta) = \frac{a\cdot b}{\|a\|\|b\|}.
+\]</span></p>
+<p>Let’s apply this to the variance and covariance, by noticing that</p>
+<p><span class="math display">\[
+\frac{(X-\mu_{X})\cdot (Y-\mu_{Y})}{\|(X-\mu_{X})\|\|(Y-\mu_{Y})\|} = \frac{\sigma_{XY}}{\sigma_{XX}\sigma_{YY}}
+\]</span></p>
+<p>so the quantity</p>
+<p><span id="eq:rxy" class="eqnos"><span class="math display">\[
+r_{XY} = \frac{\sigma_{XY}}{\sigma_{XX}\sigma_{YY}}
+\]</span><span class="eqnos-number">(3)</span></span></p>
+<p>measures the cosine of the angle between the vectors <span class="math inline">\(X-\mu_{X}\)</span>A and <span class="math inline">\(Y-\mu_{Y}\)</span>.</p>
+<p><strong>Definition:</strong> The quantity <span class="math inline">\(r_{XY}\)</span> defined in eq. <a href="#eq:rxy">3</a> is called the (sample) <em>correlation coefficient</em> between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. We have <span class="math inline">\(0\le |r_{XY}|\le 1\)</span> with <span class="math inline">\(r_{XY}=\pm 1\)</span> if and only if the two vectors <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> are collinear in <span class="math inline">\(\mathbf{R}^{n}\)</span>.</p>
+<p>Figure <a href="#fig:corrfig">1</a> illustrates data with different values of the correlation coefficient.</p>
+<div id="fig:corrfig" class="fignos">
+<figure>
+<img src="../img/correlation.png" alt="Figure 1: Correlation" style="width:50.0%" /><figcaption><span>Figure 1:</span> Correlation</figcaption>
+</figure>
+</div>
+<h3 id="sec:covarmat"><span class="header-section-number">1.2.4</span> The covariance matrix</h3>
+<p>In a typical situation we have many features for each of our (many) samples, that we organize into a data matrix <span class="math inline">\(X\)</span>. To recall, each column of <span class="math inline">\(X\)</span> corresponds to a feature that we measure, and each row corresponds to a sample. For example, each row of our matrix might correspond to a person enrolled in a study, and the columns correspond to height (cm), weight (kg), systolic blood pressure, and age (in years):</p>
+<div id="tbl:data" class="tablenos">
+<table>
+<caption><span>Table 1:</span> A sample data matrix <span class="math inline">\(X\)</span> </caption>
+<thead>
+<tr class="header">
+<th>sample</th>
+<th style="text-align: right;">Ht</th>
+<th style="text-align: right;">Wgt</th>
+<th style="text-align: right;">Bp</th>
+<th style="text-align: right;">Age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">193</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">130</td>
+<td style="text-align: right;">40</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+<td style="text-align: right;">…</td>
+</tr>
+<tr class="even">
+<td>U</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">92</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">55</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>If we have multiple features, as in this example, we might be interested in the variance of each feature and all of their mutual covariances. This “package” of information can be obtained “all at once” by taking advantage of some matrix algebra.</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(X\)</span> be a <span class="math inline">\(k\times N\)</span> data matrix, where the <span class="math inline">\(N\)</span> columns of <span class="math inline">\(X\)</span> correspond to different features and the <span class="math inline">\(k\)</span> rows to different samples. Let <span class="math inline">\(X_{0}\)</span> be the centered version of this data matrix, obtained by subtracting the mean <span class="math inline">\(\mu_{i}\)</span> of column <span class="math inline">\(i\)</span> from all the entries <span class="math inline">\(x_{si}\)</span> in that column. Then the <span class="math inline">\(N\times N\)</span> symmetric matrix</p>
+<p><span class="math display">\[
+D_{0} = \frac{1}{N}X_{0}^{\intercal}X_{0}
+\]</span></p>
+<p>is called the (sample) covariance matrix for the data.</p>
+<p><strong>Proposition:</strong> The diagonal entries <span class="math inline">\(d_{ii}\)</span> of <span class="math inline">\(D_{0}\)</span> are the variances of the columns of <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_i)^2
+\]</span></p>
+<p>and the off-diagonal entries <span class="math inline">\(d_{ij} = d_{ji}\)</span> are the covariances of the <span class="math inline">\(i^{th}\)</span> and <span class="math inline">\(j^{th}\)</span> columns of <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
+\]</span></p>
+<p><strong>Proof:</strong> This follows from the definitions, but it’s worth checking the details, which we leave as an exercise.</p>
+<p><strong>Exercises.</strong></p>
+<ol type="1">
+<li><p>Prove that the two expressions for <span class="math inline">\(\sigma_{X}^2\)</span> given in section <a href="#variance">1.2.1</a> are the same.</p></li>
+<li><p>Prove that the covariance matrix is as described in the proposition in <a href="#sec:covarmat">1.2.4</a>.</p></li>
+</ol>
+</body>
+</html>
