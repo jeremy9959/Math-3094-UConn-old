@@ -148,9 +148,9 @@ geometric interpretation -- it is \(\frac{1}{N}\) times the square of
 the distance from the point \(X=(x_1,\ldots, x_n)\) to the point
 \(\mu_{X}(1,1,\ldots,1)=\mu_{X}E\):
 
-\[
-\sigma_{X}^2 = \frac{1}{n}\|X-\mu_{X}E\|^2.
-\]
+\begin{equation}
+\sigma_{X}^2 = \frac{1}{n}(X-\mu_{X}E)\cdot(X-\mu_{X}E)  = \frac{1}{n}\|X-\mu_{X}E\|^2.
+\label{eq:variance}\end{equation}
 
 \hypertarget{covariance}{%
 \subsubsection{Covariance}\label{covariance}}
@@ -175,7 +175,7 @@ the dot product. If \(X=(x_1,\ldots, x_n)\) and \(Y=(y_1\ldots,y_n)\)
 then
 
 \[
-\sigma_{XY} = \frac{1}{N} ((X-\mu_{X})\cdot (Y-\mu_{Y}).
+\sigma_{XY} = \frac{1}{N} ((X-\mu_{X})\cdot (Y-\mu_{Y})).
 \]
 
 From this point of view, we can see that \(\sigma_{XY}\) is positive if
@@ -192,7 +192,7 @@ positive, then we'd like to say that \(X\) and \(Y\) are closely
 related, but it could be just that the entries of \(X-\mu_{X}\) and
 \(Y-\mu_{Y}\) are large. Here, though, we can really take advantage of
 the geometric interpretation. Recall that the dot product of two vectors
-has the following geometric interpretation:
+satisfies the formula
 
 \[
 a \cdot b = \|a\|\|b\|\cos(\theta)
@@ -213,7 +213,7 @@ Let's apply this to the variance and covariance, by noticing that
 so the quantity
 
 \begin{equation}
-r_{XY} = \frac{\sigma_{XY}}{\sigma_{XX}\sigma_{YY}}
+r_{XY} = \frac{\sigma_{XY}}{\sigma_{X}\sigma_{Y}}
 \label{eq:rxy}\end{equation}
 
 measures the cosine of the angle between the vectors \(X-\mu_{X}\)A and
@@ -236,8 +236,8 @@ correlation coefficient.
 }
 \end{figure}
 
-\hypertarget{the-covariance-matrix}{%
-\subsubsection{The covariance matrix}\label{the-covariance-matrix}}
+\hypertarget{sec:covarmat}{%
+\subsubsection{The covariance matrix}\label{sec:covarmat}}
 
 In a typical situation we have many features for each of our (many)
 samples, that we organize into a data matrix \(X\). To recall, each
@@ -248,8 +248,13 @@ to height (cm), weight (kg), systolic blood pressure, and age (in
 years):
 
 \begin{longtable}[]{@{}lrrrr@{}}
+\caption{A sample data matrix \(X\) \label{tbl:data}}\tabularnewline
 \toprule
-Name & Ht & Wgt & Bp & Age\tabularnewline
+sample & Ht & Wgt & Bp & Age\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+sample & Ht & Wgt & Bp & Age\tabularnewline
 \midrule
 \endhead
 A & 180 & 75 & 110 & 35\tabularnewline
@@ -259,14 +264,134 @@ U & 150 & 92 & 105 & 55\tabularnewline
 \bottomrule
 \end{longtable}
 
+If we have multiple features, as in this example, we might be interested
+in the variance of each feature and all of their mutual covariances.
+This ``package'' of information can be obtained ``all at once'' by
+taking advantage of some matrix algebra.
+
+\textbf{Definition:} Let \(X\) be a \(k\times N\) data matrix, where the
+\(N\) columns of \(X\) correspond to different features and the \(k\)
+rows to different samples. Let \(X_{0}\) be the centered version of this
+data matrix, obtained by subtracting the mean \(\mu_{i}\) of column
+\(i\) from all the entries \(x_{si}\) in that column. Then the
+\(N\times N\) symmetric matrix
+
+\[
+D_{0} = \frac{1}{N}X_{0}^{\intercal}X_{0}
+\]
+
+is called the (sample) covariance matrix for the data.
+
+\textbf{Proposition:} The diagonal entries \(d_{ii}\) of \(D_{0}\) are
+the variances of the columns of \(X\):
+
+\[
+d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_i)^2
+\]
+
+and the off-diagonal entries \(d_{ij} = d_{ji}\) are the covariances of
+the \(i^{th}\) and \(j^{th}\) columns of \(X\):
+
+\[
+d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
+\]
+
+\textbf{Proof:} This follows from the definitions, but it's worth
+checking the details, which we leave as an exercise.
+
+\hypertarget{linear-combinations-of-features-scores}{%
+\subsubsection{Linear Combinations of Features
+(Scores)}\label{linear-combinations-of-features-scores}}
+
+Sometimes useful information about our data can be revealed if we
+combine different measurements together to obtain a ``hybrid'' measure
+that captures something interesting. For example, in the Auto MPG
+dataset that we studied in the section on Linear Regression, we looked
+at the influence of both vehicle weight \(w\) and engine displacement
+\(e\) on gas mileage; perhaps their is some value in considering a
+hybrid ``score'' defined as \[
+S = a*w + b*e
+\] for some constants \(a\) and \(b\) -- maybe by choosing a good
+combination we could find a better predictor of gas mileage than using
+one or the other of the features individually.
+
+As another example, suppose we are interested in the impact of the
+nutritional content of food on weight gain in a study. We know that both
+calorie content and the level dietary fiber contribute to the weight
+gain of participants eating this particular food; maybe there is some
+kind of combined ``calorie/fiber'' score we could introduce that
+captures the impact of that food better.
+
+\textbf{Definition:} Let \(X_{0}\) be a (centered) \(k\times N\) data
+matrix giving information about \(N\) features for each of \(k\)
+samples. A linear synthetic feature, or a linear score, is a linear
+combination of the \(N\) features. The linear score is defined by
+constants \(a_{1},\ldots, a_{n}\) so that If \(y_{1},\ldots, y_{N}\) are
+the values of the features for a particular sample, then the linear
+score for that sample is
+
+\[
+S = a_{1}y_{1}+a_{2}y_{2}+\cdots+a_{N}y_{N}
+\]
+
+\textbf{Lemma:} The values of the linear score for each of the \(k\)
+samples can be calculated as
+
+\begin{equation}
+\left[\begin{matrix} S_{1} \\ \vdots \\ S_{k}\\ \end{matrix}\right] =
+X_{0}\left[
+\begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right].
+\label{eq:linearscore}\end{equation}
+
+\textbf{Proof:} Multiplying a matrix by a column vector computes a
+linear combination of the columns -- that's what this lemma says.
+Exercise 3 asks you to write out the indices and make sure you believe
+this.
+
+\hypertarget{mean-and-variance-of-scores}{%
+\subsubsection{Mean and variance of
+scores}\label{mean-and-variance-of-scores}}
+
+When we combine features to make a hybrid score, we assume that the
+features were centered to begin with, so that each features has mean
+zero. As a result, the mean of the hybrid features is again zero.
+
+\textbf{Lemma:} A linear combination of features with mean zero again
+has mean zero.
+
+\textbf{Proof:} Let \(S_{i}\) be the score for the \(i^{th}\) sample, so
+\[
+S_{i} = \sum_{j=1}^{N} x_{ij}a_{j}.
+\] where \(X_{0}\) has entries \(x_{ij}\). Then the mean value of the
+score is \[
+\mu_{S} = \frac{1}{k}\sum_{i=1}^{k} S_{i} = \frac{1}{k}\sum_{i=1}^{k}\sum_{j=1}^{N} x_{ij}a_{j}.
+\] Reversing the order of the sum yields \[
+\mu_{S} = \frac{1}{k}\sum_{j=1}^{N}\sum_{i=1}^{k} x_{ij}a_{j} = \sum_{j=1}^{N} a_{j}\frac{1}{k}(\sum_{i=1}^{k} x_{ij})=
+\sum_{j=1}^{N}a_{j}\mu_{j}=0
+\] where \(\mu_{j}=0\) is the mean of the \(j^{th}\) feature (column) of
+\(X_{0}\).
+
 \textbf{Exercises.}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   Prove that the two expressions for \(\sigma_{X}^2\) given in
   \cref{variance} are the same.
+\item
+  Prove that the covariance matrix is as described in the proposition in
+  \ref{sec:covarmat}.
+\item
+  Let \(X_{0}\) be a \(k\times N\) matrix with entries \(x_{ij}\) for
+  \(1\le i\le k\) and \(1\le j\le N\). If a linear score is defined by
+  the constants \(a_{1},\ldots a_{N}\), check that equation
+  \cref{eq:linearscore} holds as claimed.
 \end{enumerate}
+
+The variance is more interesting, and gives us an opportunity to put the
+covariance matrix to work. Remember from \ref{variance} that, since a
+score \(S\) has mean zero, it's variance is \(\sigma_{S}^2=S\cdot S\) --
+where here the score \(S\) is represented by the column vector with
+entries \(S_{1},\ldots S_{k}\) as in \ref{eq:linearscore}.
 
 \end{document}
