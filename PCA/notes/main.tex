@@ -150,7 +150,7 @@ the distance from the point \(X=(x_1,\ldots, x_n)\) to the point
 
 \begin{equation}
 \sigma_{X}^2 = \frac{1}{n}(X-\mu_{X}E)\cdot(X-\mu_{X}E)  = \frac{1}{n}\|X-\mu_{X}E\|^2.
-\label{eq:variance}\end{equation}
+\label{eq:variancedot}\end{equation}
 
 \hypertarget{covariance}{%
 \subsubsection{Covariance}\label{covariance}}
@@ -168,7 +168,7 @@ the other one decreases.
 
 \begin{equation}
 \sigma_{XY} = \frac{1}{N}\sum_{i=1}^{N} x_iy_i
-\label{eq:covariance}\end{equation}
+\label{eq:covariancedot}\end{equation}
 
 There is a nice geometric interpretation of this, as well, in terms of
 the dot product. If \(X=(x_1,\ldots, x_n)\) and \(Y=(y_1\ldots,y_n)\)
@@ -371,6 +371,42 @@ score is \[
 \] where \(\mu_{j}=0\) is the mean of the \(j^{th}\) feature (column) of
 \(X_{0}\).
 
+The variance is more interesting, and gives us an opportunity to put the
+covariance matrix to work. Remember from \ref{eq:variancedot} that,
+since a score \(S\) has mean zero, it's variance is
+\(\sigma_{S}^2=S\cdot S\) -- where here the score \(S\) is represented
+by the column vector with entries \(S_{1},\ldots S_{k}\) as in
+\cref{eq:linearscore}.
+
+\textbf{Lemma:} The variance of the score \(S\) with weights
+\(a_1,\ldots a_N\) is \begin{equation}
+\sigma_{S}^2 = a^{\intercal}D_{0}a = \left[\begin{matrix}a_{1} & \cdots & a_{N}\end{matrix}\right]D_{0}
+\left[\begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right]
+\label{eq:ada}\end{equation} More generally, if \(S_{1}\) and \(S_{2}\)
+are scores with weights \(a_1,\ldots, a_N\) and \(b_1,\ldots, b_N\)
+respectively, then the covariance \(\sigma_{S_{1}S_{2}}\) is \[
+\sigma_{S_{1}S_{2}} = a^{\intercal}D_{0}b.
+\]
+
+\textbf{Proof:} From \cref{eq:variancedot} and \ref{eq:linearscore} we
+know that \[
+\sigma_{S}^2 = S\cdot S
+\] and \[
+S = X_{0}a.
+\] Since \(S\cdot S = \frac{1}{N}S^{\intercal}S\), this gives us \[
+\sigma_{S}^2 = \frac{1}{N}(X_{0}a)^{\intercal}(X_{0}a) = \frac{1}{N}a^{\intercal}X_{0}^{\intercal}X_{0}a = a^{\intercal}D_{0}a
+\] as claimed.
+
+For the covariance, use a similar argument with \cref{eq:covariancedot}
+and \cref{eq:linearscore}. writing
+\(\sigma_{S_{1}S_{2}}=\frac{1}{N}S_{1}\cdot S_{2}\) and the fact that
+\(S_{1}\) and \(S_{2}\) can be written as \(X_{0}a\) and \(X_{0}b\).
+
+The point of this lemma is that the covariance matrix contains not just
+the variances and covariances of the original features, but also enough
+information to construct the variances and covariances for \emph{any
+linear combination of features.}
+
 \textbf{Exercises.}
 
 \begin{enumerate}
@@ -387,11 +423,5 @@ score is \[
   the constants \(a_{1},\ldots a_{N}\), check that equation
   \cref{eq:linearscore} holds as claimed.
 \end{enumerate}
-
-The variance is more interesting, and gives us an opportunity to put the
-covariance matrix to work. Remember from \ref{variance} that, since a
-score \(S\) has mean zero, it's variance is \(\sigma_{S}^2=S\cdot S\) --
-where here the score \(S\) is represented by the column vector with
-entries \(S_{1},\ldots S_{k}\) as in \ref{eq:linearscore}.
 
 \end{document}

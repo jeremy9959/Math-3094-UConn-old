@@ -286,7 +286,104 @@ the fact that $S_{1}$ and $S_{2}$ can be written as $X_{0}a$ and $X_{0}b$.
 
 The point of this lemma is that the covariance matrix contains not just the variances and covariances
 of the original features, but also enough information to construct the variances and covariances
-for *any linear combination of features.*
+for *any linear combination of features.* 
+
+
+In the next section we will see how to exploit this
+idea to reveal hidden structure in our data.
+
+### Geometry of Scores
+
+Let's begin by looking at +@fig:pcasimfig, which shows a scatter plot of some simulated data
+having $50$ samples and two features.   This data has been centered, so it can be represented
+in a $50\times 2$ data matrix $X_{0}$ each row of which is the coordinates $(x_0,x_1)$ of one
+of the points in the picture. 
+
+The scatter plot shows that the data points are arranged
+in a more or less elliptical cloud oriented at an angle to the $xy$-axes which represent the two given
+features.  The two individual histograms show the distribution of the two features -- each has mean zero,
+with the $x$-features distributed between $-2$ and $2$ and the $y$ feature between $-4$ and $4$.
+Looking just at the two features individually, meaning only at the two histograms, we can't see the 
+overall elliptical structure.
+
+![Simulated Data with Two Features](../img/PCAsimulated-1.png){#fig:pcasimfig width=50%}
+
+
+How can we get a better grip on our data in this situation? We can try to find a "direction"
+in our data that better illuminates the variation of the data.   For example,
+suppose that we pick a unit vector at the origin pointing in a particular direction
+in our data.  See +@fig:pcasimfig-1.
+
+![A direction in the data](../img/PCAsimulated-2.png){#fig:pcasimfig-1 width=50%}
+
+Now we can orthogonally project the datapoints onto the line defined by this vector,
+as shown in +@fig:pcasimfig-2.
+
+![Projecting the datapoints](../img/PCAsimulated-3.png){#fig:pcasimfig-2 width=50%}
+
+Recall that if the unit vector is defined by coordinates $u=[u_0,u_1]$, then the
+orthogonal projection of the point $x$ with coordinates $(x_0,x_1)$ is $(x\cdot u)u$.
+Now
+$$
+x\cdot u = u_0 x_0 + u_1 x_1
+$$
+so the coordinates of the points along the line defined by $u$ are the values of the score $Z$
+defined by $u=[u_0,u_1]$.  Using our work in the previous section, we see that we can
+find all of these coordinates by matrix multiplication:
+$$
+Z = X_0 u
+$$
+where $X_0$ is our data matrix.  Now let's add a histogram of the values of $Z$
+to our picture:
+
+![Distribution of Z](../img/PCAsimulated-4.png){#fig:pcasimfig-3 width=50%}
+
+This histogram shows the distribution of the values of $Z$ along the tilted line defined
+by the unit vector $u$. 
+
+### Principal Components
+
+
+
+
+Finally, using our work on the covariance matrix, we see that the
+variance of $Z$ is given by
+$$
+\sigma_{Z}^2 = \frac{1}{50}u^{\intercal}X_{0}^{\intercal}X_{0}u = u^{\intercal}D_{0}u
+$$
+where $D_{0}$ is the covariance matrix of the data $X_{0}$. 
+
+In the particular example depicted in these figures, the vector $u$ is $[-3/5,4/5]$ and the
+covariance matrix is 
+$$
+D_{0} = \left(\begin{matrix} .5 & -.75 \\ -.75 & 1.5\end{matrix}\right)
+$$
+so the variance of $Z$ is
+$$
+\sigma_{Z}^{2} = \left[\begin{matrix} -3/5 & 4/5\end{matrix}\right]\left(\begin{matrix} .5 & -.75 \\ -.75 & 1.5\end{matrix}\right)\left[\begin{matrix} -3/5 \\ 4/5\end{matrix}\right] \sim 1.5
+$$
+
+### Principal Components
+
+
+The covariance matrix $D_{0}$ for the data depicted in +@fig:pcasimfig is
+$$
+D_{0} = \left(\begin{matrix} .5 & -.75 \\ -.75 & 1.5\end{matrix}\right).
+$$
+From our earlier discussion of correlation, we see that the correlation coefficient
+$$
+r = \frac{-.75}{(1.5)(.5)}=-1
+$$
+so the two features are strongly correlated -- something which is visible in the scatter plot,
+but not in the two individual histograms.
+
+
+Now let's look at the variances of linear combinations of the two basic features.  As we've
+seen earlier, if $S=aX+bY$ is a linear combination of the two features, then 
+$$
+\sigma_{S}^2 = \left[\begin{matrix} a & b \end{matrix}\right]\left(\begin{matrix} .5 & -.75 \\ -.75 & 1.5\end{matrix}\right)\left[\begin{matrix} a \\b\end{matrix}\right] = .5a^2-1.5ab+1.5b^2
+$$
+
 
 
 **Exercises.**

@@ -185,6 +185,55 @@ S = X_{0}a.
 \]</span> as claimed.</p>
 <p>For the covariance, use a similar argument with eq. <a href="#eq:covariancedot">3</a> and eq. <a href="#eq:linearscore">5</a>. writing <span class="math inline">\(\sigma_{S_{1}S_{2}}=\frac{1}{N}S_{1}\cdot S_{2}\)</span> and the fact that <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span> can be written as <span class="math inline">\(X_{0}a\)</span> and <span class="math inline">\(X_{0}b\)</span>.</p>
 <p>The point of this lemma is that the covariance matrix contains not just the variances and covariances of the original features, but also enough information to construct the variances and covariances for <em>any linear combination of features.</em></p>
+<p>In the next section we will see how to exploit this idea to reveal hidden structure in our data.</p>
+<h3 id="geometry-of-scores"><span class="header-section-number">1.2.7</span> Geometry of Scores</h3>
+<p>Let’s begin by looking at fig. <a href="#fig:pcasimfig">2</a>, which shows a scatter plot of some simulated data having <span class="math inline">\(50\)</span> samples and two features. This data has been centered, so it can be represented in a <span class="math inline">\(50\times 2\)</span> data matrix <span class="math inline">\(X_{0}\)</span> each row of which is the coordinates <span class="math inline">\((x_0,x_1)\)</span> of one of the points in the picture.</p>
+<p>The scatter plot shows that the data points are arranged in a more or less elliptical cloud oriented at an angle to the <span class="math inline">\(xy\)</span>-axes which represent the two given features. The two individual histograms show the distribution of the two features – each has mean zero, with the <span class="math inline">\(x\)</span>-features distributed between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span> and the <span class="math inline">\(y\)</span> feature between <span class="math inline">\(-4\)</span> and <span class="math inline">\(4\)</span>. Looking just at the two features individually, meaning only at the two histograms, we can’t see the overall elliptical structure.</p>
+<div id="fig:pcasimfig" class="fignos">
+<figure>
+<img src="../img/PCAsimulated-1.png" alt="Figure 2: Simulated Data with Two Features" style="width:50.0%" /><figcaption><span>Figure 2:</span> Simulated Data with Two Features</figcaption>
+</figure>
+</div>
+<p>How can we get a better grip on our data in this situation? We can try to find a “direction” in our data that better illuminates the variation of the data. For example, suppose that we pick a unit vector at the origin pointing in a particular direction in our data. See fig. <a href="#fig:pcasimfig-1">3</a>.</p>
+<div id="fig:pcasimfig-1" class="fignos">
+<figure>
+<img src="../img/PCAsimulated-2.png" alt="Figure 3: A direction in the data" style="width:50.0%" /><figcaption><span>Figure 3:</span> A direction in the data</figcaption>
+</figure>
+</div>
+<p>Now we can orthogonally project the datapoints onto the line defined by this vector, as shown in fig. <a href="#fig:pcasimfig-2">4</a>.</p>
+<div id="fig:pcasimfig-2" class="fignos">
+<figure>
+<img src="../img/PCAsimulated-3.png" alt="Figure 4: Projecting the datapoints" style="width:50.0%" /><figcaption><span>Figure 4:</span> Projecting the datapoints</figcaption>
+</figure>
+</div>
+<p>Recall that if the unit vector is defined by coordinates <span class="math inline">\(u=[u_0,u_1]\)</span>, then the orthogonal projection of the point <span class="math inline">\(x\)</span> with coordinates <span class="math inline">\((x_0,x_1)\)</span> is <span class="math inline">\((x\cdot u)u\)</span>. Now <span class="math display">\[
+x\cdot u = u_0 x_0 + u_1 x_1
+\]</span> so the coordinates of the points along the line defined by <span class="math inline">\(u\)</span> are the values of the score <span class="math inline">\(Z\)</span> defined by <span class="math inline">\(u=[u_0,u_1]\)</span>. Using our work in the previous section, we see that we can find all of these coordinates by matrix multiplication: <span class="math display">\[
+Z = X_0 u
+\]</span> where <span class="math inline">\(X_0\)</span> is our data matrix. Now let’s add a histogram of the values of <span class="math inline">\(Z\)</span> to our picture:</p>
+<div id="fig:pcasimfig-3" class="fignos">
+<figure>
+<img src="../img/PCAsimulated-4.png" alt="Figure 5: Distribution of Z" style="width:50.0%" /><figcaption><span>Figure 5:</span> Distribution of Z</figcaption>
+</figure>
+</div>
+<p>As the histogram shows, <span class="math inline">\(Z\)</span> is distributed much more widely than either <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> because the projected points are distributed along the “long” axis of the roughly elliptical cloud of points.</p>
+<p>Finally, using our work on the covariance matrix, we see that the variance of <span class="math inline">\(Z\)</span> is given by <span class="math display">\[
+\sigma_{Z}^2 = \frac{1}{50}u^{\intercal}X_{0}^{\intercal}X_{0}u = u^{\intercal}D_{0}u
+\]</span> where <span class="math inline">\(D_{0}\)</span> is the covariance matrix of the data <span class="math inline">\(X_{0}\)</span>.</p>
+<p>In the particular example depicted in these figures, the vector <span class="math inline">\(u\)</span> is <span class="math inline">\([-3/5,4/5]\)</span> and the covariance matrix is <span class="math display">\[
+D_{0} = \left(\begin{matrix} .5 &amp; -.75 \\ -.75 &amp; 1.5\end{matrix}\right)
+\]</span> so the variance of <span class="math inline">\(Z\)</span> is <span class="math display">\[
+\sigma_{Z}^{2} = \left[\begin{matrix} -3/5 &amp; 4/5\end{matrix}\right]\left(\begin{matrix} .5 &amp; -.75 \\ -.75 &amp; 1.5\end{matrix}\right)\left[\begin{matrix} -3/5 \\ 4/5\end{matrix}\right] \sim 1.5
+\]</span></p>
+<h3 id="principal-components"><span class="header-section-number">1.2.8</span> Principal Components</h3>
+<p>The covariance matrix <span class="math inline">\(D_{0}\)</span> for the data depicted in fig. <a href="#fig:pcasimfig">2</a> is <span class="math display">\[
+D_{0} = \left(\begin{matrix} .5 &amp; -.75 \\ -.75 &amp; 1.5\end{matrix}\right).
+\]</span> From our earlier discussion of correlation, we see that the correlation coefficient <span class="math display">\[
+r = \frac{-.75}{(1.5)(.5)}=-1
+\]</span> so the two features are strongly correlated – something which is visible in the scatter plot, but not in the two individual histograms.</p>
+<p>Now let’s look at the variances of linear combinations of the two basic features. As we’ve seen earlier, if <span class="math inline">\(S=aX+bY\)</span> is a linear combination of the two features, then <span class="math display">\[
+\sigma_{S}^2 = \left[\begin{matrix} a &amp; b \end{matrix}\right]\left(\begin{matrix} .5 &amp; -.75 \\ -.75 &amp; 1.5\end{matrix}\right)\left[\begin{matrix} a \\b\end{matrix}\right] = .5a^2-1.5ab+1.5b^2
+\]</span></p>
 <p><strong>Exercises.</strong></p>
 <ol type="1">
 <li><p>Prove that the two expressions for <span class="math inline">\(\sigma_{X}^2\)</span> given in section <a href="#variance">1.2.1</a> are the same.</p></li>
