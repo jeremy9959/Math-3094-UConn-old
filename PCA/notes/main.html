@@ -24,6 +24,7 @@
   </style>
 </head>
 <body>
+
 <h1 id="principal-component-analysis"><span class="header-section-number">1</span> Principal Component Analysis</h1>
 <h2 id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
 <p>Suppose that, as usual, we begin with a collection of measurements of different features for a group of samples. Some of these measurements will tell us quite a bit about the difference among our samples, while others may contain relatively little information. For example, if we are analyzing the effect of a certain weight loss regimen on a group of people, the age and weight of the subjects may have a great deal of influence on how successful the regimen is, while their blood pressure might not. One way to help identify which features are more significant is to ask whether or not the feature varies a lot among the different samples. If nearly all the measurements of a feature are the same, it can’t have much power in distinguishing the samples, while if the measurements vary a great deal then that feature has a chance to contain useful information.</p>
@@ -224,6 +225,7 @@ Z = X_0 u
 \sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{k} s_{i}^2
 \]</span> where <span class="math inline">\(s_{i} = X_{0}[i,:]u\)</span> is the dot product of the <span class="math inline">\(i^{th}\)</span> row <span class="math inline">\(X_{0}[i,:]\)</span> with <span class="math inline">\(u\)</span>. It measures the variability in the data “in the direction of the unit vector <span class="math inline">\(u\)</span>”.</p>
 <h3 id="principal-components"><span class="header-section-number">1.2.8</span> Principal Components</h3>
+<h4 id="change-of-variance-with-direction"><span class="header-section-number">1.2.8.1</span> Change of variance with direction</h4>
 <p>As we’ve seen in the previous section, if we choose a unit vector <span class="math inline">\(u\)</span> in the feature space and find the projection <span class="math inline">\(X_{0}u\)</span> of our data onto the line through <span class="math inline">\(u\)</span>, we get a “score” that we can use to measure the variance of the data in the direction of <span class="math inline">\(u\)</span>. What happens as we vary <span class="math inline">\(u\)</span>?</p>
 <p>To study this question, let’s continue with our simulated data from the previous section, and introduce a unit vector <span class="math display">\[
 u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\right].
@@ -244,6 +246,70 @@ u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\rig
 </figure>
 </div>
 <p>Let’s try to understand why this is happening.</p>
+<h4 id="directions-of-extremal-variance"><span class="header-section-number">1.2.8.2</span> Directions of extremal variance</h4>
+<p>Given our centered, <span class="math inline">\(k\times N\)</span> data matrix <span class="math inline">\(X_{0}\)</span>, with its associated covariance matrix <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span>, we would like to find unit vectors <span class="math inline">\(u\)</span> in <span class="math inline">\(\mathbf{R}^{N}\)</span> so that <span class="math display">\[
+\sigma_{u}^{2} = u^{\intercal}D_{0}u
+\]</span> reaches its maximum and its minimum. Here <span class="math inline">\(\sigma_{u}^2\)</span> is the variance of the “linear score” <span class="math inline">\(X_{0}u\)</span> and it represents how dispersed the data is in the “u direction” in <span class="math inline">\(\mathbf{R}^{N}\)</span>.</p>
+<p>In this problem, remember that the coordinates of <span class="math inline">\(u=(u_1,\ldots, u_{N})\)</span> are the variables and the symmetric matrix <span class="math inline">\(D_{0}\)</span> is given. As usual, we to find the maximum and minimum values of <span class="math inline">\(\sigma_{u}^{2}\)</span>, we should look at the partial derivatives of <span class="math inline">\(\sigma_{u}^{2}\)</span> with respect to the variables <span class="math inline">\(u_{i}\)</span> and set them to zero. Here, however, there is a catch – we want to restrict <span class="math inline">\(u\)</span> to being a unit vector, with <span class="math inline">\(u\cdot u =\sum u_{i}^2=1\)</span>.</p>
+<p>So this is a <em>constrained optimization problem</em>:</p>
+<ul>
+<li>Find extreme values of the function <span class="math display">\[
+\sigma_{u}^{2} = u^{\intercal}D_{0}u
+\]</span></li>
+<li>Subject to the constraint <span class="math inline">\(\|u\|^2 = u\cdot u=1\)</span> (or <span class="math inline">\(u\cdot u-1=0\)</span>)</li>
+</ul>
+<p>As we learned in multivariate calculus, we can use the technique of <em>Lagrange Multipliers</em> to solve such a problem.</p>
+<p>To apply this method, we introduce the function</p>
+<p><span id="eq:lagrange" class="eqnos"><span class="math display">\[
+S(u, \lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u -1)
+\]</span><span class="eqnos-number">(7)</span></span></p>
+<p>Then we compute the gradient</p>
+<p><span id="eq:lagrangegradient" class="eqnos"><span class="math display">\[
+\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{N}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
+\]</span><span class="eqnos-number">(8)</span></span></p>
+<p>and solve the system of equations <span class="math inline">\(\nabla S=0\)</span>. Here we have written the gradient as a column vector for reasons that will become clearer shortly.</p>
+<p>Computing all of these partial derivatives looks messy, but actually if we take advantage of matrix algebra it’s not too bad. The following two lemmas explain how to do this.</p>
+<p><strong>Lemma</strong>: Let <span class="math inline">\(M\)</span> be a <span class="math inline">\(k\times N\)</span> matrix with constant coefficients and let <span class="math inline">\(u\)</span> be a <span class="math inline">\(N\times 1\)</span> column vector whose entries are <span class="math inline">\(u_1,\ldots u_{N}\)</span>. The function <span class="math inline">\(F(u) = Mu\)</span> is a linear map from <span class="math inline">\(\mathbf{R}^{N}\to\mathbf{R}^{k}\)</span>. Its (total) derivative is a linear map between the same vector spaces, and satisfies <span class="math display">\[
+D(F)(v) = Mv
+\]</span> for any <span class="math inline">\(N\times 1\)</span> vector <span class="math inline">\(v\)</span>. If <span class="math inline">\(u\)</span> is a <span class="math inline">\(1\times k\)</span> matrix, and <span class="math inline">\(G(u) = uM\)</span>, then <span class="math display">\[
+D(G)(v) = vM
+\]</span> for any <span class="math inline">\(1\times k\)</span> vector <span class="math inline">\(v\)</span>. (This is the matrix version of the derivative rule that <span class="math inline">\(\frac{d}{dx}(ax)=a\)</span> for a constant <span class="math inline">\(a\)</span>.)</p>
+<p><strong>Proof:</strong> Since <span class="math inline">\(F:\mathbf{R}^{N}\to\mathbf{R}^{k}\)</span>, we can write out <span class="math inline">\(F\)</span> in more traditional function notation as <span class="math display">\[
+F(u) = (F_{1}(u_1,\ldots, u_N), \ldots, F_{k}(u_1,\ldots, u_{N})
+\]</span> where <span class="math display">\[
+F_{i}(u_1,\ldots u_N) = \sum_{j=1}^{N} m_{ij}u_{j}.
+\]</span> Thus <span class="math inline">\(\frac{\partial F_{i}}{\partial u_{j}} = m_{ij}\)</span>. The total derivative <span class="math inline">\(D(F)\)</span> is the linear map with matrix <span class="math display">\[
+D(F)_{ij} = \frac{\partial F_{i}}{\partial u_{j}} = m_{ij} = M.
+\]</span> The other result is proved the same way.</p>
+<p><strong>Lemma</strong>: Let <span class="math inline">\(D\)</span> be a symmetric <span class="math inline">\(N\times N\)</span> matrix with constant entries and let <span class="math inline">\(u\)</span> be an <span class="math inline">\(N\times 1\)</span> column vector of variables <span class="math inline">\(u_{1},\ldots, u_{N}\)</span>. Let <span class="math inline">\(F:\mathbf{R}^{N}\to R\)</span> be the function <span class="math inline">\(F(u) = u^{\intercal}Du\)</span>. Then the derivative gradient <span class="math inline">\(\nabla_{u} F\)</span> is a vector field – that is, a vector-valued function of <span class="math inline">\(u\)</span>, and is given by the formula <span class="math display">\[
+\nabla_{u} F = 2Du
+\]</span></p>
+<p><strong>Proof:</strong> Let <span class="math inline">\(d_{ij}\)</span> be the <span class="math inline">\(i,j\)</span> entry of <span class="math inline">\(D\)</span>. We can write out the function <span class="math inline">\(F\)</span> to obtain <span class="math display">\[
+F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
+\]</span> Now <span class="math inline">\(\frac{\partial F}{\partial u_{i}}\)</span> is going to pick out only terms where <span class="math inline">\(u_{i}\)</span> appears, yielding: <span class="math display">\[
+\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{N} d_{ij}u_{j} + \sum_{j=1}^{N} u_{j}d_{ji}
+\]</span> Here the first sum catches all of the terms where the first “u” is <span class="math inline">\(u_{i}\)</span>; and the second sum catches all the terms where the second “u” is <span class="math inline">\(u_{i}\)</span>. The diagonal terms <span class="math inline">\(u_{i}^2d_{ii}\)</span> contribute once to each sum, which is consistent with the rule that the derivative of <span class="math inline">\(u_{i}^2d_{ii} = 2u_{i}d_{ii}\)</span>. To finish the proof, notice that <span class="math display">\[
+\sum_{j=1}^{N} u_{j}d_{ji} = \sum_{j=1}^{N} d_{ij}u_{j} 
+\]</span> since <span class="math inline">\(D\)</span> is symmetric, so in fact the two terms are the same Thus <span class="math display">\[
+\frac{\partial}{\partial u_{i}}F = 2\sum_{j=1}^{N} d_{ij}u_{j}
+\]</span> But the right hand side of this equation is twice the <span class="math inline">\(i^{th}\)</span> of <span class="math inline">\(Du\)</span>, so putting the results together we get <span class="math display">\[
+\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
+\]</span></p>
+<p>The following theorem puts all of this work together to answer our questions about how variance changes with direction.</p>
+<p><strong>Theorem:</strong> The critical values of the variance <span class="math inline">\(\sigma_{u}^2\)</span>, as <span class="math inline">\(u\)</span> varies over unit vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span>, are the eigenvalues <span class="math inline">\(\lambda_{1},\ldots,\lambda_{N}\)</span> of the covariance matrix <span class="math inline">\(D\)</span>, and if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector corresponding to <span class="math inline">\(\lambda_{i}\)</span>, then <span class="math inline">\(\sigma_{e_{i}}^2 = \lambda_{i}\)</span>.</p>
+<p><strong>Proof:</strong> Recall that we introduced the Lagrange function <span class="math inline">\(S(u,\lambda)\)</span>, whose critical points give us the solutions to our constrained optimization problem. As we said in eq. <a href="#eq:lagrange">7</a>: <span class="math display">\[
+S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u -\lambda(u\cdot u) + \lambda
+\]</span> Now apply our Matrix calculus lemmas. First, let’s treat <span class="math inline">\(\lambda\)</span> as a constant and focus on the <span class="math inline">\(u\)</span> variables. We can write <span class="math inline">\(u\cdot u = u^{\intercal} I_{N} u\)</span> where <span class="math inline">\(I_{N}\)</span> is the identity matrix to compute: <span class="math display">\[
+\nabla_{u} S = 2D_{0}u -2\lambda u
+\]</span> For <span class="math inline">\(\lambda\)</span> we have <span class="math display">\[
+\frac{\partial}{\partial \lambda}S = -u\cdot u +1.
+\]</span> The critical points occur when <span class="math display">\[
+\nabla_{u} S = 2(D_{0}-\lambda)u = 0
+\]</span> and <span class="math display">\[
+\frac{\partial}{\partial \lambda}S = 1-u\cdot u = 0
+\]</span> The first equation says that <span class="math inline">\(\lambda\)</span> must be an eigenvalue, and <span class="math inline">\(u\)</span> and eigenvector: <span class="math display">\[
+D_{0}u = \lambda u
+\]</span> while the second says <span class="math inline">\(u\)</span> must be a unit vector <span class="math inline">\(u\cdot u=\|u\|^2=1\)</span>.</p>
 <p><strong>Exercises.</strong></p>
 <ol type="1">
 <li><p>Prove that the two expressions for <span class="math inline">\(\sigma_{X}^2\)</span> given in section <a href="#variance">1.2.1</a> are the same.</p></li>

@@ -7,6 +7,7 @@ csl: [../../resources/stat.csl]
 bibliography: [../../references/references.bib]
 reference-section-title: References 
 ---
+\newcommand{\df}[1]{\frac{\partial}{\partial #1}}
 
 # Principal Component Analysis
 
@@ -361,6 +362,8 @@ the variability in the data "in the direction of the unit vector $u$".
 
 ### Principal Components
 
+#### Change of variance with direction
+
 As we've seen in the previous section, if we choose a unit vector $u$ in the feature space and
 find the projection $X_{0}u$ of our data onto the line through $u$, we get a "score" that we can use
 to measure the variance of the data in the direction of $u$.  What happens as we vary $u$?
@@ -392,10 +395,152 @@ data scatter plot in +@fig:pcaprincipal .
 ![Data with principal directions](../img/PCAprincipal.png){#fig:pcaprincipal width=25%}
 
 
-
-
-
 Let's try to understand why this is happening.
+
+#### Directions of extremal variance
+
+Given our centered, $k\times N$ data matrix $X_{0}$, with its associated covariance matrix
+$D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}$, we would like to find unit vectors $u$ in $\mathbf{R}^{N}$
+so that
+$$
+\sigma_{u}^{2} = u^{\intercal}D_{0}u
+$$
+reaches its maximum and its minimum.  Here $\sigma_{u}^2$ is the variance of the "linear score"
+$X_{0}u$ and it represents how dispersed the data is in the "u direction" in $\mathbf{R}^{N}$.
+
+In this problem, remember that the coordinates of $u=(u_1,\ldots, u_{N})$ are the variables
+and the symmetric matrix $D_{0}$ is given.  As usual, we to find the maximum and minimum
+values of $\sigma_{u}^{2}$, we should look at the partial derivatives of $\sigma_{u}^{2}$ with
+respect to the variables $u_{i}$ and set them to zero.  Here, however, there is a catch -- we
+want to restrict $u$ to being a unit vector, with $u\cdot u =\sum u_{i}^2=1$.
+
+So this is a *constrained optimization problem*:
+
+- Find extreme values of the function 
+$$
+\sigma_{u}^{2} = u^{\intercal}D_{0}u
+$$
+- Subject to the constraint $\|u\|^2 = u\cdot u=1$ (or $u\cdot u-1=0$)
+
+As we learned in multivariate calculus, we can use the technique of *Lagrange Multipliers* to solve
+such a problem.  
+
+To apply this method, we introduce the function
+
+$$
+S(u, \lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u -1)
+$${#eq:lagrange}
+
+Then we compute the gradient 
+
+$$
+\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{N}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
+$${#eq:lagrangegradient}
+
+and solve the system of equations $\nabla S=0$.  Here we have written the gradient as a column vector for reasons that will become
+clearer shortly.
+
+Computing all of these partial derivatives looks messy, but actually if we take advantage of matrix algebra it's not too bad. 
+The following two lemmas explain how to do this.
+
+**Lemma**: Let $M$ be a $k\times N$ matrix with constant coefficients and let $u$ be a $N\times 1$ column vector whose entries are $u_1,\ldots u_{N}$.
+The function $F(u) = Mu$ is a linear map from $\mathbf{R}^{N}\to\mathbf{R}^{k}$.  Its (total) derivative is a linear map between the
+same vector spaces, and satisfies
+$$
+D(F)(v) = Mv
+$$
+for any $N\times 1$ vector $v$.   If $u$ is a $1\times k$ matrix, and $G(u) = uM$, then 
+$$
+D(G)(v) = vM
+$$
+for any $1\times k$ vector $v$. (This is the matrix version of the derivative rule that $\frac{d}{dx}(ax)=a$ for a constant $a$.)  
+
+**Proof:**  Since $F:\mathbf{R}^{N}\to\mathbf{R}^{k}$, we can write out $F$ in more traditional function notation
+as
+$$
+F(u) = (F_{1}(u_1,\ldots, u_N), \ldots, F_{k}(u_1,\ldots, u_{N})
+$$
+where
+$$
+F_{i}(u_1,\ldots u_N) = \sum_{j=1}^{N} m_{ij}u_{j}.
+$$
+Thus $\frac{\partial F_{i}}{\partial u_{j}} = m_{ij}$.  The total derivative $D(F)$ is the linear map with matrix
+$$
+D(F)_{ij} = \frac{\partial F_{i}}{\partial u_{j}} = m_{ij} = M.
+$$
+The other result is proved the same way.
+
+
+**Lemma**:  Let $D$ be a symmetric $N\times N$ matrix with constant entries and let $u$ be an $N\times 1$ column vector of variables
+$u_{1},\ldots, u_{N}$.  Let $F:\mathbf{R}^{N}\to R$ be the function $F(u) = u^{\intercal}Du$.  Then the derivative gradient $\nabla_{u} F$ is a 
+vector field -- that is, a vector-valued function of $u$, and is given by the formula
+$$
+\nabla_{u} F = 2Du
+$$
+
+**Proof:** Let $d_{ij}$ be the $i,j$ entry of $D$.  We can write out the function $F$ to obtain
+$$
+F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
+$$
+Now $\frac{\partial F}{\partial u_{i}}$ is going to pick out only terms where $u_{i}$ appears, yielding:
+$$
+\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{N} d_{ij}u_{j} + \sum_{j=1}^{N} u_{j}d_{ji}
+$$
+Here the first sum catches all of the terms where the first "u" is $u_{i}$; and the second sum catches all
+the terms where the second "u" is $u_{i}$.  The diagonal terms $u_{i}^2d_{ii}$ contribute once to each sum,
+which is consistent with the rule that the derivative of $u_{i}^2d_{ii} = 2u_{i}d_{ii}$. 
+To finish the proof, notice that 
+$$
+\sum_{j=1}^{N} u_{j}d_{ji} = \sum_{j=1}^{N} d_{ij}u_{j} 
+$$
+since $D$ is symmetric, so in fact the two terms are the same
+Thus 
+$$
+\df{u_{i}}F = 2\sum_{j=1}^{N} d_{ij}u_{j}
+$$
+But the right hand side of this equation is twice the $i^{th}$ of $Du$, so
+putting the results together we get
+$$
+\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
+$$
+
+The following theorem puts all of this work together to answer our questions about how variance changes with direction.
+
+
+**Theorem:** The critical values of the variance $\sigma_{u}^2$, as $u$ varies over unit vectors in $\mathbf{R}^{N}$, are the eigenvalues
+$\lambda_{1},\ldots,\lambda_{N}$ of the covariance matrix $D$, and if $e_{i}$ is a unit eigenvector corresponding to $\lambda_{i}$,
+then $\sigma_{e_{i}}^2 = \lambda_{i}$.  
+
+**Proof:**
+Recall that we introduced the Lagrange function $S(u,\lambda)$, whose critical points give us the solutions to our constrained optimization problem.
+As we said in +@eq:lagrange:
+$$
+S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u -\lambda(u\cdot u) + \lambda
+$$
+Now apply our Matrix calculus lemmas.  First, let's treat $\lambda$ as a constant and focus on the $u$ variables.  We can write 
+$u\cdot u = u^{\intercal} I_{N} u$ where $I_{N}$ is the identity matrix to compute:
+$$
+\nabla_{u} S = 2D_{0}u -2\lambda u
+$$
+For $\lambda$ we have
+$$
+\df{\lambda}S = -u\cdot u +1.
+$$
+The critical points occur when
+$$
+\nabla_{u} S = 2(D_{0}-\lambda)u = 0
+$$
+and
+$$
+\df{\lambda}S = 1-u\cdot u = 0
+$$
+The first equation says that $\lambda$ must be an eigenvalue, and $u$ an eigenvector:
+$$
+D_{0}u = \lambda u
+$$
+while the second says $u$ must be a unit vector $u\cdot u=\|u\|^2=1$.  
+
+
 
 
 
