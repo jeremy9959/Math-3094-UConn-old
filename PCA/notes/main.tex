@@ -1,46 +1,59 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
 %
-\documentclass[]{article}
+\documentclass[
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
 \usepackage{xcolor}
-\usepackage{hyperref}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            colorlinks=true,
-            linkcolor=blue,
-            citecolor=Blue,
-            urlcolor=Blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{longtable,booktabs}
-% Fix footnotes in tables (requires footnote package)
-\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
-\usepackage{graphicx,grffile}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -49,25 +62,14 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
 
 %% pandoc-secnos: required package
 \usepackage{cleveref}
@@ -75,9 +77,12 @@
 %% pandoc-eqnos: disable brackets around cleveref numbers
 \creflabelformat{equation}{#2#1#3}
 
+\author{}
 \date{}
 
 \begin{document}
+
+\newcommand{\df}[1]{\frac{\partial}{\partial #1}}
 
 \hypertarget{principal-component-analysis}{%
 \section{Principal Component
@@ -503,6 +508,10 @@ row \(X_{0}[i,:]\) with \(u\). It measures the variability in the data
 \hypertarget{principal-components}{%
 \subsubsection{Principal Components}\label{principal-components}}
 
+\hypertarget{change-of-variance-with-direction}{%
+\paragraph{Change of variance with
+direction}\label{change-of-variance-with-direction}}
+
 As we've seen in the previous section, if we choose a unit vector \(u\)
 in the feature space and find the projection \(X_{0}u\) of our data onto
 the line through \(u\), we get a ``score'' that we can use to measure
@@ -530,7 +539,7 @@ maximum and minimum are orthogonal to one another.
 \begin{figure}
 \hypertarget{fig:pcatheta}{%
 \centering
-\includegraphics[width=0.5\textwidth,height=\textheight]{../img/PCAtheta.png}
+\includegraphics[width=0.25\textwidth,height=\textheight]{../img/PCAtheta.png}
 \caption{Change of variance with angle theta}\label{fig:pcatheta}
 }
 \end{figure}
@@ -541,12 +550,252 @@ on the original data scatter plot in \cref{fig:pcaprincipal} .
 \begin{figure}
 \hypertarget{fig:pcaprincipal}{%
 \centering
-\includegraphics[width=0.5\textwidth,height=\textheight]{../img/PCAprincipal.png}
+\includegraphics[width=0.25\textwidth,height=\textheight]{../img/PCAprincipal.png}
 \caption{Data with principal directions}\label{fig:pcaprincipal}
 }
 \end{figure}
 
 Let's try to understand why this is happening.
+
+\hypertarget{directions-of-extremal-variance}{%
+\paragraph{Directions of extremal
+variance}\label{directions-of-extremal-variance}}
+
+Given our centered, \(k\times N\) data matrix \(X_{0}\), with its
+associated covariance matrix
+\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\), we would like to find unit
+vectors \(u\) in \(\mathbf{R}^{N}\) so that \[
+\sigma_{u}^{2} = u^{\intercal}D_{0}u
+\] reaches its maximum and its minimum. Here \(\sigma_{u}^2\) is the
+variance of the ``linear score'' \(X_{0}u\) and it represents how
+dispersed the data is in the ``u direction'' in \(\mathbf{R}^{N}\).
+
+In this problem, remember that the coordinates of
+\(u=(u_1,\ldots, u_{N})\) are the variables and the symmetric matrix
+\(D_{0}\) is given. As usual, we to find the maximum and minimum values
+of \(\sigma_{u}^{2}\), we should look at the partial derivatives of
+\(\sigma_{u}^{2}\) with respect to the variables \(u_{i}\) and set them
+to zero. Here, however, there is a catch -- we want to restrict \(u\) to
+being a unit vector, with \(u\cdot u =\sum u_{i}^2=1\).
+
+So this is a \emph{constrained optimization problem}:
+
+\begin{itemize}
+\tightlist
+\item
+  Find extreme values of the function \[
+  \sigma_{u}^{2} = u^{\intercal}D_{0}u
+  \]
+\item
+  Subject to the constraint \(\|u\|^2 = u\cdot u=1\) (or
+  \(u\cdot u-1=0\))
+\end{itemize}
+
+As we learned in multivariate calculus, we can use the technique of
+\emph{Lagrange Multipliers} to solve such a problem.
+
+To apply this method, we introduce the function
+
+\begin{equation}
+S(u, \lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u -1)
+\label{eq:lagrange}\end{equation}
+
+Then we compute the gradient
+
+\begin{equation}
+\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{N}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
+\label{eq:lagrangegradient}\end{equation}
+
+and solve the system of equations \(\nabla S=0\). Here we have written
+the gradient as a column vector for reasons that will become clearer
+shortly.
+
+Computing all of these partial derivatives looks messy, but actually if
+we take advantage of matrix algebra it's not too bad. The following two
+lemmas explain how to do this.
+
+\textbf{Lemma}: Let \(M\) be a \(k\times N\) matrix with constant
+coefficients and let \(u\) be a \(N\times 1\) column vector whose
+entries are \(u_1,\ldots u_{N}\). The function \(F(u) = Mu\) is a linear
+map from \(\mathbf{R}^{N}\to\mathbf{R}^{k}\). Its (total) derivative is
+a linear map between the same vector spaces, and satisfies \[
+D(F)(v) = Mv
+\] for any \(N\times 1\) vector \(v\). If \(u\) is a \(1\times k\)
+matrix, and \(G(u) = uM\), then \[
+D(G)(v) = vM
+\] for any \(1\times k\) vector \(v\). (This is the matrix version of
+the derivative rule that \(\frac{d}{dx}(ax)=a\) for a constant \(a\).)
+
+\textbf{Proof:} Since \(F:\mathbf{R}^{N}\to\mathbf{R}^{k}\), we can
+write out \(F\) in more traditional function notation as \[
+F(u) = (F_{1}(u_1,\ldots, u_N), \ldots, F_{k}(u_1,\ldots, u_{N})
+\] where \[
+F_{i}(u_1,\ldots u_N) = \sum_{j=1}^{N} m_{ij}u_{j}.
+\] Thus \(\frac{\partial F_{i}}{\partial u_{j}} = m_{ij}\). The total
+derivative \(D(F)\) is the linear map with matrix \[
+D(F)_{ij} = \frac{\partial F_{i}}{\partial u_{j}} = m_{ij} = M.
+\] The other result is proved the same way.
+
+\textbf{Lemma}: Let \(D\) be a symmetric \(N\times N\) matrix with
+constant entries and let \(u\) be an \(N\times 1\) column vector of
+variables \(u_{1},\ldots, u_{N}\). Let \(F:\mathbf{R}^{N}\to R\) be the
+function \(F(u) = u^{\intercal}Du\). Then the derivative gradient
+\(\nabla_{u} F\) is a vector field -- that is, a vector-valued function
+of \(u\), and is given by the formula \[
+\nabla_{u} F = 2Du
+\]
+
+\textbf{Proof:} Let \(d_{ij}\) be the \(i,j\) entry of \(D\). We can
+write out the function \(F\) to obtain \[
+F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
+\] Now \(\frac{\partial F}{\partial u_{i}}\) is going to pick out only
+terms where \(u_{i}\) appears, yielding: \[
+\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{N} d_{ij}u_{j} + \sum_{j=1}^{N} u_{j}d_{ji}
+\] Here the first sum catches all of the terms where the first ``u'' is
+\(u_{i}\); and the second sum catches all the terms where the second
+``u'' is \(u_{i}\). The diagonal terms \(u_{i}^2d_{ii}\) contribute once
+to each sum, which is consistent with the rule that the derivative of
+\(u_{i}^2d_{ii} = 2u_{i}d_{ii}\). To finish the proof, notice that \[
+\sum_{j=1}^{N} u_{j}d_{ji} = \sum_{j=1}^{N} d_{ij}u_{j} 
+\] since \(D\) is symmetric, so in fact the two terms are the same Thus
+\[
+\frac{\partial}{\partial u_{i}}F = 2\sum_{j=1}^{N} d_{ij}u_{j}
+\] But the right hand side of this equation is twice the \(i^{th}\) of
+\(Du\), so putting the results together we get \[
+\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
+\]
+
+The following theorem puts all of this work together to reduce our
+questions about how variance changes with direction.
+
+\hypertarget{sec:critvals}{%
+\paragraph{Critical values of the variance}\label{sec:critvals}}
+
+\textbf{Theorem:} The critical values of the variance \(\sigma_{u}^2\),
+as \(u\) varies over unit vectors in \(\mathbf{R}^{N}\), are the
+eigenvalues \(\lambda_{1},\ldots,\lambda_{N}\) of the covariance matrix
+\(D\), and if \(e_{i}\) is a unit eigenvector corresponding to
+\(\lambda_{i}\), then \(\sigma_{e_{i}}^2 = \lambda_{i}\).
+
+\textbf{Proof:} Recall that we introduced the Lagrange function
+\(S(u,\lambda)\), whose critical points give us the solutions to our
+constrained optimization problem. As we said in \cref{eq:lagrange}: \[
+S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u -\lambda(u\cdot u) + \lambda
+\] Now apply our Matrix calculus lemmas. First, let's treat \(\lambda\)
+as a constant and focus on the \(u\) variables. We can write
+\(u\cdot u = u^{\intercal} I_{N} u\) where \(I_{N}\) is the identity
+matrix to compute: \[
+\nabla_{u} S = 2D_{0}u -2\lambda u
+\] For \(\lambda\) we have \[
+\frac{\partial}{\partial \lambda}S = -u\cdot u +1.
+\] The critical points occur when \[
+\nabla_{u} S = 2(D_{0}-\lambda)u = 0
+\] and \[
+\frac{\partial}{\partial \lambda}S = 1-u\cdot u = 0
+\] The first equation says that \(\lambda\) must be an eigenvalue, and
+\(u\) an eigenvector: \[
+D_{0}u = \lambda u
+\] while the second says \(u\) must be a unit vector
+\(u\cdot u=\|u\|^2=1\). The second part of the result follows from the
+fact that if \(e_{i}\) is a unit eigenvector with eigenvalue
+\(\lambda_{i}\) then \[
+\sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
+\]
+
+To really make this result pay off, we need to recall some key facts
+about the eigenvalues and eigenvectors of symmetric matrices. Because
+these facts are so central to this result, and to other applications
+throughout machine learning and mathematics generally, we will prove
+them in the next section.
+
+\hypertarget{sec:symmmat}{%
+\paragraph{Eigenvalues and eigenvectors of symmetric
+matrices}\label{sec:symmmat}}
+
+Let \(D\) be an \(N\times N\) symmetric matrix with real entries. Then:
+
+\begin{itemize}
+\tightlist
+\item
+  All of the eigenvalues \(\lambda_{1},\ldots, \lambda_{N}\) of \(D\)
+  are real.
+\item
+  If \(u^{\intercal}Du\ge 0\) for all \(u\in\mathbf{R}^{N}\), then all
+  eigenvalues \(\lambda_{i}\) are non-negative.
+\item
+  If \(v\) is an eigenvector for \(D\) with eigenvalue \(\lambda\), and
+  \(w\) is an eigenvector with a different eigenvalue \(\lambda'\), then
+  \(v\) and \(w\) are orthogonal: \(v\cdot w = 0\).\\
+\item
+  There is an orthonormal basis \(u_{1},\ldots, u_{N}\) of
+  \(\mathbf{R}^{N}\) made up of eigenvectors of \(D\) corresponding to
+  the eigenvalues \(\lambda_{i}\).
+\item
+  Let \(\Lambda\) be the diagonal matrix with entries
+  \(\lambda_{1},\ldots, \lambda_{N}\) and let \(P\) be the matrix whose
+  columns are made up of the vectors \(u_{i}\). Then: \[
+  D = P\Lambda P^{\intercal}.
+  \]
+\end{itemize}
+
+If we combine this theorem with our result from \cref{sec:symmmat} then
+we get a complete picture. Let \(D_{0}\) be the covariance matrix of our
+data. Since \[
+\sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \mathrm{(it's a sum of squares)}
+\] we know that the eigenvalues
+\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0\) are all
+nonnegative. Choose a corresponding sequence \(u_{1},\ldots u_{N}\) of
+orthogonal eigenvectors where all \(\|u_{i}\|^2=1\). Since the \(u_{i}\)
+form a basis of \(\mathbf{R}^{N}\), any score is a linear combination of
+the \(u_{i}\): \[
+S = \sum a_{i}u_{i}.
+\] Since
+\(u_{i}^{\intercal}Du_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)
+unless \(i=j\), in which case it is \(\lambda_{i}\), we can compute \[
+\sigma_{S}^2 = \sum_{i=1}^{N} \lambda_{i}a_{i}^2,
+\] and \(\|S\|^2=\sum a_{i}^2\) since the \(u_{i}\) are an orthonormal
+set. So in these coordinates, are optimization problem is:
+
+\begin{itemize}
+\tightlist
+\item
+  maximize \(\sum \lambda_{i}a_{i}^2\)
+\item
+  subject to the constraint \(\sum a_{i}^2 = 1\).
+\end{itemize}
+
+We don't need any fancy math to see that the maximum happens when
+\(a_{1}=1\) and the other \(a_{j}=0\), and in that case, the maximum is
+\(\lambda_{1}\). (If \(\lambda_{1}\) occurs more than once, there may be
+a whole subspace of directions where the variance is maximal).
+Similarly, the minimum value is \(\lambda_{N}\) and occurs when
+\(a_{N}=1\) and the others are zero.
+
+\textbf{Definition:} The orthonormal unit eigenvectors \(u_{i}\) for
+\(D_{0}\) are the \emph{principal directions} or \emph{principal
+components} for the data \(X_{0}\).
+
+\textbf{Theorem:} The maximum variance occurs in the principal
+direction(s) associated to the largest eigenvalue, and the minimum
+variance in the principal direction(s) associated with the smallest one.
+The covariance between scores in principal directions associated with
+different eigenvalues is zero.
+
+At this point, the picture in \cref{fig:pcaprincipal} makes sense -- the
+red and green dashed lines are the principal directions, they are
+orthogonal to one another, and the point in the directions where the
+data is most (and least) ``spread out.''
+
+Sometimes the results above are presented in a slightly different form,
+and may be referred to, in part, as Rayleigh's theorem.
+
+\textbf{Corollary:} (Rayleigh's Theorem) Let \(D\) be a real symmetric
+matrix and let \[
+H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
+\] Then \(H(v)\) is the largest eigenvalue of \(D\).
+
+\textbf{Proof:} The maximum of the function \(H(v)\) is the solution to
+the same optimization problem that we considered above.
 
 \textbf{Exercises.}
 

@@ -504,8 +504,9 @@ $$
 \nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
 $$
 
-The following theorem puts all of this work together to answer our questions about how variance changes with direction.
+The following theorem puts all of this work together to reduce our questions about how variance changes with direction.
 
+#### Critical values of the variance {#sec:critvals}
 
 **Theorem:** The critical values of the variance $\sigma_{u}^2$, as $u$ varies over unit vectors in $\mathbf{R}^{N}$, are the eigenvalues
 $\lambda_{1},\ldots,\lambda_{N}$ of the covariance matrix $D$, and if $e_{i}$ is a unit eigenvector corresponding to $\lambda_{i}$,
@@ -538,10 +539,74 @@ The first equation says that $\lambda$ must be an eigenvalue, and $u$ an eigenve
 $$
 D_{0}u = \lambda u
 $$
-while the second says $u$ must be a unit vector $u\cdot u=\|u\|^2=1$.  
+while the second says $u$ must be a unit vector $u\cdot u=\|u\|^2=1$.    The second part of the result follows from the fact that
+if $e_{i}$ is a unit eigenvector with eigenvalue $\lambda_{i}$ then 
+$$
+\sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
+$$
+
+To really make this result pay off, we need to recall some key facts about the eigenvalues and 
+eigenvectors of symmetric matrices.  Because these facts are so central to this result, and
+to other applications throughout machine learning and mathematics generally, we will prove
+them in the next section.
+
+#### Eigenvalues and eigenvectors of symmetric matrices {#sec:symmmat}
+
+Let $D$ be an $N\times N$ symmetric matrix with real entries. Then:
+
+- All of the eigenvalues $\lambda_{1},\ldots, \lambda_{N}$ of  $D$ are real. 
+- If $u^{\intercal}Du\ge 0$ for all $u\in\mathbf{R}^{N}$, then all eigenvalues $\lambda_{i}$ are non-negative.
+- If $v$ is an eigenvector for $D$ with eigenvalue $\lambda$, and $w$ is an eigenvector with a different eigenvalue $\lambda'$,
+then $v$ and $w$ are orthogonal: $v\cdot w = 0$.  
+- There is an orthonormal basis $u_{1},\ldots, u_{N}$  of $\mathbf{R}^{N}$ made up of eigenvectors of $D$ corresponding to the eigenvalues $\lambda_{i}$.
+- Let $\Lambda$ be the diagonal matrix with entries $\lambda_{1},\ldots, \lambda_{N}$ and let $P$ be the matrix whose columns
+are made up of the vectors $u_{i}$.  Then:
+$$
+D = P\Lambda P^{\intercal}.
+$$
+
+If we combine this theorem with our result from +@sec:symmmat then we get a complete picture.  Let $D_{0}$ be the covariance matrix of our data.
+Since
+$$
+\sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \mathrm{(it's a sum of squares)}
+$$
+we know that the eigenvalues $\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0$ are all nonnegative.  Choose a corresponding sequence
+$u_{1},\ldots u_{N}$ of orthogonal eigenvectors where all $\|u_{i}\|^2=1$. Since the $u_{i}$ form a basis of $\mathbf{R}^{N}$, any score is a
+linear combination of the $u_{i}$:
+$$
+S = \sum a_{i}u_{i}.
+$$
+Since $u_{i}^{\intercal}Du_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0$ unless $i=j$, in which case it is $\lambda_{i}$, we can compute
+$$
+\sigma_{S}^2 = \sum_{i=1}^{N} \lambda_{i}a_{i}^2,
+$$
+and $\|S\|^2=\sum a_{i}^2$ since the $u_{i}$ are an orthonormal set. So in these coordinates, are optimization problem is:
+
+- maximize $\sum \lambda_{i}a_{i}^2$
+- subject to the constraint $\sum a_{i}^2 = 1$.
+
+We don't need any fancy math to see that the maximum happens when $a_{1}=1$ and the other $a_{j}=0$, and in that case, the maximum is $\lambda_{1}$. (If $\lambda_{1}$
+occurs more than once, there may be a whole subspace of directions where the variance is maximal).  Similarly, the minimum value is $\lambda_{N}$ and occurs
+when $a_{N}=1$ and the others are zero.
+
+**Definition:** The orthonormal unit eigenvectors $u_{i}$ for $D_{0}$ are the *principal directions* or *principal components* for the data $X_{0}$.  
+
+**Theorem:** The maximum
+variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in  principal directions associated with different eigenvalues is zero.
+
+At this point, the picture in +@fig:pcaprincipal makes sense -- the red and green dashed lines are the principal directions,
+they are orthogonal to one another, and the point in the directions where the data is most (and least) "spread out."
 
 
+Sometimes the results above are presented in a slightly different form, and may be referred to, in part, as Rayleigh's theorem.
 
+**Corollary:** (Rayleigh's Theorem)  Let $D$ be a real symmetric matrix and let
+$$
+H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
+$$
+Then $H(v)$ is the largest eigenvalue of $D$.
+
+**Proof:** The maximum of the function $H(v)$ is the solution to the same optimization problem that we considered above.
 
 
 

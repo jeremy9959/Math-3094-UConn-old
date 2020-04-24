@@ -5,13 +5,15 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Principal Components</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -24,13 +26,12 @@
   </style>
 </head>
 <body>
-
-<h1 id="principal-component-analysis"><span class="header-section-number">1</span> Principal Component Analysis</h1>
-<h2 id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<h1 data-number="1" id="principal-component-analysis"><span class="header-section-number">1</span> Principal Component Analysis</h1>
+<h2 data-number="1.1" id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
 <p>Suppose that, as usual, we begin with a collection of measurements of different features for a group of samples. Some of these measurements will tell us quite a bit about the difference among our samples, while others may contain relatively little information. For example, if we are analyzing the effect of a certain weight loss regimen on a group of people, the age and weight of the subjects may have a great deal of influence on how successful the regimen is, while their blood pressure might not. One way to help identify which features are more significant is to ask whether or not the feature varies a lot among the different samples. If nearly all the measurements of a feature are the same, it can’t have much power in distinguishing the samples, while if the measurements vary a great deal then that feature has a chance to contain useful information.</p>
 <p>In this section we will discuss a way to measure the variability of measurements and then introduce principal component analysis (PCA). PCA is a method for finding which linear combinations of measurements have the greatest variability and therefore might contain the most information. It also allows us to identify combinations of measurements that don’t vary much at all. Combining this information, we can sometimes replace our original system of features with a smaller set that still captures most of the interesting information in our data, and thereby find hidden characteristics of the data and simplify our analysis a great deal.</p>
-<h2 id="variance-and-covariance"><span class="header-section-number">1.2</span> Variance and Covariance</h2>
-<h3 id="variance"><span class="header-section-number">1.2.1</span> Variance</h3>
+<h2 data-number="1.2" id="variance-and-covariance"><span class="header-section-number">1.2</span> Variance and Covariance</h2>
+<h3 data-number="1.2.1" id="variance"><span class="header-section-number">1.2.1</span> Variance</h3>
 <p>Suppose that we have a collection of measurements <span class="math inline">\((x_1,\ldots, x_n)\)</span> of a particular feature <span class="math inline">\(X\)</span>. For example, <span class="math inline">\(x_i\)</span> might be the initial weight of the <span class="math inline">\(ith\)</span> participant in our weight loss study. The mean of the values <span class="math inline">\((x_1,\ldots, x_n)\)</span> is</p>
 <p><span class="math display">\[
 \mu_{X} = \frac{1}{n}\sum_{i=1}^{n} x_{i}.
@@ -46,7 +47,7 @@
 <p><span id="eq:variancedot" class="eqnos"><span class="math display">\[
 \sigma_{X}^2 = \frac{1}{n}(X-\mu_{X}E)\cdot(X-\mu_{X}E)  = \frac{1}{n}\|X-\mu_{X}E\|^2.
 \]</span><span class="eqnos-number">(2)</span></span></p>
-<h3 id="covariance"><span class="header-section-number">1.2.2</span> Covariance</h3>
+<h3 data-number="1.2.2" id="covariance"><span class="header-section-number">1.2.2</span> Covariance</h3>
 <p>The variance measures the dispersion of measures of a single feature. Often, we have measurements of multiple features and we might want to know something about how two features are related. The <em>covariance</em> is a measure of whether two features tend to be related, in the sense that when one increases, the other one increases; or when one increases, the other one decreases.</p>
 <p><strong>Definition:</strong> Given measurements <span class="math inline">\((x_1,\ldots, x_n)\)</span> and <span class="math inline">\((y_1,\ldots, y_n)\)</span> of two features <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the covariance of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is</p>
 <p><span id="eq:covariancedot" class="eqnos"><span class="math display">\[
@@ -57,7 +58,7 @@
 \sigma_{XY} = \frac{1}{N} ((X-\mu_{X})\cdot (Y-\mu_{Y})).
 \]</span></p>
 <p>From this point of view, we can see that <span class="math inline">\(\sigma_{XY}\)</span> is positive if the <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> vectors “point roughly in the same direction” and its negative if they “point roughly in the opposite direction.”</p>
-<h3 id="correlation"><span class="header-section-number">1.2.3</span> Correlation</h3>
+<h3 data-number="1.2.3" id="correlation"><span class="header-section-number">1.2.3</span> Correlation</h3>
 <p>One problem with interpreting the variance and covariance is that we don’t have a scale – for example, if <span class="math inline">\(\sigma_{XY}\)</span> is large and positive, then we’d like to say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are closely related, but it could be just that the entries of <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> are large. Here, though, we can really take advantage of the geometric interpretation. Recall that the dot product of two vectors satisfies the formula</p>
 <p><span class="math display">\[
 a \cdot b = \|a\|\|b\|\cos(\theta)
@@ -79,10 +80,10 @@ r_{XY} = \frac{\sigma_{XY}}{\sigma_{X}\sigma_{Y}}
 <p>Figure <a href="#fig:corrfig">1</a> illustrates data with different values of the correlation coefficient.</p>
 <div id="fig:corrfig" class="fignos">
 <figure>
-<img src="../img/correlation.png" alt="Figure 1: Correlation" style="width:50.0%" /><figcaption><span>Figure 1:</span> Correlation</figcaption>
+<img src="../img/correlation.png" style="width:50.0%" alt="" /><figcaption><span>Figure 1:</span> Correlation</figcaption>
 </figure>
 </div>
-<h3 id="sec:covarmat"><span class="header-section-number">1.2.4</span> The covariance matrix</h3>
+<h3 data-number="1.2.4" id="sec:covarmat"><span class="header-section-number">1.2.4</span> The covariance matrix</h3>
 <p>In a typical situation we have many features for each of our (many) samples, that we organize into a data matrix <span class="math inline">\(X\)</span>. To recall, each column of <span class="math inline">\(X\)</span> corresponds to a feature that we measure, and each row corresponds to a sample. For example, each row of our matrix might correspond to a person enrolled in a study, and the columns correspond to height (cm), weight (kg), systolic blood pressure, and age (in years):</p>
 <div id="tbl:data" class="tablenos">
 <table>
@@ -143,7 +144,7 @@ d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_i)^2
 d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 \]</span></p>
 <p><strong>Proof:</strong> This follows from the definitions, but it’s worth checking the details, which we leave as an exercise.</p>
-<h3 id="linear-combinations-of-features-scores"><span class="header-section-number">1.2.5</span> Linear Combinations of Features (Scores)</h3>
+<h3 data-number="1.2.5" id="linear-combinations-of-features-scores"><span class="header-section-number">1.2.5</span> Linear Combinations of Features (Scores)</h3>
 <p>Sometimes useful information about our data can be revealed if we combine different measurements together to obtain a “hybrid” measure that captures something interesting. For example, in the Auto MPG dataset that we studied in the section on Linear Regression, we looked at the influence of both vehicle weight <span class="math inline">\(w\)</span> and engine displacement <span class="math inline">\(e\)</span> on gas mileage; perhaps their is some value in considering a hybrid “score” defined as <span class="math display">\[
 S = a*w + b*e
 \]</span> for some constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> – maybe by choosing a good combination we could find a better predictor of gas mileage than using one or the other of the features individually.</p>
@@ -159,7 +160,7 @@ X_{0}\left[
 \begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right].
 \]</span><span class="eqnos-number">(5)</span></span></p>
 <p><strong>Proof:</strong> Multiplying a matrix by a column vector computes a linear combination of the columns – that’s what this lemma says. Exercise 3 asks you to write out the indices and make sure you believe this.</p>
-<h3 id="mean-and-variance-of-scores"><span class="header-section-number">1.2.6</span> Mean and variance of scores</h3>
+<h3 data-number="1.2.6" id="mean-and-variance-of-scores"><span class="header-section-number">1.2.6</span> Mean and variance of scores</h3>
 <p>When we combine features to make a hybrid score, we assume that the features were centered to begin with, so that each features has mean zero. As a result, the mean of the hybrid features is again zero.</p>
 <p><strong>Lemma:</strong> A linear combination of features with mean zero again has mean zero.</p>
 <p><strong>Proof:</strong> Let <span class="math inline">\(S_{i}\)</span> be the score for the <span class="math inline">\(i^{th}\)</span> sample, so <span class="math display">\[
@@ -187,24 +188,24 @@ S = X_{0}a.
 <p>For the covariance, use a similar argument with eq. <a href="#eq:covariancedot">3</a> and eq. <a href="#eq:linearscore">5</a>. writing <span class="math inline">\(\sigma_{S_{1}S_{2}}=\frac{1}{N}S_{1}\cdot S_{2}\)</span> and the fact that <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span> can be written as <span class="math inline">\(X_{0}a\)</span> and <span class="math inline">\(X_{0}b\)</span>.</p>
 <p>The point of this lemma is that the covariance matrix contains not just the variances and covariances of the original features, but also enough information to construct the variances and covariances for <em>any linear combination of features.</em></p>
 <p>In the next section we will see how to exploit this idea to reveal hidden structure in our data.</p>
-<h3 id="geometry-of-scores"><span class="header-section-number">1.2.7</span> Geometry of Scores</h3>
+<h3 data-number="1.2.7" id="geometry-of-scores"><span class="header-section-number">1.2.7</span> Geometry of Scores</h3>
 <p>Let’s begin by looking at fig. <a href="#fig:pcasimfig">2</a>, which shows a scatter plot of some simulated data having <span class="math inline">\(50\)</span> samples and two features. This data has been centered, so it can be represented in a <span class="math inline">\(50\times 2\)</span> data matrix <span class="math inline">\(X_{0}\)</span> each row of which is the coordinates <span class="math inline">\((x_0,x_1)\)</span> of one of the points in the picture.</p>
 <p>The scatter plot shows that the data points are arranged in a more or less elliptical cloud oriented at an angle to the <span class="math inline">\(xy\)</span>-axes which represent the two given features. The two individual histograms show the distribution of the two features – each has mean zero, with the <span class="math inline">\(x\)</span>-features distributed between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span> and the <span class="math inline">\(y\)</span> feature between <span class="math inline">\(-4\)</span> and <span class="math inline">\(4\)</span>. Looking just at the two features individually, meaning only at the two histograms, we can’t see the overall elliptical structure.</p>
 <div id="fig:pcasimfig" class="fignos">
 <figure>
-<img src="../img/PCAsimulated-1.png" alt="Figure 2: Simulated Data with Two Features" style="width:50.0%" /><figcaption><span>Figure 2:</span> Simulated Data with Two Features</figcaption>
+<img src="../img/PCAsimulated-1.png" style="width:50.0%" alt="" /><figcaption><span>Figure 2:</span> Simulated Data with Two Features</figcaption>
 </figure>
 </div>
 <p>How can we get a better grip on our data in this situation? We can try to find a “direction” in our data that better illuminates the variation of the data. For example, suppose that we pick a unit vector at the origin pointing in a particular direction in our data. See fig. <a href="#fig:pcasimfig-1">3</a>.</p>
 <div id="fig:pcasimfig-1" class="fignos">
 <figure>
-<img src="../img/PCAsimulated-2.png" alt="Figure 3: A direction in the data" style="width:50.0%" /><figcaption><span>Figure 3:</span> A direction in the data</figcaption>
+<img src="../img/PCAsimulated-2.png" style="width:50.0%" alt="" /><figcaption><span>Figure 3:</span> A direction in the data</figcaption>
 </figure>
 </div>
 <p>Now we can orthogonally project the datapoints onto the line defined by this vector, as shown in fig. <a href="#fig:pcasimfig-2">4</a>.</p>
 <div id="fig:pcasimfig-2" class="fignos">
 <figure>
-<img src="../img/PCAsimulated-3.png" alt="Figure 4: Projecting the datapoints" style="width:50.0%" /><figcaption><span>Figure 4:</span> Projecting the datapoints</figcaption>
+<img src="../img/PCAsimulated-3.png" style="width:50.0%" alt="" /><figcaption><span>Figure 4:</span> Projecting the datapoints</figcaption>
 </figure>
 </div>
 <p>Recall that if the unit vector is defined by coordinates <span class="math inline">\(u=[u_0,u_1]\)</span>, then the orthogonal projection of the point <span class="math inline">\(x\)</span> with coordinates <span class="math inline">\((x_0,x_1)\)</span> is <span class="math inline">\((x\cdot u)u\)</span>. Now <span class="math display">\[
@@ -214,7 +215,7 @@ Z = X_0 u
 \]</span> where <span class="math inline">\(X_0\)</span> is our data matrix. Now let’s add a histogram of the values of <span class="math inline">\(Z\)</span> to our picture:</p>
 <div id="fig:pcasimfig-3" class="fignos">
 <figure>
-<img src="../img/PCAsimulated-4.png" alt="Figure 5: Distribution of Z" style="width:50.0%" /><figcaption><span>Figure 5:</span> Distribution of Z</figcaption>
+<img src="../img/PCAsimulated-4.png" style="width:50.0%" alt="" /><figcaption><span>Figure 5:</span> Distribution of Z</figcaption>
 </figure>
 </div>
 <p>This histogram shows the distribution of the values of <span class="math inline">\(Z\)</span> along the tilted line defined by the unit vector <span class="math inline">\(u\)</span>.</p>
@@ -224,8 +225,8 @@ Z = X_0 u
 <p><strong>Lemma:</strong> Let <span class="math inline">\(X_{0}\)</span> be a <span class="math inline">\(k\times N\)</span> centered data matrix, and let <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span> be the associated covariance matrix. Let <span class="math inline">\(u\)</span> be a unit vector in “feature space” <span class="math inline">\(\mathbf{R}^{N}\)</span>. Then the score <span class="math inline">\(S=X_{0}u\)</span> can be interpreted as the coordinates of the points of <span class="math inline">\(X_{0}\)</span> projected onto the line generated by <span class="math inline">\(u\)</span>. The variance <span class="math display">\[
 \sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{k} s_{i}^2
 \]</span> where <span class="math inline">\(s_{i} = X_{0}[i,:]u\)</span> is the dot product of the <span class="math inline">\(i^{th}\)</span> row <span class="math inline">\(X_{0}[i,:]\)</span> with <span class="math inline">\(u\)</span>. It measures the variability in the data “in the direction of the unit vector <span class="math inline">\(u\)</span>”.</p>
-<h3 id="principal-components"><span class="header-section-number">1.2.8</span> Principal Components</h3>
-<h4 id="change-of-variance-with-direction"><span class="header-section-number">1.2.8.1</span> Change of variance with direction</h4>
+<h3 data-number="1.2.8" id="principal-components"><span class="header-section-number">1.2.8</span> Principal Components</h3>
+<h4 data-number="1.2.8.1" id="change-of-variance-with-direction"><span class="header-section-number">1.2.8.1</span> Change of variance with direction</h4>
 <p>As we’ve seen in the previous section, if we choose a unit vector <span class="math inline">\(u\)</span> in the feature space and find the projection <span class="math inline">\(X_{0}u\)</span> of our data onto the line through <span class="math inline">\(u\)</span>, we get a “score” that we can use to measure the variance of the data in the direction of <span class="math inline">\(u\)</span>. What happens as we vary <span class="math inline">\(u\)</span>?</p>
 <p>To study this question, let’s continue with our simulated data from the previous section, and introduce a unit vector <span class="math display">\[
 u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\right].
@@ -236,17 +237,17 @@ u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\rig
 <p>A plot of this function for the data we have been considering is in fig. <a href="#fig:pcatheta">6</a>. As you can see, the variance goes through two full periods with the angle, and it reaches a maximum and minimum value at intervals of <span class="math inline">\(\pi/2\)</span> – so the two angles where the variance are maximum and minimum are orthogonal to one another.</p>
 <div id="fig:pcatheta" class="fignos">
 <figure>
-<img src="../img/PCAtheta.png" alt="Figure 6: Change of variance with angle theta" style="width:25.0%" /><figcaption><span>Figure 6:</span> Change of variance with angle theta</figcaption>
+<img src="../img/PCAtheta.png" style="width:25.0%" alt="" /><figcaption><span>Figure 6:</span> Change of variance with angle theta</figcaption>
 </figure>
 </div>
 <p>The two directions where the variance is maximum and minimum are drawn on the original data scatter plot in fig. <a href="#fig:pcaprincipal">7</a> .</p>
 <div id="fig:pcaprincipal" class="fignos">
 <figure>
-<img src="../img/PCAprincipal.png" alt="Figure 7: Data with principal directions" style="width:25.0%" /><figcaption><span>Figure 7:</span> Data with principal directions</figcaption>
+<img src="../img/PCAprincipal.png" style="width:25.0%" alt="" /><figcaption><span>Figure 7:</span> Data with principal directions</figcaption>
 </figure>
 </div>
 <p>Let’s try to understand why this is happening.</p>
-<h4 id="directions-of-extremal-variance"><span class="header-section-number">1.2.8.2</span> Directions of extremal variance</h4>
+<h4 data-number="1.2.8.2" id="directions-of-extremal-variance"><span class="header-section-number">1.2.8.2</span> Directions of extremal variance</h4>
 <p>Given our centered, <span class="math inline">\(k\times N\)</span> data matrix <span class="math inline">\(X_{0}\)</span>, with its associated covariance matrix <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span>, we would like to find unit vectors <span class="math inline">\(u\)</span> in <span class="math inline">\(\mathbf{R}^{N}\)</span> so that <span class="math display">\[
 \sigma_{u}^{2} = u^{\intercal}D_{0}u
 \]</span> reaches its maximum and its minimum. Here <span class="math inline">\(\sigma_{u}^2\)</span> is the variance of the “linear score” <span class="math inline">\(X_{0}u\)</span> and it represents how dispersed the data is in the “u direction” in <span class="math inline">\(\mathbf{R}^{N}\)</span>.</p>
@@ -295,7 +296,8 @@ F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
 \]</span> But the right hand side of this equation is twice the <span class="math inline">\(i^{th}\)</span> of <span class="math inline">\(Du\)</span>, so putting the results together we get <span class="math display">\[
 \nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
 \]</span></p>
-<p>The following theorem puts all of this work together to answer our questions about how variance changes with direction.</p>
+<p>The following theorem puts all of this work together to reduce our questions about how variance changes with direction.</p>
+<h4 data-number="1.2.8.3" id="sec:critvals"><span class="header-section-number">1.2.8.3</span> Critical values of the variance</h4>
 <p><strong>Theorem:</strong> The critical values of the variance <span class="math inline">\(\sigma_{u}^2\)</span>, as <span class="math inline">\(u\)</span> varies over unit vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span>, are the eigenvalues <span class="math inline">\(\lambda_{1},\ldots,\lambda_{N}\)</span> of the covariance matrix <span class="math inline">\(D\)</span>, and if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector corresponding to <span class="math inline">\(\lambda_{i}\)</span>, then <span class="math inline">\(\sigma_{e_{i}}^2 = \lambda_{i}\)</span>.</p>
 <p><strong>Proof:</strong> Recall that we introduced the Lagrange function <span class="math inline">\(S(u,\lambda)\)</span>, whose critical points give us the solutions to our constrained optimization problem. As we said in eq. <a href="#eq:lagrange">7</a>: <span class="math display">\[
 S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u -\lambda(u\cdot u) + \lambda
@@ -307,9 +309,44 @@ S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u
 \nabla_{u} S = 2(D_{0}-\lambda)u = 0
 \]</span> and <span class="math display">\[
 \frac{\partial}{\partial \lambda}S = 1-u\cdot u = 0
-\]</span> The first equation says that <span class="math inline">\(\lambda\)</span> must be an eigenvalue, and <span class="math inline">\(u\)</span> and eigenvector: <span class="math display">\[
+\]</span> The first equation says that <span class="math inline">\(\lambda\)</span> must be an eigenvalue, and <span class="math inline">\(u\)</span> an eigenvector: <span class="math display">\[
 D_{0}u = \lambda u
-\]</span> while the second says <span class="math inline">\(u\)</span> must be a unit vector <span class="math inline">\(u\cdot u=\|u\|^2=1\)</span>.</p>
+\]</span> while the second says <span class="math inline">\(u\)</span> must be a unit vector <span class="math inline">\(u\cdot u=\|u\|^2=1\)</span>. The second part of the result follows from the fact that if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector with eigenvalue <span class="math inline">\(\lambda_{i}\)</span> then <span class="math display">\[
+\sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
+\]</span></p>
+<p>To really make this result pay off, we need to recall some key facts about the eigenvalues and eigenvectors of symmetric matrices. Because these facts are so central to this result, and to other applications throughout machine learning and mathematics generally, we will prove them in the next section.</p>
+<h4 data-number="1.2.8.4" id="sec:symmmat"><span class="header-section-number">1.2.8.4</span> Eigenvalues and eigenvectors of symmetric matrices</h4>
+<p>Let <span class="math inline">\(D\)</span> be an <span class="math inline">\(N\times N\)</span> symmetric matrix with real entries. Then:</p>
+<ul>
+<li>All of the eigenvalues <span class="math inline">\(\lambda_{1},\ldots, \lambda_{N}\)</span> of <span class="math inline">\(D\)</span> are real.</li>
+<li>If <span class="math inline">\(u^{\intercal}Du\ge 0\)</span> for all <span class="math inline">\(u\in\mathbf{R}^{N}\)</span>, then all eigenvalues <span class="math inline">\(\lambda_{i}\)</span> are non-negative.</li>
+<li>If <span class="math inline">\(v\)</span> is an eigenvector for <span class="math inline">\(D\)</span> with eigenvalue <span class="math inline">\(\lambda\)</span>, and <span class="math inline">\(w\)</span> is an eigenvector with a different eigenvalue <span class="math inline">\(\lambda&#39;\)</span>, then <span class="math inline">\(v\)</span> and <span class="math inline">\(w\)</span> are orthogonal: <span class="math inline">\(v\cdot w = 0\)</span>.<br />
+</li>
+<li>There is an orthonormal basis <span class="math inline">\(u_{1},\ldots, u_{N}\)</span> of <span class="math inline">\(\mathbf{R}^{N}\)</span> made up of eigenvectors of <span class="math inline">\(D\)</span> corresponding to the eigenvalues <span class="math inline">\(\lambda_{i}\)</span>.</li>
+<li>Let <span class="math inline">\(\Lambda\)</span> be the diagonal matrix with entries <span class="math inline">\(\lambda_{1},\ldots, \lambda_{N}\)</span> and let <span class="math inline">\(P\)</span> be the matrix whose columns are made up of the vectors <span class="math inline">\(u_{i}\)</span>. Then: <span class="math display">\[
+D = P\Lambda P^{\intercal}.
+\]</span></li>
+</ul>
+<p>If we combine this theorem with our result from section <a href="#sec:symmmat">1.2.8.4</a> then we get a complete picture. Let <span class="math inline">\(D_{0}\)</span> be the covariance matrix of our data. Since <span class="math display">\[
+\sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \mathrm{(it&#39;s a sum of squares)}
+\]</span> we know that the eigenvalues <span class="math inline">\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0\)</span> are all nonnegative. Choose a corresponding sequence <span class="math inline">\(u_{1},\ldots u_{N}\)</span> of orthogonal eigenvectors where all <span class="math inline">\(\|u_{i}\|^2=1\)</span>. Since the <span class="math inline">\(u_{i}\)</span> form a basis of <span class="math inline">\(\mathbf{R}^{N}\)</span>, any score is a linear combination of the <span class="math inline">\(u_{i}\)</span>: <span class="math display">\[
+S = \sum a_{i}u_{i}.
+\]</span> Since <span class="math inline">\(u_{i}^{\intercal}Du_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)</span> unless <span class="math inline">\(i=j\)</span>, in which case it is <span class="math inline">\(\lambda_{i}\)</span>, we can compute <span class="math display">\[
+\sigma_{S}^2 = \sum_{i=1}^{N} \lambda_{i}a_{i}^2,
+\]</span> and <span class="math inline">\(\|S\|^2=\sum a_{i}^2\)</span> since the <span class="math inline">\(u_{i}\)</span> are an orthonormal set. So in these coordinates, are optimization problem is:</p>
+<ul>
+<li>maximize <span class="math inline">\(\sum \lambda_{i}a_{i}^2\)</span></li>
+<li>subject to the constraint <span class="math inline">\(\sum a_{i}^2 = 1\)</span>.</li>
+</ul>
+<p>We don’t need any fancy math to see that the maximum happens when <span class="math inline">\(a_{1}=1\)</span> and the other <span class="math inline">\(a_{j}=0\)</span>, and in that case, the maximum is <span class="math inline">\(\lambda_{1}\)</span>. (If <span class="math inline">\(\lambda_{1}\)</span> occurs more than once, there may be a whole subspace of directions where the variance is maximal). Similarly, the minimum value is <span class="math inline">\(\lambda_{N}\)</span> and occurs when <span class="math inline">\(a_{N}=1\)</span> and the others are zero.</p>
+<p><strong>Definition:</strong> The orthonormal unit eigenvectors <span class="math inline">\(u_{i}\)</span> for <span class="math inline">\(D_{0}\)</span> are the <em>principal directions</em> or <em>principal components</em> for the data <span class="math inline">\(X_{0}\)</span>.</p>
+<p><strong>Theorem:</strong> The maximum variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in principal directions associated with different eigenvalues is zero.</p>
+<p>At this point, the picture in fig. <a href="#fig:pcaprincipal">7</a> makes sense – the red and green dashed lines are the principal directions, they are orthogonal to one another, and the point in the directions where the data is most (and least) “spread out.”</p>
+<p>Sometimes the results above are presented in a slightly different form, and may be referred to, in part, as Rayleigh’s theorem.</p>
+<p><strong>Corollary:</strong> (Rayleigh’s Theorem) Let <span class="math inline">\(D\)</span> be a real symmetric matrix and let <span class="math display">\[
+H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
+\]</span> Then <span class="math inline">\(H(v)\)</span> is the largest eigenvalue of <span class="math inline">\(D\)</span>.</p>
+<p><strong>Proof:</strong> The maximum of the function <span class="math inline">\(H(v)\)</span> is the solution to the same optimization problem that we considered above.</p>
 <p><strong>Exercises.</strong></p>
 <ol type="1">
 <li><p>Prove that the two expressions for <span class="math inline">\(\sigma_{X}^2\)</span> given in section <a href="#variance">1.2.1</a> are the same.</p></li>
