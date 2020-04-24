@@ -550,25 +550,32 @@ eigenvectors of symmetric matrices.  Because these facts are so central to this 
 to other applications throughout machine learning and mathematics generally, we will prove
 them in the next section.
 
-#### Eigenvalues and eigenvectors of symmetric matrices {#sec:symmmat}
+---
 
-Let $D$ be an $N\times N$ symmetric matrix with real entries. Then:
+-----------------------------------------------------------------------
+Summary                                                                
+-----------------------------------------------------------------------
+1. All of the eigenvalues $\lambda_{1},\ldots, \lambda_{N}$ of  $D$ are real.
+If $u^{\intercal}Du\ge 0$ for all $u\in\mathbf{R}^{N}$, then all eigenvalues $\lambda_{i}$ are non-negative.
 
-- All of the eigenvalues $\lambda_{1},\ldots, \lambda_{N}$ of  $D$ are real. 
-- If $u^{\intercal}Du\ge 0$ for all $u\in\mathbf{R}^{N}$, then all eigenvalues $\lambda_{i}$ are non-negative.
-- If $v$ is an eigenvector for $D$ with eigenvalue $\lambda$, and $w$ is an eigenvector with a different eigenvalue $\lambda'$,
-then $v$ and $w$ are orthogonal: $v\cdot w = 0$.  
-- There is an orthonormal basis $u_{1},\ldots, u_{N}$  of $\mathbf{R}^{N}$ made up of eigenvectors of $D$ corresponding to the eigenvalues $\lambda_{i}$.
-- Let $\Lambda$ be the diagonal matrix with entries $\lambda_{1},\ldots, \lambda_{N}$ and let $P$ be the matrix whose columns
-are made up of the vectors $u_{i}$.  Then:
-$$
-D = P\Lambda P^{\intercal}.
-$$
+2. If $v$ is an eigenvector for $D$ with eigenvalue $\lambda$, and $w$ is an eigenvector with a different eigenvalue 
+$\lambda'$, then $v$ and $w$ are orthogonal: $v\cdot w = 0$.
 
-If we combine this theorem with our result from +@sec:symmmat then we get a complete picture.  Let $D_{0}$ be the covariance matrix of our data.
+3. There is an orthonormal basis $u_{1},\ldots, u_{N}$  of $\mathbf{R}^{N}$ made up of eigenvectors of 
+$D$ corresponding to the eigenvalues $\lambda_{i}$.
+
+4. Let $\Lambda$ be the diagonal matrix with entries $\lambda_{1},\ldots, \lambda_{N}$ and let $P$ 
+be the matrix whose columns are made up of the vectors $u_{i}$.  Then $D = P\Lambda P^{\intercal}.$
+------------------------------------------------------------------------
+
+Table: Properties of Eigenvalues of Real Symmetric Matrics {#tbl:symmmat}
+
+---
+
+If we combine this theorem with the facts summarized in  +@tbl:symmmat then we get a complete picture.  Let $D_{0}$ be the covariance matrix of our data.
 Since
 $$
-\sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \mathrm{(it's a sum of squares)}
+\sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \hbox{(it's a sum of squares)}
 $$
 we know that the eigenvalues $\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0$ are all nonnegative.  Choose a corresponding sequence
 $u_{1},\ldots u_{N}$ of orthogonal eigenvectors where all $\|u_{i}\|^2=1$. Since the $u_{i}$ form a basis of $\mathbf{R}^{N}$, any score is a
@@ -589,6 +596,8 @@ We don't need any fancy math to see that the maximum happens when $a_{1}=1$ and 
 occurs more than once, there may be a whole subspace of directions where the variance is maximal).  Similarly, the minimum value is $\lambda_{N}$ and occurs
 when $a_{N}=1$ and the others are zero.
 
+#### Definition of Principal Components
+
 **Definition:** The orthonormal unit eigenvectors $u_{i}$ for $D_{0}$ are the *principal directions* or *principal components* for the data $X_{0}$.  
 
 **Theorem:** The maximum
@@ -597,6 +606,11 @@ variance occurs in the principal direction(s) associated to the largest eigenval
 At this point, the picture in +@fig:pcaprincipal makes sense -- the red and green dashed lines are the principal directions,
 they are orthogonal to one another, and the point in the directions where the data is most (and least) "spread out."
 
+**Proof:** The statement about the largest and smallest eigenvalues is proved at the very end of the last section.
+The covariance of two scores corresponding to different eigenvectors $u_{i}$ and $u_{j}$ is 
+$$u_{i}^{\intercal}D_{0}u_{j} = \lambda_{j}(u_{i}\cdot u_{j}) = 0$$ since the $u_{i}$ and $u_{j}$ are
+orthogonal.
+
 
 Sometimes the results above are presented in a slightly different form, and may be referred to, in part, as Rayleigh's theorem.
 
@@ -604,7 +618,8 @@ Sometimes the results above are presented in a slightly different form, and may 
 $$
 H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
 $$
-Then $H(v)$ is the largest eigenvalue of $D$.
+Then $H(v)$ is the largest eigenvalue of $D$. (Similarly, if we replace $\max$ by $\min$, then the minimum
+is the least eigenvalue).
 
 **Proof:** The maximum of the function $H(v)$ is the solution to the same optimization problem that we considered above.
 
@@ -624,3 +639,6 @@ If a linear score is defined by the constants $a_{1},\ldots a_{N}$, check that e
 4.  Why is it important to use a unit vector when computing the variance of $X_{0}$ in the direction
 of $u$?  Suppose $v=\lambda u$ where $u$ is a unit vector and $\lambda>0$ is a constant.  Let
 $S'$ be the score $X_{0}v$.  How is the variance of $S'$ related to that of $S=X_{0}u$?
+
+
+
