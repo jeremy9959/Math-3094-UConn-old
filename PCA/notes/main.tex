@@ -1,46 +1,59 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
 %
-\documentclass[]{article}
+\documentclass[
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
 \usepackage{xcolor}
-\usepackage{hyperref}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            colorlinks=true,
-            linkcolor=blue,
-            citecolor=Blue,
-            urlcolor=Blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{longtable,booktabs}
-% Fix footnotes in tables (requires footnote package)
-\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
-\usepackage{graphicx,grffile}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -49,25 +62,14 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
 
 %% pandoc-secnos: required package
 \usepackage{cleveref}
@@ -75,6 +77,7 @@
 %% pandoc-eqnos: disable brackets around cleveref numbers
 \creflabelformat{equation}{#2#1#3}
 
+\author{}
 \date{}
 
 \begin{document}
@@ -662,8 +665,11 @@ to each sum, which is consistent with the rule that the derivative of
 \nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
 \]
 
-The following theorem puts all of this work together to answer our
+The following theorem puts all of this work together to reduce our
 questions about how variance changes with direction.
+
+\hypertarget{sec:critvals}{%
+\paragraph{Critical values of the variance}\label{sec:critvals}}
 
 \textbf{Theorem:} The critical values of the variance \(\sigma_{u}^2\),
 as \(u\) varies over unit vectors in \(\mathbf{R}^{N}\), are the
@@ -690,7 +696,106 @@ matrix to compute: \[
 \(u\) an eigenvector: \[
 D_{0}u = \lambda u
 \] while the second says \(u\) must be a unit vector
-\(u\cdot u=\|u\|^2=1\).
+\(u\cdot u=\|u\|^2=1\). The second part of the result follows from the
+fact that if \(e_{i}\) is a unit eigenvector with eigenvalue
+\(\lambda_{i}\) then \[
+\sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
+\]
+
+To really make this result pay off, we need to recall some key facts
+about the eigenvalues and eigenvectors of symmetric matrices. Because
+these facts are so central to this result, and to other applications
+throughout machine learning and mathematics generally, we will prove
+them in the next section.
+
+\hypertarget{sec:symmmat}{%
+\paragraph{Eigenvalues and eigenvectors of symmetric
+matrices}\label{sec:symmmat}}
+
+Let \(D\) be an \(N\times N\) symmetric matrix with real entries. Then:
+
+\begin{itemize}
+\tightlist
+\item
+  All of the eigenvalues \(\lambda_{1},\ldots, \lambda_{N}\) of \(D\)
+  are real.
+\item
+  If \(u^{\intercal}Du\ge 0\) for all \(u\in\mathbf{R}^{N}\), then all
+  eigenvalues \(\lambda_{i}\) are non-negative.
+\item
+  If \(v\) is an eigenvector for \(D\) with eigenvalue \(\lambda\), and
+  \(w\) is an eigenvector with a different eigenvalue \(\lambda'\), then
+  \(v\) and \(w\) are orthogonal: \(v\cdot w = 0\).\\
+\item
+  There is an orthonormal basis \(u_{1},\ldots, u_{N}\) of
+  \(\mathbf{R}^{N}\) made up of eigenvectors of \(D\) corresponding to
+  the eigenvalues \(\lambda_{i}\).
+\item
+  Let \(\Lambda\) be the diagonal matrix with entries
+  \(\lambda_{1},\ldots, \lambda_{N}\) and let \(P\) be the matrix whose
+  columns are made up of the vectors \(u_{i}\). Then: \[
+  D = P\Lambda P^{\intercal}.
+  \]
+\end{itemize}
+
+If we combine this theorem with our result from \cref{sec:symmmat} then
+we get a complete picture. Let \(D_{0}\) be the covariance matrix of our
+data. Since \[
+\sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \mathrm{(it's a sum of squares)}
+\] we know that the eigenvalues
+\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0\) are all
+nonnegative. Choose a corresponding sequence \(u_{1},\ldots u_{N}\) of
+orthogonal eigenvectors where all \(\|u_{i}\|^2=1\). Since the \(u_{i}\)
+form a basis of \(\mathbf{R}^{N}\), any score is a linear combination of
+the \(u_{i}\): \[
+S = \sum a_{i}u_{i}.
+\] Since
+\(u_{i}^{\intercal}Du_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)
+unless \(i=j\), in which case it is \(\lambda_{i}\), we can compute \[
+\sigma_{S}^2 = \sum_{i=1}^{N} \lambda_{i}a_{i}^2,
+\] and \(\|S\|^2=\sum a_{i}^2\) since the \(u_{i}\) are an orthonormal
+set. So in these coordinates, are optimization problem is:
+
+\begin{itemize}
+\tightlist
+\item
+  maximize \(\sum \lambda_{i}a_{i}^2\)
+\item
+  subject to the constraint \(\sum a_{i}^2 = 1\).
+\end{itemize}
+
+We don't need any fancy math to see that the maximum happens when
+\(a_{1}=1\) and the other \(a_{j}=0\), and in that case, the maximum is
+\(\lambda_{1}\). (If \(\lambda_{1}\) occurs more than once, there may be
+a whole subspace of directions where the variance is maximal).
+Similarly, the minimum value is \(\lambda_{N}\) and occurs when
+\(a_{N}=1\) and the others are zero.
+
+\textbf{Definition:} The orthonormal unit eigenvectors \(u_{i}\) for
+\(D_{0}\) are the \emph{principal directions} or \emph{principal
+components} for the data \(X_{0}\).
+
+\textbf{Theorem:} The maximum variance occurs in the principal
+direction(s) associated to the largest eigenvalue, and the minimum
+variance in the principal direction(s) associated with the smallest one.
+The covariance between scores in principal directions associated with
+different eigenvalues is zero.
+
+At this point, the picture in \cref{fig:pcaprincipal} makes sense -- the
+red and green dashed lines are the principal directions, they are
+orthogonal to one another, and the point in the directions where the
+data is most (and least) ``spread out.''
+
+Sometimes the results above are presented in a slightly different form,
+and may be referred to, in part, as Rayleigh's theorem.
+
+\textbf{Corollary:} (Rayleigh's Theorem) Let \(D\) be a real symmetric
+matrix and let \[
+H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
+\] Then \(H(v)\) is the largest eigenvalue of \(D\).
+
+\textbf{Proof:} The maximum of the function \(H(v)\) is the solution to
+the same optimization problem that we considered above.
 
 \textbf{Exercises.}
 
