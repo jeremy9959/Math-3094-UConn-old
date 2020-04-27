@@ -624,8 +624,6 @@ is the least eigenvalue).
 **Proof:** The maximum of the function $H(v)$ is the solution to the same optimization problem that we considered above.
 
 
-
-
 **Exercises.**
 
 1. Prove that the two expressions for $\sigma_{X}^2$ given in +@eq:variance are the same.
@@ -641,11 +639,25 @@ of $u$?  Suppose $v=\lambda u$ where $u$ is a unit vector and $\lambda>0$ is a c
 $S'$ be the score $X_{0}v$.  How is the variance of $S'$ related to that of $S=X_{0}u$?
 
 
+## Dimensionality Reduction via Principal Components
+
+The principal components associated with a dataset separate out directions in the feature space
+in which the data is most (or least) variable.  One of the main applications of this information
+is to enable us to take data with a great many features -- a set of points in a high dimensional
+space -- and, by focusing  our attention on the scores corresponding to the principal directions,
+capture most of the information in the data in a much lower dimensional setting. 
+
+
+
+
 
 ## Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem) {#sec:spectraltheorem}
 
 In this section, we prove the four properties of eigenvalues and eigenvectors of real symmetric matrices
-that we used in our discussion of Principal Components.  A key tool in the proof is the Gram-Schmidt
+that we used in our discussion of Principal Components.  
+
+
+A key tool in the proof is the Gram-Schmidt
 orthogonalization process.
 
 ### Gram-Schmidt {#sec:gsprocess}
