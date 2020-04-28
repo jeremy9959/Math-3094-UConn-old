@@ -1,46 +1,59 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
 %
-\documentclass[]{article}
+\documentclass[
+]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
 \usepackage{xcolor}
-\usepackage{hyperref}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            colorlinks=true,
-            linkcolor=blue,
-            citecolor=Blue,
-            urlcolor=Blue,
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{longtable,booktabs}
-% Fix footnotes in tables (requires footnote package)
-\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
-\usepackage{graphicx,grffile}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -49,35 +62,22 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
 
 %% pandoc-tablenos: required package
 \usepackage{cleveref}
 
-% pandoc-fignos: section number offset
-\setcounter{section}{1}
-
 %% pandoc-eqnos: disable brackets around cleveref numbers
 \creflabelformat{equation}{#2#1#3}
 
+\author{}
 \date{}
 
 \begin{document}
@@ -300,6 +300,9 @@ the \(i^{th}\) and \(j^{th}\) columns of \(X\):
 \[
 d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 \]
+
+The sum of the diagonal entries, the trace of \(D_{0}\) is the
+\textbf{total} variance of the data.
 
 \textbf{Proof:} This follows from the definitions, but it's worth
 checking the details, which we leave as an exercise.
@@ -708,10 +711,10 @@ these facts are so central to this result, and to other applications
 throughout machine learning and mathematics generally, we provide proofs
 in \cref{sec:spectraltheorem}.
 
-\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{longtable}[]{@{}l@{}}
-\caption{Properties of Eigenvalues of Real Symmetric Matrics
+\caption{Properties of Eigenvalues of Real Symmetric Matrices
 \label{tbl:symmmat}}\tabularnewline
 \toprule
 \begin{minipage}[b]{0.97\columnwidth}\raggedright
@@ -749,7 +752,7 @@ columns are made up of the vectors \(u_{i}\). Then
 \bottomrule
 \end{longtable}
 
-\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 If we combine this theorem with the facts summarized in
 \cref{tbl:symmmat} then we get a complete picture. Let \(D_{0}\) be the
@@ -795,7 +798,7 @@ components} for the data \(X_{0}\).
 \textbf{Theorem:} The maximum variance occurs in the principal
 direction(s) associated to the largest eigenvalue, and the minimum
 variance in the principal direction(s) associated with the smallest one.
-The covariance between scores in principal directions associated with
+The covariance between scores in principal directions associatedwith
 different eigenvalues is zero.
 
 At this point, the picture in \cref{fig:pcaprincipal} makes sense -- the
@@ -844,14 +847,161 @@ the same optimization problem that we considered above.
   \(S=X_{0}u\)?
 \end{enumerate}
 
+\hypertarget{dimensionality-reduction-via-principal-components}{%
+\subsection{Dimensionality Reduction via Principal
+Components}\label{dimensionality-reduction-via-principal-components}}
+
+The principal components associated with a dataset separate out
+directions in the feature space in which the data is most (or least)
+variable. One of the main applications of this information is to enable
+us to take data with a great many features -- a set of points in a high
+dimensional space -- and, by focusing our attention on the scores
+corresponding to the principal directions, capture most of the
+information in the data in a much lower dimensional setting.
+
+To illustrate how this is done, let \(X\) be a \(k\times N\) data
+matrix, let \(X_{0}\) be its centered version, and let
+\(D_{0} = \frac{1}{N}X_{0}^{\intercal}X\) be the associated covariance
+matrix.
+
+Apply the spectral theorem (described in \cref{tbl:symmmat}) and proved
+in \cref{sec:spectraltheorem} to the covariance matrix to obtain
+eigenvalues \(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0\) and
+associated eigenvectors \(u_{1},\ldots, u_{N}\). The scores
+\(S_{i}=X_{0}u_{i}\) give the values of the data in the principal
+directions. The variance of \(S_{i}\) is \(\lambda_{i}\).
+
+Now choose a number \(t<N\) and consider the vectors
+\(S_{1},\ldots, S_{t}\). The \(j^{th}\) entry in \(S_{i}\) is the value
+of the score \(S_{i}\) for the \(j^{th}\) data point. Because
+\(S_{1},\ldots, S_{t}\) capture the most significant variability in the
+original data, we can learn a lot about our data by considering just
+these \(t\) features of the data, instead of needing all \(N\).
+
+To illustrate, let's look at an example. We begin with a synthetic
+dataset \(X_{0}\) which has \(200\) samples and \(15\) features. The
+data for the (some of) the samples is shown in \cref{tbl:rawdata}.
+
+\begin{longtable}[]{@{}llllllllllll@{}}
+\caption{Simulated Data for PCA Analysis
+\label{tbl:rawdata}}\tabularnewline
+\toprule
+& f-0 & f-1 & f-2 & f-3 & f-4 & ... & f-10 & f-11 & f-12 & f-13 &
+f-14\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+& f-0 & f-1 & f-2 & f-3 & f-4 & ... & f-10 & f-11 & f-12 & f-13 &
+f-14\tabularnewline
+\midrule
+\endhead
+s-0 & 1.18 & -0.41 & 2.02 & 0.44 & 2.24 & & 0.32 & 0.95 & 0.88 & 1.10 &
+0.89\tabularnewline
+s-1 & 0.74 & 0.58 & 1.54 & 0.23 & 2.05 & & 0.99 & 1.14 & 1.56 & 0.99 &
+0.59\tabularnewline
+... & ... & ... & ... & ... & ... & ... & ... & ... & ... & ...
+&\tabularnewline
+s-198 & 1.04 & 2.02 & 1.44 & 0.40 & 1.33 & & 0.62 & 0.62 & 0.54 & 1.96 &
+0.04\tabularnewline
+s-199 & 0.92 & 2.09 & 1.58 & 1.19 & 1.17 & & 0.42 & 0.85 & 0.83 & 2.22 &
+0.90\tabularnewline
+\bottomrule
+\end{longtable}
+
+It's hard to visualize much about this \(200\times 15\) matrix; it has
+\(3000\) numbers in it and we're not really equipped to make sense of
+it. We could try some graphing -- for example, \cref{fig:features} shows
+a scatter plot of two of the features plotted against each other.
+
+\begin{figure}
+\hypertarget{fig:features}{%
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{../img/features.png}
+\caption{Scatter Plot of Two Features}\label{fig:features}
+}
+\end{figure}
+
+Unfortunately there's not much to see in \cref{fig:features} -- just a
+blob -- because the individual features of the data don't tell us much
+in isolation, whatever structure there is in this data arises out of the
+relationship between different features.
+
+In \cref{fig:densitygrid} we show a ``density grid'' plot of the data.
+The graph in position \(i,j\) shows a scatter plot of the \(i^{th}\) and
+\(j^{th}\) columns of the data, except in the diagonal positions, where
+in position \(i,i\) we plot a histogram of column \(i\). There's not
+much structure visible; it is a lot of blobs.
+
+\begin{figure}
+\hypertarget{fig:densitygrid}{%
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{../img/density.png}
+\caption{Density Grid Plot of All Features}\label{fig:densitygrid}
+}
+\end{figure}
+
+So let's apply the theory of principal components. We use a software
+package to compute the eigenvalues and eigenvectors of the matrix
+\(D_{0}\). The \(15\) eigenvalues
+\(\lambda_{1}\ge \cdots \ge \lambda_{15}\) are plotted, in descending
+order, in \cref{fig:eigenvalues} .
+
+\begin{figure}
+\hypertarget{fig:eigenvalues}{%
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{../img/eigenvalues.png}
+\caption{Eigenvalues of the Covariance Matrix}\label{fig:eigenvalues}
+}
+\end{figure}
+
+This plot shows that the first \(4\) eigenvalues are relatively large,
+while the remaining \(11\) are smaller and not much different from each
+other. We interpret this as saying that \emph{most of the variation in
+the data is accounted for by the first four principal components.} We
+can even make this quantitative. The \emph{total variance} of the data
+is the sum of the eigenvalues of the covariance matrix -- the trace of
+\(D_{0}\) -- and in this example that sum is around \(5\). The sum of
+the first \(4\) eigenvalues is about \(4\), so the first four eignvalues
+account for about \(4/5\) of the total variance, or about \(80\%\) of
+the variation of the data.
+
+Now let's focus in on the two largest eigenvalues \(\lambda_{1}\) and
+\(\lambda_{2}\) and their corresponding eigenvectors \(u_{1}\) and
+\(u_{2}\). The \(200\times 1\) column vectors \(S_{1}=X_{0}u_{1}\) and
+\(S_{2}=X_{0}u_{2}\) are the values of the scores associated with these
+two eigenvectors. So for each data point (each row of \(X_{0}\)) we have
+two values (the corresponding entries of \(S_{1}\) and \(S_{2}\).) In
+\cref{fig:principalvalues} we show a scatter plot of these scores.
+
+\begin{figure}
+\hypertarget{fig:principalvalues}{%
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{../img/pcadimred.png}
+\caption{Scatter Plot of Scores in the First Two Principal
+Directions}\label{fig:principalvalues}
+}
+\end{figure}
+
+Notice that suddenly some structure emerges in our data! We can see that
+the 200 points are separated into five clusters, distinguished by the
+values of their scores! This ability to find hidden structure in
+complicated data, is one of the most important applications of principal
+components.
+
+If we were dealing with real data, we would now want to investigate the
+different groups of points to see if we can understand what
+characteristics the principal components have identified.
+
 \hypertarget{sec:spectraltheorem}{%
 \subsection{Eigenvalues and Eigenvectors of Real Symmetric Matrices (The
 Spectral Theorem)}\label{sec:spectraltheorem}}
 
-In this section, we prove the four properties of eigenvalues and
-eigenvectors of real symmetric matrices that we used in our discussion
-of Principal Components. A key tool in the proof is the Gram-Schmidt
-orthogonalization process.
+Now that we've shown how to apply the theory of eigenvalues and
+eigenvectors of symmetric matrices to extract principal directions from
+data, and to use those principal directions to find structure, we will
+give a proof of the properties that we summarized in \cref{tbl:symmmat}.
+
+A key tool in the proof is the Gram-Schmidt orthogonalization process.
 
 \hypertarget{sec:gsprocess}{%
 \subsubsection{Gram-Schmidt}\label{sec:gsprocess}}

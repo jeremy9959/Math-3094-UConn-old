@@ -319,7 +319,7 @@ D_{0}u = \lambda u
 <hr />
 <div id="tbl:symmmat" class="tablenos">
 <table>
-<caption><span>Table 2:</span> Properties of Eigenvalues of Real Symmetric Matrics </caption>
+<caption><span>Table 2:</span> Properties of Eigenvalues of Real Symmetric Matrices </caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>
@@ -377,24 +377,143 @@ H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
 <h2 data-number="1.4" id="dimensionality-reduction-via-principal-components"><span class="header-section-number">1.4</span> Dimensionality Reduction via Principal Components</h2>
 <p>The principal components associated with a dataset separate out directions in the feature space in which the data is most (or least) variable. One of the main applications of this information is to enable us to take data with a great many features – a set of points in a high dimensional space – and, by focusing our attention on the scores corresponding to the principal directions, capture most of the information in the data in a much lower dimensional setting.</p>
 <p>To illustrate how this is done, let <span class="math inline">\(X\)</span> be a <span class="math inline">\(k\times N\)</span> data matrix, let <span class="math inline">\(X_{0}\)</span> be its centered version, and let <span class="math inline">\(D_{0} = \frac{1}{N}X_{0}^{\intercal}X\)</span> be the associated covariance matrix.</p>
-<p>Apply the spectral theorem (described in +@{tbl:symmmat} and proved in +<strong>???</strong>{spectraltheorem}) to the covariance matrix to obtain eigenvalues <span class="math inline">\(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0\)</span> and associated eigenvectors <span class="math inline">\(u_{1},\ldots, u_{N}\)</span>. The scores <span class="math inline">\(S_{i}=X_{0}u_{i}\)</span> give the values of the data in the principal directions. The variance of <span class="math inline">\(S_{i}\)</span> is <span class="math inline">\(\lambda_{i}\)</span>.</p>
+<p>Apply the spectral theorem (described in table <a href="#tbl:symmmat">2</a>) and proved in section <a href="#sec:spectraltheorem">1.5</a> to the covariance matrix to obtain eigenvalues <span class="math inline">\(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0\)</span> and associated eigenvectors <span class="math inline">\(u_{1},\ldots, u_{N}\)</span>. The scores <span class="math inline">\(S_{i}=X_{0}u_{i}\)</span> give the values of the data in the principal directions. The variance of <span class="math inline">\(S_{i}\)</span> is <span class="math inline">\(\lambda_{i}\)</span>.</p>
 <p>Now choose a number <span class="math inline">\(t&lt;N\)</span> and consider the vectors <span class="math inline">\(S_{1},\ldots, S_{t}\)</span>. The <span class="math inline">\(j^{th}\)</span> entry in <span class="math inline">\(S_{i}\)</span> is the value of the score <span class="math inline">\(S_{i}\)</span> for the <span class="math inline">\(j^{th}\)</span> data point. Because <span class="math inline">\(S_{1},\ldots, S_{t}\)</span> capture the most significant variability in the original data, we can learn a lot about our data by considering just these <span class="math inline">\(t\)</span> features of the data, instead of needing all <span class="math inline">\(N\)</span>.</p>
-<p>To illustrate, let’s look at an example. We begin with a synthetic dataset <span class="math inline">\(X_{0}\)</span> which has <span class="math inline">\(200\)</span> samples and <span class="math inline">\(15\)</span> features. It’s hard to visualize much about this <span class="math inline">\(200\times 15\)</span> matrix; it has <span class="math inline">\(3000\)</span> numbers in it and we’re not really equipped to make sense of it. We could try some graphing – for example, fig. <a href="#fig:features">8</a> shows a scatter plot of two of the features plotted against each other.</p>
+<p>To illustrate, let’s look at an example. We begin with a synthetic dataset <span class="math inline">\(X_{0}\)</span> which has <span class="math inline">\(200\)</span> samples and <span class="math inline">\(15\)</span> features. The data (some of it) for some of the samples is shown in table <a href="#tbl:rawdata">3</a>.</p>
+<div id="tbl:rawdata" class="tablenos">
+<table>
+<caption><span>Table 3:</span> Simulated Data for PCA Analysis </caption>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: left;">f-0</th>
+<th style="text-align: left;">f-1</th>
+<th style="text-align: left;">f-2</th>
+<th style="text-align: left;">f-3</th>
+<th style="text-align: left;">f-4</th>
+<th>...</th>
+<th style="text-align: left;">f-10</th>
+<th style="text-align: left;">f-11</th>
+<th style="text-align: left;">f-12</th>
+<th style="text-align: left;">f-13</th>
+<th style="text-align: left;">f-14</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>s-0</td>
+<td style="text-align: left;">1.18</td>
+<td style="text-align: left;">-0.41</td>
+<td style="text-align: left;">2.02</td>
+<td style="text-align: left;">0.44</td>
+<td style="text-align: left;">2.24</td>
+<td>...</td>
+<td style="text-align: left;">0.32</td>
+<td style="text-align: left;">0.95</td>
+<td style="text-align: left;">0.88</td>
+<td style="text-align: left;">1.10</td>
+<td style="text-align: left;">0.89</td>
+</tr>
+<tr class="even">
+<td>s-1</td>
+<td style="text-align: left;">0.74</td>
+<td style="text-align: left;">0.58</td>
+<td style="text-align: left;">1.54</td>
+<td style="text-align: left;">0.23</td>
+<td style="text-align: left;">2.05</td>
+<td>...</td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">1.14</td>
+<td style="text-align: left;">1.56</td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">0.59</td>
+</tr>
+<tr class="odd">
+<td>...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td>...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+<td style="text-align: left;">...</td>
+</tr>
+<tr class="even">
+<td>s-198</td>
+<td style="text-align: left;">1.04</td>
+<td style="text-align: left;">2.02</td>
+<td style="text-align: left;">1.44</td>
+<td style="text-align: left;">0.40</td>
+<td style="text-align: left;">1.33</td>
+<td>...</td>
+<td style="text-align: left;">0.62</td>
+<td style="text-align: left;">0.62</td>
+<td style="text-align: left;">0.54</td>
+<td style="text-align: left;">1.96</td>
+<td style="text-align: left;">0.04</td>
+</tr>
+<tr class="odd">
+<td>s-199</td>
+<td style="text-align: left;">0.92</td>
+<td style="text-align: left;">2.09</td>
+<td style="text-align: left;">1.58</td>
+<td style="text-align: left;">1.19</td>
+<td style="text-align: left;">1.17</td>
+<td>...</td>
+<td style="text-align: left;">0.42</td>
+<td style="text-align: left;">0.85</td>
+<td style="text-align: left;">0.83</td>
+<td style="text-align: left;">2.22</td>
+<td style="text-align: left;">0.90</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The full dataset is a <span class="math inline">\(200\times 15\)</span> matrix; it has <span class="math inline">\(3000\)</span> numbers in it and we’re not really equipped to make sense of it. We could try some graphing – for example, fig. <a href="#fig:features">8</a> shows a scatter plot of two of the features plotted against each other.</p>
 <div id="fig:features" class="fignos">
 <figure>
 <img src="../img/features.png" style="width:50.0%" alt="" /><figcaption><span>Figure 8:</span> Scatter Plot of Two Features</figcaption>
 </figure>
 </div>
 <p>Unfortunately there’s not much to see in fig. <a href="#fig:features">8</a> – just a blob – because the individual features of the data don’t tell us much in isolation, whatever structure there is in this data arises out of the relationship between different features.</p>
-<p>So let’s apply the theory of principal components. We use a software package to compute the eigenvalues and eigenvectors of the matrix <span class="math inline">\(D_{0}\)</span>. The <span class="math inline">\(15\)</span> eigenvalues <span class="math inline">\(\lambda_{1}\ge \cdots \ge \lambda_{15}\)</span> are plotted, in descending order, in fig. <a href="#fig:eigenvalues">9</a> .</p>
-<div id="fig:eigenvalues" class="fignos">
+<p>In fig. <a href="#fig:densitygrid">9</a> we show a “density grid” plot of the data. The graph in position <span class="math inline">\(i,j\)</span> shows a scatter plot of the <span class="math inline">\(i^{th}\)</span> and <span class="math inline">\(j^{th}\)</span> columns of the data, except in the diagonal positions, where in position <span class="math inline">\(i,i\)</span> we plot a histogram of column <span class="math inline">\(i\)</span>. There’s not much structure visible; it is a lot of blobs.</p>
+<div id="fig:densitygrid" class="fignos">
 <figure>
-<img src="../img/eigenvalues.png" style="width:50.0%" alt="" /><figcaption><span>Figure 9:</span> Eigenvalues of the Covariance Matrix</figcaption>
+<img src="../img/density.png" style="width:50.0%" alt="" /><figcaption><span>Figure 9:</span> Density Grid Plot of All Features</figcaption>
 </figure>
 </div>
-<p>This plot shows that the first <span class="math inline">\(4\)</span> eigenvalues are relatively large, while the remaining <span class="math inline">\(11\)</span> are smaller and not much different from each other. We interpret this as saying that <em>most of the variation in the data is accounted for by the first four principal components.</em> We can even make this quantitative. The <em>total variance</em> of the data is the sum of the eigenvalues of the covariance matrix – the trace of <span class="math inline">\(D_{0}\)</span> – and in this example that sum is <span class="math inline">\(5.2\)</span>. The sum of the first <span class="math inline">\(4\)</span> eigenvalues is <span class="math inline">\(4.23\)</span>, so the first four eignvalues account for <span class="math inline">\(4.2/5.2\)</span> of the total variance, or about <span class="math inline">\(80\%\)</span> of the variation of the data.</p>
+<p>So let’s apply the theory of principal components. We use a software package to compute the eigenvalues and eigenvectors of the matrix <span class="math inline">\(D_{0}\)</span>. The <span class="math inline">\(15\)</span> eigenvalues <span class="math inline">\(\lambda_{1}\ge \cdots \ge \lambda_{15}\)</span> are plotted, in descending order, in fig. <a href="#fig:eigenvalues">10</a> .</p>
+<div id="fig:eigenvalues" class="fignos">
+<figure>
+<img src="../img/eigenvalues.png" style="width:50.0%" alt="" /><figcaption><span>Figure 10:</span> Eigenvalues of the Covariance Matrix</figcaption>
+</figure>
+</div>
+<p>This plot shows that the first <span class="math inline">\(4\)</span> eigenvalues are relatively large, while the remaining <span class="math inline">\(11\)</span> are smaller and not much different from each other. We interpret this as saying that <em>most of the variation in the data is accounted for by the first four principal components.</em> We can even make this quantitative. The <em>total variance</em> of the data is the sum of the eigenvalues of the covariance matrix – the trace of <span class="math inline">\(D_{0}\)</span> – and in this example that sum is around <span class="math inline">\(5\)</span>. The sum of the first <span class="math inline">\(4\)</span> eigenvalues is about <span class="math inline">\(4\)</span>, so the first four eignvalues account for about <span class="math inline">\(4/5\)</span> of the total variance, or about <span class="math inline">\(80\%\)</span> of the variation of the data.</p>
+<p>Now let’s focus in on the two largest eigenvalues <span class="math inline">\(\lambda_{1}\)</span> and <span class="math inline">\(\lambda_{2}\)</span> and their corresponding eigenvectors <span class="math inline">\(u_{1}\)</span> and <span class="math inline">\(u_{2}\)</span>. The <span class="math inline">\(200\times 1\)</span> column vectors <span class="math inline">\(S_{1}=X_{0}u_{1}\)</span> and <span class="math inline">\(S_{2}=X_{0}u_{2}\)</span> are the values of the scores associated with these two eigenvectors. So for each data point (each row of <span class="math inline">\(X_{0}\)</span>) we have two values (the corresponding entries of <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span>.) In fig. <a href="#fig:principalvalues">11</a> we show a scatter plot of these scores.</p>
+<div id="fig:principalvalues" class="fignos">
+<figure>
+<img src="../img/pcadimred.png" style="width:50.0%" alt="" /><figcaption><span>Figure 11:</span> Scatter Plot of Scores in the First Two Principal Directions</figcaption>
+</figure>
+</div>
+<p>Notice that suddenly some structure emerges in our data! We can see that the 200 points are separated into five clusters, distinguished by the values of their scores! This ability to find hidden structure in complicated data, is one of the most important applications of principal components.</p>
+<p>If we were dealing with real data, we would now want to investigate the different groups of points to see if we can understand what characteristics the principal components have identified.</p>
+<h3 data-number="1.4.1" id="loadings"><span class="header-section-number">1.4.1</span> Loadings</h3>
+<p>There’s one last piece of the PCA puzzle that we are going to investigate. In fig. ?? we plotted our data points in the coordinates given by the first two principal components. In geometric terms, we took the cloud of <span class="math inline">\(200\)</span> points in <span class="math inline">\(\mathbf{R}^{15}\)</span> given by the rows of <span class="math inline">\(X_{0}\)</span> and projected those points into the two dimensional plane spanned by the eigenvectors <span class="math inline">\(u_{1}\)</span> and <span class="math inline">\(u_{2}\)</span>, and then plotted the distribution of the points in that plane.</p>
+<p>More generally, suppose we take our dataset <span class="math inline">\(X_{0}\)</span> and consider the first <span class="math inline">\(t\)</span> principal components corresponding to the eigenvectors <span class="math inline">\(u_{1},\ldots, u_{t}\)</span>. The projection of the data into the space spanned by these eigenvectors is the represented by the <span class="math inline">\(S = k\times t\)</span> matrix <span class="math inline">\(X_{0}U\)</span> where <span class="math inline">\(U\)</span> is the <span class="math inline">\(N\times t\)</span> matrix whose columns are the eigenvectors <span class="math inline">\(u_{i}\)</span>. Each row of <span class="math inline">\(S\)</span> gives the values of the score arising from <span class="math inline">\(u_{i}\)</span> in the <span class="math inline">\(i^{th}\)</span> column for <span class="math inline">\(i=1,\ldots, t\)</span>.</p>
+<p>The remaining question that we wish to consider is: how can we see some evidence of the original features in subspace? We can answer this by imagining that we had an artificial sample <span class="math inline">\(x\)</span> that has a measurement of <span class="math inline">\(1\)</span> for the <span class="math inline">\(i^{th}\)</span> feature and a measurement of zero for all the other features. The corresponding point is represented by a <span class="math inline">\(1\times N\)</span> row vector with a <span class="math inline">\(1\)</span> in position <span class="math inline">\(i\)</span>. The projection of this synthetic sample into the span of the first <span class="math inline">\(t\)</span> principal components is the <span class="math inline">\(1\times t\)</span> vector <span class="math inline">\(xU\)</span>. Notice, however, that <span class="math inline">\(xU\)</span> is just the <span class="math inline">\(i^{th}\)</span> row of the matrix <span class="math inline">\(U\)</span>. This vector in the space spanned by the <span class="math inline">\(u_{i}\)</span> is called the “loading” of the <span class="math inline">\(i^{th}\)</span> feature in the principal components.</p>
+<p>This is illustrated in section <a href="#loadings">1.4.1</a>, which shows a line along the direction of the loading corresponding to the each feature added to the scatter plot of the data in the plane spanned by the first two principal components. One observation one can make is that some of the features are more “left to right”, like features <span class="math inline">\(7\)</span> and <span class="math inline">\(8\)</span>, while others are more “top to bottom”, like <span class="math inline">\(6\)</span>. So points that lie on the left side of the plot have smaller values of features <span class="math inline">\(7\)</span> and <span class="math inline">\(8\)</span>, while those at the top of the plot have larger values of feature <span class="math inline">\(6\)</span>.</p>
+<div id="fig:loadings" class="fignos">
+<figure>
+<img src="../img/loading.png" style="width:50.0%" alt="" /><figcaption><span>Figure 12:</span> Loadings in the Principal Component Plane</figcaption>
+</figure>
+</div>
+<p>In the next, and last, section, of this discussion of Principal Component Analysis, we will give proofs of the key mathematical ideas summarized earlier in table <a href="#tbl:symmmat">2</a>, which have been central to this analysis.</p>
 <h2 data-number="1.5" id="sec:spectraltheorem"><span class="header-section-number">1.5</span> Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem)</h2>
-<p>In this section, we prove the four properties of eigenvalues and eigenvectors of real symmetric matrices that we used in our discussion of Principal Components.</p>
+<p>Now that we’ve shown how to apply the theory of eigenvalues and eigenvectors of symmetric matrices to extract principal directions from data, and to use those principal directions to find structure, we will give a proof of the properties that we summarized in table <a href="#tbl:symmmat">2</a>.</p>
 <p>A key tool in the proof is the Gram-Schmidt orthogonalization process.</p>
 <h3 data-number="1.5.1" id="sec:gsprocess"><span class="header-section-number">1.5.1</span> Gram-Schmidt</h3>
 <p><strong>Proposition (Gram-Schmidt Process):</strong> Let <span class="math inline">\(w_{1},\ldots, w_{k}\)</span> be a collection of linearly independent vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span> and let <span class="math inline">\(W\)</span> be the span of the <span class="math inline">\(w_{i}\)</span>. Let <span class="math inline">\(u_{1} = w_{1}\)</span> and let <span class="math display">\[

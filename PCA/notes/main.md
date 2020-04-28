@@ -572,7 +572,7 @@ $D$ corresponding to the eigenvalues $\lambda_{i}$.
 be the matrix whose columns are made up of the vectors $u_{i}$.  Then $D = P\Lambda P^{\intercal}.$
 ------------------------------------------------------------------------
 
-Table: Properties of Eigenvalues of Real Symmetric Matrics {#tbl:symmmat}
+Table: Properties of Eigenvalues of Real Symmetric Matrices {#tbl:symmmat}
 
 ---
 
@@ -654,7 +654,7 @@ capture most of the information in the data in a much lower dimensional setting.
 To illustrate how this is done, let $X$ be a $k\times N$ data matrix, let $X_{0}$ be its centered
 version, and let $D_{0} = \frac{1}{N}X_{0}^{\intercal}X$ be the associated covariance matrix. 
 
-Apply the spectral theorem (described in +@{tbl:symmmat} and proved in +@sec{spectraltheorem})
+Apply the spectral theorem (described in +@tbl:symmmat) and proved in +@sec:spectraltheorem
 to the covariance matrix to obtain eigenvalues $\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0$
 and associated eigenvectors $u_{1},\ldots, u_{N}$.  The scores $S_{i}=X_{0}u_{i}$
 give the values of the data in the principal  directions.  The variance of $S_{i}$ is $\lambda_{i}$.
@@ -665,7 +665,20 @@ the most significant variability in the original data, we can learn a lot about 
 considering just these $t$ features of the data, instead of needing all $N$.  
 
 To illustrate, let's look at an example.  We begin with a synthetic dataset $X_{0}$ which has
-$200$ samples and $15$ features.  It's hard to visualize much about this $200\times 15$ matrix;
+$200$ samples and $15$ features.  The data (some of it) for some of the samples is shown in 
++@tbl:rawdata. 
+
+          f-0      f-1       f-2      f-3      f-4      \... f-10     f-11     f-12     f-13     f-14
+  ------- -------- --------- -------- -------- -------- ---- -------- -------- -------- -------- --------
+  s-0         1.18     -0.41     2.02     0.44     2.24  \...    0.32     0.95     0.88     1.10     0.89
+  s-1         0.74      0.58     1.54     0.23     2.05  \...    0.99     1.14     1.56     0.99     0.59
+  \...    \...     \...      \...     \...     \...      \...\...     \...     \...     \...     \...
+  s-198       1.04      2.02     1.44   0.40       1.33  \...    0.62     0.62     0.54     1.96     0.04
+  s-199       0.92      2.09     1.58   1.19       1.17  \...    0.42     0.85     0.83     2.22     0.90
+
+Table: Simulated Data for PCA Analysis {#tbl:rawdata}
+
+The full dataset is a  $200\times 15$ matrix;
 it has $3000$ numbers in it and we're not really equipped to make sense of it.  We could try
 some graphing -- for example, +@fig:features shows a scatter plot of two of the features plotted against each other. 
 
@@ -674,6 +687,14 @@ some graphing -- for example, +@fig:features shows a scatter plot of two of the 
 Unfortunately there's not much to see in  +@fig:features -- just a blob -- because the individual features of the data 
 don't tell us much in isolation, whatever structure there is in this data arises out of the relationship
 between different features.
+
+In +@fig:densitygrid we show a "density grid" plot of the data.  The graph in position $i,j$
+shows a scatter plot of the $i^{th}$ and $j^{th}$ columns of the data, except in the diagonal
+positions, where in position $i,i$ we plot a histogram of column $i$.  There's not much structure
+visible; it is a lot of blobs.
+
+![Density Grid Plot of All Features](../img/density.png){#fig:densitygrid width=50%}
+
 
 So let's apply the theory of principal components.  We use a software package to compute the eigenvalues
 and eigenvectors of the matrix $D_{0}$.  The $15$  eigenvalues $\lambda_{1}\ge \cdots \ge \lambda_{15}$
@@ -689,18 +710,63 @@ matrix -- the trace of $D_{0}$ -- and in this example that sum is around $5$.  T
 $4$ eigenvalues is about $4$, so the first four eignvalues account for about $4/5$ of the total variance,
 or about $80\%$ of the variation of the data.
 
-*** look at the top two to see structure revealed ***
+Now let's focus in on the two largest eigenvalues $\lambda_{1}$ and $\lambda_{2}$
+and their corresponding eigenvectors $u_{1}$ and $u_{2}$.  The $200\times 1$ column vectors
+$S_{1}=X_{0}u_{1}$ and $S_{2}=X_{0}u_{2}$ are the values of the scores associated with these
+two eigenvectors.  So for each data point (each row of $X_{0}$) we have two values (the corresponding
+entries of $S_{1}$ and $S_{2}$.)  In +@fig:principalvalues we show a scatter plot of these scores.
+
+![Scatter Plot of Scores in the First Two Principal Directions](../img/pcadimred.png){#fig:principalvalues width=50%}
+
+Notice that suddenly some structure emerges in our data!  We can see that the 200 points are separated into
+five clusters, distinguished by the values of their scores!  This ability to find hidden structure in complicated
+data, is one of the most important applications of principal components.
+
+If we were dealing with real data, we would now want to investigate the different groups of points to see
+if we can understand what characteristics the principal components have identified. 
+
+### Loadings
+
+There's one last piece of the PCA puzzle that we are going to investigate.  In +@fig:pcadimred we plotted
+our data points in the coordinates given by the first two principal components.  In geometric terms,
+we took the cloud of $200$ points in $\mathbf{R}^{15}$ given by the rows of $X_{0}$ and projected those
+points into the two dimensional plane spanned by the eigenvectors $u_{1}$ and $u_{2}$, and then plotted the
+distribution of the points in that plane.  
+
+More generally, suppose we take our dataset $X_{0}$ and consider the first $t$ principal components corresponding
+to the eigenvectors $u_{1},\ldots, u_{t}$.  The projection of the data into the space spanned by these eigenvectors
+is the represented by the $S = k\times t$ matrix $X_{0}U$ where $U$ is the $N\times t$ matrix whose columns are the eigenvectors $u_{i}$. 
+Each row of $S$ gives the values of the score arising from $u_{i}$ in the $i^{th}$ column for $i=1,\ldots, t$. 
 
 
+The remaining question that we wish to consider is: how can we see some evidence of the original features in subspace?
+We can answer this by imagining that we had an artificial sample $x$ that has a measurement of $1$ for the $i^{th}$
+feature and a measurement of zero for all the other features.  The corresponding point is represented by a $1\times N$
+row vector with a $1$ in position $i$.  The projection of this synthetic sample into the span of the first
+$t$ principal components is the $1\times t$ vector $xU$.  Notice, however, that $xU$ is just the $i^{th}$ row
+of the matrix $U$.   This vector in the space spanned by the $u_{i}$ is called the "loading" of the $i^{th}$ feature
+in the principal components.
 
+This is illustrated in +@fig:loadings, which shows a line along the direction of the  loading corresponding to the each feature
+added to the scatter plot of the data in the plane spanned by the first two principal components.  One observation one can make
+is that some of the features are more "left to right", like features $7$ and $8$, while others are more "top to bottom", like $6$.
+So points that lie on the left side of the plot have smaller values of features $7$ and $8$, while those at the top of the
+plot have larger values of feature $6$.
+
+![Loadings in the Principal Component Plane](../img/loading.png){#fig:loadings width=50%}
+
+
+In the next, and last, section, of this discussion of Principal Component Analysis, we will give proofs
+of the key mathematical ideas summarized earlier in +@tbl:symmmat, which have been central to this analysis.
 
 
 
 
 ## Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem) {#sec:spectraltheorem}
 
-In this section, we prove the four properties of eigenvalues and eigenvectors of real symmetric matrices
-that we used in our discussion of Principal Components.  
+Now that we've shown how to apply the theory of eigenvalues and eigenvectors of symmetric matrices
+to extract principal directions from data, and to use those principal directions to find structure, 
+we will give a proof of the properties that we summarized in +@tbl:symmmat.
 
 
 A key tool in the proof is the Gram-Schmidt
