@@ -15,7 +15,7 @@ for i, x in enumerate(U):
 
 colors = ["blue", "red", "black", "orange", "green"]
 
-P = PCA(n_components=2).fit(d)
+P = PCA(n_components=N).fit(d)
 S = P.components_
 D = P.transform(d)
 
@@ -37,6 +37,10 @@ pc_plot_colored = figure(
 pc_plot_colored.scatter(x=D[:, 0], y=D[:, 1],color = [Category20[10][i] for i in U])
 export_png(pc_plot_colored, filename='../img/pcadimred_colors.png')
 
+eigenvalue_plot = figure(title='Eigenvalues of the covariance matrix', toolbar_location=None)
+eigenvalue_plot.line(x=range(1,N+1),y=P.explained_variance_)
+eigenvalue_plot.circle(x=range(1,N+1),y=P.explained_variance_)
+export_png(eigenvalue_plot,filename='../img/eigenvalues.png')
 
 feature_plot = figure(
     x_range=(-4, 4),
@@ -47,5 +51,5 @@ feature_plot = figure(
 feature_plot.scatter(x=d[:, 0], y=d[:, 7])
 export_png(feature_plot,filename='../img/features.png')
 
-show(column(pc_plot, pc_plot_colored, feature_plot))
+show(column(pc_plot, pc_plot_colored, feature_plot, eigenvalue_plot))
 

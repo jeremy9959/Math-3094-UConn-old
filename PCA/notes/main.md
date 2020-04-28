@@ -184,7 +184,11 @@ $$
 d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 $$
 
+The sum of the diagonal entries, the trace of $D_{0}$ is the **total** variance of the data.
+
 **Proof:** This follows from the definitions, but it's worth checking the details, which we leave as an exercise.
+
+
 
 ### Linear Combinations of Features (Scores)
 
@@ -601,7 +605,7 @@ when $a_{N}=1$ and the others are zero.
 **Definition:** The orthonormal unit eigenvectors $u_{i}$ for $D_{0}$ are the *principal directions* or *principal components* for the data $X_{0}$.  
 
 **Theorem:** The maximum
-variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in  principal directions associated with different eigenvalues is zero.
+variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in  principal directions associatedwith different eigenvalues is zero. 
 
 At this point, the picture in +@fig:pcaprincipal makes sense -- the red and green dashed lines are the principal directions,
 they are orthogonal to one another, and the point in the directions where the data is most (and least) "spread out."
@@ -646,6 +650,48 @@ in which the data is most (or least) variable.  One of the main applications of 
 is to enable us to take data with a great many features -- a set of points in a high dimensional
 space -- and, by focusing  our attention on the scores corresponding to the principal directions,
 capture most of the information in the data in a much lower dimensional setting. 
+
+To illustrate how this is done, let $X$ be a $k\times N$ data matrix, let $X_{0}$ be its centered
+version, and let $D_{0} = \frac{1}{N}X_{0}^{\intercal}X$ be the associated covariance matrix. 
+
+Apply the spectral theorem (described in +@{tbl:symmmat} and proved in +@sec{spectraltheorem})
+to the covariance matrix to obtain eigenvalues $\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0$
+and associated eigenvectors $u_{1},\ldots, u_{N}$.  The scores $S_{i}=X_{0}u_{i}$
+give the values of the data in the principal  directions.  The variance of $S_{i}$ is $\lambda_{i}$.
+
+Now choose a number $t<N$ and consider the vectors $S_{1},\ldots, S_{t}$.  The $j^{th}$ entry in $S_{i}$ is
+the value of the score $S_{i}$ for the $j^{th}$ data point.  Because $S_{1},\ldots, S_{t}$ capture
+the most significant variability in the original data, we can learn a lot about our data by
+considering just these $t$ features of the data, instead of needing all $N$.  
+
+To illustrate, let's look at an example.  We begin with a synthetic dataset $X_{0}$ which has
+$200$ samples and $15$ features.  It's hard to visualize much about this $200\times 15$ matrix;
+it has $3000$ numbers in it and we're not really equipped to make sense of it.  We could try
+some graphing -- for example, +@fig:features shows a scatter plot of two of the features plotted against each other. 
+
+![Scatter Plot of Two Features](../img/features.png){#fig:features width=50%}
+
+Unfortunately there's not much to see in  +@fig:features -- just a blob -- because the individual features of the data 
+don't tell us much in isolation, whatever structure there is in this data arises out of the relationship
+between different features.
+
+So let's apply the theory of principal components.  We use a software package to compute the eigenvalues
+and eigenvectors of the matrix $D_{0}$.  The $15$  eigenvalues $\lambda_{1}\ge \cdots \ge \lambda_{15}$
+are plotted, in descending order, in +@fig:eigenvalues .
+
+![Eigenvalues of the Covariance Matrix](../img/eigenvalues.png){#fig:eigenvalues width=50%}
+
+This plot shows that the first $4$ eigenvalues are relatively large, while the remaining $11$
+are smaller and not much different from each other.  We interpret this as saying that *most of the
+variation in the data is accounted for by the first four principal components.*  We can even
+make this quantitative.  The *total variance* of the data is the sum of the eigenvalues of the covariance
+matrix -- the trace of $D_{0}$ -- and in this example that sum is around $5$.  The sum of the first
+$4$ eigenvalues is about $4$, so the first four eignvalues account for about $4/5$ of the total variance,
+or about $80\%$ of the variation of the data.
+
+*** look at the top two to see structure revealed ***
+
+
 
 
 

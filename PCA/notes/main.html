@@ -26,17 +26,12 @@
   </style>
 </head>
 <body>
-<section id="principal-component-analysis" data-number="1">
-<h1 data-number="2"><span class="header-section-number">2</span> Principal Component Analysis</h1>
-<section id="introduction" data-number="1.1">
-<h2 data-number="2.1"><span class="header-section-number">2.1</span> Introduction</h2>
+<h1 data-number="1" id="principal-component-analysis"><span class="header-section-number">1</span> Principal Component Analysis</h1>
+<h2 data-number="1.1" id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
 <p>Suppose that, as usual, we begin with a collection of measurements of different features for a group of samples. Some of these measurements will tell us quite a bit about the difference among our samples, while others may contain relatively little information. For example, if we are analyzing the effect of a certain weight loss regimen on a group of people, the age and weight of the subjects may have a great deal of influence on how successful the regimen is, while their blood pressure might not. One way to help identify which features are more significant is to ask whether or not the feature varies a lot among the different samples. If nearly all the measurements of a feature are the same, it can’t have much power in distinguishing the samples, while if the measurements vary a great deal then that feature has a chance to contain useful information.</p>
 <p>In this section we will discuss a way to measure the variability of measurements and then introduce principal component analysis (PCA). PCA is a method for finding which linear combinations of measurements have the greatest variability and therefore might contain the most information. It also allows us to identify combinations of measurements that don’t vary much at all. Combining this information, we can sometimes replace our original system of features with a smaller set that still captures most of the interesting information in our data, and thereby find hidden characteristics of the data and simplify our analysis a great deal.</p>
-</section>
-<section id="variance-and-covariance" data-number="1.2">
-<h2 data-number="2.2"><span class="header-section-number">2.2</span> Variance and Covariance</h2>
-<section id="variance" data-number="1.2.1">
-<h3 data-number="2.2.1"><span class="header-section-number">2.2.1</span> Variance</h3>
+<h2 data-number="1.2" id="variance-and-covariance"><span class="header-section-number">1.2</span> Variance and Covariance</h2>
+<h3 data-number="1.2.1" id="variance"><span class="header-section-number">1.2.1</span> Variance</h3>
 <p>Suppose that we have a collection of measurements <span class="math inline">\((x_1,\ldots, x_n)\)</span> of a particular feature <span class="math inline">\(X\)</span>. For example, <span class="math inline">\(x_i\)</span> might be the initial weight of the <span class="math inline">\(ith\)</span> participant in our weight loss study. The mean of the values <span class="math inline">\((x_1,\ldots, x_n)\)</span> is</p>
 <p><span class="math display">\[
 \mu_{X} = \frac{1}{n}\sum_{i=1}^{n} x_{i}.
@@ -52,9 +47,7 @@
 <p><span id="eq:variancedot" class="eqnos"><span class="math display">\[
 \sigma_{X}^2 = \frac{1}{n}(X-\mu_{X}E)\cdot(X-\mu_{X}E)  = \frac{1}{n}\|X-\mu_{X}E\|^2.
 \]</span><span class="eqnos-number">(2)</span></span></p>
-</section>
-<section id="covariance" data-number="1.2.2">
-<h3 data-number="2.2.2"><span class="header-section-number">2.2.2</span> Covariance</h3>
+<h3 data-number="1.2.2" id="covariance"><span class="header-section-number">1.2.2</span> Covariance</h3>
 <p>The variance measures the dispersion of measures of a single feature. Often, we have measurements of multiple features and we might want to know something about how two features are related. The <em>covariance</em> is a measure of whether two features tend to be related, in the sense that when one increases, the other one increases; or when one increases, the other one decreases.</p>
 <p><strong>Definition:</strong> Given measurements <span class="math inline">\((x_1,\ldots, x_n)\)</span> and <span class="math inline">\((y_1,\ldots, y_n)\)</span> of two features <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, the covariance of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is</p>
 <p><span id="eq:covariancedot" class="eqnos"><span class="math display">\[
@@ -65,9 +58,7 @@
 \sigma_{XY} = \frac{1}{N} ((X-\mu_{X})\cdot (Y-\mu_{Y})).
 \]</span></p>
 <p>From this point of view, we can see that <span class="math inline">\(\sigma_{XY}\)</span> is positive if the <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> vectors “point roughly in the same direction” and its negative if they “point roughly in the opposite direction.”</p>
-</section>
-<section id="correlation" data-number="1.2.3">
-<h3 data-number="2.2.3"><span class="header-section-number">2.2.3</span> Correlation</h3>
+<h3 data-number="1.2.3" id="correlation"><span class="header-section-number">1.2.3</span> Correlation</h3>
 <p>One problem with interpreting the variance and covariance is that we don’t have a scale – for example, if <span class="math inline">\(\sigma_{XY}\)</span> is large and positive, then we’d like to say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are closely related, but it could be just that the entries of <span class="math inline">\(X-\mu_{X}\)</span> and <span class="math inline">\(Y-\mu_{Y}\)</span> are large. Here, though, we can really take advantage of the geometric interpretation. Recall that the dot product of two vectors satisfies the formula</p>
 <p><span class="math display">\[
 a \cdot b = \|a\|\|b\|\cos(\theta)
@@ -92,9 +83,7 @@ r_{XY} = \frac{\sigma_{XY}}{\sigma_{X}\sigma_{Y}}
 <img src="../img/correlation.png" style="width:50.0%" alt="" /><figcaption><span>Figure 1:</span> Correlation</figcaption>
 </figure>
 </div>
-</section>
-<section id="sec:covarmat" data-number="1.2.4">
-<h3 data-number="2.2.4"><span class="header-section-number">2.2.4</span> The covariance matrix</h3>
+<h3 data-number="1.2.4" id="sec:covarmat"><span class="header-section-number">1.2.4</span> The covariance matrix</h3>
 <p>In a typical situation we have many features for each of our (many) samples, that we organize into a data matrix <span class="math inline">\(X\)</span>. To recall, each column of <span class="math inline">\(X\)</span> corresponds to a feature that we measure, and each row corresponds to a sample. For example, each row of our matrix might correspond to a person enrolled in a study, and the columns correspond to height (cm), weight (kg), systolic blood pressure, and age (in years):</p>
 <div id="tbl:data" class="tablenos">
 <table>
@@ -154,10 +143,9 @@ d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_i)^2
 <p><span class="math display">\[
 d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 \]</span></p>
+<p>The sum of the diagonal entries, the trace of <span class="math inline">\(D_{0}\)</span> is the <strong>total</strong> variance of the data.</p>
 <p><strong>Proof:</strong> This follows from the definitions, but it’s worth checking the details, which we leave as an exercise.</p>
-</section>
-<section id="linear-combinations-of-features-scores" data-number="1.2.5">
-<h3 data-number="2.2.5"><span class="header-section-number">2.2.5</span> Linear Combinations of Features (Scores)</h3>
+<h3 data-number="1.2.5" id="linear-combinations-of-features-scores"><span class="header-section-number">1.2.5</span> Linear Combinations of Features (Scores)</h3>
 <p>Sometimes useful information about our data can be revealed if we combine different measurements together to obtain a “hybrid” measure that captures something interesting. For example, in the Auto MPG dataset that we studied in the section on Linear Regression, we looked at the influence of both vehicle weight <span class="math inline">\(w\)</span> and engine displacement <span class="math inline">\(e\)</span> on gas mileage; perhaps their is some value in considering a hybrid “score” defined as <span class="math display">\[
 S = a*w + b*e
 \]</span> for some constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> – maybe by choosing a good combination we could find a better predictor of gas mileage than using one or the other of the features individually.</p>
@@ -173,9 +161,7 @@ X_{0}\left[
 \begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right].
 \]</span><span class="eqnos-number">(5)</span></span></p>
 <p><strong>Proof:</strong> Multiplying a matrix by a column vector computes a linear combination of the columns – that’s what this lemma says. Exercise 3 asks you to write out the indices and make sure you believe this.</p>
-</section>
-<section id="mean-and-variance-of-scores" data-number="1.2.6">
-<h3 data-number="2.2.6"><span class="header-section-number">2.2.6</span> Mean and variance of scores</h3>
+<h3 data-number="1.2.6" id="mean-and-variance-of-scores"><span class="header-section-number">1.2.6</span> Mean and variance of scores</h3>
 <p>When we combine features to make a hybrid score, we assume that the features were centered to begin with, so that each features has mean zero. As a result, the mean of the hybrid features is again zero.</p>
 <p><strong>Lemma:</strong> A linear combination of features with mean zero again has mean zero.</p>
 <p><strong>Proof:</strong> Let <span class="math inline">\(S_{i}\)</span> be the score for the <span class="math inline">\(i^{th}\)</span> sample, so <span class="math display">\[
@@ -203,9 +189,7 @@ S = X_{0}a.
 <p>For the covariance, use a similar argument with eq. <a href="#eq:covariancedot">3</a> and eq. <a href="#eq:linearscore">5</a>. writing <span class="math inline">\(\sigma_{S_{1}S_{2}}=\frac{1}{N}S_{1}\cdot S_{2}\)</span> and the fact that <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span> can be written as <span class="math inline">\(X_{0}a\)</span> and <span class="math inline">\(X_{0}b\)</span>.</p>
 <p>The point of this lemma is that the covariance matrix contains not just the variances and covariances of the original features, but also enough information to construct the variances and covariances for <em>any linear combination of features.</em></p>
 <p>In the next section we will see how to exploit this idea to reveal hidden structure in our data.</p>
-</section>
-<section id="geometry-of-scores" data-number="1.2.7">
-<h3 data-number="2.2.7"><span class="header-section-number">2.2.7</span> Geometry of Scores</h3>
+<h3 data-number="1.2.7" id="geometry-of-scores"><span class="header-section-number">1.2.7</span> Geometry of Scores</h3>
 <p>Let’s begin by looking at fig. <a href="#fig:pcasimfig">2</a>, which shows a scatter plot of some simulated data having <span class="math inline">\(50\)</span> samples and two features. This data has been centered, so it can be represented in a <span class="math inline">\(50\times 2\)</span> data matrix <span class="math inline">\(X_{0}\)</span> each row of which is the coordinates <span class="math inline">\((x_0,x_1)\)</span> of one of the points in the picture.</p>
 <p>The scatter plot shows that the data points are arranged in a more or less elliptical cloud oriented at an angle to the <span class="math inline">\(xy\)</span>-axes which represent the two given features. The two individual histograms show the distribution of the two features – each has mean zero, with the <span class="math inline">\(x\)</span>-features distributed between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span> and the <span class="math inline">\(y\)</span> feature between <span class="math inline">\(-4\)</span> and <span class="math inline">\(4\)</span>. Looking just at the two features individually, meaning only at the two histograms, we can’t see the overall elliptical structure.</p>
 <div id="fig:pcasimfig" class="fignos">
@@ -242,12 +226,8 @@ Z = X_0 u
 <p><strong>Lemma:</strong> Let <span class="math inline">\(X_{0}\)</span> be a <span class="math inline">\(k\times N\)</span> centered data matrix, and let <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span> be the associated covariance matrix. Let <span class="math inline">\(u\)</span> be a unit vector in “feature space” <span class="math inline">\(\mathbf{R}^{N}\)</span>. Then the score <span class="math inline">\(S=X_{0}u\)</span> can be interpreted as the coordinates of the points of <span class="math inline">\(X_{0}\)</span> projected onto the line generated by <span class="math inline">\(u\)</span>. The variance <span class="math display">\[
 \sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{k} s_{i}^2
 \]</span> where <span class="math inline">\(s_{i} = X_{0}[i,:]u\)</span> is the dot product of the <span class="math inline">\(i^{th}\)</span> row <span class="math inline">\(X_{0}[i,:]\)</span> with <span class="math inline">\(u\)</span>. It measures the variability in the data “in the direction of the unit vector <span class="math inline">\(u\)</span>”.</p>
-</section>
-</section>
-<section id="principal-components" data-number="1.3">
-<h2 data-number="2.3"><span class="header-section-number">2.3</span> Principal Components</h2>
-<section id="change-of-variance-with-direction" data-number="1.3.1">
-<h3 data-number="2.3.1"><span class="header-section-number">2.3.1</span> Change of variance with direction</h3>
+<h2 data-number="1.3" id="principal-components"><span class="header-section-number">1.3</span> Principal Components</h2>
+<h3 data-number="1.3.1" id="change-of-variance-with-direction"><span class="header-section-number">1.3.1</span> Change of variance with direction</h3>
 <p>As we’ve seen in the previous section, if we choose a unit vector <span class="math inline">\(u\)</span> in the feature space and find the projection <span class="math inline">\(X_{0}u\)</span> of our data onto the line through <span class="math inline">\(u\)</span>, we get a “score” that we can use to measure the variance of the data in the direction of <span class="math inline">\(u\)</span>. What happens as we vary <span class="math inline">\(u\)</span>?</p>
 <p>To study this question, let’s continue with our simulated data from the previous section, and introduce a unit vector <span class="math display">\[
 u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\right].
@@ -268,9 +248,7 @@ u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\rig
 </figure>
 </div>
 <p>Let’s try to understand why this is happening.</p>
-</section>
-<section id="directions-of-extremal-variance" data-number="1.3.2">
-<h3 data-number="2.3.2"><span class="header-section-number">2.3.2</span> Directions of extremal variance</h3>
+<h3 data-number="1.3.2" id="directions-of-extremal-variance"><span class="header-section-number">1.3.2</span> Directions of extremal variance</h3>
 <p>Given our centered, <span class="math inline">\(k\times N\)</span> data matrix <span class="math inline">\(X_{0}\)</span>, with its associated covariance matrix <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span>, we would like to find unit vectors <span class="math inline">\(u\)</span> in <span class="math inline">\(\mathbf{R}^{N}\)</span> so that <span class="math display">\[
 \sigma_{u}^{2} = u^{\intercal}D_{0}u
 \]</span> reaches its maximum and its minimum. Here <span class="math inline">\(\sigma_{u}^2\)</span> is the variance of the “linear score” <span class="math inline">\(X_{0}u\)</span> and it represents how dispersed the data is in the “u direction” in <span class="math inline">\(\mathbf{R}^{N}\)</span>.</p>
@@ -320,9 +298,7 @@ F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
 \nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
 \]</span></p>
 <p>The following theorem puts all of this work together to reduce our questions about how variance changes with direction.</p>
-</section>
-<section id="sec:critvals" data-number="1.3.3">
-<h3 data-number="2.3.3"><span class="header-section-number">2.3.3</span> Critical values of the variance</h3>
+<h3 data-number="1.3.3" id="sec:critvals"><span class="header-section-number">1.3.3</span> Critical values of the variance</h3>
 <p><strong>Theorem:</strong> The critical values of the variance <span class="math inline">\(\sigma_{u}^2\)</span>, as <span class="math inline">\(u\)</span> varies over unit vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span>, are the eigenvalues <span class="math inline">\(\lambda_{1},\ldots,\lambda_{N}\)</span> of the covariance matrix <span class="math inline">\(D\)</span>, and if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector corresponding to <span class="math inline">\(\lambda_{i}\)</span>, then <span class="math inline">\(\sigma_{e_{i}}^2 = \lambda_{i}\)</span>.</p>
 <p><strong>Proof:</strong> Recall that we introduced the Lagrange function <span class="math inline">\(S(u,\lambda)\)</span>, whose critical points give us the solutions to our constrained optimization problem. As we said in eq. <a href="#eq:lagrange">7</a>: <span class="math display">\[
 S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u -\lambda(u\cdot u) + \lambda
@@ -339,7 +315,7 @@ D_{0}u = \lambda u
 \]</span> while the second says <span class="math inline">\(u\)</span> must be a unit vector <span class="math inline">\(u\cdot u=\|u\|^2=1\)</span>. The second part of the result follows from the fact that if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector with eigenvalue <span class="math inline">\(\lambda_{i}\)</span> then <span class="math display">\[
 \sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
 \]</span></p>
-<p>To really make this result pay off, we need to recall some key facts about the eigenvalues and eigenvectors of symmetric matrices. Because these facts are so central to this result, and to other applications throughout machine learning and mathematics generally, we provide proofs in section <a href="#sec:spectraltheorem">1.4</a>.</p>
+<p>To really make this result pay off, we need to recall some key facts about the eigenvalues and eigenvectors of symmetric matrices. Because these facts are so central to this result, and to other applications throughout machine learning and mathematics generally, we provide proofs in section <a href="#sec:spectraltheorem">1.5</a>.</p>
 <hr />
 <div id="tbl:symmmat" class="tablenos">
 <table>
@@ -381,11 +357,9 @@ S = \sum a_{i}u_{i}.
 <li>subject to the constraint <span class="math inline">\(\sum a_{i}^2 = 1\)</span>.</li>
 </ul>
 <p>We don’t need any fancy math to see that the maximum happens when <span class="math inline">\(a_{1}=1\)</span> and the other <span class="math inline">\(a_{j}=0\)</span>, and in that case, the maximum is <span class="math inline">\(\lambda_{1}\)</span>. (If <span class="math inline">\(\lambda_{1}\)</span> occurs more than once, there may be a whole subspace of directions where the variance is maximal). Similarly, the minimum value is <span class="math inline">\(\lambda_{N}\)</span> and occurs when <span class="math inline">\(a_{N}=1\)</span> and the others are zero.</p>
-</section>
-<section id="definition-of-principal-components" data-number="1.3.4">
-<h3 data-number="2.3.4"><span class="header-section-number">2.3.4</span> Definition of Principal Components</h3>
+<h3 data-number="1.3.4" id="definition-of-principal-components"><span class="header-section-number">1.3.4</span> Definition of Principal Components</h3>
 <p><strong>Definition:</strong> The orthonormal unit eigenvectors <span class="math inline">\(u_{i}\)</span> for <span class="math inline">\(D_{0}\)</span> are the <em>principal directions</em> or <em>principal components</em> for the data <span class="math inline">\(X_{0}\)</span>.</p>
-<p><strong>Theorem:</strong> The maximum variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in principal directions associated with different eigenvalues is zero.</p>
+<p><strong>Theorem:</strong> The maximum variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in principal directions associatedwith different eigenvalues is zero.</p>
 <p>At this point, the picture in fig. <a href="#fig:pcaprincipal">7</a> makes sense – the red and green dashed lines are the principal directions, they are orthogonal to one another, and the point in the directions where the data is most (and least) “spread out.”</p>
 <p><strong>Proof:</strong> The statement about the largest and smallest eigenvalues is proved at the very end of the last section. The covariance of two scores corresponding to different eigenvectors <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(u_{j}\)</span> is <span class="math display">\[u_{i}^{\intercal}D_{0}u_{j} = \lambda_{j}(u_{i}\cdot u_{j}) = 0\]</span> since the <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(u_{j}\)</span> are orthogonal.</p>
 <p>Sometimes the results above are presented in a slightly different form, and may be referred to, in part, as Rayleigh’s theorem.</p>
@@ -400,13 +374,29 @@ H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
 <li><p>Let <span class="math inline">\(X_{0}\)</span> be a <span class="math inline">\(k\times N\)</span> matrix with entries <span class="math inline">\(x_{ij}\)</span> for <span class="math inline">\(1\le i\le k\)</span> and <span class="math inline">\(1\le j\le N\)</span>. If a linear score is defined by the constants <span class="math inline">\(a_{1},\ldots a_{N}\)</span>, check that equation eq. <a href="#eq:linearscore">5</a> holds as claimed.</p></li>
 <li><p>Why is it important to use a unit vector when computing the variance of <span class="math inline">\(X_{0}\)</span> in the direction of <span class="math inline">\(u\)</span>? Suppose <span class="math inline">\(v=\lambda u\)</span> where <span class="math inline">\(u\)</span> is a unit vector and <span class="math inline">\(\lambda&gt;0\)</span> is a constant. Let <span class="math inline">\(S&#39;\)</span> be the score <span class="math inline">\(X_{0}v\)</span>. How is the variance of <span class="math inline">\(S&#39;\)</span> related to that of <span class="math inline">\(S=X_{0}u\)</span>?</p></li>
 </ol>
-</section>
-</section>
-<section id="sec:spectraltheorem" data-number="1.4">
-<h2 data-number="2.4"><span class="header-section-number">2.4</span> Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem)</h2>
-<p>In this section, we prove the four properties of eigenvalues and eigenvectors of real symmetric matrices that we used in our discussion of Principal Components. A key tool in the proof is the Gram-Schmidt orthogonalization process.</p>
-<section id="sec:gsprocess" data-number="1.4.1">
-<h3 data-number="2.4.1"><span class="header-section-number">2.4.1</span> Gram-Schmidt</h3>
+<h2 data-number="1.4" id="dimensionality-reduction-via-principal-components"><span class="header-section-number">1.4</span> Dimensionality Reduction via Principal Components</h2>
+<p>The principal components associated with a dataset separate out directions in the feature space in which the data is most (or least) variable. One of the main applications of this information is to enable us to take data with a great many features – a set of points in a high dimensional space – and, by focusing our attention on the scores corresponding to the principal directions, capture most of the information in the data in a much lower dimensional setting.</p>
+<p>To illustrate how this is done, let <span class="math inline">\(X\)</span> be a <span class="math inline">\(k\times N\)</span> data matrix, let <span class="math inline">\(X_{0}\)</span> be its centered version, and let <span class="math inline">\(D_{0} = \frac{1}{N}X_{0}^{\intercal}X\)</span> be the associated covariance matrix.</p>
+<p>Apply the spectral theorem (described in +@{tbl:symmmat} and proved in +<strong>???</strong>{spectraltheorem}) to the covariance matrix to obtain eigenvalues <span class="math inline">\(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0\)</span> and associated eigenvectors <span class="math inline">\(u_{1},\ldots, u_{N}\)</span>. The scores <span class="math inline">\(S_{i}=X_{0}u_{i}\)</span> give the values of the data in the principal directions. The variance of <span class="math inline">\(S_{i}\)</span> is <span class="math inline">\(\lambda_{i}\)</span>.</p>
+<p>Now choose a number <span class="math inline">\(t&lt;N\)</span> and consider the vectors <span class="math inline">\(S_{1},\ldots, S_{t}\)</span>. The <span class="math inline">\(j^{th}\)</span> entry in <span class="math inline">\(S_{i}\)</span> is the value of the score <span class="math inline">\(S_{i}\)</span> for the <span class="math inline">\(j^{th}\)</span> data point. Because <span class="math inline">\(S_{1},\ldots, S_{t}\)</span> capture the most significant variability in the original data, we can learn a lot about our data by considering just these <span class="math inline">\(t\)</span> features of the data, instead of needing all <span class="math inline">\(N\)</span>.</p>
+<p>To illustrate, let’s look at an example. We begin with a synthetic dataset <span class="math inline">\(X_{0}\)</span> which has <span class="math inline">\(200\)</span> samples and <span class="math inline">\(15\)</span> features. It’s hard to visualize much about this <span class="math inline">\(200\times 15\)</span> matrix; it has <span class="math inline">\(3000\)</span> numbers in it and we’re not really equipped to make sense of it. We could try some graphing – for example, fig. <a href="#fig:features">8</a> shows a scatter plot of two of the features plotted against each other.</p>
+<div id="fig:features" class="fignos">
+<figure>
+<img src="../img/features.png" style="width:50.0%" alt="" /><figcaption><span>Figure 8:</span> Scatter Plot of Two Features</figcaption>
+</figure>
+</div>
+<p>Unfortunately there’s not much to see in fig. <a href="#fig:features">8</a> – just a blob – because the individual features of the data don’t tell us much in isolation, whatever structure there is in this data arises out of the relationship between different features.</p>
+<p>So let’s apply the theory of principal components. We use a software package to compute the eigenvalues and eigenvectors of the matrix <span class="math inline">\(D_{0}\)</span>. The <span class="math inline">\(15\)</span> eigenvalues <span class="math inline">\(\lambda_{1}\ge \cdots \ge \lambda_{15}\)</span> are plotted, in descending order, in fig. <a href="#fig:eigenvalues">9</a> .</p>
+<div id="fig:eigenvalues" class="fignos">
+<figure>
+<img src="../img/eigenvalues.png" style="width:50.0%" alt="" /><figcaption><span>Figure 9:</span> Eigenvalues of the Covariance Matrix</figcaption>
+</figure>
+</div>
+<p>This plot shows that the first <span class="math inline">\(4\)</span> eigenvalues are relatively large, while the remaining <span class="math inline">\(11\)</span> are smaller and not much different from each other. We interpret this as saying that <em>most of the variation in the data is accounted for by the first four principal components.</em> We can even make this quantitative. The <em>total variance</em> of the data is the sum of the eigenvalues of the covariance matrix – the trace of <span class="math inline">\(D_{0}\)</span> – and in this example that sum is <span class="math inline">\(5.2\)</span>. The sum of the first <span class="math inline">\(4\)</span> eigenvalues is <span class="math inline">\(4.23\)</span>, so the first four eignvalues account for <span class="math inline">\(4.2/5.2\)</span> of the total variance, or about <span class="math inline">\(80\%\)</span> of the variation of the data.</p>
+<h2 data-number="1.5" id="sec:spectraltheorem"><span class="header-section-number">1.5</span> Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem)</h2>
+<p>In this section, we prove the four properties of eigenvalues and eigenvectors of real symmetric matrices that we used in our discussion of Principal Components.</p>
+<p>A key tool in the proof is the Gram-Schmidt orthogonalization process.</p>
+<h3 data-number="1.5.1" id="sec:gsprocess"><span class="header-section-number">1.5.1</span> Gram-Schmidt</h3>
 <p><strong>Proposition (Gram-Schmidt Process):</strong> Let <span class="math inline">\(w_{1},\ldots, w_{k}\)</span> be a collection of linearly independent vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span> and let <span class="math inline">\(W\)</span> be the span of the <span class="math inline">\(w_{i}\)</span>. Let <span class="math inline">\(u_{1} = w_{1}\)</span> and let <span class="math display">\[
 u_{i} = w_{i} - \sum_{j=1}^{i-1} \frac{w_{i}\cdot u_{j}}{u_{j}\cdot u_{j}}u_{j}
 \]</span> for <span class="math inline">\(i=2,\ldots, k\)</span>. Then</p>
@@ -417,9 +407,7 @@ u_{i} = w_{i} - \sum_{j=1}^{i-1} \frac{w_{i}\cdot u_{j}}{u_{j}\cdot u_{j}}u_{j}
 <li>The vectors <span class="math inline">\(u&#39;_{i} = u_{i}/\|u_{i}\|\)</span> are orthonormal.</li>
 </ul>
 <p><strong>Proof:</strong> This is an inductive exercise, and we leave it to you to work out the details.</p>
-</section>
-<section id="the-spectral-theorem" data-number="1.4.2">
-<h3 data-number="2.4.2"><span class="header-section-number">2.4.2</span> The spectral theorem</h3>
+<h3 data-number="1.5.2" id="the-spectral-theorem"><span class="header-section-number">1.5.2</span> The spectral theorem</h3>
 <p><strong>Theorem:</strong> Let <span class="math inline">\(D\)</span> be a real symmetric <span class="math inline">\(N\times N\)</span> matrix. Then:</p>
 <ol type="1">
 <li>All of the <span class="math inline">\(N\)</span> eigenvalues <span class="math inline">\(\lambda_1\ge \lambda_2\ge \cdots \ge \lambda_{N}\)</span> are real. If <span class="math inline">\(u^{\intercal}Du\ge 0\)</span> for all <span class="math inline">\(u\in\mathbf{R}^{N}\)</span>, then all eigenvalues <span class="math inline">\(\lambda_{i}\ge 0\)</span>.</li>
@@ -479,10 +467,7 @@ P^{\intercal}e_{i} = \left[\begin{matrix} (e_{i}\cdot u_{1})\\ (e_{i}\cdot u_{2}
 \]</span> so the two matrices <span class="math inline">\(D\)</span> and <span class="math inline">\(P\Lambda P^{\intercal}\)</span> are in fact equal.</p>
 <p><strong>Exercises:</strong></p>
 <ol type="1">
-<li>Prove the Gram-Schmidt Process has the claimed properties in section <a href="#sec:gsprocess">1.4.1</a>.</li>
+<li>Prove the Gram-Schmidt Process has the claimed properties in section <a href="#sec:gsprocess">1.5.1</a>.</li>
 </ol>
-</section>
-</section>
-</section>
 </body>
 </html>
