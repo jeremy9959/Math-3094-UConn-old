@@ -3,6 +3,10 @@ from bokeh.models import *
 from bokeh.io import show,export_png
 from bokeh.layouts import row, column
 import numpy as np
+import pandas as pd
+import holoviews as hv
+from holoviews.operation import gridmatrix
+hv.extension('bokeh')
 
 N=50
 
@@ -13,6 +17,12 @@ freqx, edgesx = np.histogram(x[:,0],bins=20)
 freqy,edgesy = np.histogram(x[:,1],bins=20)
 deltax = edgesx[1]-edgesx[0]
 deltay = edgesy[1]-edgesy[0]
+
+ds = hv.Dataset(pd.DataFrame(x,columns=['X','Y']))
+density_grid = gridmatrix(ds, chart_type=hv.Points).opts(height=400,width=400,toolbar=None)
+hv.save(density_grid, "../img/density0.png")
+
+
 
 fx = figure(height=200,width=200,title='X histogram',toolbar_location=None,x_range=(-5,5),y_range=(0,.2))
 fx.vbar(x=edgesx[:-1],top=freqx/N,width=deltax)
@@ -55,7 +65,7 @@ ticks = [i*np.pi/4 for i in range(9)]
 ticklabels = ['{}'.format(i) for i in range(8)]
 
 #ticker = FixedTicker(ticks)
-u = np.zeros((2,1000))
+u = np.zeros((2,100))
 u[0,:] = np.cos(theta)
 u[1,:] = np.sin(theta)
 scores = np.dot(x,u)

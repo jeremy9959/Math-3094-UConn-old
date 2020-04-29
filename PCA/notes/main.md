@@ -188,6 +188,21 @@ The sum of the diagonal entries, the trace of $D_{0}$ is the **total** variance 
 
 **Proof:** This follows from the definitions, but it's worth checking the details, which we leave as an exercise.
 
+### Visualizing the covariance matrix {#sec:visualizecovar}
+
+If the number of features in the data is not too large, a density matrix plot provides a tool
+for visualizing the covariance matrix of the data.  A density matrix plot is an $N\times N$ grid
+of plots (where $N$ is the number of features).  The $i,j$ entry is a scatter plot of the $i^{th}$
+feature against the $j^{th}$ one, and the $i^{th}$ diagonal entry is a histogram of the $i^{th}$
+feature.  
+
+*@fig:density0 is an example of a density matrix plot for a dataset with $50$ samples and $2$ features.
+This data has been centered, so it can be represented
+in a $50\times 2$ data matrix $X_{0}$.  The upper left and lower right graphs are scatter plots
+of the two columns, while the lower left and upper right are the histograms of the columns.
+
+
+![Density Matrix Plot](../img/density0.png){#fig:density0 width=50%}
 
 
 ### Linear Combinations of Features (Scores)
@@ -299,10 +314,9 @@ idea to reveal hidden structure in our data.
 
 ### Geometry of Scores
 
-Let's begin by looking at +@fig:pcasimfig, which shows a scatter plot of some simulated data
-having $50$ samples and two features.   This data has been centered, so it can be represented
-in a $50\times 2$ data matrix $X_{0}$ each row of which is the coordinates $(x_0,x_1)$ of one
-of the points in the picture. 
+Let's return to the dataset that we looked at in +@sec:visualizecovar.  We simplify the density
+matrix plot in +@fig:pcasimfig, which shows one of the scatter plots 
+and the two histograms.   
 
 The scatter plot shows that the data points are arranged
 in a more or less elliptical cloud oriented at an angle to the $xy$-axes which represent the two given
@@ -727,7 +741,7 @@ if we can understand what characteristics the principal components have identifi
 
 ### Loadings
 
-There's one last piece of the PCA puzzle that we are going to investigate.  In +@fig:pcadimred we plotted
+There's one last piece of the PCA puzzle that we are going to investigate.  In +@fig:principalvalues, we plotted
 our data points in the coordinates given by the first two principal components.  In geometric terms,
 we took the cloud of $200$ points in $\mathbf{R}^{15}$ given by the rows of $X_{0}$ and projected those
 points into the two dimensional plane spanned by the eigenvectors $u_{1}$ and $u_{2}$, and then plotted the

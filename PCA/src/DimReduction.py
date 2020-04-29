@@ -20,6 +20,8 @@ if not os.path.exists("./simulated_pca_data.csv"):
     d[:, N] = U.astype(int)
     np.savetxt("./simulated_pca_data.csv", d, delimiter=",")
     d = d[:, :-1]
+    pd.DataFrame(d,columns=[str(x) for x in range(N)]).to_csv('../data/simulated_pca_data.csv')
+    pd.DataFrame(U).to_csv('../data/simulated_pca_data_labels.csv')
 else:
     F = np.loadtxt("./simulated_pca_data.csv", delimiter=",")
     d = F[:, :-1]
