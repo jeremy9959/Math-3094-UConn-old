@@ -213,7 +213,7 @@ dataset that we studied in the section on Linear Regression, we looked at the in
 weight $w$ and engine displacement $e$ on gas mileage; perhaps their is some value in considering a hybrid
 "score" defined as 
 $$
-S = a*w + b*e
+S = aw + be
 $$
 for some constants $a$ and $b$ -- maybe by choosing a good combination we could find a better predictor
 of gas mileage than using one or the other of the features individually.
@@ -415,7 +415,7 @@ data scatter plot in +@fig:pcaprincipal .
 
 Let's try to understand why this is happening.
 
-### Directions of extremal variance
+### Directions of extremal variance {#sec:extremalvariance}
 
 Given our centered, $k\times N$ data matrix $X_{0}$, with its associated covariance matrix
 $D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}$, we would like to find unit vectors $u$ in $\mathbf{R}^{N}$
@@ -611,8 +611,53 @@ and $\|S\|^2=\sum a_{i}^2$ since the $u_{i}$ are an orthonormal set. So in these
 - subject to the constraint $\sum a_{i}^2 = 1$.
 
 We don't need any fancy math to see that the maximum happens when $a_{1}=1$ and the other $a_{j}=0$, and in that case, the maximum is $\lambda_{1}$. (If $\lambda_{1}$
-occurs more than once, there may be a whole subspace of directions where the variance is maximal).  Similarly, the minimum value is $\lambda_{N}$ and occurs
-when $a_{N}=1$ and the others are zero.
+occurs more than once, there may be a whole subspace of directions where the variance is maximal).  Similarly, the minimum value is $\lambda_{N}$ and occurs when $a_{N}=1$ and the others are zero.  
+
+### Subspaces of extremal variance {#sec:subspaces}
+
+We can generalize the question asked in +@sec:extremalvariance by seeking, not just a vector $u$ pointing in the direction
+of the extremal variance, but instead the *subspace* $U_{s}$ of dimension $s$ with the property that the total variance of
+the projection of the data into $U_{s}$ is maximal among all subspaces of that dimension.  
+
+To make this concrete, suppose we consider a subspace $E$ of $\mathbf{R}^{N}$ of dimension $k$ with basis $w_{1},\ldots, w_{k}$.
+Complete this to a basis $w_{1},\ldots, w_{s},w_{s+1},\ldots, w_{N}$ of $\mathbf{R}^{N}$ and then apply the Gram Schmidt Process
+(see +@sec:gsprocess) to find an orthonormal basis $w'_{1},\ldots,w'_{s},w'_{s+1},\ldots, w'_{N}$ where the $w'_{1},\ldots, w'_{s}$
+are an orthonormal basis for $E$.  Let $W$ be the $k\times s$ matrix whose columns are the $w'_{i}$ for $i=1,\ldots,s$.  The
+rows of the matrix $X_{0}s$ given the coordinates of the projection of each sample into the subspace $E$ expressed in terms
+of the scores corresponding to these vectors $w'_{i}$.  The total variance of these projections is 
+
+$$
+\sigma_{E}^2 = \sum_{i=1}^{s} \|X_{0}w'_{i}\|^2 = \sum_{i=1}^{s} (w'_{i})^{\intercal}X_{0}^{\intercal}X_{0}w'_{i}  = \sum_{i=1}^{s} (w'_{i})^{\intercal}D_{0}w'_{i}
+$$
+
+If we want to maximize this, we have the constrained optimization problem of finding $w_{1},\ldots, w_{s}$ so that
+
+- $\sum_{i=1}^{s} w_{i}^{\intercal}D_{0}w_{i}$ is maximal
+- subject to the constraint that each $w_{i}$ has $\|w_{i}\|^2=1$.
+- and that the $w_{i}$ are linearly independent.
+
+**Theorem:** The solution $w_{1},\ldots, w_{s}$ to this constrained is $u_{1},\ldots, u_{s}$ where $u_{i}$ is the $i^{th}$
+principal direction for $D_{0}$, that is, a unit eigenvector for $D_{0}$ corresponding to its $i^{th}$ largest eigenvalue.
+
+**Proof:** The Lagrange multiplier for this problem is 
+$$
+S(w,\lambda_{1},\lambda_{2},\ldots, \lambda_{s}) = \sum_{i=1}^{s} (w_{i}^{\intercal}D_{0}w_{i} -\lambda_{i}(w_{i}^{\intercal}w_{i}-1)).
+$$
+Each $\df{w_{i}} S$ is exactly as in our computation in the case of a single vector and yields the equations
+$$
+D_{0}w_{i}-\lambda_{i}w_{i}=0.
+$$
+and the $\df{\lambda_{i}} S=0$ conditions mean that $w_{i}$ is of unit length. 
+In other words, the critical points occur at unit eigenvectors of $D_{0}$.  To satisfy linear independence, we need $s$
+independent eigenvalues.  And, finally, if we choose any $s$ of the eigenvectors of $D_{0}$ corresponding to eigenvalues $\mu_{1},\ldots,\mu_{s}$, then the value
+
+$$
+\sigma_{E}^2 = \sum_{i=1}^{s} \mu_{i}^2.
+$$
+
+To maximize this it's clear that we should choose the $\mu_{i}$ to be the $s$ largest eigenvalues and $w_{i}$ to be the corresponding
+eigenvectors.
+
 
 ### Definition of Principal Components
 
@@ -773,7 +818,53 @@ plot have larger values of feature $6$.
 In the next, and last, section, of this discussion of Principal Component Analysis, we will give proofs
 of the key mathematical ideas summarized earlier in +@tbl:symmmat, which have been central to this analysis.
 
+### The singular value decomposition {#sec:svd}
 
+The singular value decomposition is a slightly different way of looking at principal components.  Let
+$\Lambda$ be the diagonal matrix of eigenvalues of $D_{0}$; we know that the entries of $D_{0}$ are non-negative.
+Let's drop the eigenvectors corresponding to the zero eigenvalue.  Let's say that  there are $s$ non-zero eigenvalues,
+and $s$ corresponding eigenvectors.  
+
+**Lemma:** Let $P'$ be the $N\times s$ matrix whose columns are the eigenvectors with non-zero eigenvalues,
+and let $\Lambda_{+}$ be the $s\times s$ diagonal matrix whose entries are the non-zero eigenvalues.  Then
+$P'\Lambda_{+} P'^{\intercal} = P\Lambda P^{\intercal} = D_{0}$.
+
+**Proof:** First observe that $P'\Lambda_{+}P'^{\intercal}$ is in fact an $N\times N$ matrix.  Then look at the block
+structure to verify the result.
+
+The matrix $\Lambda_{+}$ is diagonal, invertible, and, since the eigenvalues are positive, it makes sense to consider
+the real matrix $\Lambda_{+}^{1/2}$ whose entries are the square roots of the eigenvalues.
+
+Let $U = X_{0}P'\Lambda_{+}^{-1/2}$. Note that $U$ is a $k\times s$ dimensional matrix.
+
+**Lemma:** The columns of $U$ are orthonormal.
+
+**Proof:**  Compute the $s\times s$ matrix $U^{\intercal}U$, whose entries are all of the dot products
+of the columns of $U$:
+$$\begin{align}
+U^{\intercal}U &=& \Lambda_{+}^{-1/2}P'^{\intercal}X_{0}^{\intercal}X_{0}P'\Lambda_{+}^{-1/2} \\
+&=& \Lambda_{+}^{-1/2}P'^{\intercal}P'\Lambda_{+}P'^{\intercal}P'\Lambda_{+}^{-1/2} \\
+&=& I_{s} \\
+\end{align}
+$$
+by the previous lemma and the fact that $P'P'^{\intercal}$ is the $s\times s$ identity matrix.
+
+Rearranging this yields the singular value decomposition.
+
+**Theorem:** (The singular value decomposition) The matrix $X_{0}$ has a decomposition:
+$$
+X_{0} = U\Lambda_{+}^{-1/2}P'^{\intercal}
+$$
+where $U$ (of dimension $k\times s$) and $P'$ (of dimension $N\times s$)  are orthogonal, and $\Lambda_{+}$
+(of dimension $s\times s$) is diagonal with positive entries.  Furthermore,
+the entries of $\Lambda_{+}$ are the non-negative eigenvalues of $D_{0}=X_{0}^{\intercal}X_{0}$, and
+$U$ and $P'$ are uniquely determined by $X_{0}$.
+
+**Proof:** We won't work through all of this, as it is a reinterpretation of our work on principal components.
+
+**Remark:** The entries of $\Lambda_{+}^{-1/2}$ are called the  singular values of $X_{0}$.  They can be found
+directly by considering the optimization problem implicitly equivalent to the problem we solved in 
++@sec:subspaces.
 
 
 ## Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem) {#sec:spectraltheorem}
@@ -939,7 +1030,9 @@ so the two matrices $D$ and $P\Lambda P^{\intercal}$ are in fact equal.
 
 **Exercises:**
 
-1. Prove the Gram-Schmidt Process has the claimed properties in +@sec:gsprocess.
+1. Prove the rest of the first lemma in +@sec:svd.
+
+2. Prove the Gram-Schmidt Process has the claimed properties in +@sec:gsprocess.
 
 
 

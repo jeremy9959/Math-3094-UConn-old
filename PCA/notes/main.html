@@ -155,7 +155,7 @@ d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 </div>
 <h3 data-number="1.2.6" id="linear-combinations-of-features-scores"><span class="header-section-number">1.2.6</span> Linear Combinations of Features (Scores)</h3>
 <p>Sometimes useful information about our data can be revealed if we combine different measurements together to obtain a “hybrid” measure that captures something interesting. For example, in the Auto MPG dataset that we studied in the section on Linear Regression, we looked at the influence of both vehicle weight <span class="math inline">\(w\)</span> and engine displacement <span class="math inline">\(e\)</span> on gas mileage; perhaps their is some value in considering a hybrid “score” defined as <span class="math display">\[
-S = a*w + b*e
+S = aw + be
 \]</span> for some constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> – maybe by choosing a good combination we could find a better predictor of gas mileage than using one or the other of the features individually.</p>
 <p>As another example, suppose we are interested in the impact of the nutritional content of food on weight gain in a study. We know that both calorie content and the level dietary fiber contribute to the weight gain of participants eating this particular food; maybe there is some kind of combined “calorie/fiber” score we could introduce that captures the impact of that food better.</p>
 <p><strong>Definition:</strong> Let <span class="math inline">\(X_{0}\)</span> be a (centered) <span class="math inline">\(k\times N\)</span> data matrix giving information about <span class="math inline">\(N\)</span> features for each of <span class="math inline">\(k\)</span> samples. A linear synthetic feature, or a linear score, is a linear combination of the <span class="math inline">\(N\)</span> features. The linear score is defined by constants <span class="math inline">\(a_{1},\ldots, a_{n}\)</span> so that If <span class="math inline">\(y_{1},\ldots, y_{N}\)</span> are the values of the features for a particular sample, then the linear score for that sample is</p>
@@ -256,7 +256,7 @@ u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\rig
 </figure>
 </div>
 <p>Let’s try to understand why this is happening.</p>
-<h3 data-number="1.3.2" id="directions-of-extremal-variance"><span class="header-section-number">1.3.2</span> Directions of extremal variance</h3>
+<h3 data-number="1.3.2" id="sec:extremalvariance"><span class="header-section-number">1.3.2</span> Directions of extremal variance</h3>
 <p>Given our centered, <span class="math inline">\(k\times N\)</span> data matrix <span class="math inline">\(X_{0}\)</span>, with its associated covariance matrix <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span>, we would like to find unit vectors <span class="math inline">\(u\)</span> in <span class="math inline">\(\mathbf{R}^{N}\)</span> so that <span class="math display">\[
 \sigma_{u}^{2} = u^{\intercal}D_{0}u
 \]</span> reaches its maximum and its minimum. Here <span class="math inline">\(\sigma_{u}^2\)</span> is the variance of the “linear score” <span class="math inline">\(X_{0}u\)</span> and it represents how dispersed the data is in the “u direction” in <span class="math inline">\(\mathbf{R}^{N}\)</span>.</p>
@@ -365,7 +365,29 @@ S = \sum a_{i}u_{i}.
 <li>subject to the constraint <span class="math inline">\(\sum a_{i}^2 = 1\)</span>.</li>
 </ul>
 <p>We don’t need any fancy math to see that the maximum happens when <span class="math inline">\(a_{1}=1\)</span> and the other <span class="math inline">\(a_{j}=0\)</span>, and in that case, the maximum is <span class="math inline">\(\lambda_{1}\)</span>. (If <span class="math inline">\(\lambda_{1}\)</span> occurs more than once, there may be a whole subspace of directions where the variance is maximal). Similarly, the minimum value is <span class="math inline">\(\lambda_{N}\)</span> and occurs when <span class="math inline">\(a_{N}=1\)</span> and the others are zero.</p>
-<h3 data-number="1.3.4" id="definition-of-principal-components"><span class="header-section-number">1.3.4</span> Definition of Principal Components</h3>
+<h3 data-number="1.3.4" id="sec:subspaces"><span class="header-section-number">1.3.4</span> Subspaces of extremal variance</h3>
+<p>We can generalize the question asked in section <a href="#sec:extremalvariance">1.3.2</a> by seeking, not just a vector <span class="math inline">\(u\)</span> pointing in the direction of the extremal variance, but instead the <em>subspace</em> <span class="math inline">\(U_{s}\)</span> of dimension <span class="math inline">\(s\)</span> with the property that the total variance of the projection of the data into <span class="math inline">\(U_{s}\)</span> is maximal among all subspaces of that dimension.</p>
+<p>To make this concrete, suppose we consider a subspace <span class="math inline">\(E\)</span> of <span class="math inline">\(\mathbf{R}^{N}\)</span> of dimension <span class="math inline">\(k\)</span> with basis <span class="math inline">\(w_{1},\ldots, w_{k}\)</span>. Complete this to a basis <span class="math inline">\(w_{1},\ldots, w_{s},w_{s+1},\ldots, w_{N}\)</span> of <span class="math inline">\(\mathbf{R}^{N}\)</span> and then apply the Gram Schmidt Process (see section <a href="#sec:gsprocess">1.5.1</a>) to find an orthonormal basis <span class="math inline">\(w&#39;_{1},\ldots,w&#39;_{s},w&#39;_{s+1},\ldots, w&#39;_{N}\)</span> where the <span class="math inline">\(w&#39;_{1},\ldots, w&#39;_{s}\)</span> are an orthonormal basis for <span class="math inline">\(E\)</span>. Let <span class="math inline">\(W\)</span> be the <span class="math inline">\(k\times s\)</span> matrix whose columns are the <span class="math inline">\(w&#39;_{i}\)</span> for <span class="math inline">\(i=1,\ldots,s\)</span>. The rows of the matrix <span class="math inline">\(X_{0}s\)</span> given the coordinates of the projection of each sample into the subspace <span class="math inline">\(E\)</span> expressed in terms of the scores corresponding to these vectors <span class="math inline">\(w&#39;_{i}\)</span>. The total variance of these projections is</p>
+<p><span class="math display">\[
+\sigma_{E}^2 = \sum_{i=1}^{s} \|X_{0}w&#39;_{i}\|^2 = \sum_{i=1}^{s} (w&#39;_{i})^{\intercal}X_{0}^{\intercal}X_{0}w&#39;_{i}  = \sum_{i=1}^{s} (w&#39;_{i})^{\intercal}D_{0}w&#39;_{i}
+\]</span></p>
+<p>If we want to maximize this, we have the constrained optimization problem of finding <span class="math inline">\(w_{1},\ldots, w_{s}\)</span> so that</p>
+<ul>
+<li><span class="math inline">\(\sum_{i=1}^{s} w_{i}^{\intercal}D_{0}w_{i}\)</span> is maximal</li>
+<li>subject to the constraint that each <span class="math inline">\(w_{i}\)</span> has <span class="math inline">\(\|w_{i}\|^2=1\)</span>.</li>
+<li>and that the <span class="math inline">\(w_{i}\)</span> are linearly independent.</li>
+</ul>
+<p><strong>Theorem:</strong> The solution <span class="math inline">\(w_{1},\ldots, w_{s}\)</span> to this constrained is <span class="math inline">\(u_{1},\ldots, u_{s}\)</span> where <span class="math inline">\(u_{i}\)</span> is the <span class="math inline">\(i^{th}\)</span> principal direction for <span class="math inline">\(D_{0}\)</span>, that is, a unit eigenvector for <span class="math inline">\(D_{0}\)</span> corresponding to its <span class="math inline">\(i^{th}\)</span> largest eigenvalue.</p>
+<p><strong>Proof:</strong> The Lagrange multiplier for this problem is <span class="math display">\[
+S(w,\lambda_{1},\lambda_{2},\ldots, \lambda_{s}) = \sum_{i=1}^{s} (w_{i}^{\intercal}D_{0}w_{i} -\lambda_{i}(w_{i}^{\intercal}w_{i}-1)).
+\]</span> Each <span class="math inline">\(\frac{\partial}{\partial w_{i}} S\)</span> is exactly as in our computation in the case of a single vector and yields the equations <span class="math display">\[
+D_{0}w_{i}-\lambda_{i}w_{i}=0.
+\]</span> and the <span class="math inline">\(\frac{\partial}{\partial \lambda_{i}} S=0\)</span> conditions mean that <span class="math inline">\(w_{i}\)</span> is of unit length. In other words, the critical points occur at unit eigenvectors of <span class="math inline">\(D_{0}\)</span>. To satisfy linear independence, we need <span class="math inline">\(s\)</span> independent eigenvalues. And, finally, if we choose any <span class="math inline">\(s\)</span> of the eigenvectors of <span class="math inline">\(D_{0}\)</span> corresponding to eigenvalues <span class="math inline">\(\mu_{1},\ldots,\mu_{s}\)</span>, then the value</p>
+<p><span class="math display">\[
+\sigma_{E}^2 = \sum_{i=1}^{s} \mu_{i}^2.
+\]</span></p>
+<p>To maximize this it’s clear that we should choose the <span class="math inline">\(\mu_{i}\)</span> to be the <span class="math inline">\(s\)</span> largest eigenvalues and <span class="math inline">\(w_{i}\)</span> to be the corresponding eigenvectors.</p>
+<h3 data-number="1.3.5" id="definition-of-principal-components"><span class="header-section-number">1.3.5</span> Definition of Principal Components</h3>
 <p><strong>Definition:</strong> The orthonormal unit eigenvectors <span class="math inline">\(u_{i}\)</span> for <span class="math inline">\(D_{0}\)</span> are the <em>principal directions</em> or <em>principal components</em> for the data <span class="math inline">\(X_{0}\)</span>.</p>
 <p><strong>Theorem:</strong> The maximum variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in principal directions associatedwith different eigenvalues is zero.</p>
 <p>At this point, the picture in fig. <a href="#fig:pcaprincipal">8</a> makes sense – the red and green dashed lines are the principal directions, they are orthogonal to one another, and the point in the directions where the data is most (and least) “spread out.”</p>
@@ -520,6 +542,25 @@ H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
 </figure>
 </div>
 <p>In the next, and last, section, of this discussion of Principal Component Analysis, we will give proofs of the key mathematical ideas summarized earlier in table <a href="#tbl:symmmat">2</a>, which have been central to this analysis.</p>
+<h3 data-number="1.4.2" id="sec:svd"><span class="header-section-number">1.4.2</span> The singular value decomposition</h3>
+<p>The singular value decomposition is a slightly different way of looking at principal components. Let <span class="math inline">\(\Lambda\)</span> be the diagonal matrix of eigenvalues of <span class="math inline">\(D_{0}\)</span>; we know that the entries of <span class="math inline">\(D_{0}\)</span> are non-negative. Let’s drop the eigenvectors corresponding to the zero eigenvalue. Let’s say that there are <span class="math inline">\(s\)</span> non-zero eigenvalues, and <span class="math inline">\(s\)</span> corresponding eigenvectors.</p>
+<p><strong>Lemma:</strong> Let <span class="math inline">\(P&#39;\)</span> be the <span class="math inline">\(N\times s\)</span> matrix whose columns are the eigenvectors with non-zero eigenvalues, and let <span class="math inline">\(\Lambda_{+}\)</span> be the <span class="math inline">\(s\times s\)</span> diagonal matrix whose entries are the non-zero eigenvalues. Then <span class="math inline">\(P&#39;\Lambda_{+} P&#39;^{\intercal} = P\Lambda P^{\intercal} = D_{0}\)</span>.</p>
+<p><strong>Proof:</strong> First observe that <span class="math inline">\(P&#39;\Lambda_{+}P&#39;^{\intercal}\)</span> is in fact an <span class="math inline">\(N\times N\)</span> matrix. Then look at the block structure to verify the result.</p>
+<p>The matrix <span class="math inline">\(\Lambda_{+}\)</span> is diagonal, invertible, and, since the eigenvalues are positive, it makes sense to consider the real matrix <span class="math inline">\(\Lambda_{+}^{1/2}\)</span> whose entries are the square roots of the eigenvalues.</p>
+<p>Let <span class="math inline">\(U = X_{0}P&#39;\Lambda_{+}^{-1/2}\)</span>. Note that <span class="math inline">\(U\)</span> is a <span class="math inline">\(k\times s\)</span> dimensional matrix.</p>
+<p><strong>Lemma:</strong> The columns of <span class="math inline">\(U\)</span> are orthonormal.</p>
+<p><strong>Proof:</strong> Compute the <span class="math inline">\(s\times s\)</span> matrix <span class="math inline">\(U^{\intercal}U\)</span>, whose entries are all of the dot products of the columns of <span class="math inline">\(U\)</span>: <span class="math display">\[\begin{align}
+U^{\intercal}U &amp;=&amp; \Lambda_{+}^{-1/2}P&#39;^{\intercal}X_{0}^{\intercal}X_{0}P&#39;\Lambda_{+}^{-1/2} \\
+&amp;=&amp; \Lambda_{+}^{-1/2}P&#39;^{\intercal}P&#39;\Lambda_{+}P&#39;^{\intercal}P&#39;\Lambda_{+}^{-1/2} \\
+&amp;=&amp; I_{s} \\
+\end{align}
+\]</span> by the previous lemma and the fact that <span class="math inline">\(P&#39;P&#39;^{\intercal}\)</span> is the <span class="math inline">\(s\times s\)</span> identity matrix.</p>
+<p>Rearranging this yields the singular value decomposition.</p>
+<p><strong>Theorem:</strong> (The singular value decomposition) The matrix <span class="math inline">\(X_{0}\)</span> has a decomposition: <span class="math display">\[
+X_{0} = U\Lambda_{+}^{-1/2}P&#39;^{\intercal}
+\]</span> where <span class="math inline">\(U\)</span> (of dimension <span class="math inline">\(k\times s\)</span>) and <span class="math inline">\(P&#39;\)</span> (of dimension <span class="math inline">\(N\times s\)</span>) are orthogonal, and <span class="math inline">\(\Lambda_{+}\)</span> (of dimension <span class="math inline">\(s\times s\)</span>) is diagonal with positive entries. Furthermore, the entries of <span class="math inline">\(\Lambda_{+}\)</span> are the non-negative eigenvalues of <span class="math inline">\(D_{0}=X_{0}^{\intercal}X_{0}\)</span>, and <span class="math inline">\(U\)</span> and <span class="math inline">\(P&#39;\)</span> are uniquely determined by <span class="math inline">\(X_{0}\)</span>.</p>
+<p><strong>Proof:</strong> We won’t work through all of this, as it is a reinterpretation of our work on principal components.</p>
+<p><strong>Remark:</strong> The entries of <span class="math inline">\(\Lambda_{+}^{-1/2}\)</span> are called the singular values of <span class="math inline">\(X_{0}\)</span>. They can be found directly by considering the optimization problem implicitly equivalent to the problem we solved in section <a href="#sec:subspaces">1.3.4</a>.</p>
 <h2 data-number="1.5" id="sec:spectraltheorem"><span class="header-section-number">1.5</span> Eigenvalues and Eigenvectors of Real Symmetric Matrices (The Spectral Theorem)</h2>
 <p>Now that we’ve shown how to apply the theory of eigenvalues and eigenvectors of symmetric matrices to extract principal directions from data, and to use those principal directions to find structure, we will give a proof of the properties that we summarized in table <a href="#tbl:symmmat">2</a>.</p>
 <p>A key tool in the proof is the Gram-Schmidt orthogonalization process.</p>
@@ -594,7 +635,8 @@ P^{\intercal}e_{i} = \left[\begin{matrix} (e_{i}\cdot u_{1})\\ (e_{i}\cdot u_{2}
 \]</span> so the two matrices <span class="math inline">\(D\)</span> and <span class="math inline">\(P\Lambda P^{\intercal}\)</span> are in fact equal.</p>
 <p><strong>Exercises:</strong></p>
 <ol type="1">
-<li>Prove the Gram-Schmidt Process has the claimed properties in section <a href="#sec:gsprocess">1.5.1</a>.</li>
+<li><p>Prove the rest of the first lemma in section <a href="#sec:svd">1.4.2</a>.</p></li>
+<li><p>Prove the Gram-Schmidt Process has the claimed properties in section <a href="#sec:gsprocess">1.5.1</a>.</p></li>
 </ol>
 </body>
 </html>
