@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>setup</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="setup">Setup</h1>
+<h2 id="software">Software</h2>
+<p>We will use <code>pandoc</code> and an associated set of extensions called <code>pandoc-xnos</code>. See the <code>pandoc</code> and <code>pandoc-xnos</code> documentation for installation instructions.</p>
+<p>We also use the UNIX utility <code>make</code>.</p>
+<p>The python code relies on <code>numpy</code>, <code>sklearn</code>,<code>pandas</code>, and the <code>bokeh</code> visualization library, as well as on the <code>jupyter</code> notebook ecosystem.</p>
+<h2 id="directory-structure">Directory Structure</h2>
+<ol start="0" type="1">
+<li>The main Github repo has subdirectories</li>
+</ol>
+<ul>
+<li><code>references</code> that contains a BiBTeX file of references for the notes</li>
+<li><code>resources</code> containing various configuration files (for now, the .csl file that sets a citation style)</li>
+<li><code>data</code> contains datasets used in the notes</li>
+</ul>
+<ol type="1">
+<li><p>Each Chapter is in an appropriately named subdirectory of the main Github repo.</p></li>
+<li><p>Inside that subdirectory are further subdirectories:</p></li>
+</ol>
+<ul>
+<li><code>notes</code> holds the markdown file and the various files that are created by pandoc</li>
+<li><code>src</code> holds python code or other code for generating figures</li>
+<li><code>lab</code> holds the .ipynb files for the lab assignments</li>
+<li><code>img</code> holds the .png files for the images</li>
+<li><code>data</code> holds any data files for generating images or for the labs – probably this should be merged into the project-wide data directory.</li>
+</ul>
+<h2 id="markdown-and-pandoc">Markdown and pandoc</h2>
+<p>Each chapter is written in the <code>pandoc</code> dialect of markdown in a file called <code>main.md</code>.</p>
+<p>The file begins with some configuration settings:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1"></a><span class="pp">--- </span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">pagetitle</span><span class="kw">:</span><span class="at"> Linear Regression </span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">colorlinks</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="at"> </span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">linkcolor</span><span class="kw">:</span><span class="at"> blue</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">link-citations</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span><span class="at"> </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">csl</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">../../resources/stat.csl</span><span class="kw">]</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">../../references/references.bib</span><span class="kw">]</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="fu">reference-section-title</span><span class="kw">:</span><span class="at"> References </span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">xnos-cleveref</span><span class="kw">:</span><span class="at"> </span><span class="ch">True</span><span class="at"> </span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="pp">---</span></span></code></pre></div>
+<p>LaTeX macros can be included after this configuration block and used throughout the rest of the file.</p>
+<p>TeX is embedded in the markdown following usual conventions, with dollar signs and double-dollar signs for in-line and displayed math as usual. Here is a sample:</p>
+<pre><code>In either of the two cases above, the question we face is to determine
+the line $y=mx+b$ that &quot;best fits&quot; the data $\{(x_i,y_i)_{i=1}^{N}\}$.
+The classic approach is to determine the equation of a line $y=mx+b$
+that minimizes the &quot;mean squared error&quot;:
+
+$$ MSE(m,b) = \frac{1}{N}\sum_{i=1}^{n} (y_i-mx_i-b)^2 $$
+
+It&#39;s worth emphasizing that the $MSE$ is a function of two variables
+-- the slope $m$ and the intercept $b$ -- and that the data points
+$\{(x_i,y_i)\}$ are constants for these purposes.  Furthermore, it&#39;s a
+quadratic function in those two variables.  Since our goal is to find
+$m$ and $b$ that minimize the $MSE$, we have a Calculus problem that
+we can solve by taking partial derivatives and setting them to zero.</code></pre>
+<h2 id="references">References</h2>
+<h3 id="sections">Sections</h3>
+<p>Headings can be labelled with <code>{#sec:label}</code> like this:</p>
+<pre><code>## Least Squares (via Calculus) {#sec:Calculus}</code></pre>
+<p>and then referred to like this:</p>
+<pre><code>See +@Calculus for a discussion ....</code></pre>
+<h3 id="figures">Figures</h3>
+<p>Figures are included (and labelled) like this:</p>
+<pre><code>![Distance to A Plane](../img/distance-to-plane.png){#fig:perp
+width=50%}</code></pre>
+<p>This can be referred to as follows:</p>
+<pre><code>See +@fig:perp for a picture of the situation</code></pre>
+<p>and it will have <code>Distance to a Plane</code> as a caption.</p>
+<h3 id="equations">Equations</h3>
+<p>Equations can be labelled like this:</p>
+<pre><code>$$ \begin{aligned} m(X\cdot E) &amp;+ b(E\cdot E) &amp;= (Y\cdot E) \cr
+m(X\cdot X) &amp;+ b(E\cdot X) &amp;= (Y\cdot X) \cr \end{aligned}
+$${#eq:LSAnswer2}</code></pre>
+<p>and referred to like:</p>
+<pre><code>See +@LSAnswer2 for the equation.</code></pre>
+<h3 id="citations">Citations</h3>
+<p>Referring to <code>@key</code> where key is one of the bibtex keys generates a reference to a citation.</p>
+<p>For example:</p>
+<pre><code>See @irvine for the mpg dataset.</code></pre>
+<h2 id="processing">Processing</h2>
+<p>The advantage of starting from <code>pandoc markdown</code> is that you can generate both <code>pdf</code> and <code>html</code> and preserve the references and equation numbers and so on. In fact, you generate TeX which then becomes pdf. The command to generate html is:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a>$ <span class="ex">pandoc</span> -N --standalone --mathjax --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --filter pandoc-citeproc   -t html -o main.html main.md</span></code></pre></div>
+<p>The command to generate TeX is</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a>$ <span class="ex">pandoc</span> -N --standalone   --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --filter pandoc-citeproc  -t latex -o main.tex main.md</span></code></pre></div>
+<p>Then you need to run <code>pdflatex</code> (twice) to create the pdf file (and get the references right):</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a>$ <span class="ex">pdflatex</span> main</span>
+<span id="cb12-2"><a href="#cb12-2"></a>$ <span class="ex">pdflatex</span> main</span></code></pre></div>
+<p>You can preview the html by opening the file in a web browser, and the pdf by using a pdf viewer.</p>
+<h3 id="make">make</h3>
+<p><code>make</code> is a utility that can simplify this a little bit. If this <a href="./Makefile">Makefile</a> is located in the notes directory, and your main markdown file is called <code>main.md</code>, then you can just type:</p>
+<pre><code>$ make html</code></pre>
+<p>to generate the html file and</p>
+<pre><code>$ make pdf</code></pre>
+<p>to generate the pdf file.</p>
+</body>
+</html>
