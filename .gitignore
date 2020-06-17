@@ -1,1 +1,11 @@
+*.aux
+*.bbl
+*.blg
+*.log
+*~
+\#*
+*.out
+*.bcf
 auto/
+*.run.xml
+.ipynb_checkpoints/

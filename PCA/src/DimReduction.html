@@ -1,0 +1,553 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        <style>
+            .widget-box {
+                	min-height: 20px;
+                	background-color: #f5f5f5;
+                	border: 1px solid #e3e3e3 !important;
+                	border-radius: 4px;
+                	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+                	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+                	overflow-x: hidden;
+                	overflow-y: hidden;
+                }
+
+                .scrollable {
+                  overflow: scroll;
+                }
+
+                progress {
+                	appearance: none;
+                	-moz-appearance: none;
+                	-webkit-appearance: none;
+
+                	border: none;
+                	height: 20px;
+                	background-color: whiteSmoke;
+                	border-radius: 3px;
+                	box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+                	color: royalblue;
+                	position: relative;
+                	margin: 0 0 1.5em;
+                }
+
+                progress[value]::-webkit-progress-bar {
+                	background-color: whiteSmoke;
+                	border-radius: 3px;
+                	box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+                }
+
+                progress[value]::-webkit-progress-value {
+                	position: relative;
+
+                	background-size: 35px 20px, 100% 100%, 100% 100%;
+                	border-radius:3px;
+                }
+
+                progress.active:not([value])::before {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress[value]::-moz-progress-bar {
+                	background-size: 35px 20px, 100% 100%, 100% 100%;
+                	border-radius:3px;
+                }
+
+                progress:not([value])::-moz-progress-bar {
+                	border-radius:3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+
+                }
+
+                progress.active:not([value])::-moz-progress-bar {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress.active:not([value])::-webkit-progress-bar {
+                	background-position: 10%;
+                	animation-name: stripes;
+                	animation-duration: 3s;
+                	animation-timing-function: linear;
+                	animation-iteration-count: infinite;
+                }
+
+                progress.primary[value]::-webkit-progress-value { background-color: #007bff; }
+                progress.primary:not([value])::before { background-color: #007bff; }
+                progress.primary:not([value])::-webkit-progress-bar { background-color: #007bff; }
+                progress.primary::-moz-progress-bar { background-color: #007bff; }
+
+                progress.secondary[value]::-webkit-progress-value { background-color: #6c757d; }
+                progress.secondary:not([value])::before { background-color: #6c757d; }
+                progress.secondary:not([value])::-webkit-progress-bar { background-color: #6c757d; }
+                progress.secondary::-moz-progress-bar { background-color: #6c757d; }
+
+                progress.success[value]::-webkit-progress-value { background-color: #28a745; }
+                progress.success:not([value])::before { background-color: #28a745; }
+                progress.success:not([value])::-webkit-progress-bar { background-color: #28a745; }
+                progress.success::-moz-progress-bar { background-color: #28a745; }
+
+                progress.danger[value]::-webkit-progress-value { background-color: #dc3545; }
+                progress.danger:not([value])::before { background-color: #dc3545; }
+                progress.danger:not([value])::-webkit-progress-bar { background-color: #dc3545; }
+                progress.danger::-moz-progress-bar { background-color: #dc3545; }
+
+                progress.warning[value]::-webkit-progress-value { background-color: #ffc107; }
+                progress.warning:not([value])::before { background-color: #ffc107; }
+                progress.warning:not([value])::-webkit-progress-bar { background-color: #ffc107; }
+                progress.warning::-moz-progress-bar { background-color: #ffc107; }
+
+                progress.info[value]::-webkit-progress-value { background-color: #17a2b8; }
+                progress.info:not([value])::before { background-color: #17a2b8; }
+                progress.info:not([value])::-webkit-progress-bar { background-color: #17a2b8; }
+                progress.info::-moz-progress-bar { background-color: #17a2b8; }
+
+                progress.light[value]::-webkit-progress-value { background-color: #f8f9fa; }
+                progress.light:not([value])::before { background-color: #f8f9fa; }
+                progress.light:not([value])::-webkit-progress-bar { background-color: #f8f9fa; }
+                progress.light::-moz-progress-bar { background-color: #f8f9fa; }
+
+                progress.dark[value]::-webkit-progress-value { background-color: #343a40; }
+                progress.dark:not([value])::-webkit-progress-bar { background-color: #343a40; }
+                progress.dark:not([value])::before { background-color: #343a40; }
+                progress.dark::-moz-progress-bar { background-color: #343a40; }
+
+                progress:not([value])::-webkit-progress-bar {
+                	border-radius: 3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+                }
+                progress:not([value])::before {
+                	content:" ";
+                	position:absolute;
+                	height: 20px;
+                	top:0;
+                	left:0;
+                	right:0;
+                	bottom:0;
+                	border-radius: 3px;
+                	background:
+                	linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.2) 33%, rgba(0, 0, 0, 0.2) 66%, transparent 66%) left/2.5em 1.5em;
+                }
+
+                @keyframes stripes {
+                  from {background-position: 0%}
+                  to {background-position: 100%}
+                }
+        </style>
+        <style>
+            .json-formatter-row {
+                  font-family: monospace;
+                }
+                .json-formatter-row,
+                .json-formatter-row a,
+                .json-formatter-row a:hover {
+                  color: black;
+                  text-decoration: none;
+                }
+                .json-formatter-row .json-formatter-row {
+                  margin-left: 1rem;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty {
+                  opacity: 0.5;
+                  margin-left: 1rem;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty:after {
+                  display: none;
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-object:after {
+                  content: "No properties";
+                }
+                .json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-array:after {
+                  content: "[]";
+                }
+                .json-formatter-row .json-formatter-string,
+                .json-formatter-row .json-formatter-stringifiable {
+                  color: green;
+                  white-space: pre;
+                  word-wrap: break-word;
+                }
+                .json-formatter-row .json-formatter-number {
+                  color: blue;
+                }
+                .json-formatter-row .json-formatter-boolean {
+                  color: red;
+                }
+                .json-formatter-row .json-formatter-null {
+                  color: #855A00;
+                }
+                .json-formatter-row .json-formatter-undefined {
+                  color: #ca0b69;
+                }
+                .json-formatter-row .json-formatter-function {
+                  color: #FF20ED;
+                }
+                .json-formatter-row .json-formatter-date {
+                  background-color: rgba(0, 0, 0, 0.05);
+                }
+                .json-formatter-row .json-formatter-url {
+                  text-decoration: underline;
+                  color: blue;
+                  cursor: pointer;
+                }
+                .json-formatter-row .json-formatter-bracket {
+                  color: blue;
+                }
+                .json-formatter-row .json-formatter-key {
+                  color: #00008B;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-row .json-formatter-toggler-link {
+                  cursor: pointer;
+                }
+                .json-formatter-row .json-formatter-toggler {
+                  line-height: 1.2rem;
+                  font-size: 0.7rem;
+                  vertical-align: middle;
+                  opacity: 0.6;
+                  cursor: pointer;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-row .json-formatter-toggler:after {
+                  display: inline-block;
+                  transition: transform 100ms ease-in;
+                  content: "\25BA";
+                }
+                .json-formatter-row > a > .json-formatter-preview-text {
+                  opacity: 0;
+                  transition: opacity 0.15s ease-in;
+                  font-style: italic;
+                }
+                .json-formatter-row:hover > a > .json-formatter-preview-text {
+                  opacity: 0.6;
+                }
+                .json-formatter-row.json-formatter-open > .json-formatter-toggler-link .json-formatter-toggler:after {
+                  transform: rotate(90deg);
+                }
+                .json-formatter-row.json-formatter-open > .json-formatter-children:after {
+                  display: inline-block;
+                }
+                .json-formatter-row.json-formatter-open > a > .json-formatter-preview-text {
+                  display: none;
+                }
+                .json-formatter-row.json-formatter-open.json-formatter-empty:after {
+                  display: block;
+                }
+                .json-formatter-dark.json-formatter-row {
+                  font-family: monospace;
+                }
+                .json-formatter-dark.json-formatter-row,
+                .json-formatter-dark.json-formatter-row a,
+                .json-formatter-dark.json-formatter-row a:hover {
+                  color: white;
+                  text-decoration: none;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-row {
+                  margin-left: 1rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty {
+                  opacity: 0.5;
+                  margin-left: 1rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty:after {
+                  display: none;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-object:after {
+                  content: "No properties";
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-children.json-formatter-empty.json-formatter-array:after {
+                  content: "[]";
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-string,
+                .json-formatter-dark.json-formatter-row .json-formatter-stringifiable {
+                  color: #31F031;
+                  white-space: pre;
+                  word-wrap: break-word;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-number {
+                  color: #66C2FF;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-boolean {
+                  color: #EC4242;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-null {
+                  color: #EEC97D;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-undefined {
+                  color: #ef8fbe;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-function {
+                  color: #FD48CB;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-date {
+                  background-color: rgba(255, 255, 255, 0.05);
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-url {
+                  text-decoration: underline;
+                  color: #027BFF;
+                  cursor: pointer;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-bracket {
+                  color: #9494FF;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-key {
+                  color: #23A0DB;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler-link {
+                  cursor: pointer;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler {
+                  line-height: 1.2rem;
+                  font-size: 0.7rem;
+                  vertical-align: middle;
+                  opacity: 0.6;
+                  cursor: pointer;
+                  padding-right: 0.2rem;
+                }
+                .json-formatter-dark.json-formatter-row .json-formatter-toggler:after {
+                  display: inline-block;
+                  transition: transform 100ms ease-in;
+                  content: "\25BA";
+                }
+                .json-formatter-dark.json-formatter-row > a > .json-formatter-preview-text {
+                  opacity: 0;
+                  transition: opacity 0.15s ease-in;
+                  font-style: italic;
+                }
+                .json-formatter-dark.json-formatter-row:hover > a > .json-formatter-preview-text {
+                  opacity: 0.6;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > .json-formatter-toggler-link .json-formatter-toggler:after {
+                  transform: rotate(90deg);
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > .json-formatter-children:after {
+                  display: inline-block;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open > a > .json-formatter-preview-text {
+                  display: none;
+                }
+                .json-formatter-dark.json-formatter-row.json-formatter-open.json-formatter-empty:after {
+                  display: block;
+                }
+
+        </style>
+        <style>
+            table.panel-df {
+                    margin-left: auto;
+                    margin-right: auto;
+                    border: none;
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                    color: black;
+                    font-size: 12px;
+                    table-layout: fixed;
+                    width: 100%;
+                }
+
+                .panel-df tr, th, td {
+                    text-align: right;
+                    vertical-align: middle;
+                    padding: 0.5em 0.5em !important;
+                    line-height: normal;
+                    white-space: normal;
+                    max-width: none;
+                    border: none;
+                }
+
+                .panel-df tbody {
+                    display: table-row-group;
+                    vertical-align: middle;
+                    border-color: inherit;
+                }
+
+                .panel-df tbody tr:nth-child(odd) {
+                    background: #f5f5f5;
+                }
+
+                .panel-df thead {
+                    border-bottom: 1px solid black;
+                    vertical-align: bottom;
+                }
+
+                .panel-df tr:hover {
+                    background: lightblue !important;
+                    cursor: pointer;
+                }
+
+        </style>
+        <style>
+            .codehilite .hll { background-color: #ffffcc }
+                .codehilite  { background: #f8f8f8; }
+                .codehilite .c { color: #408080; font-style: italic } /* Comment */
+                .codehilite .err { border: 1px solid #FF0000 } /* Error */
+                .codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+                .codehilite .o { color: #666666 } /* Operator */
+                .codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+                .codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+                .codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+                .codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+                .codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+                .codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+                .codehilite .gd { color: #A00000 } /* Generic.Deleted */
+                .codehilite .ge { font-style: italic } /* Generic.Emph */
+                .codehilite .gr { color: #FF0000 } /* Generic.Error */
+                .codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+                .codehilite .gi { color: #00A000 } /* Generic.Inserted */
+                .codehilite .go { color: #888888 } /* Generic.Output */
+                .codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+                .codehilite .gs { font-weight: bold } /* Generic.Strong */
+                .codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+                .codehilite .gt { color: #0044DD } /* Generic.Traceback */
+                .codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+                .codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+                .codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+                .codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+                .codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+                .codehilite .kt { color: #B00040 } /* Keyword.Type */
+                .codehilite .m { color: #666666 } /* Literal.Number */
+                .codehilite .s { color: #BA2121 } /* Literal.String */
+                .codehilite .na { color: #7D9029 } /* Name.Attribute */
+                .codehilite .nb { color: #008000 } /* Name.Builtin */
+                .codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+                .codehilite .no { color: #880000 } /* Name.Constant */
+                .codehilite .nd { color: #AA22FF } /* Name.Decorator */
+                .codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+                .codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+                .codehilite .nf { color: #0000FF } /* Name.Function */
+                .codehilite .nl { color: #A0A000 } /* Name.Label */
+                .codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+                .codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+                .codehilite .nv { color: #19177C } /* Name.Variable */
+                .codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+                .codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+                .codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+                .codehilite .mf { color: #666666 } /* Literal.Number.Float */
+                .codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+                .codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+                .codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+                .codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+                .codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+                .codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+                .codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+                .codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+                .codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+                .codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+                .codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+                .codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+                .codehilite .sx { color: #008000 } /* Literal.String.Other */
+                .codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+                .codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+                .codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+                .codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+                .codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+                .codehilite .vc { color: #19177C } /* Name.Variable.Class */
+                .codehilite .vg { color: #19177C } /* Name.Variable.Global */
+                .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+                .codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+                .codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+                .markdown h1 { margin-block-start: 0.34em }
+                .markdown h2 { margin-block-start: 0.42em }
+                .markdown h3 { margin-block-start: 0.5em }
+                .markdown h4 { margin-block-start: 0.67em }
+                .markdown h5 { margin-block-start: 0.84em }
+                .markdown h6 { margin-block-start: 1.17em }
+                .markdown ul { padding-inline-start: 2em }
+                .markdown ol { padding-inline-start: 2em }
+                .markdown strong { font-weight: 600 }
+                .markdown a { color: -webkit-link }
+                .markdown a { color: -moz-hyperlinkText }
+
+        </style>
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.1.min.js" integrity="sha384-JpP8FXbgAZLkfur7LiK3j9AGBhHNIvF742meBJrjO2ShJDhCG2I1uVvW+0DUtrmc" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="497a78e8-2ada-47c6-8dfa-701d7e50b494" data-root-id="47589"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="48454">
+          {"4c5bfd69-3016-4d80-bc9f-55407a795343":{"roots":{"references":[{"attributes":{},"id":"1506","type":"UnionRenderers"},{"attributes":{"end":4,"start":-4},"id":"1147","type":"Range1d"},{"attributes":{"below":[{"id":"46646"}],"center":[{"id":"46649"},{"id":"46653"},{"id":"46686"}],"left":[{"id":"46650"}],"renderers":[{"id":"46671"},{"id":"46676"},{"id":"46691"},{"id":"46707"},{"id":"46725"},{"id":"46745"},{"id":"46767"},{"id":"46791"},{"id":"46817"},{"id":"46845"},{"id":"46875"},{"id":"46907"},{"id":"46941"},{"id":"46977"},{"id":"47015"},{"id":"47055"}],"title":{"id":"46636"},"toolbar":{"id":"46661"},"toolbar_location":null,"x_range":{"id":"46638"},"x_scale":{"id":"46642"},"y_range":{"id":"46640"},"y_scale":{"id":"46644"}},"id":"46635","subtype":"Figure","type":"Plot"},{"attributes":{"text":"Projection of feature axes (loadings) in PC space","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"46636","type":"Title"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"46669","type":"Scatter"},{"attributes":{"line_color":"#ff9896","x":{"field":"x"},"y":{"field":"y"}},"id":"46815","type":"Line"},{"attributes":{"children":[{"id":"1001"},{"id":"1144"},{"id":"1461"},{"id":"1287"},{"id":"46635"}]},"id":"47589","type":"Column"},{"attributes":{"data":{"x":[26.00240050675959,-26.00240050675959],"y":[-4.342871105814458,4.342871105814458]},"selected":{"id":"46785"},"selection_policy":{"id":"46786"}},"id":"46742","type":"ColumnDataSource"},{"attributes":{"source":{"id":"46742"}},"id":"46746","type":"CDSView"},{"attributes":{"data_source":{"id":"46742"},"glyph":{"id":"46743"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46744"},"selection_glyph":null,"view":{"id":"46746"}},"id":"46745","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"46764"},"glyph":{"id":"46765"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46766"},"selection_glyph":null,"view":{"id":"46768"}},"id":"46767","type":"GlyphRenderer"},{"attributes":{},"id":"1505","type":"Selection"},{"attributes":{"data":{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"y":{"__ndarray__":"p0G6byHn/j+pVC7feaXyP68QMY92u+c/Pue/0B3Z4z865/m4kF+/P7AKN+RIT7s/MGqBgMbkuT/B7Uhexjy5P+Y9NgbLM7c/3LugIL5Jtj/49h14DxK1PzZn+cp+wrM/KCUguhnOsj+dDWsF5SevP02S7qDs4qs/","dtype":"float64","shape":[15]}},"selected":{"id":"1336"},"selection_policy":{"id":"1337"}},"id":"1320","type":"ColumnDataSource"},{"attributes":{"formatter":{"id":"1041"},"ticker":{"id":"1013"}},"id":"1012","type":"LinearAxis"},{"attributes":{"text":"Scatter plot of two most significant principal components","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1002","type":"Title"},{"attributes":{},"id":"1503","type":"BasicTickFormatter"},{"attributes":{"axis":{"id":"1012"},"ticker":null},"id":"1015","type":"Grid"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1035","type":"Scatter"},{"attributes":{"source":{"id":"46688"}},"id":"46692","type":"CDSView"},{"attributes":{"line_alpha":0.1,"line_color":"#98df8a","x":{"field":"x"},"y":{"field":"y"}},"id":"46766","type":"Line"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1486","type":"BoxAnnotation"},{"attributes":{"formatter":{"id":"1043"},"ticker":{"id":"1017"}},"id":"1016","type":"LinearAxis"},{"attributes":{},"id":"47049","type":"Selection"},{"attributes":{"axis":{"id":"1159"},"dimension":1,"ticker":null},"id":"1162","type":"Grid"},{"attributes":{"data":{"x":[45.13974830953109,-45.13974830953109],"y":[-34.20025605866353,34.20025605866353]},"selected":{"id":"47130"},"selection_policy":{"id":"47131"}},"id":"47052","type":"ColumnDataSource"},{"attributes":{},"id":"47050","type":"UnionRenderers"},{"attributes":{"axis":{"id":"1155"},"ticker":null},"id":"1158","type":"Grid"},{"attributes":{"text":"Scatter plot of two of the original features","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1462","type":"Title"},{"attributes":{"data_source":{"id":"1325"},"glyph":{"id":"1326"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1327"},"selection_glyph":null,"view":{"id":"1329"}},"id":"1328","type":"GlyphRenderer"},{"attributes":{},"id":"1160","type":"BasicTicker"},{"attributes":{"formatter":{"id":"1186"},"ticker":{"id":"1160"}},"id":"1159","type":"LinearAxis"},{"attributes":{},"id":"1473","type":"BasicTicker"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"46660","type":"BoxAnnotation"},{"attributes":{},"id":"47091","type":"Selection"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1306"},{"id":"1307"},{"id":"1308"},{"id":"1309"},{"id":"1310"},{"id":"1311"}]},"id":"1313","type":"Toolbar"},{"attributes":{},"id":"1485","type":"HelpTool"},{"attributes":{"line_color":"#7f7f7f","x":{"field":"x"},"y":{"field":"y"}},"id":"47053","type":"Line"},{"attributes":{"data_source":{"id":"47052"},"glyph":{"id":"47053"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"47054"},"selection_glyph":null,"view":{"id":"47056"}},"id":"47055","type":"GlyphRenderer"},{"attributes":{},"id":"46680","type":"BasicTickFormatter"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1163"},{"id":"1164"},{"id":"1165"},{"id":"1166"},{"id":"1167"},{"id":"1168"}]},"id":"1170","type":"Toolbar"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1327","type":"Circle"},{"attributes":{"source":{"id":"47052"}},"id":"47056","type":"CDSView"},{"attributes":{"source":{"id":"46668"}},"id":"46672","type":"CDSView"},{"attributes":{"line_alpha":0.1,"line_color":"#7f7f7f","x":{"field":"x"},"y":{"field":"y"}},"id":"47054","type":"Line"},{"attributes":{"formatter":{"id":"1501"},"ticker":{"id":"1473"}},"id":"1472","type":"LinearAxis"},{"attributes":{},"id":"1163","type":"PanTool"},{"attributes":{"data_source":{"id":"46842"},"glyph":{"id":"46843"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46844"},"selection_glyph":null,"view":{"id":"46846"}},"id":"46845","type":"GlyphRenderer"},{"attributes":{},"id":"1164","type":"WheelZoomTool"},{"attributes":{},"id":"1477","type":"BasicTicker"},{"attributes":{"label":{"value":"14"},"renderers":[{"id":"47055"}]},"id":"47093","type":"LegendItem"},{"attributes":{"axis":{"id":"1472"},"ticker":null},"id":"1475","type":"Grid"},{"attributes":{},"id":"47092","type":"UnionRenderers"},{"attributes":{"overlay":{"id":"1169"}},"id":"1165","type":"BoxZoomTool"},{"attributes":{},"id":"1166","type":"SaveTool"},{"attributes":{},"id":"1167","type":"ResetTool"},{"attributes":{"source":{"id":"1494"}},"id":"1498","type":"CDSView"},{"attributes":{},"id":"1168","type":"HelpTool"},{"attributes":{},"id":"47130","type":"Selection"},{"attributes":{},"id":"47131","type":"UnionRenderers"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1496","type":"Scatter"},{"attributes":{},"id":"1338","type":"Selection"},{"attributes":{"data_source":{"id":"1494"},"glyph":{"id":"1495"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1496"},"selection_glyph":null,"view":{"id":"1498"}},"id":"1497","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#aec7e8","x":{"field":"x"},"y":{"field":"y"}},"id":"46690","type":"Line"},{"attributes":{},"id":"1337","type":"UnionRenderers"},{"attributes":{"overlay":{"id":"1486"}},"id":"1482","type":"BoxZoomTool"},{"attributes":{},"id":"1336","type":"Selection"},{"attributes":{},"id":"1481","type":"WheelZoomTool"},{"attributes":{},"id":"1480","type":"PanTool"},{"attributes":{},"id":"1339","type":"UnionRenderers"},{"attributes":{"axis":{"id":"46646"},"ticker":null},"id":"46649","type":"Grid"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1495","type":"Scatter"},{"attributes":{},"id":"1484","type":"ResetTool"},{"attributes":{},"id":"1334","type":"BasicTickFormatter"},{"attributes":{},"id":"1332","type":"BasicTickFormatter"},{"attributes":{"line_color":"#2ca02c","x":{"field":"x"},"y":{"field":"y"}},"id":"46743","type":"Line"},{"attributes":{"below":[{"id":"1472"}],"center":[{"id":"1475"},{"id":"1479"}],"left":[{"id":"1476"}],"renderers":[{"id":"1497"}],"title":{"id":"1462"},"toolbar":{"id":"1487"},"toolbar_location":null,"x_range":{"id":"1464"},"x_scale":{"id":"1468"},"y_range":{"id":"1466"},"y_scale":{"id":"1470"}},"id":"1461","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"1483","type":"SaveTool"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1480"},{"id":"1481"},{"id":"1482"},{"id":"1483"},{"id":"1484"},{"id":"1485"}]},"id":"1487","type":"Toolbar"},{"attributes":{},"id":"46647","type":"BasicTicker"},{"attributes":{},"id":"46682","type":"BasicTickFormatter"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1169","type":"BoxAnnotation"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1312","type":"BoxAnnotation"},{"attributes":{"data":{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"y":{"__ndarray__":"p0G6byHn/j+pVC7feaXyP68QMY92u+c/Pue/0B3Z4z865/m4kF+/P7AKN+RIT7s/MGqBgMbkuT/B7Uhexjy5P+Y9NgbLM7c/3LugIL5Jtj/49h14DxK1PzZn+cp+wrM/KCUguhnOsj+dDWsF5SevP02S7qDs4qs/","dtype":"float64","shape":[15]}},"selected":{"id":"1338"},"selection_policy":{"id":"1339"}},"id":"1325","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1325"}},"id":"1329","type":"CDSView"},{"attributes":{"data_source":{"id":"1177"},"glyph":{"id":"1178"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1179"},"selection_glyph":null,"view":{"id":"1181"}},"id":"1180","type":"GlyphRenderer"},{"attributes":{},"id":"1153","type":"LinearScale"},{"attributes":{"source":{"id":"1177"}},"id":"1181","type":"CDSView"},{"attributes":{"axis":{"id":"1476"},"dimension":1,"ticker":null},"id":"1479","type":"Grid"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","x":{"field":"x"},"y":{"field":"y"}},"id":"46675","type":"Line"},{"attributes":{"formatter":{"id":"1503"},"ticker":{"id":"1477"}},"id":"1476","type":"LinearAxis"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"field":"fill_color"},"line_alpha":{"value":0.1},"line_color":{"field":"line_color"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1179","type":"Scatter"},{"attributes":{"data":{"x":[-0.7543636916872811,0.7543636916872811],"y":[-53.45793686476304,53.45793686476304]},"selected":{"id":"46719"},"selection_policy":{"id":"46720"}},"id":"46688","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#9467bd","x":{"field":"x"},"y":{"field":"y"}},"id":"46844","type":"Line"},{"attributes":{"source":{"id":"46842"}},"id":"46846","type":"CDSView"},{"attributes":{},"id":"1188","type":"Selection"},{"attributes":{"data":{"x":[-39.62616464508925,39.62616464508925],"y":[-0.9135205725862218,0.9135205725862218]},"selected":{"id":"46811"},"selection_policy":{"id":"46812"}},"id":"46764","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1034"}},"id":"1038","type":"CDSView"},{"attributes":{"data_source":{"id":"46704"},"glyph":{"id":"46705"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46706"},"selection_glyph":null,"view":{"id":"46708"}},"id":"46707","type":"GlyphRenderer"},{"attributes":{"formatter":{"id":"1184"},"ticker":{"id":"1156"}},"id":"1155","type":"LinearAxis"},{"attributes":{"source":{"id":"46722"}},"id":"46726","type":"CDSView"},{"attributes":{"end":4,"start":-4},"id":"1464","type":"Range1d"},{"attributes":{},"id":"1013","type":"BasicTicker"},{"attributes":{},"id":"1017","type":"BasicTicker"},{"attributes":{"line_alpha":0.1,"line_color":"#ff7f0e","x":{"field":"x"},"y":{"field":"y"}},"id":"46706","type":"Line"},{"attributes":{"data":{"x":{"__ndarray__":"AB0Oq0VK7T9Y4CFB0I3tPxKGTHcgZfU/uJzQifgquT8MVbiw7HndP9DidjL84/Y/3dF404rN9z9g12EfeCr7P6ul/TwVEfk/dqh4/odbAECcv0AHWan2P5jYZuRrgPU/kzNh/0rV4T9y7YuEcTv6P6Jk4lLUtPI/PCtW2UpH9j9MOi14Y1nwP/cDaWcoUfA/sSZnP2Ja4T+FPVtOZNzyP4tuifqlDPw/OhWbVA4/+D8sHKwx6pD4PxCNz3QbU+0/Sy7pwJpN/j9slL7ON9bwPxEsYe2f5vM/NUgzy+jf5T/lu/gwbtjqP3ACtMbWMuw/hAMWVE4b+D+tRES6IcHoPyTgPOefE/Q/tft01xJ88T++l6Nb4Ob3P7arjveMA/k/9ub6epal8z/l37BCK4XmP4sGPTw+vtQ/uQzbCekF6T/XIlSRHOb7PzbmVY/YzfI/V3Y9qCoi5T8JFc6fUy/uPzmYnl6iqvw/Nv0C67rK8D8YKE/o7DjgP1tnJKtcdvE/D+hC4+F88z9LO8XfgkT7PxcptcSKDuU/L7b/8dUx+D+MkvmXFZvXP7xnNeeluPY/oLpg9FBO+j8PP+8G1EzwP9LjcSNiIus/DTmtEj3X8j+AMlUfI3zzP3CTWj4GHeg/06VdxpPZ7j94ZDVuUKPUPx4M+ol3MfI/5lfHNw8WAECV/JftUdL3P2EEWqROG/U/s8Rco/3b5z9QnGiY4rv3P7BwCWwF+f0/y6tANzW02T+Er2e4p3nbP0gSaoqKV+k/TDeD2zeE+T9Jg4FmkofhP2aHL+wdk90/yoK0ZVb5zD8iO+2v/oTmP+jM0riu9PI/lWvvJvoY9D+ayxUbxvnoP4S/73ZVGvI/pOyB9Xub+D8PkeSjFLP1Pxui/DOzpvE/nkeTF93w9T836psIBhTmP6vMB6BAQfU/Mq4ilDf4+z8S2SBDbkvwPwkVMVnEnfk/xlKXinjM9j9Vbeb2hM3xPx+RmlyllfI/mT2/DHKz8D//eZiuumn7P4isvEyCIu8/sJfJ3llk2j8Pd0Mdxtb0P+9lxI5Zy+M/yjRjlkid9T8Kk5I6bK/xPzJhAjaorOk/3rO3x8597D/x+QmYF0f0P8YRmmevcO4/EKUVL7iE8D9MVAuYA5byP8NKqae/6uY/zSam2gAE4z/7tu9RA9D4P+PUYPMkI/Y/2hIY08DF7z+s4NkI/U7tP0PXcZD4iPY/FuOUn8Wc+j/clCcaUuDxP7z5Ghmk/u0/rMKSCkd99z/I0dfYAV/3P4ILZOflGv0/gu50FbNZ9T/uUY8o8JfmP59B+9gtE+U/lbzgCXvg9D8Sz8sCPx3zP+gVCF1ScOc/qZHqxfuF8D+PYb121275P8TkonkhQPs/2UBVFJah9j+UICUfKELqP2TW1RH6ufs/lWUGeYnj6z9R3tnler32P7hlmbNJj/U/V+5UNpGU8D/BiWaBYPPnP0ww9rVMSvM/xRG0Sq6L4j/BmWAhWpLiP/L1io7BAwBA/VyxeV4i+z8wUse38hz5P6lif93CkeY/HDOr4ZRp6T9UO8SpAl32Px7uDdsyoPQ/3F/+dOT89T8EUBdkm0z3P9VzKmUPqfw/mciClBdM6T8QVggiKXXxPwWW9CmTkeQ/LBOcbWOD4z9QLaaqJDznP8Y8jFOvv/w/h6mzPgRG9T/dZwfZKankPzFQc8Veh/A/kaz7pf3p9D9gZshZ02+rPwo15xaW6Ow/0RMvPfhU9T8v2eV95OPyP9wfPjZggvs/737KGfk35j9cc7qTqz/BP1LlS4igd/w/NHXQSmjfyz8dqbpI1N7yPwf6n+6LueM/shHltIdU+j+0CRcl4VX3P91KV2WOfvw/Qj4MiVM1+T/NVzOZ+TTjP9qznBmUedw/+RMxZQLg4D+TPY2nLWHyP4MjGPbsrfI/xpyjUEOx9z/2vqg/Zxv5P0tQ6rWLavE/qtcSluAo9T9+DAG8Cy/9PyNpkb4Jl/U/KecAgjzW8j/tWZBT19HcP/tIQREu4eY/gw+50Uri+T9zI0zhsKz1P9Sug4Ie5es/1DL6pR/a7j+BBJ9UZsHSP1d3vqNeBQFAHTgYDfyJ8j/6SZu9wZbUP6aMCYGPofM/DCwejG0j+D8w9WbJ2Yv1Pw==","dtype":"float64","shape":[200]},"y":{"__ndarray__":"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","dtype":"float64","shape":[200]}},"selected":{"id":"1505"},"selection_policy":{"id":"1506"}},"id":"1494","type":"ColumnDataSource"},{"attributes":{"data":{"x":[-17.227845846698848,17.227845846698848],"y":[27.816499553877527,-27.816499553877527]},"selected":{"id":"46739"},"selection_policy":{"id":"46740"}},"id":"46704","type":"ColumnDataSource"},{"attributes":{"axis":{"id":"1016"},"dimension":1,"ticker":null},"id":"1019","type":"Grid"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1026","type":"BoxAnnotation"},{"attributes":{"end":4,"start":-4},"id":"46638","type":"Range1d"},{"attributes":{"below":[{"id":"1012"}],"center":[{"id":"1015"},{"id":"1019"}],"left":[{"id":"1016"}],"renderers":[{"id":"1037"}],"title":{"id":"1002"},"toolbar":{"id":"1027"},"toolbar_location":null,"x_range":{"id":"1004"},"x_scale":{"id":"1008"},"y_range":{"id":"1006"},"y_scale":{"id":"1010"}},"id":"1001","subtype":"Figure","type":"Plot"},{"attributes":{},"id":"46811","type":"Selection"},{"attributes":{"label":{"value":"1"},"renderers":[{"id":"46691"}]},"id":"46703","type":"LegendItem"},{"attributes":{"line_color":"#98df8a","x":{"field":"x"},"y":{"field":"y"}},"id":"46765","type":"Line"},{"attributes":{"axis":{"id":"46650"},"dimension":1,"ticker":null},"id":"46653","type":"Grid"},{"attributes":{"formatter":{"id":"46682"},"ticker":{"id":"46651"}},"id":"46650","type":"LinearAxis"},{"attributes":{"label":{"value":"5"},"renderers":[{"id":"46767"}]},"id":"46787","type":"LegendItem"},{"attributes":{},"id":"1045","type":"Selection"},{"attributes":{},"id":"1041","type":"BasicTickFormatter"},{"attributes":{},"id":"46655","type":"WheelZoomTool"},{"attributes":{"data_source":{"id":"46872"},"glyph":{"id":"46873"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46874"},"selection_glyph":null,"view":{"id":"46876"}},"id":"46875","type":"GlyphRenderer"},{"attributes":{},"id":"1008","type":"LinearScale"},{"attributes":{"end":4,"start":-4},"id":"1006","type":"Range1d"},{"attributes":{"data_source":{"id":"46668"},"glyph":{"id":"46669"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46670"},"selection_glyph":null,"view":{"id":"46672"}},"id":"46671","type":"GlyphRenderer"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{},"id":"46651","type":"BasicTicker"},{"attributes":{"source":{"id":"46872"}},"id":"46876","type":"CDSView"},{"attributes":{"line_alpha":0.1,"line_color":"#c5b0d5","x":{"field":"x"},"y":{"field":"y"}},"id":"46874","type":"Line"},{"attributes":{},"id":"1046","type":"UnionRenderers"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1036","type":"Scatter"},{"attributes":{},"id":"46654","type":"PanTool"},{"attributes":{},"id":"1309","type":"SaveTool"},{"attributes":{},"id":"46659","type":"HelpTool"},{"attributes":{},"id":"46739","type":"Selection"},{"attributes":{"data":{"x":{"__ndarray__":"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","dtype":"float64","shape":[200]},"y":{"__ndarray__":"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","dtype":"float64","shape":[200]}},"selected":{"id":"1045"},"selection_policy":{"id":"1046"}},"id":"1034","type":"ColumnDataSource"},{"attributes":{"data":{"fill_color":["#ff7f0e","#aec7e8","#ffbb78","#2ca02c","#2ca02c","#2ca02c","#ffbb78","#1f77b4","#ffbb78","#ffbb78","#ffbb78","#aec7e8","#ff7f0e","#ffbb78","#1f77b4","#1f77b4","#ffbb78","#1f77b4","#2ca02c","#ffbb78","#1f77b4","#ffbb78","#1f77b4","#ff7f0e","#ffbb78","#1f77b4","#ffbb78","#2ca02c","#ff7f0e","#ff7f0e","#aec7e8","#ff7f0e","#ffbb78","#ffbb78","#1f77b4","#aec7e8","#1f77b4","#ff7f0e","#2ca02c","#2ca02c","#1f77b4","#aec7e8","#ff7f0e","#ff7f0e","#aec7e8","#ff7f0e","#2ca02c","#aec7e8","#aec7e8","#1f77b4","#ff7f0e","#aec7e8","#ff7f0e","#aec7e8","#1f77b4","#aec7e8","#ff7f0e","#aec7e8","#1f77b4","#2ca02c","#1f77b4","#2ca02c","#ffbb78","#1f77b4","#1f77b4","#ffbb78","#2ca02c","#1f77b4","#ffbb78","#ff7f0e","#2ca02c","#aec7e8","#ffbb78","#2ca02c","#2ca02c","#2ca02c","#2ca02c","#aec7e8","#aec7e8","#ff7f0e","#ff7f0e","#ff7f0e","#1f77b4","#aec7e8","#1f77b4","#1f77b4","#1f77b4","#ffbb78","#ff7f0e","#ffbb78","#1f77b4","#ffbb78","#aec7e8","#1f77b4","#ffbb78","#ff7f0e","#ff7f0e","#aec7e8","#ff7f0e","#1f77b4","#aec7e8","#ff7f0e","#aec7e8","#1f77b4","#ffbb78","#ffbb78","#1f77b4","#2ca02c","#ff7f0e","#ffbb78","#ff7f0e","#aec7e8","#ff7f0e","#ffbb78","#1f77b4","#aec7e8","#2ca02c","#ffbb78","#ffbb78","#aec7e8","#ff7f0e","#2ca02c","#ff7f0e","#aec7e8","#1f77b4","#ff7f0e","#aec7e8","#ffbb78","#1f77b4","#aec7e8","#aec7e8","#aec7e8","#ffbb78","#1f77b4","#ffbb78","#ffbb78","#aec7e8","#ffbb78","#2ca02c","#ff7f0e","#1f77b4","#ffbb78","#aec7e8","#ff7f0e","#2ca02c","#ffbb78","#aec7e8","#ffbb78","#aec7e8","#ffbb78","#ff7f0e","#ffbb78","#2ca02c","#ff7f0e","#ff7f0e","#ffbb78","#1f77b4","#aec7e8","#aec7e8","#aec7e8","#ff7f0e","#1f77b4","#aec7e8","#aec7e8","#aec7e8","#2ca02c","#ff7f0e","#aec7e8","#ff7f0e","#aec7e8","#2ca02c","#ffbb78","#1f77b4","#1f77b4","#1f77b4","#2ca02c","#2ca02c","#2ca02c","#1f77b4","#ffbb78","#ffbb78","#ffbb78","#aec7e8","#aec7e8","#ffbb78","#aec7e8","#1f77b4","#2ca02c","#2ca02c","#aec7e8","#ffbb78","#ff7f0e","#aec7e8","#2ca02c","#1f77b4","#aec7e8","#2ca02c","#ff7f0e","#ffbb78","#aec7e8"],"line_color":["#ff7f0e","#aec7e8","#ffbb78","#2ca02c","#2ca02c","#2ca02c","#ffbb78","#1f77b4","#ffbb78","#ffbb78","#ffbb78","#aec7e8","#ff7f0e","#ffbb78","#1f77b4","#1f77b4","#ffbb78","#1f77b4","#2ca02c","#ffbb78","#1f77b4","#ffbb78","#1f77b4","#ff7f0e","#ffbb78","#1f77b4","#ffbb78","#2ca02c","#ff7f0e","#ff7f0e","#aec7e8","#ff7f0e","#ffbb78","#ffbb78","#1f77b4","#aec7e8","#1f77b4","#ff7f0e","#2ca02c","#2ca02c","#1f77b4","#aec7e8","#ff7f0e","#ff7f0e","#aec7e8","#ff7f0e","#2ca02c","#aec7e8","#aec7e8","#1f77b4","#ff7f0e","#aec7e8","#ff7f0e","#aec7e8","#1f77b4","#aec7e8","#ff7f0e","#aec7e8","#1f77b4","#2ca02c","#1f77b4","#2ca02c","#ffbb78","#1f77b4","#1f77b4","#ffbb78","#2ca02c","#1f77b4","#ffbb78","#ff7f0e","#2ca02c","#aec7e8","#ffbb78","#2ca02c","#2ca02c","#2ca02c","#2ca02c","#aec7e8","#aec7e8","#ff7f0e","#ff7f0e","#ff7f0e","#1f77b4","#aec7e8","#1f77b4","#1f77b4","#1f77b4","#ffbb78","#ff7f0e","#ffbb78","#1f77b4","#ffbb78","#aec7e8","#1f77b4","#ffbb78","#ff7f0e","#ff7f0e","#aec7e8","#ff7f0e","#1f77b4","#aec7e8","#ff7f0e","#aec7e8","#1f77b4","#ffbb78","#ffbb78","#1f77b4","#2ca02c","#ff7f0e","#ffbb78","#ff7f0e","#aec7e8","#ff7f0e","#ffbb78","#1f77b4","#aec7e8","#2ca02c","#ffbb78","#ffbb78","#aec7e8","#ff7f0e","#2ca02c","#ff7f0e","#aec7e8","#1f77b4","#ff7f0e","#aec7e8","#ffbb78","#1f77b4","#aec7e8","#aec7e8","#aec7e8","#ffbb78","#1f77b4","#ffbb78","#ffbb78","#aec7e8","#ffbb78","#2ca02c","#ff7f0e","#1f77b4","#ffbb78","#aec7e8","#ff7f0e","#2ca02c","#ffbb78","#aec7e8","#ffbb78","#aec7e8","#ffbb78","#ff7f0e","#ffbb78","#2ca02c","#ff7f0e","#ff7f0e","#ffbb78","#1f77b4","#aec7e8","#aec7e8","#aec7e8","#ff7f0e","#1f77b4","#aec7e8","#aec7e8","#aec7e8","#2ca02c","#ff7f0e","#aec7e8","#ff7f0e","#aec7e8","#2ca02c","#ffbb78","#1f77b4","#1f77b4","#1f77b4","#2ca02c","#2ca02c","#2ca02c","#1f77b4","#ffbb78","#ffbb78","#ffbb78","#aec7e8","#aec7e8","#ffbb78","#aec7e8","#1f77b4","#2ca02c","#2ca02c","#aec7e8","#ffbb78","#ff7f0e","#aec7e8","#2ca02c","#1f77b4","#aec7e8","#2ca02c","#ff7f0e","#ffbb78","#aec7e8"],"x":{"__ndarray__":"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","dtype":"float64","shape":[200]},"y":{"__ndarray__":"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","dtype":"float64","shape":[200]}},"selected":{"id":"1188"},"selection_policy":{"id":"1189"}},"id":"1177","type":"ColumnDataSource"},{"attributes":{},"id":"46657","type":"SaveTool"},{"attributes":{},"id":"46701","type":"Selection"},{"attributes":{"overlay":{"id":"46660"}},"id":"46656","type":"BoxZoomTool"},{"attributes":{},"id":"46762","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1034"},"glyph":{"id":"1035"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1036"},"selection_glyph":null,"view":{"id":"1038"}},"id":"1037","type":"GlyphRenderer"},{"attributes":{"line_color":"#1f77b4","x":{"field":"x"},"y":{"field":"y"}},"id":"46674","type":"Line"},{"attributes":{},"id":"46812","type":"UnionRenderers"},{"attributes":{},"id":"1020","type":"PanTool"},{"attributes":{},"id":"1021","type":"WheelZoomTool"},{"attributes":{},"id":"46785","type":"Selection"},{"attributes":{"overlay":{"id":"1026"}},"id":"1022","type":"BoxZoomTool"},{"attributes":{},"id":"46642","type":"LinearScale"},{"attributes":{},"id":"1023","type":"SaveTool"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"46654"},{"id":"46655"},{"id":"46656"},{"id":"46657"},{"id":"46658"},{"id":"46659"}]},"id":"46661","type":"Toolbar"},{"attributes":{"data_source":{"id":"46722"},"glyph":{"id":"46723"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46724"},"selection_glyph":null,"view":{"id":"46726"}},"id":"46725","type":"GlyphRenderer"},{"attributes":{},"id":"1024","type":"ResetTool"},{"attributes":{"source":{"id":"46704"}},"id":"46708","type":"CDSView"},{"attributes":{"end":4,"start":-4},"id":"46640","type":"Range1d"},{"attributes":{},"id":"46658","type":"ResetTool"},{"attributes":{"text":"Scatter plot of two most significant principal components (colored by underlying group)","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1145","type":"Title"},{"attributes":{"formatter":{"id":"46680"},"ticker":{"id":"46647"}},"id":"46646","type":"LinearAxis"},{"attributes":{"fill_color":{"field":"fill_color"},"line_color":{"field":"line_color"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1178","type":"Scatter"},{"attributes":{},"id":"46685","type":"UnionRenderers"},{"attributes":{},"id":"46644","type":"LinearScale"},{"attributes":{},"id":"1025","type":"HelpTool"},{"attributes":{"label":{"value":"3"},"renderers":[{"id":"46725"}]},"id":"46741","type":"LegendItem"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"46670","type":"Scatter"},{"attributes":{"data":{"x":[5.017590627146274,-5.017590627146274],"y":[-9.767543986948217,9.767543986948217]},"selected":{"id":"46761"},"selection_policy":{"id":"46762"}},"id":"46722","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#8c564b","x":{"field":"x"},"y":{"field":"y"}},"id":"46906","type":"Line"},{"attributes":{},"id":"46740","type":"UnionRenderers"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1020"},{"id":"1021"},{"id":"1022"},{"id":"1023"},{"id":"1024"},{"id":"1025"}]},"id":"1027","type":"Toolbar"},{"attributes":{"data":{"x":[-20.47081207935382,20.47081207935382],"y":[-26.2309088193799,26.2309088193799]},"selected":{"id":"46971"},"selection_policy":{"id":"46972"}},"id":"46904","type":"ColumnDataSource"},{"attributes":{"line_color":"#8c564b","x":{"field":"x"},"y":{"field":"y"}},"id":"46905","type":"Line"},{"attributes":{"data":{"x":[14.087859393820237,-14.087859393820237],"y":[23.860231575452005,-23.860231575452005]},"selected":{"id":"46701"},"selection_policy":{"id":"46702"}},"id":"46673","type":"ColumnDataSource"},{"attributes":{"label":{"value":"0"},"renderers":[{"id":"46676"}]},"id":"46687","type":"LegendItem"},{"attributes":{"data":{"x":[-4.311502278315546,4.311502278315546],"y":[-0.38706805580850645,0.38706805580850645]},"selected":{"id":"46839"},"selection_policy":{"id":"46840"}},"id":"46788","type":"ColumnDataSource"},{"attributes":{},"id":"1184","type":"BasicTickFormatter"},{"attributes":{},"id":"1501","type":"BasicTickFormatter"},{"attributes":{"label":{"value":"4"},"renderers":[{"id":"46745"}]},"id":"46763","type":"LegendItem"},{"attributes":{},"id":"46786","type":"UnionRenderers"},{"attributes":{},"id":"46870","type":"UnionRenderers"},{"attributes":{},"id":"1186","type":"BasicTickFormatter"},{"attributes":{"source":{"id":"46673"}},"id":"46677","type":"CDSView"},{"attributes":{},"id":"46869","type":"Selection"},{"attributes":{"data_source":{"id":"46688"},"glyph":{"id":"46689"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46690"},"selection_glyph":null,"view":{"id":"46692"}},"id":"46691","type":"GlyphRenderer"},{"attributes":{"data_source":{"id":"46904"},"glyph":{"id":"46905"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46906"},"selection_glyph":null,"view":{"id":"46908"}},"id":"46907","type":"GlyphRenderer"},{"attributes":{"line_alpha":0.1,"line_color":"#2ca02c","x":{"field":"x"},"y":{"field":"y"}},"id":"46744","type":"Line"},{"attributes":{},"id":"1189","type":"UnionRenderers"},{"attributes":{"line_color":"#c5b0d5","x":{"field":"x"},"y":{"field":"y"}},"id":"46873","type":"Line"},{"attributes":{"end":4,"start":-4},"id":"1466","type":"Range1d"},{"attributes":{"line_color":"#ff7f0e","x":{"field":"x"},"y":{"field":"y"}},"id":"46705","type":"Line"},{"attributes":{"source":{"id":"46904"}},"id":"46908","type":"CDSView"},{"attributes":{},"id":"1294","type":"LinearScale"},{"attributes":{"label":{"value":"6"},"renderers":[{"id":"46791"}]},"id":"46813","type":"LegendItem"},{"attributes":{},"id":"46935","type":"Selection"},{"attributes":{"data_source":{"id":"47012"},"glyph":{"id":"47013"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"47014"},"selection_glyph":null,"view":{"id":"47016"}},"id":"47015","type":"GlyphRenderer"},{"attributes":{"line_color":"#aec7e8","x":{"field":"x"},"y":{"field":"y"}},"id":"46689","type":"Line"},{"attributes":{"formatter":{"id":"1332"},"ticker":{"id":"1299"}},"id":"1298","type":"LinearAxis"},{"attributes":{"overlay":{"id":"1312"}},"id":"1308","type":"BoxZoomTool"},{"attributes":{"label":{"value":"8"},"renderers":[{"id":"46845"}]},"id":"46871","type":"LegendItem"},{"attributes":{"label":{"value":"11"},"renderers":[{"id":"46941"}]},"id":"46973","type":"LegendItem"},{"attributes":{"source":{"id":"46764"}},"id":"46768","type":"CDSView"},{"attributes":{},"id":"1470","type":"LinearScale"},{"attributes":{"line_color":"#1f77b4","x":{"field":"x"},"y":{"field":"y"}},"id":"1321","type":"Line"},{"attributes":{},"id":"46972","type":"UnionRenderers"},{"attributes":{},"id":"1292","type":"DataRange1d"},{"attributes":{"label":{"value":"2"},"renderers":[{"id":"46707"}]},"id":"46721","type":"LegendItem"},{"attributes":{"line_color":"#ffbb78","x":{"field":"x"},"y":{"field":"y"}},"id":"46723","type":"Line"},{"attributes":{"label":{"value":"13"},"renderers":[{"id":"47015"}]},"id":"47051","type":"LegendItem"},{"attributes":{"text":"Eigenvalues of the covariance matrix","text_color":{"value":"black"},"text_font_size":{"value":"12pt"}},"id":"1288","type":"Title"},{"attributes":{"label":{"value":"7"},"renderers":[{"id":"46817"}]},"id":"46841","type":"LegendItem"},{"attributes":{"source":{"id":"47012"}},"id":"47016","type":"CDSView"},{"attributes":{"end":4,"start":-4},"id":"1004","type":"Range1d"},{"attributes":{"source":{"id":"46814"}},"id":"46818","type":"CDSView"},{"attributes":{},"id":"1290","type":"DataRange1d"},{"attributes":{},"id":"46720","type":"UnionRenderers"},{"attributes":{"line_color":"#f7b6d2","x":{"field":"x"},"y":{"field":"y"}},"id":"47013","type":"Line"},{"attributes":{},"id":"46684","type":"Selection"},{"attributes":{},"id":"46702","type":"UnionRenderers"},{"attributes":{"click_policy":"hide","items":[{"id":"46687"},{"id":"46703"},{"id":"46721"},{"id":"46741"},{"id":"46763"},{"id":"46787"},{"id":"46813"},{"id":"46841"},{"id":"46871"},{"id":"46903"},{"id":"46937"},{"id":"46973"},{"id":"47011"},{"id":"47051"},{"id":"47093"}],"location":"top_left"},"id":"46686","type":"Legend"},{"attributes":{},"id":"46839","type":"Selection"},{"attributes":{},"id":"46719","type":"Selection"},{"attributes":{"line_alpha":0.1,"line_color":"#f7b6d2","x":{"field":"x"},"y":{"field":"y"}},"id":"47014","type":"Line"},{"attributes":{"source":{"id":"46974"}},"id":"46978","type":"CDSView"},{"attributes":{"data_source":{"id":"46788"},"glyph":{"id":"46789"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46790"},"selection_glyph":null,"view":{"id":"46792"}},"id":"46791","type":"GlyphRenderer"},{"attributes":{"label":{"value":"12"},"renderers":[{"id":"46977"}]},"id":"47011","type":"LegendItem"},{"attributes":{},"id":"1296","type":"LinearScale"},{"attributes":{},"id":"47010","type":"UnionRenderers"},{"attributes":{},"id":"1311","type":"HelpTool"},{"attributes":{"source":{"id":"46788"}},"id":"46792","type":"CDSView"},{"attributes":{"data":{"x":[31.31972660138876,-31.31972660138876],"y":[-22.629396968323707,22.629396968323707]},"selected":{"id":"47091"},"selection_policy":{"id":"47092"}},"id":"47012","type":"ColumnDataSource"},{"attributes":{},"id":"1151","type":"LinearScale"},{"attributes":{"data_source":{"id":"46673"},"glyph":{"id":"46674"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46675"},"selection_glyph":null,"view":{"id":"46677"}},"id":"46676","type":"GlyphRenderer"},{"attributes":{"line_color":"#9467bd","x":{"field":"x"},"y":{"field":"y"}},"id":"46843","type":"Line"},{"attributes":{"line_alpha":0.1,"line_color":"#e377c2","x":{"field":"x"},"y":{"field":"y"}},"id":"46976","type":"Line"},{"attributes":{"formatter":{"id":"1334"},"ticker":{"id":"1303"}},"id":"1302","type":"LinearAxis"},{"attributes":{},"id":"46971","type":"Selection"},{"attributes":{"data_source":{"id":"46974"},"glyph":{"id":"46975"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46976"},"selection_glyph":null,"view":{"id":"46978"}},"id":"46977","type":"GlyphRenderer"},{"attributes":{"data":{"x":[-25.093337872782396,25.093337872782396],"y":[-12.40469393976146,12.40469393976146]},"selected":{"id":"46869"},"selection_policy":{"id":"46870"}},"id":"46814","type":"ColumnDataSource"},{"attributes":{"data":{"x":[26.386489127671194,-26.386489127671194],"y":[-4.246701372482028,4.246701372482028]},"selected":{"id":"46901"},"selection_policy":{"id":"46902"}},"id":"46842","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#ff9896","x":{"field":"x"},"y":{"field":"y"}},"id":"46816","type":"Line"},{"attributes":{},"id":"46840","type":"UnionRenderers"},{"attributes":{},"id":"1010","type":"LinearScale"},{"attributes":{"axis":{"id":"1298"},"ticker":null},"id":"1301","type":"Grid"},{"attributes":{"data_source":{"id":"46814"},"glyph":{"id":"46815"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46816"},"selection_glyph":null,"view":{"id":"46818"}},"id":"46817","type":"GlyphRenderer"},{"attributes":{},"id":"47009","type":"Selection"},{"attributes":{"data":{"x":[15.229126944518672,-15.229126944518672],"y":[25.623033454613502,-25.623033454613502]},"selected":{"id":"47049"},"selection_policy":{"id":"47050"}},"id":"46974","type":"ColumnDataSource"},{"attributes":{"line_alpha":0.1,"line_color":"#ffbb78","x":{"field":"x"},"y":{"field":"y"}},"id":"46724","type":"Line"},{"attributes":{"line_color":"#c49c94","x":{"field":"x"},"y":{"field":"y"}},"id":"46939","type":"Line"},{"attributes":{},"id":"1303","type":"BasicTicker"},{"attributes":{"line_alpha":0.1,"line_color":"#d62728","x":{"field":"x"},"y":{"field":"y"}},"id":"46790","type":"Line"},{"attributes":{},"id":"1468","type":"LinearScale"},{"attributes":{"line_alpha":0.1,"line_color":"#c49c94","x":{"field":"x"},"y":{"field":"y"}},"id":"46940","type":"Line"},{"attributes":{"data_source":{"id":"1320"},"glyph":{"id":"1321"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1322"},"selection_glyph":null,"view":{"id":"1324"}},"id":"1323","type":"GlyphRenderer"},{"attributes":{"source":{"id":"46938"}},"id":"46942","type":"CDSView"},{"attributes":{},"id":"46902","type":"UnionRenderers"},{"attributes":{},"id":"1299","type":"BasicTicker"},{"attributes":{"label":{"value":"9"},"renderers":[{"id":"46875"}]},"id":"46903","type":"LegendItem"},{"attributes":{"axis":{"id":"1302"},"dimension":1,"ticker":null},"id":"1305","type":"Grid"},{"attributes":{"below":[{"id":"1155"}],"center":[{"id":"1158"},{"id":"1162"}],"left":[{"id":"1159"}],"renderers":[{"id":"1180"}],"title":{"id":"1145"},"toolbar":{"id":"1170"},"toolbar_location":null,"x_range":{"id":"1147"},"x_scale":{"id":"1151"},"y_range":{"id":"1149"},"y_scale":{"id":"1153"}},"id":"1144","subtype":"Figure","type":"Plot"},{"attributes":{"line_color":"#e377c2","x":{"field":"x"},"y":{"field":"y"}},"id":"46975","type":"Line"},{"attributes":{},"id":"1310","type":"ResetTool"},{"attributes":{"data":{"x":[44.49214339227492,-44.49214339227492],"y":[40.50890663673264,-40.50890663673264]},"selected":{"id":"47009"},"selection_policy":{"id":"47010"}},"id":"46938","type":"ColumnDataSource"},{"attributes":{"source":{"id":"1320"}},"id":"1324","type":"CDSView"},{"attributes":{},"id":"46761","type":"Selection"},{"attributes":{},"id":"46936","type":"UnionRenderers"},{"attributes":{"data":{"x":{"__ndarray__":"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","dtype":"float64","shape":[200]},"y":{"__ndarray__":"6U6Ep6LkyT+LVLle3DTtP+z0pMCLpfi/0jYigugdAUAtb1fiXNP6P7qejgjFBwNAyYV75qmS779gZ+++tvHlvwztfPDjPve/BN3cYtfC8r894onKMjjxvxW+URVtEeY/BoQclFDEwD/52dMVIZvtv30kDp5kSNm/ssvOOjcx87+J9do3ykn1v8wYKDgYVei/8UUTEDQWAEBKRC8Nu2zqv+4JuG6nsOu/YvlRxbXK6r/QeU5KvFPtv1aKRxkjQtq/WZAeeW7o8b9kKGM3dZbNv9f6Z3BzU+m/BbYlxsKuAUAg1QDMQs7WvyK2y4SF5b8/Vqyehgr17z+6uxNS9gHSv2k0FRX9+fK/rLUJc3fv8b943i+xPRzov4jyFcgTwuE/BbjyYFZlwb8/c6zgHhiwv7pegzqj1fo/Wx8kP5Ml/T+uRmnjyK71vwnB/3zWRsc/6ekQiCSa179Uly5PutDZv9AOndVQ4eo/uPVkgqmivT8SDDVnnjgAQCmRXjsoruc/E4XwhOUYnr+oMoDbdBzsvxMKRtnl+cY//vLWRqH75j+1fsCqr7iqP6DGDIsnjd8/mX3cnaxq2L+0Xjun11XaP083nDjrftm/ugpbXBX34z+1b0XI5+3kvxFWPfoKzgBAukxX1zCz5b/MyDxZpEX9P5JueNhUufS/rEvJ3TT38L/DMOoxovTov8dfhFk3h/C/Tdi2aep8AUDl7nG1MC3wv/mEREokpPK/sZib6SR21r9DCyS/CZIBQHAxqBJRD+o/N4sEU7gQ8b+g3UEI/ZD/P3mGPDdTf/g/N6V0xO+LAUA/lYSyUMX9P2ePmx+UEN8/CgFdt3h+3z8nsFtNUHq9v406xZ51H7a/Do7knS551b8oHF/MQFPpv3tPtZC7weo/SOpty4Aq7r/g+8CS/kPwv/LV89qTf+2/T71cl2ye9b8lDpfr7qaIvycGz4Yadfq/gYG9yGS67r+J7IkG17D1vwjzb96SGeM/nNXv+fc66L98Wnomwxf8vzaVLmyRQXE/32fZzcHr2D9P1qFXX43hPzhvJGz2uco/Ti9kgrxF5L/Wx6koaU7DP/jr6gk0scA/XprHcp6I6j/2BAamGH3zv3A8JLHGNO6/bMVQvlbw978R9l+Tu0blv10DtYII9QBArdKj7ZBzyD9W7Jb7O1jqvzVXAs/umNi/BJJ7fA673T/YXem73AXbv8vYy+N6Mea/EE9BT1kk6r8goJsEnafSPz5OqOOoZwBA+qCLdt1G8L/clZlpke/0v3tom54pAck/lHeQlKA84b+u/r18/H0AQMPugPdQrM6/sIZOrgaH4D+aWK1ZmlHovwrGsI5ovaW/ODzg57XD0z8RoZsRmB/xv9YuaGcbF/G/KcNBaI676D+TfHzFPrLnP+ICBnb6NdQ/TslR+eic8L+npmR0R9jpvybrzujA1fO/zKAeLrzZ67/BP6lItynxP0NgAeE9uvC/oGLmgKzA/z++ndMQwSjRv0r5i6+i69G/bEWjO9eR9b8c6IpDepfUP/L51WcMboi/A3Q9rBhL/D/cdIgd2s35vxI5YB3ExOo/xBDrj/0Z8r9rioDvYf7mP4mmQsU2Nuu/kru/Yhk/yT9egIb0GdHmv++aP3SZKwFA/tD1GmFipT/v4SectUfOP/CoIoqx7/W/WjUtYUBb6L+vKHiXjaTqP+HtJCb2evY/UCsH+i0U3D+duFKnGi/dv81ReDCl4Ou/T0PpXkBm0j9FtkVV0hHNP5Sen6xtV+E/Vl46wWRr/j+8KDFjFKrBPxtY94/5S+A/qWqcpFN53b9NFw3/lCbKP/RgcXHDTQJAGZwRx75T9L8wl/H2l4fiv0hutQIjxe2/P5SO9wcg77882MxBe2H9P2XJM5BlYP0/ZnSv3l7q+z+OefLlwe3pv6R4XpcQg+6/634JHnq+8r+HOAOUgT3xv0eYMOGwi8M/4d6DsCZK6j+DJWt+ByT6v+lqM6Ws4dU/C1BPWTU0zr+l8DeqtGL6P+Q1F11bUfg/uV8eZu321T+3vb8+yKf7vxSAsvcbKsE/1mvzZCnviT/3q96RAKABQKTz6d4p++i/DvulgLZA3D/ZBYGJ0FH+P9+b8KOix8m/3icdIenI6b/Vz/2sqCLfPw==","dtype":"float64","shape":[200]}},"selected":{"id":"46684"},"selection_policy":{"id":"46685"}},"id":"46668","type":"ColumnDataSource"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"x":{"field":"x"},"y":{"field":"y"}},"id":"1326","type":"Circle"},{"attributes":{},"id":"46901","type":"Selection"},{"attributes":{},"id":"1306","type":"PanTool"},{"attributes":{"data_source":{"id":"46938"},"glyph":{"id":"46939"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"46940"},"selection_glyph":null,"view":{"id":"46942"}},"id":"46941","type":"GlyphRenderer"},{"attributes":{},"id":"1156","type":"BasicTicker"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","x":{"field":"x"},"y":{"field":"y"}},"id":"1322","type":"Line"},{"attributes":{"label":{"value":"10"},"renderers":[{"id":"46907"}]},"id":"46937","type":"LegendItem"},{"attributes":{"end":4,"start":-4},"id":"1149","type":"Range1d"},{"attributes":{},"id":"1307","type":"WheelZoomTool"},{"attributes":{"line_color":"#d62728","x":{"field":"x"},"y":{"field":"y"}},"id":"46789","type":"Line"},{"attributes":{"below":[{"id":"1298"}],"center":[{"id":"1301"},{"id":"1305"}],"left":[{"id":"1302"}],"renderers":[{"id":"1323"},{"id":"1328"}],"title":{"id":"1288"},"toolbar":{"id":"1313"},"toolbar_location":null,"x_range":{"id":"1290"},"x_scale":{"id":"1294"},"y_range":{"id":"1292"},"y_scale":{"id":"1296"}},"id":"1287","subtype":"Figure","type":"Plot"},{"attributes":{"data":{"x":[15.461746737567946,-15.461746737567946],"y":[-29.063739223957285,29.063739223957285]},"selected":{"id":"46935"},"selection_policy":{"id":"46936"}},"id":"46872","type":"ColumnDataSource"}],"root_ids":["47589"]},"title":"Bokeh Application","version":"2.0.1"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('48454').textContent;
+                  var render_items = [{"docid":"4c5bfd69-3016-4d80-bc9f-55407a795343","root_ids":["47589"],"roots":{"47589":"497a78e8-2ada-47c6-8dfa-701d7e50b494"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        clearInterval(timer);
+                        embed_document(root);
+                      } else {
+                        attempts++;
+                        if (attempts > 100) {
+                          clearInterval(timer);
+                          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        }
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
