@@ -85,6 +85,15 @@ f(x)=w\cdot x+b.
 D = \frac{f(p)}{\|w\|}
 \]</span></li>
 </ul>
+<p><strong>Proof:</strong> For the first part, suppose that <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> satisfy <span class="math inline">\(f(x)=0\)</span>. Then <span class="math inline">\(w\cdot p+b = w\cdot q+b=0\)</span>. Subtracting these two equations gives <span class="math inline">\(w\cdot (p-q)=0\)</span>, so <span class="math inline">\(p-q\)</span> is orthogonal to <span class="math inline">\(w\)</span>.</p>
+<p>For the second part, consider fig. <a href="#fig:triangle">4</a>. The point <span class="math inline">\(q\)</span> is an arbitrary point on the hyperplane defined by the equation <span class="math inline">\(w\cdot x+b=0\)</span>. The distance from the hyperplane to <span class="math inline">\(p\)</span> is measured along the dotted line perpendicular to the hyperplane. The dot product <span class="math inline">\(w\cdot (p-q) = \|w\|\|p-q\|\cos(\theta)\)</span> where <span class="math inline">\(\theta\)</span> is the angle between <span class="math inline">\(p-q\)</span> and the hyperplane. The distance <span class="math inline">\(D\)</span> is therefore <span class="math display">\[
+D=\frac{w\cdot(p-q)}{\|w\|}.
+\]</span> However, since <span class="math inline">\(q\)</span> lies on the hyperplane, we know that <span class="math inline">\(w\cdot q+b=0\)</span> so <span class="math inline">\(w\cdot q = -b\)</span>. Therefore <span class="math inline">\(w\cdot(p-q)=w\cdot p+b=f(p)\)</span>, which is the formula we seek.</p>
+<div id="fig:triangle" class="fignos">
+<figure>
+<img src="../img/triangle.png" width="200" height="200" alt="" /><figcaption><span>Figure 4:</span> Distance to a Hyperplane</figcaption>
+</figure>
+</div>
 <h1 class="unnumbered" data-number="" id="bibliography">References</h1>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-vapnik92">
