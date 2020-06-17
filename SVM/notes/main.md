@@ -164,6 +164,20 @@ $$
 D = \frac{f(p)}{\|w\|}
 $$
 
+**Proof:** For the first part, suppose that $p$ and $q$ satisfy $f(x)=0$.  Then $w\cdot p+b = w\cdot q+b=0$. Subtracting these two
+equations gives $w\cdot (p-q)=0$, so $p-q$ is orthogonal to $w$.
+
+For the second part, consider +@fig:triangle.  The point $q$ is an arbitrary point on the hyperplane defined by the equation
+$w\cdot x+b=0$.  The distance from the hyperplane to $p$ is measured along the dotted line perpendicular to the hyperplane.
+The dot product $w\cdot (p-q) = \|w\|\|p-q\|\cos(\theta)$ where $\theta$ is the angle between $p-q$ and the hyperplane. The
+distance $D$ is therefore 
+$$
+D=\frac{w\cdot(p-q)}{\|w\|}.
+$$
+However, since $q$ lies on the hyperplane, we know that $w\cdot q+b=0$ so $w\cdot q = -b$.  Therefore $w\cdot(p-q)=w\cdot p+b=f(p)$,
+which is the formula we seek.
+
+![Distance to a Hyperplane](../img/triangle.png){#fig:triangle width=50%}
 
 
 
