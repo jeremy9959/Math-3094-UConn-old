@@ -1,0 +1,6 @@
+- Classification problem
+- Linear separation
+- Separating hyperplanes
+- Supporting hyperplanes
+- Convexity and the convex hull
+- Margins

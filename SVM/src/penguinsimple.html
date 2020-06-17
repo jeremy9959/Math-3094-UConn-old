@@ -1,0 +1,85 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.js" integrity="sha384-ufR9RFnRs6lniiaFvtJziE0YeidtAgBRH6ux2oUItHw5WTvE1zuk9uzhUU/FJXDp" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="3da6c480-6076-492e-9a1b-7e5cba017e74" data-root-id="1001"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1237">
+          {"61f85e54-8cf4-47ee-a097-cbbbce838cce":{"roots":{"references":[{"attributes":{"axis_label":"Culmen Depth (mm)","formatter":{"id":"1043"},"ticker":{"id":"1011"}},"id":"1010","type":"LinearAxis"},{"attributes":{"line_alpha":0.1,"line_color":"red","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1066","type":"Line"},{"attributes":{},"id":"1011","type":"BasicTicker"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"field":"color"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"Culmen Depth (mm)"},"y":{"field":"Body Mass (g)"}},"id":"1036","type":"Circle"},{"attributes":{"fill_color":{"field":"color"},"line_color":{"value":"#1f77b4"},"x":{"field":"Culmen Depth (mm)"},"y":{"field":"Body Mass (g)"}},"id":"1035","type":"Circle"},{"attributes":{"label":{"value":"y=250x+400"},"renderers":[{"id":"1067"}]},"id":"1080","type":"LegendItem"},{"attributes":{"axis":{"id":"1014"},"dimension":1,"ticker":null},"id":"1017","type":"Grid"},{"attributes":{},"id":"1002","type":"DataRange1d"},{"attributes":{"label":{"value":"Gentoo"},"renderers":[{"id":"1052"}]},"id":"1063","type":"LegendItem"},{"attributes":{},"id":"1078","type":"UnionRenderers"},{"attributes":{},"id":"1004","type":"DataRange1d"},{"attributes":{"source":{"id":"1064"}},"id":"1068","type":"CDSView"},{"attributes":{},"id":"1061","type":"UnionRenderers"},{"attributes":{},"id":"1079","type":"Selection"},{"attributes":{},"id":"1021","type":"SaveTool"},{"attributes":{"data":{"Body Mass (g)":{"__ndarray__":"AAAAAAD6qUAAAAAAAOisQAAAAAAAvKtAAAAAAABMrUAAAAAAADCxQAAAAAAAhKxAAAAAAADMsEAAAAAAAGKxQAAAAAAAzLBAAAAAAABAr0AAAAAAABqtQAAAAAAA+LFAAAAAAACasEAAAAAAALOwQAAAAAAA/rBA","dtype":"float64","shape":[15]},"Clutch Completion":["No","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],"Comments":["Nest never observed with full clutch.","NaN","NaN","NaN","NaN","NaN","NaN","NaN","NaN","NaN","NaN","NaN","No blood sample obtained for sexing.","NaN","NaN"],"Culmen Depth (mm)":{"__ndarray__":"ZmZmZmbmMUCamZmZmZkyQDMzMzMzMzFAmpmZmZkZM0CamZmZmRk1QDMzMzMzszJAZmZmZmbmMkCamZmZmRkyQJqZmZmZGTJAAAAAAAAAMkAAAAAAAAAxQM3MzMzMzDJAMzMzMzMzNEAAAAAAAIAzQAAAAAAAgDJA","dtype":"float64","shape":[15]},"Culmen Length (mm)":{"__ndarray__":"AAAAAABAQ0AzMzMzM7NEQM3MzMzMzENAzczMzMzMQkBmZmZmZqZEQAAAAAAAgENAzczMzMwMREDNzMzMzMxDQM3MzMzMjERAzczMzMwMRkCamZmZmVlEQM3MzMzMzENAAAAAAAAARUCamZmZmRlFQGZmZmZmJkRA","dtype":"float64","shape":[15]},"Date Egg":["2009-11-23","2008-11-09","2008-11-11","2008-11-15","2008-11-13","2009-11-16","2008-11-06","2008-11-05","2008-11-14","2009-11-18","2009-11-16","2007-11-16","2007-11-09","2009-11-15","2008-11-08"],"Delta 13 C (o/oo)":{"__ndarray__":"3BFOC16UOcBz9Pi9TUc6wEsC1NSyjTrArwj+t5LlOcDV8ZiBymA6wA1Uxr/PCDrAA+yjU1eOOsCwijcyj2w6wNqPFJFh1TnAlj50QX0DOsD51RwgmMs5wG40gLdAGjjADkqYafsXOcC2EOSghGk6wPs/h/nyAjrA","dtype":"float64","shape":[15]},"Delta 15 N (o/oo)":{"__ndarray__":"gEi/fR34IUAwL8A+OrUgQECfyJOkqyBAne+nxks3IkACgjl6/H4hQManABjPcCJAniRdM/kGIUDImLuWkP8gQAoRcAhViiFALQlQU8s2IkAFwHgGDR0iQF6/YDds+yJA3C4012lEIkDu8NdkjZohQESoUrMHyiBA","dtype":"float64","shape":[15]},"Flipper Length (mm)":{"__ndarray__":"AAAAAADAZ0AAAAAAAOBnQAAAAAAAgGhAAAAAAABAaEAAAAAAAGBoQAAAAAAAIGdAAAAAAACAZ0AAAAAAAEBnQAAAAAAAoGlAAAAAAABAakAAAAAAAMBnQAAAAAAAwGdAAAAAAADAZ0AAAAAAAKBoQAAAAAAAgGhA","dtype":"float64","shape":[15]},"Individual ID":["N73A1","N23A2","N35A1","N25A2","N27A2","N82A2","N21A2","N46A2","N45A2","N72A2","N81A2","N28A2","N5A2","N60A2","N49A2"],"Island":["Torgersen","Biscoe","Torgersen","Biscoe","Biscoe","Dream","Biscoe","Dream","Dream","Torgersen","Dream","Dream","Torgersen","Biscoe","Dream"],"Region":["Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers"],"Sample Number":[131,56,73,60,62,146,52,94,92,130,144,46,10,114,98],"Sex":["FEMALE","MALE","FEMALE","MALE","MALE","MALE","MALE","MALE","MALE","MALE","MALE","MALE","NaN","MALE","MALE"],"Species":["Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)","Adelie Penguin (Pygoscelis adeliae)"],"Stage":["Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage"],"color":["blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue","blue"],"index":[130,55,72,59,61,145,51,93,91,129,143,45,9,113,97],"studyName":["PAL0910","PAL0809","PAL0809","PAL0809","PAL0809","PAL0910","PAL0809","PAL0809","PAL0809","PAL0910","PAL0910","PAL0708","PAL0708","PAL0910","PAL0809"],"type":["Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie","Adelie"]},"selected":{"id":"1062"},"selection_policy":{"id":"1061"}},"id":"1033","type":"ColumnDataSource"},{"attributes":{"label":{"value":"Adelie"},"renderers":[{"id":"1037"}]},"id":"1047","type":"LegendItem"},{"attributes":{},"id":"1006","type":"LinearScale"},{"attributes":{},"id":"1041","type":"BasicTickFormatter"},{"attributes":{"overlay":{"id":"1024"}},"id":"1020","type":"BoxZoomTool"},{"attributes":{"axis":{"id":"1010"},"ticker":null},"id":"1013","type":"Grid"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1018"},{"id":"1019"},{"id":"1020"},{"id":"1021"},{"id":"1022"},{"id":"1023"}]},"id":"1025","type":"Toolbar"},{"attributes":{"line_color":"red","line_dash":[2,4],"line_width":2,"x":{"field":"x"},"y":{"field":"y"}},"id":"1065","type":"Line"},{"attributes":{"axis_label":"Body Mass (g)","formatter":{"id":"1041"},"ticker":{"id":"1015"}},"id":"1014","type":"LinearAxis"},{"attributes":{"text":"Penguin Features"},"id":"1032","type":"Title"},{"attributes":{},"id":"1018","type":"PanTool"},{"attributes":{},"id":"1008","type":"LinearScale"},{"attributes":{"data":{"x":{"__ndarray__":"AAAAAAAAKUCGxLydITEpQA2JeTtDYilAk0022WSTKUAaEvN2hsQpQKDWrxSo9SlAJ5tssskmKkCtXylQ61cqQDQk5u0MiSpAuuiiiy66KkBBrV8pUOsqQMdxHMdxHCtATjbZZJNNK0DU+pUCtX4rQFq/UqDWrytA4YMPPvjgK0BnSMzbGRIsQO4MiXk7QyxAdNFFF110LED7lQK1fqUsQIFav1Kg1ixACB988MEHLUCO4ziO4zgtQBSo9SsFai1Am2yyySabLUAiMW9nSMwtQKj1KwVq/S1ALrrooosuLkC1fqVArV8uQDtDYt7OkC5AwgcffPDBLkBIzNsZEvMuQM+QmLczJC9AVVVVVVVVL0DcGRLzdoYvQGLezpCYty9A6KKLLrroL0C4MyTm7QwwQPuVArV+JTBAPvjggw8+MECBWr9SoFYwQMS8nSExbzBACB988MGHMEBLgVq/UqAwQI7jOI7juDBA0UUXXXTRMEAUqPUrBeowQFgK1PqVAjFAm2yyySYbMUDezpCYtzMxQCIxb2dITDFAZZNNNtlkMUCo9SsFan0xQOtXCtT6lTFALrrooouuMUByHMdxHMcxQLV+pUCt3zFA+OCDDz74MUA7Q2LezhAyQH6lQK1fKTJAwgcffPBBMkAFav1KgVoyQEjM2xkSczJAjC666KKLMkDPkJi3M6QyQBLzdobEvDJAVVVVVVXVMkCYtzMk5u0yQNwZEvN2BjNAH3zwwQcfM0Bi3s6QmDczQKVArV8pUDNA6KKLLrpoM0AsBWr9SoEzQG9nSMzbmTNAsskmm2yyM0D2KwVq/cozQDmO4ziO4zNAfPDBBx/8M0C/UqDWrxQ0QAK1fqVALTRARhdddNFFNECJeTtDYl40QMzbGRLzdjRAED744IOPNEBSoNavFKg0QJYCtX6lwDRA2WSTTTbZNEAcx3Ecx/E0QGApUOtXCjVAoosuuugiNUDm7QyJeTs1QClQ61cKVDVAbLLJJptsNUCwFKj1K4U1QPN2hsS8nTVANtlkk022NUB6O0Ni3s41QLydITFv5zVAAAAAAAAANkA=","dtype":"float64","shape":[100]},"y":{"__ndarray__":"AAAAAACKq0DrVwrU+rmrQNevFKj16atAwgcffPAZrECtXylQ60msQJi3MyTmeaxAhA8++OCprEBvZ0jM29msQFu/UqDWCa1ARhdddNE5rUAxb2dIzGmtQBzHcRzHma1ACB988MHJrUDzdobEvPmtQN7OkJi3Ka5AyiabbLJZrkC1fqVArYmuQKDWrxSoua5Aiy666KLprkB3hsS8nRmvQGLezpCYSa9ATjbZZJN5r0A5juM4jqmvQCTm7QyJ2a9ACB988MEEsED+SoFavxywQPN2hsS8NLBA6KKLLrpMsEDezpCYt2SwQNT6lQK1fLBAyiabbLKUsEC/UqDWr6ywQLV+pUCtxLBAqqqqqqrcsECg1q8UqPSwQJYCtX6lDLFAjC666KIksUCCWr9SoDyxQHeGxLydVLFAbLLJJptssUBi3s6QmISxQFcK1PqVnLFATjbZZJO0sUBDYt7OkMyxQDmO4ziO5LFALrrooov8sUAk5u0MiRSyQBoS83aGLLJADz744INEskAFav1KgVyyQPuVArV+dLJA8cEHH3yMskDm7QyJeaSyQNsZEvN2vLJA0UUXXXTUskDHcRzHceyyQL2dITFvBLNAsskmm2wcs0Co9SsFajSzQJ0hMW9nTLNAk0022WRks0CJeTtDYnyzQH6lQK1flLNAddFFF12ss0Bq/UqBWsSzQGApUOtX3LNAVVVVVVX0s0BKgVq/Ugy0QEGtXylQJLRANtlkk008tEAsBWr9SlS0QCExb2dIbLRAF1100UWEtEANiXk7Q5y0QAK1fqVAtLRA+OCDDz7MtEDuDIl5O+S0QOQ4juM4/LRA2WSTTTYUtUDPkJi3Myy1QMS8nSExRLVAuuiiiy5ctUCwFKj1K3S1QKVArV8pjLVAnGyyySaktUCQmLczJLy1QIbEvJ0h1LVAfPDBBx/stUBxHMdxHAS2QGhIzNsZHLZAXHTRRRc0tkBToNavFEy2QEjM2xkSZLZAPfjggw98tkA0JObtDJS2QClQ61cKrLZAH3zwwQfEtkAVqPUrBdy2QArU+pUC9LZAAAAAAAAMt0A=","dtype":"float64","shape":[100]}},"selected":{"id":"1093"},"selection_policy":{"id":"1092"}},"id":"1064","type":"ColumnDataSource"},{"attributes":{},"id":"1015","type":"BasicTicker"},{"attributes":{},"id":"1023","type":"HelpTool"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"field":"color"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"x":{"field":"Culmen Depth (mm)"},"y":{"field":"Body Mass (g)"}},"id":"1051","type":"Circle"},{"attributes":{"below":[{"id":"1010"}],"center":[{"id":"1013"},{"id":"1017"},{"id":"1046"}],"left":[{"id":"1014"}],"renderers":[{"id":"1037"},{"id":"1052"},{"id":"1067"}],"title":{"id":"1032"},"toolbar":{"id":"1025"},"toolbar_location":null,"x_range":{"id":"1002"},"x_scale":{"id":"1006"},"y_range":{"id":"1004"},"y_scale":{"id":"1008"}},"id":"1001","subtype":"Figure","type":"Plot"},{"attributes":{"source":{"id":"1048"}},"id":"1053","type":"CDSView"},{"attributes":{"data_source":{"id":"1048"},"glyph":{"id":"1050"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1051"},"selection_glyph":null,"view":{"id":"1053"}},"id":"1052","type":"GlyphRenderer"},{"attributes":{"data":{"Body Mass (g)":{"__ndarray__":"AAAAAAC0tEAAAAAAAI6yQAAAAAAAULRAAAAAAAAEsEAAAAAAAKK3QAAAAAAARLZAAAAAAABQtEAAAAAAAHa2QAAAAAAA2rZAAAAAAACOskA=","dtype":"float64","shape":[10]},"Clutch Completion":["Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes","Yes"],"Comments":["NaN","NaN","NaN","Sexing primers did not amplify.","NaN","NaN","NaN","NaN","NaN","NaN"],"Culmen Depth (mm)":{"__ndarray__":"ZmZmZmZmLEAAAAAAAAAuQJqZmZmZmS5AmpmZmZmZLEAAAAAAAAAxQM3MzMzMzDBAZmZmZmZmL0BmZmZmZmYvQAAAAAAAADBAAAAAAAAALUA=","dtype":"float64","shape":[10]},"Culmen Length (mm)":{"__ndarray__":"ZmZmZmamSUDNzMzMzMxIQJqZmZmZWUdAAAAAAABARkDNzMzMzMxNQGZmZmZm5khAZmZmZmZmSUAzMzMzMzNJQM3MzMzMjEtAAAAAAADARkA=","dtype":"float64","shape":[10]},"Date Egg":["2009-11-20","2008-11-04","2007-11-27","2007-11-29","2007-12-03","2008-11-04","2009-11-27","2009-11-22","2009-11-25","2009-12-01"],"Delta 13 C (o/oo)":{"__ndarray__":"gLdAguJXOsC+MJkqGMU6wAXFjzF3bTnARUyJJHqxOcACmggbnq45wIzzN6EQsTrAIsMq3sgcOsCKk/sdigo6wGagMv59LjrAQspPqn06OsA=","dtype":"float64","shape":[10]},"Delta 15 N (o/oo)":{"__ndarray__":"dCmuKvtOIEDye5v+7IcgQE4LXvQVdCBAzEV8J2bdH0CmD11Q3xIfQKlqgqj78CBAtB8pIsOKIEDRBfUtc5ogQNDQP8HFKiBAOpfiqrJPIEA=","dtype":"float64","shape":[10]},"Flipper Length (mm)":{"__ndarray__":"AAAAAABAa0AAAAAAAABrQAAAAAAAYGtAAAAAAAAAa0AAAAAAAMBsQAAAAAAAwGxAAAAAAABAbEAAAAAAAMBrQAAAAAAAwGxAAAAAAACAakA=","dtype":"float64","shape":[10]},"Individual ID":["N13A2","N7A2","N34A2","N46A1","N56A2","N20A2","N19A2","N39A2","N35A2","N18A1"],"Island":["Biscoe","Biscoe","Biscoe","Biscoe","Biscoe","Biscoe","Biscoe","Biscoe","Biscoe","Biscoe"],"Region":["Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers","Anvers"],"Sample Number":[88,44,8,27,34,66,96,122,116,93],"Sex":["MALE","MALE","MALE","NaN","MALE","MALE","MALE","MALE","MALE","FEMALE"],"Species":["Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)","Gentoo penguin (Pygoscelis papua)"],"Stage":["Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage","Adult, 1 Egg Stage"],"color":["green","green","green","green","green","green","green","green","green","green"],"index":[239,195,159,178,185,217,247,273,267,244],"studyName":["PAL0910","PAL0809","PAL0708","PAL0708","PAL0708","PAL0809","PAL0910","PAL0910","PAL0910","PAL0910"],"type":["Gentoo","Gentoo","Gentoo","Gentoo","Gentoo","Gentoo","Gentoo","Gentoo","Gentoo","Gentoo"]},"selected":{"id":"1079"},"selection_policy":{"id":"1078"}},"id":"1048","type":"ColumnDataSource"},{"attributes":{},"id":"1093","type":"Selection"},{"attributes":{},"id":"1043","type":"BasicTickFormatter"},{"attributes":{"data_source":{"id":"1064"},"glyph":{"id":"1065"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1066"},"selection_glyph":null,"view":{"id":"1068"}},"id":"1067","type":"GlyphRenderer"},{"attributes":{"source":{"id":"1033"}},"id":"1038","type":"CDSView"},{"attributes":{},"id":"1092","type":"UnionRenderers"},{"attributes":{"items":[{"id":"1047"},{"id":"1063"},{"id":"1080"}]},"id":"1046","type":"Legend"},{"attributes":{},"id":"1022","type":"ResetTool"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"1024","type":"BoxAnnotation"},{"attributes":{"data_source":{"id":"1033"},"glyph":{"id":"1035"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1036"},"selection_glyph":null,"view":{"id":"1038"}},"id":"1037","type":"GlyphRenderer"},{"attributes":{"fill_color":{"field":"color"},"line_color":{"value":"#1f77b4"},"x":{"field":"Culmen Depth (mm)"},"y":{"field":"Body Mass (g)"}},"id":"1050","type":"Circle"},{"attributes":{},"id":"1019","type":"WheelZoomTool"},{"attributes":{},"id":"1062","type":"Selection"}],"root_ids":["1001"]},"title":"Bokeh Application","version":"2.0.2"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1237').textContent;
+                  var render_items = [{"docid":"61f85e54-8cf4-47ee-a097-cbbbce838cce","root_ids":["1001"],"roots":{"1001":"3da6c480-6076-492e-9a1b-7e5cba017e74"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        clearInterval(timer);
+                        embed_document(root);
+                      } else {
+                        attempts++;
+                        if (attempts > 100) {
+                          clearInterval(timer);
+                          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        }
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
