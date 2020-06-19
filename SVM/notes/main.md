@@ -217,7 +217,7 @@ such that
 $$
 B^{-}=\max_{x\in A^{-}}w\cdot x < \min_{x\in A^{+}}w\cdot x=B^{+}.
 $$
-Let $x^{-}$ be a point in $B$ with $w\cdot x^{-}=B^{-}$ and $x^{+}$ be a point in $A$ with $w\cdot x^{+}=B^{+}$.
+Let $x^{-}$ be a point in $A^{-}$ with $w\cdot x^{-}=B^{-}$ and $x^{+}$ be a point in $A$ with $w\cdot x^{+}=B^{+}$.
 The two hyperplanes $f^{\pm}(x) = w\cdot x - B^{\pm}$ have the property that:
 $$
 f^{+}(x)\ge 0\hbox{ for }x\in A^{+}\hbox{ and }f^{+}(x)<0\hbox{ for }x\in A^{-}
@@ -243,6 +243,16 @@ $$
 \tau_{w}(A^{+},A^{-})=\frac{|B^{+}-B^{-}|}{\|w\|}.
 $$
 
+**Definition:** The *optimal margin* $\tau(A^{+},A^{-})$ between $A^{+}$ and $A^{-}$ is the largest value of $\tau_{w}$
+over all possible $w$:
+$$
+\tau(A^{+},A^{-}) = \max_{w} \tau_{w}(A^{+},A^{-}).
+$$
+If $w$ is such that $\tau_{w}=\tau$, then the hyperplane $f(x)=w\cdot x - \frac{(B^{+}+B^{-})}{2}$
+is the yields the *optimal margin classifying hyperplane*.  
+
+The optimal classifying hyperplane runs "down the middle" of the gap between the two supporting hyperplanes $f^{+}$
+and $f^{-}$ that give the sides of the optimal margin.
 
 
 
