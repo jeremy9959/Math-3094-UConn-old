@@ -143,7 +143,7 @@ which is the formula we seek.
 
 ![Distance to a Hyperplane](../img/triangle.png){#fig:triangle width=30%}
 
-### Linear separability{#sec:linearseparable}
+### Linear separability and Margins {#sec:linearseparable}
 
 Now we can return to our classification scheme.  The following definition generalizes our two dimensional picture
 from the penguin data.
@@ -203,11 +203,11 @@ Similarly for each Adelie (blue) point we drew the corresponding line.  The maxi
 turned out to be $-75$ and the minimum value of $w\cdot x$ for the green points turned out to be $525$.  Thus we have
 two lines with a gap between them, and any parallel line in that gap will separate the two sets. 
 
-Finally, among all the lines with this particular $w$, it seems that the **best** separating line is the one running
+Finally, among all the lines *with this particular $w$*, it seems that the **best** separating line is the one running
 right down the middle of the gap between the boundary lines.  Any other line in the gap will be closer to either the blue
 or green set that the midpoint line is.
 
-![Supporting lines in  Penguin Data](../img/penguinhwy2.png){#fig:penguinhwy2 width=50%}
+![Supporting lines in  Penguin Data for $w=(250,-1)$](../img/penguinhwy2.png){#fig:penguinhwy2 width=50%}
 
 Let's put all of this together and see if we can make sense of it in general.
 
@@ -215,9 +215,9 @@ Suppose that $A^{+}$ and $A^{-}$ are finite point sets in $\mathbf{R}^{k}$ and
 $w\in\mathbf{R}^{k}$
 such that
 $$
-B^{-}=\max_{x\in A^{-}}w\cdot x < \min_{x\in A^{+}}w\cdot x=B^{+}.
+B^{-}(w)=\max_{x\in A^{-}}w\cdot x < \min_{x\in A^{+}}w\cdot x=B^{+}(w).
 $$
-Let $x^{-}$ be a point in $A^{-}$ with $w\cdot x^{-}=B^{-}$ and $x^{+}$ be a point in $A$ with $w\cdot x^{+}=B^{+}$.
+Let $x^{-}$ be a point in $A^{-}$ with $w\cdot x^{-}=B^{-}(w)$ and $x^{+}$ be a point in $A$ with $w\cdot x^{+}=B^{+}(w)$.
 The two hyperplanes $f^{\pm}(x) = w\cdot x - B^{\pm}$ have the property that:
 $$
 f^{+}(x)\ge 0\hbox{ for }x\in A^{+}\hbox{ and }f^{+}(x)<0\hbox{ for }x\in A^{-}
@@ -240,19 +240,28 @@ for $w$.
 vector $w$.  Then the orthogonal distance between the two  hyperplanes $f^{+}$ and $f^{-}$ is called
 the geometric margin $\tau_{w}(A^{+},A^{-})$ (along $w$) between $A^{+}$ and $A^{-}$.  We have
 $$
-\tau_{w}(A^{+},A^{-})=\frac{|B^{+}-B^{-}|}{\|w\|}.
+\tau_{w}(A^{+},A^{-})=\frac{|B^{+}(w)-B^{-}(w)|}{\|w\|}.
 $$
 
+Now we can propose an answer to our second question about the best classifying hyperplane.
+
 **Definition:** The *optimal margin* $\tau(A^{+},A^{-})$ between $A^{+}$ and $A^{-}$ is the largest value of $\tau_{w}$
-over all possible $w$:
+over all possible $w$ for which $B^{-}(w)<B^{+}(w)$:
 $$
 \tau(A^{+},A^{-}) = \max_{w} \tau_{w}(A^{+},A^{-}).
 $$
 If $w$ is such that $\tau_{w}=\tau$, then the hyperplane $f(x)=w\cdot x - \frac{(B^{+}+B^{-})}{2}$
-is the yields the *optimal margin classifying hyperplane*.  
+is the  *optimal margin classifying hyperplane*.  
 
 The optimal classifying hyperplane runs "down the middle" of the gap between the two supporting hyperplanes $f^{+}$
 and $f^{-}$ that give the sides of the optimal margin.
+
+Now, at least, our problem is clear.  Given our two point sets $A^{+}$ and $A^{-}$, find $w$ so that $\tau_{w}(A^{+},A^{-})$
+is maximal among all $w$ where $B^{-}(w)<B^{+}(w)$.   This is an optimization problem, but unlike the optimization
+problems that arose in our discussions of linear regression and principal component analysis, it does not have a closed
+form solution.  We will need to find an algorithm to determine $w$ by successive approximations.  Developing that algorithm
+will require thinking about a new concept known as *convexity.*
+
 
 
 
