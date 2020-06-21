@@ -256,12 +256,26 @@ is the  *optimal margin classifying hyperplane*.
 The optimal classifying hyperplane runs "down the middle" of the gap between the two supporting hyperplanes $f^{+}$
 and $f^{-}$ that give the sides of the optimal margin.
 
+
 Now, at least, our problem is clear.  Given our two point sets $A^{+}$ and $A^{-}$, find $w$ so that $\tau_{w}(A^{+},A^{-})$
 is maximal among all $w$ where $B^{-}(w)<B^{+}(w)$.   This is an optimization problem, but unlike the optimization
 problems that arose in our discussions of linear regression and principal component analysis, it does not have a closed
 form solution.  We will need to find an algorithm to determine $w$ by successive approximations.  Developing that algorithm
 will require thinking about a new concept known as *convexity.*
 
+## Convexity, Convex Hulls, and Margins
+
+In this section we introduce the notion of a *convex set* and the particular case of the *convex hull*
+of a finite set of points.  As we will see, these ideas will give us a different interpretation of the
+margin between two sets and will eventually lead to an algorithm for finding the optimal margin classifier.
+
+**Definition:** A subset $U$ of $\mathbf{R}^{k}$ is *convex* if, for any pair of points $p$ and $q$ in $U$,
+every point $t$ on the line segment joining $p$ and $q$ also belongs to $U$.  In vector form, for every
+$0\le s\le 1$, the point $t(s) = sp+(1-s)q$ belongs to $U$.
+
+*@fig:convexnotconvex illustrates the difference between convex sets and non-convex ones.
+
+![Convex vs Non-Convex Sets](../img/ConvexNotConvex.png){#fig:convexnotconvex width=50%}
 
 
 

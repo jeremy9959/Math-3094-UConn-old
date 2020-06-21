@@ -132,6 +132,15 @@ f^{-}(x)\le 0\hbox{ for }x\in A^{-}\hbox{ and }f^{-}(x)&gt;0\hbox{ for }x\in A^{
 \]</span> If <span class="math inline">\(w\)</span> is such that <span class="math inline">\(\tau_{w}=\tau\)</span>, then the hyperplane <span class="math inline">\(f(x)=w\cdot x - \frac{(B^{+}+B^{-})}{2}\)</span> is the <em>optimal margin classifying hyperplane</em>.</p>
 <p>The optimal classifying hyperplane runs “down the middle” of the gap between the two supporting hyperplanes <span class="math inline">\(f^{+}\)</span> and <span class="math inline">\(f^{-}\)</span> that give the sides of the optimal margin.</p>
 <p>Now, at least, our problem is clear. Given our two point sets <span class="math inline">\(A^{+}\)</span> and <span class="math inline">\(A^{-}\)</span>, find <span class="math inline">\(w\)</span> so that <span class="math inline">\(\tau_{w}(A^{+},A^{-})\)</span> is maximal among all <span class="math inline">\(w\)</span> where <span class="math inline">\(B^{-}(w)&lt;B^{+}(w)\)</span>. This is an optimization problem, but unlike the optimization problems that arose in our discussions of linear regression and principal component analysis, it does not have a closed form solution. We will need to find an algorithm to determine <span class="math inline">\(w\)</span> by successive approximations. Developing that algorithm will require thinking about a new concept known as <em>convexity.</em></p>
+<h2 data-number="1.4" id="convexity-convex-hulls-and-margins"><span class="header-section-number">1.4</span> Convexity, Convex Hulls, and Margins</h2>
+<p>In this section we introduce the notion of a <em>convex set</em> and the particular case of the <em>convex hull</em> of a finite set of points. As we will see, these ideas will give us a different interpretation of the margin between two sets and will eventually lead to an algorithm for finding the optimal margin classifier.</p>
+<p><strong>Definition:</strong> A subset <span class="math inline">\(U\)</span> of <span class="math inline">\(\mathbf{R}^{k}\)</span> is <em>convex</em> if, for any pair of points <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> in <span class="math inline">\(U\)</span>, every point <span class="math inline">\(t\)</span> on the line segment joining <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> also belongs to <span class="math inline">\(U\)</span>. In vector form, for every <span class="math inline">\(0\le s\le 1\)</span>, the point <span class="math inline">\(t(s) = sp+(1-s)q\)</span> belongs to <span class="math inline">\(U\)</span>.</p>
+<p>Figure <a href="#fig:convexnotconvex">5</a> illustrates the difference between convex sets and non-convex ones.</p>
+<div id="fig:convexnotconvex" class="fignos">
+<figure>
+<img src="../img/ConvexNotConvex.png" style="width:50.0%" alt="" /><figcaption><span>Figure 5:</span> Convex vs Non-Convex Sets</figcaption>
+</figure>
+</div>
 <h1 class="unnumbered" data-number="" id="bibliography">References</h1>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-vapnik92">
