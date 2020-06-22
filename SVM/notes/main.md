@@ -290,8 +290,7 @@ six points in total in which the distance between the closest points in $A^{+}$ 
 
 ![Shortest distance between + and - points can be greater than the optimal margin](../img/margindistance2.png){#fig:nonstrict height=3in}
 
-
-Now, at least, our problem is clear.  Given our two point sets $A^{+}$ and $A^{-}$, find $w$ so that $\tau_{w}(A^{+},A^{-})$
+At least now our problem is clear.  Given our two point sets $A^{+}$ and $A^{-}$, find $w$ so that $\tau_{w}(A^{+},A^{-})$
 is maximal among all $w$ where $B^{-}(w)<B^{+}(w)$.   This is an optimization problem, but unlike the optimization
 problems that arose in our discussions of linear regression and principal component analysis, it does not have a closed
 form solution.  We will need to find an algorithm to determine $w$ by successive approximations.  Developing that algorithm
@@ -312,6 +311,233 @@ so $t(s)$ traces out the segment joining $p$ to $q$.)
 
 ![Convex vs Non-Convex Sets](../img/ConvexNotConvex.png){#fig:convexnotconvex height=3in}
 
+The key idea from convexity that we will need to solve our optimization problem and find the optimal margin is the
+idea of the *convex hull* of a finite set of points in $\mathbf{R}^{k}$.
+
+**Definition:** Let $S=\{q_1,\ldots, q_{N}\}$ be a finite set of $N$ points in $\mathbf{R}^{k}$.  The *convex hull* $C(S)$ of $S$
+is the set of points
+$$
+p = \sum_{i=1}^{N} \lambda_{i}q_{i}
+$$
+as $\lambda_{1},\ldots,\lambda_{N}$ runs over all positive real numbers such that
+$$
+\sum_{i=1}^{N} \lambda_{i} = 1.
+$$
+
+There are a variety of ways to think about the convex hull $C(S)$ of a set of points $S$, but perhaps the most useful is that
+it is the smallest convex set that contains all of the points of $S$.  That is the content of the next lemma.
+
+**Lemma:** $C(S)$ is  convex.  Furthermore, let $U$ be any convex set containing all of the points of $S$.  Then $U$ contains $C(S)$.
+
+**Proof:** To show that $C(S)$ is convex, we apply the definition.  Let $p_1$ and $p_2$ be two points in $C(S)$,
+so that let $p_{j}=\sum_{i=1}^{N} \lambda^{(j)}_{i}q_{i}$ where $\sum_{i=1}^{N}\lambda^{(j)}_{i} = 1$ for $j=1,2$.  Then
+a little algebra shows that
+$$
+(1-s)p_1+sp_{2} = \sum_{i=1}^{N} (s\lambda^{(1)}_{i}+(1-s)\lambda^{(2)}_{i})q_{i}
+$$
+and $\sum_{i=1}^{N} (s\lambda^{(1)}_{i}+(1-s)\lambda^{(2)}_{i}) = 1$.  Therefore all of the points $(1-s)p_{1}+sp_{2}$ belong to $C(S)$,
+and therefore $C(S)$ is convex.
+
+For the second part, we proceed by induction.  Let $U$ be a convex set containing $S$.  Then by the definition of convexity,
+$U$ contains all sums $\lambda_{i}q_{i}+\lambda_{j}q_{j}$ where $\lambda_i+\lambda_j=1$.  Now suppose that $U$ contains
+all the sums $\sum_{i=1}^{N} \lambda_{i}q_{i}$  where exactly $m-1$ of the $\lambda_{i}$ are non-zero for some $m<N$.  
+Consider a sum
+$$
+q = \sum_{i=1}^{N}\lambda_{i}q_{i}
+$$
+with exactly $m$ of the $\lambda_{i}\not=0$.  For simplicity let's assume that $\lambda_{i}\not=0$ for $i=1,\ldots, m$.
+Now let $T=\sum_{i=1}^{m-1}\lambda_{i}$ and set
+$$
+q' = \sum_{i=1}^{m-1}\frac{\lambda_{i}}{T}q_{i}.
+$$
+This point $q'$ belongs to $U$ by the inductive hypothesis. Also, $(1-T)=\lambda_{m}$.  Therefore by convexity of $U$, 
+$$
+q = (1-T)q_{m}+Tq'
+$$
+also belongs to $U$.  It follows that all of $C(S)$ belongs to $U$.
+
+In +@fig:convexhull we given an example of the convex hull of a finite set of points in $\mathbf{R}^{2}$.  Notice
+that its boundary is a finite collection of line segments that join the "outermost" points in the point set.  
+
+![The Convex Hull](../img/convexhull.png){#fig:convexhull height=4in}
+
+Notice that if $f(x)=w\cdot x+b=0$ is a hyperplane, then the two "sides" of the hyperplane, meaning
+the subsets $\{x: f(x)\ge 0\}$ and $\{x: f(x)\le 0\}$, are both convex. (This is exercise 1 in +@sec:exercises ).
+
+
+As a result of this observation, and the Lemma above, we can conclude that if $f(x)=w\cdot x+b=0$
+is a supporting hyperplane for the set $S$ -- meaning that either $f(x)\ge 0$ for all $x\in S$, or $f(x)\le 0$ for all
+$x\in S$, with at least one point $x\in S$ such that $f(x)=0$ -- then $f(x)=0$ is a supporting hyperplane for the entire
+convex hull. After all, if $f(x)\ge 0$ for all points $x\in S$, then $S$ is contained in the convex set of points where
+$f(x)\ge 0$, and therefore $C(S)$ is contained in that set as well.
+
+Interestingly, however, the converse is true as well -- the supporting hyperplanes of $C(S)$ are exactly the same
+as those for $S$.
+
+**Lemma:** Let $S$ be a finite set of points in $\mathbf{R}^{k}$ and 
+let $f(x)=w\cdot +b=0$ be a supporting hyperplane for $C(S)$.  Then $f(x)$ is a supporting hyperplane for $S$.
+
+**Proof:** Suppose $f(x)=0$ is a supporting hyperplane for $C(S)$.  Let's assume that  $f(x)\ge 0$ for all $x\in C(S)$ and $f(x^{*})=0$ 
+for a point $x^{*}\in C(S)$, since the case where $f(x)\le 0$ is identical.  Since $S\subset C(S)$, we have $f(x)\ge 0$ for all $x\in S$.
+To show that $f(x)=0$ is a supporting hyperplane, we need to know that $f(x)=0$ for at least one point $x\in S$.  
+Let $x'$ be the point in $S$ where $f(x')$ is minimal among all $x\in S$.  Note that $f(x')\ge 0$. Then
+the hyperplane $g(x) = f(x)-f(x')$ has the property that $g(x)\ge 0$ on all of $S$, and $g(x')=0$.  Since the halfplane
+$g(x)\ge 0$ is convex and contains all of $S$, we have $C(S)$ contained in that halfplane.  So, on the one hand we have
+$g(x^{*})=f(x^{*})-f(x')\ge 0$. On the other hand $f(x^{*})=0$, so $-f(x')\ge 0$, so $f(x')\le 0$.  Since $f(x')$ is also
+greater or equal to zero, we have $f(x')=0$, and so we have found a point of $S$ on the hyperplane $f(x)=0$. Therefore $f(x)=0$
+is also a supporting hyperplane for $S$.
+
+This argument can be used to give an alternative description of $C(S)$ as the intersection of all halfplanes containing $S$ arising
+from supporting hyperplanes for $S$. This is exercise 2 in +@sec:exercises.  It also has as a corollary that
+$C(S)$ is a closed set.
+
+**Lemma:**  $C(S)$ is compact.
+
+**Proof:** Exercise 2 in +@sec:exercises shows that it is the intersection of closed sets in $\mathbf{R}^{k}$, so it is closed.
+Exercise 3 shows that $C(S)$ is bounded.  Thus it is compact.
+
+Now let's go back to our optimal margin problem, so that we have linearly separable sets of points $A^{+}$ and $A^{-}$.
+Recall that we showed that the optimal margin was at most the minimal distance between points in $A^{+}$ and $A^{-}$,
+but that there could be a gap between the minimal distance and the optimal margin -- see +@fig:nonstrict for a reminder.
+
+It turns out that by considering the minimal distance between $C(A^{+})$ and $C(A^{-})$, we can "close this gap." The following
+proposition shows that we can change the problem of finding the optimal margin into the problem of finding the closest
+distance between the convex hulls of $C(A^{+})$ and $C(A^{-})$.   The following proposition generalizes the Proposition 
+at the end of +@sec:linearseparable.
+
+**Proposition:** Let $A^{+}$ and $A^{-}$ be linearly separable sets in $\mathbf{R}^{k}$.  Let $p\in C(A^{+})$
+and $q\in C(A^{-})$ be any two points.  Then 
+$$
+\|p-q\|\ge \tau(A^{+},A^{-}).
+$$
+
+**Proof:** As in the earlier proof, choose supporting hyperplanes $f^{+}(x)=w\cdot x-B^{+}=0$ and $f^{-}(x)=w\cdot x-B^{-}$ for $A^{+}$
+and $A^{-}$. By our discussion above, these are also supporting hyperplanes for $C(A^{+})$ and $C(A^{-})$.  Therefore
+if $p\in C(A^{+})$ and $q\in C(A^{-})$, we have $w\cdot p-B^{+}\ge 0$ and $w\cdot q-B^{-}\le 0$.  As before
+$$
+w\cdot(p-q)\ge B^{+}-B^{-}>0
+$$
+and so 
+$$
+\|p-q\|\ge\frac{B^{+}-B^{-}}{\|w\|\tau_{w}(A^{+},A^{-})
+$$
+Since this holds for any $w$, we have the result for $\tau(A^{+},A^{-})$.
+
+The reason this result is useful is that, as we've seen,  if we restrict $p$ and $q$ to $A^{+}$ and $A^{-}$, then there
+can be a gap between the minimal distance and the optimal margin.  If we allow $p$ and $q$ to range over the convex hulls
+of these sets, then that gap disappears.
+
+One other consequence of this is that if $A^{+}$ and $A^{-}$ are linearly separable then their convex hulls are disjoint.
+
+**Corollary:** If $A^{+}$ and $A^{-}$ are linearly separable then $\|p-q\|>0$ for all $p\in C(A^{+})$ and $q\in C(A^{-})$
+
+**Proof:** The sets are linearly separable precisely when $\tau>0$. 
+
+
+Our strategy now is to show that if $p$ and $q$ are points in $C(A^{+})$ and $C(A^{-})$ respectively that are at minimal distance $D$,
+and if we set $w=p-q$, then we obtain supporting hyperplanes with margin equal to $\|p-q\|$.  Since this margin
+is the *largest possible margin*, this $w$ must be the optimal $w$.  This transforms the problem of finding
+the optimal margin into the problem of finding the closest points in the convex hulls.
+
+**Lemma:**  Let 
+$$
+D=\min_{p\in C(A^{+}),q\in C(A^{-})} \|p-q\|.
+$$
+Then there are points $p^*\in C(A^{+})$ and $q^{*}\in C(A^{-})$ with $\|p^{*}-q^{*}\|=D$. If $p_1^{*},q_1^{*}$ and $p_2^{*},q_2^{*}$
+are two pairs of points satisfying this condition, then $p_1^{*}-q_1^{*}=p_2^{*}-q_{2}^{*}$.
+
+**Proof:** Consider the set of differences
+$$
+V = \{p-q: p\in C(A^{+}),q\in C(A^{-})\}$.
+$$
+
+- $V$ is compact.  This is because it is the image of the compact set $C(A^{+})\times C(A^{-})$ in $\mathbf{R}^{k}\times\mathbf{R}^{k}$
+under the continuous map $h(x,y)=x-y$.  
+
+- the function $d(v)=\|v\|$ is continuous and satisfies $d(v)\ge D>0$ for all $v\in V$.
+
+Since $d$ is a continuous function on a compact set, it attains its minimum $D$ and so there is a $v=p^{*}-q^{*}$ with
+$d(v)=D$.  
+
+Now suppose that there are two distinct points $v_1=p_1^*-q_1^*$ and $v_2=p_2^*-q_2^*$ with $d(v_1)=d(v_2)=D$.  Consider the line segment 
+$$
+t(s) = (1-s)v_1+sv_2\hbox{ where }0\le s\le 1
+$$
+joining $v_1$  and $v_2$.  
+Now
+$$
+t(s) = ((1-s)p_1^*+sp_2^*)-((1-s)q_1^*+sq_2^*).
+$$
+Both terms in this difference belong to $C(A^{+})$ and $C(A^{-})$ respectively, regardless of $s$, by convexity,
+and therefore $t(s)$ belongs to $V$ for all $0\le s\le 1$.  
+
+This little argument shows that $V$ is convex.
+In geometric terms, $v_1$ and $v_2$ are two points in the set $V$ equidistant from the origin; as +@fig:chord shows,
+in that situation there must be a point on the line segment joining them that's closer to the origin than they are. Since all the
+points on that segment are in $V$, this would contradict the assumption that $v_1$ is the closet point in $V$ to the origin.
+
+In algebraic terms, 
+since $D$ is the minimal value of $\|v\|$ for all $v\in V$,
+we must have $t(s)\ge D$.  
+On the other hand
+$$
+\frac{d}{ds}\|t(s)\|^2 = \frac{d}{ds}(t(s)\cdot t(s)) =t(s)\cdot \frac{dt(s)}{ds} = t(s)\cdot(v_2-v_1).
+$$
+Therefore
+$$
+\frac{d}{ds}\|t(s)\|^2|_{s=0} = v_{1}\cdot(v_{2}-v_{1})=v_{1}\cdot v_{2}-\|v_{1}\|^2\le 0
+$$
+since $v_{1}\cdot v_{2}\le D^{2}$ and $\|v_{1}\|^2=D^2$. If $v_{1}\cdot v_{2}<D^{2}$, then
+this derivative would be negative, which by the mean value theorem would mean that there is a value of
+$s$ where $t(s)$ would be less than $D$.  Since that can't happen, we conclude that $v_{1}\cdot v_{2}=D^{2}$
+which means that $v_{1}=v_{2}$ -- the vectors have the same magnitude $D$ and are parallel.
+This establishes uniqueness.  
+
+**Note:** The essential ideas of this argument show that a compact convex set in $\mathbf{R}^{k}$ has a unique
+point closest to the origin.  The convex set in this instance, $V=\{p-q:p\in C(A^{+}),q\in C(A^{-})\}$,
+is called the difference $C(A^{+})-C(A^{-})$, and it is generally true that the different of convex sets is convex.
+
+Now we can conclude this line of argument.
+
+**Theorem:** Let  $p$ and $q$ be points in  $C(A^{+})$ and $C(A^{-})$
+respectively are such that $\|p-q\|$ is minimal among all such pairs.  Let $w=p-q$ and set
+$B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Then $f^{+}(x)=w\cdot x-B^{+}=0$ and $f^{-}(x)=w\cdot x-B^{-}$
+are supporting hyperplanes for $C(A^{+})$ and $C(A^{-})$ respectively and the
+associated margin 
+$$
+\tau_{w}(A^{+},A^{-})=\frac{B^{+}-B^{-}}{\|w\|} = \|p-q\|
+$$
+is optimal.
+
+**Proof:** First we show that $f^{+}(x)=0$ is a supporting hyperplane for $C(A^{+})$.  Suppose not.
+Then there is a point $p'\in C(A^{+})$ such that $f^{+}(x)<0$.  Consider the line segment
+$t(s) = (1-s)p+sp'$ running from $p$ to $p'$.  By convexity it is entirely contained in 
+$C(A^{+})$.  Now look at the distance from points on this segment to $q$:
+$$
+D(s)=\|t(s)-q\|^2.
+$$
+We have
+$$
+\frac{dD(s)}{ds}|_{s=0} = 2(p-q)\cdot (p'-p) = 2w\cdot (p'-p) = 2\left[(f^{+}(p')+B^{+})-(f^{+}(p)+B^{+})\right]
+$$
+so 
+$$
+\frac{dD(s)}{ds}|_{s=0} = 2(f^{+}(p')-f^{+}(p))<0
+$$
+since $f(p)=0$. This means that $D(s)$ is decreasing along $t(s)$ and so by the mean value theorem
+there is a point $s'$ along $t(s)$ where $\|t(s')-q\|<D$.  This contradicts the fact that $D$ is the minimal
+distance.  The same argument shows that $f^{-}(x)=0$ is also a supporting hyperplane.
+
+Now the margin for this $w$ is 
+$$
+tau_{w}(A^{+},A^{-}) = \frac{w\cdot (p-q}}{\|w\|} = \|p-q\|=D
+$$
+and as $w$ varies we know this is the largest possible $\tau$ that can occur.  Thus this is the maximal margin.
+
+To recap, we have shown that
+
+>**To find $w$ yielding the maximal margin pair of supporting hyperplanes, find points $p\in C(A^{+})$
+>and $q\in C(A^{-})$ that minimize $\|p-q\|$ and set $w=p-q$.**
 
 
 
@@ -323,13 +549,13 @@ so $t(s)$ traces out the segment joining $p$ to $q$.)
 
 
 
+## Exercises{#sec:exercises}
 
+1.  Prove that, if $f(x)=w\cdot x+b=0$ is a hyperplane in $\mathbf{R}^{k}$, then the two "sides" of this hyperplane, consisting
+of the points where $f(x)\ge 0$ and $f(x)\le 0$, are both convex sets.
 
+2.  Prove that $C(S)$ is the intersection of all the halfplanes $f(x)\ge 0$ as $f(x)=w\cdot x+b$ runs through all supporting hyperplanes
+for $S$ where $f(x)\ge 0$ for all $p\in S$.  
 
-
-
-
-
-
-
-
+3.  Prove that $C(S)$ is bounded.  Hint: show that $S$ is contained in a sphere of sufficiently large radius centered
+at zero, and then that $C(S)$ is contained in that sphere as well.
