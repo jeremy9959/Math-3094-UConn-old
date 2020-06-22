@@ -478,7 +478,7 @@ in that situation there must be a point on the line segment joining them that's 
 Since all the points on that segment are in $V$ by convexity, this would 
 contradict the assumption that $v_1$ is the closet point in $V$ to the origin.
 
-![Chord of a circle](../img/chord2.png){#fig:chord width=50%}
+![Chord of a circle](../img/chord2.png){#fig:chord width=3in}
 
 In algebraic terms, 
 since $D$ is the minimal value of $\|v\|$ for all $v\in V$,
@@ -546,8 +546,11 @@ To recap, we have shown that
 >**To find $w$ yielding the maximal margin pair of supporting hyperplanes, find points $p\in C(A^{+})$
 >and $q\in C(A^{-})$ that minimize $\|p-q\|$ and set $w=p-q$.**
 
+*@fig:strict shows how considering the closest point in the convex hulls "fixes" the problem
+that we saw in +@fig:nonstrict.  The closest point occurs at a point on the boundary of the convex hull that
+is not one of the points in $A^{+}$ or $A^{-}$.  
 
-
+![Closest distance between convex hulls gives optimal margin](../img/convexhullwithmargin.png){#fig:strict width=50%}
 
 
 
