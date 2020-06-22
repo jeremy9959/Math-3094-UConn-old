@@ -419,7 +419,7 @@ w\cdot(p-q)\ge B^{+}-B^{-}>0
 $$
 and so 
 $$
-\|p-q\|\ge\frac{B^{+}-B^{-}}{\|w\|\tau_{w}(A^{+},A^{-})
+\|p-q\|\ge\frac{B^{+}-B^{-}}{\|w\|\tau_{w}(A^{+},A^{-})}
 $$
 Since this holds for any $w$, we have the result for $\tau(A^{+},A^{-})$.
 
@@ -448,7 +448,7 @@ are two pairs of points satisfying this condition, then $p_1^{*}-q_1^{*}=p_2^{*}
 
 **Proof:** Consider the set of differences
 $$
-V = \{p-q: p\in C(A^{+}),q\in C(A^{-})\}$.
+V = \{p-q: p\in C(A^{+}),q\in C(A^{-})\}.
 $$
 
 - $V$ is compact.  This is because it is the image of the compact set $C(A^{+})\times C(A^{-})$ in $\mathbf{R}^{k}\times\mathbf{R}^{k}$
@@ -472,9 +472,13 @@ Both terms in this difference belong to $C(A^{+})$ and $C(A^{-})$ respectively, 
 and therefore $t(s)$ belongs to $V$ for all $0\le s\le 1$.  
 
 This little argument shows that $V$ is convex.
-In geometric terms, $v_1$ and $v_2$ are two points in the set $V$ equidistant from the origin; as +@fig:chord shows,
-in that situation there must be a point on the line segment joining them that's closer to the origin than they are. Since all the
-points on that segment are in $V$, this would contradict the assumption that $v_1$ is the closet point in $V$ to the origin.
+In geometric terms, $v_1$ and $v_2$ are two points in the set $V$ equidistant from the origin and the segment
+joining them is a chord of a circle; as +@fig:chord shows,
+in that situation there must be a point on the line segment joining them that's closer to the origin than they are.
+Since all the points on that segment are in $V$ by convexity, this would 
+contradict the assumption that $v_1$ is the closet point in $V$ to the origin.
+
+![Chord of a circle](../img/chord2.png){#fig:chord width=50%}
 
 In algebraic terms, 
 since $D$ is the minimal value of $\|v\|$ for all $v\in V$,
@@ -494,8 +498,11 @@ which means that $v_{1}=v_{2}$ -- the vectors have the same magnitude $D$ and ar
 This establishes uniqueness.  
 
 **Note:** The essential ideas of this argument show that a compact convex set in $\mathbf{R}^{k}$ has a unique
-point closest to the origin.  The convex set in this instance, $V=\{p-q:p\in C(A^{+}),q\in C(A^{-})\}$,
-is called the difference $C(A^{+})-C(A^{-})$, and it is generally true that the different of convex sets is convex.
+point closest to the origin.  The convex set in this instance, 
+$$
+V=\{p-q:p\in C(A^{+}),q\in C(A^{-})\},
+$$
+is called the difference $C(A^{+})-C(A^{-})$, and it is generally true that the difference of convex sets is convex.
 
 Now we can conclude this line of argument.
 
@@ -530,7 +537,7 @@ distance.  The same argument shows that $f^{-}(x)=0$ is also a supporting hyperp
 
 Now the margin for this $w$ is 
 $$
-tau_{w}(A^{+},A^{-}) = \frac{w\cdot (p-q}}{\|w\|} = \|p-q\|=D
+\tau_{w}(A^{+},A^{-}) = \frac{w\cdot (p-q)}{\|w\|} = \|p-q\|=D
 $$
 and as $w$ varies we know this is the largest possible $\tau$ that can occur.  Thus this is the maximal margin.
 

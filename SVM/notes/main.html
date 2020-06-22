@@ -225,7 +225,12 @@ t(s) = (1-s)v_1+sv_2\hbox{ where }0\le s\le 1
 Now <span class="math display">\[
 t(s) = ((1-s)p_1^*+sp_2^*)-((1-s)q_1^*+sq_2^*).
 \]</span> Both terms in this difference belong to <span class="math inline">\(C(A^{+})\)</span> and <span class="math inline">\(C(A^{-})\)</span> respectively, regardless of <span class="math inline">\(s\)</span>, by convexity, and therefore <span class="math inline">\(t(s)\)</span> belongs to <span class="math inline">\(V\)</span> for all <span class="math inline">\(0\le s\le 1\)</span>.</p>
-<p>This little argument shows that <span class="math inline">\(V\)</span> is convex. In geometric terms, <span class="math inline">\(v_1\)</span> and <span class="math inline">\(v_2\)</span> are two points in the set <span class="math inline">\(V\)</span> equidistant from the origin; as fig. ?? shows, in that situation there must be a point on the line segment joining them that’s closer to the origin than they are. Since all the points on that segment are in <span class="math inline">\(V\)</span>, this would contradict the assumption that <span class="math inline">\(v_1\)</span> is the closet point in <span class="math inline">\(V\)</span> to the origin.</p>
+<p>This little argument shows that <span class="math inline">\(V\)</span> is convex. In geometric terms, <span class="math inline">\(v_1\)</span> and <span class="math inline">\(v_2\)</span> are two points in the set <span class="math inline">\(V\)</span> equidistant from the origin and the segment joining them is a chord of a circle; as fig. <a href="#fig:chord">8</a> shows, in that situation there must be a point on the line segment joining them that’s closer to the origin than they are. Since all the points on that segment are in <span class="math inline">\(V\)</span> by convexity, this would contradict the assumption that <span class="math inline">\(v_1\)</span> is the closet point in <span class="math inline">\(V\)</span> to the origin.</p>
+<div id="fig:chord" class="fignos">
+<figure>
+<img src="../img/chord2.png" style="width:50.0%" alt="" /><figcaption><span>Figure 8:</span> Chord of a circle</figcaption>
+</figure>
+</div>
 <p>In algebraic terms, since <span class="math inline">\(D\)</span> is the minimal value of <span class="math inline">\(\|v\|\)</span> for all <span class="math inline">\(v\in V\)</span>, we must have <span class="math inline">\(t(s)\ge D\)</span>.<br />
 On the other hand <span class="math display">\[
 \frac{d}{ds}\|t(s)\|^2 = \frac{d}{ds}(t(s)\cdot t(s)) =t(s)\cdot \frac{dt(s)}{ds} = t(s)\cdot(v_2-v_1).
@@ -245,7 +250,7 @@ D(s)=\|t(s)-q\|^2.
 \frac{dD(s)}{ds}|_{s=0} = 2(f^{+}(p&#39;)-f^{+}(p))&lt;0
 \]</span> since <span class="math inline">\(f(p)=0\)</span>. This means that <span class="math inline">\(D(s)\)</span> is decreasing along <span class="math inline">\(t(s)\)</span> and so by the mean value theorem there is a point <span class="math inline">\(s&#39;\)</span> along <span class="math inline">\(t(s)\)</span> where <span class="math inline">\(\|t(s&#39;)-q\|&lt;D\)</span>. This contradicts the fact that <span class="math inline">\(D\)</span> is the minimal distance. The same argument shows that <span class="math inline">\(f^{-}(x)=0\)</span> is also a supporting hyperplane.</p>
 <p>Now the margin for this <span class="math inline">\(w\)</span> is <span class="math display">\[
-tau_{w}(A^{+},A^{-}) = \frac{w\cdot (p-q}}{\|w\|} = \|p-q\|=D
+\tau_{w}(A^{+},A^{-}) = \frac{w\cdot (p-q)}{\|w\|} = \|p-q\|=D
 \]</span> and as <span class="math inline">\(w\)</span> varies we know this is the largest possible <span class="math inline">\(\tau\)</span> that can occur. Thus this is the maximal margin.</p>
 <p>To recap, we have shown that</p>
 <blockquote>
