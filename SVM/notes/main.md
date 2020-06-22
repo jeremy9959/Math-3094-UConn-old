@@ -240,7 +240,7 @@ for $w$.
 vector $w$.  Then the orthogonal distance between the two  hyperplanes $f^{+}$ and $f^{-}$ is called
 the geometric margin $\tau_{w}(A^{+},A^{-})$ (along $w$) between $A^{+}$ and $A^{-}$.  We have
 $$
-\tau_{w}(A^{+},A^{-})=\frac{|B^{+}(w)-B^{-}(w)|}{\|w\|}.
+\tau_{w}(A^{+},A^{-})=\frac{B^{+}(w)-B^{-}(w)}{\|w\|}.
 $$
 
 Now we can propose an answer to our second question about the best classifying hyperplane.
@@ -256,6 +256,42 @@ is the  *optimal margin classifying hyperplane*.
 The optimal classifying hyperplane runs "down the middle" of the gap between the two supporting hyperplanes $f^{+}$
 and $f^{-}$ that give the sides of the optimal margin.
 
+We can make one more observation about the maximal margin.    If we find a vector $w$ so that
+$f^{+}(x) = w\cdot x -B^{+}$ and $f^{-}(x) = w\cdot x-B^{-}$ are the two supporting hyperplanes such that
+the gap between them is the optimal margin, then this gap gives us an estimate on how close together
+the points in $A^{+}$ and $A^{-}$ can be.  This is visible in +@fig:penguinhwy2, where it's clear that
+to get from a blue point to a green one, you have to cross the gap between the two supporting hyperplanes.
+
+**Proposition:** The closest distance between points in $A^{+}$ and $A^{-}$ is greater than or equal
+to the optimal margin:
+$$
+\min_{p\in A^{+},q\in A^{-}} \|p-q\|\ge \tau(A^{+},A^{-})
+$$.
+
+**Proof:** We have $f^{+}(p) = w\cdot p - B^{+}\ge 0$ and $f^{-}(q) = w\cdot q -B^{-}\le 0$.
+These two inequalities imply that 
+$$
+w\cdot (p-q)\ge B^{+}-B^{-}>0.
+$$
+Therefore
+$$
+\|p-q\|\|w\|\ge |w\cdot (p-q)|\ge |B^{+}-B^{-}|
+$$
+and so
+$$
+\|p-q\| \ge \frac{B^{+}-B^{-}}{\|w\|} = \tau(A^{+},A^{-})
+$$
+
+If this inequality were always *strict* -- that is, if the optimal margin equalled the minimum distance
+between points in the two clusters -- then this would give us an approach to finding this optimal margin.
+
+Unfortunately, that isn't the case.  In +@fig:nonstrict, we show a very simple case involving only
+six points in total in which the distance between
+the closest points in $A^{+}$ and $A^{-}$ is larger than the optimal margin.
+
+
+
+
 
 Now, at least, our problem is clear.  Given our two point sets $A^{+}$ and $A^{-}$, find $w$ so that $\tau_{w}(A^{+},A^{-})$
 is maximal among all $w$ where $B^{-}(w)<B^{+}(w)$.   This is an optimization problem, but unlike the optimization
@@ -269,13 +305,15 @@ In this section we introduce the notion of a *convex set* and the particular cas
 of a finite set of points.  As we will see, these ideas will give us a different interpretation of the
 margin between two sets and will eventually lead to an algorithm for finding the optimal margin classifier.
 
-**Definition:** A subset $U$ of $\mathbf{R}^{k}$ is *convex* if, for any pair of points $p$ and $q$ in $U$,
+**Definition:**  A subset $U$ of $\mathbf{R}^{k}$ is *convex* if, for any pair of points $p$ and $q$ in $U$,
 every point $t$ on the line segment joining $p$ and $q$ also belongs to $U$.  In vector form, for every
-$0\le s\le 1$, the point $t(s) = sp+(1-s)q$ belongs to $U$.
+$0\le s\le 1$, the point $t(s) = (1-s)p+sq$ belongs to $U$.  (Note that $t(0)=p$, $t(1)=q$, and
+so $t(s)$ traces out the segment joining $p$ to $q$.)
 
 *@fig:convexnotconvex illustrates the difference between convex sets and non-convex ones.
 
 ![Convex vs Non-Convex Sets](../img/ConvexNotConvex.png){#fig:convexnotconvex width=50%}
+
 
 
 
