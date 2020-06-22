@@ -286,11 +286,9 @@ If this inequality were always *strict* -- that is, if the optimal margin equall
 between points in the two clusters -- then this would give us an approach to finding this optimal margin.
 
 Unfortunately, that isn't the case.  In +@fig:nonstrict, we show a very simple case involving only
-six points in total in which the distance between
-the closest points in $A^{+}$ and $A^{-}$ is larger than the optimal margin.
+six points in total in which the distance between the closest points in $A^{+}$ and $A^{-}$ is larger than the optimal margin.
 
-
-
+![Shortest distance between + and - points can be greater than the optimal margin](../img/margindistance2.png){#fig:nonstrict height=3in}
 
 
 Now, at least, our problem is clear.  Given our two point sets $A^{+}$ and $A^{-}$, find $w$ so that $\tau_{w}(A^{+},A^{-})$
@@ -312,7 +310,7 @@ so $t(s)$ traces out the segment joining $p$ to $q$.)
 
 *@fig:convexnotconvex illustrates the difference between convex sets and non-convex ones.
 
-![Convex vs Non-Convex Sets](../img/ConvexNotConvex.png){#fig:convexnotconvex width=50%}
+![Convex vs Non-Convex Sets](../img/ConvexNotConvex.png){#fig:convexnotconvex height=3in}
 
 
 
