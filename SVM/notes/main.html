@@ -32,14 +32,15 @@
 <p>Typically, one approaches a classification problem by beginning with a large set of data for which you know the classes, and you use that data to <em>train</em> an algorithm to correctly distinguish the classes for the test cases where you already know the answer. For example, you start with a few thousand pictures labelled “dog” and “cat” and you build your algorithm so that it does a good job distinguishing the dogs from the cats in this initial set of <em>training data</em>. Then you apply your algorithm to pictures that aren’t labelled and rely on the predictions you get, hoping that whatever let your algorithm distinguish between the particular examples will generalize to allow it to correctly classify images that aren’t pre-labelled.</p>
 <p>Because classification is such a central problem, there are many approaches to it. We will see several of them through the course of these lectures. We will begin with a particular classification algorithm called “Support Vector Machines” (SVM) that is based on linear algebra. The SVM algorithm is widely used in practice and has a beautiful geometric interpretation, so it will serve as a good beginning for later discussion of more complicated classification algorithms.</p>
 <p>Incidentally, I’m not sure why this algorithm is called a “machine”; the algorithm was introduced in the paper <span class="citation" data-cites="vapnik92">[<a href="#ref-vapnik92" role="doc-biblioref">1</a>]</span> where it is called the “Optimal Margin Classifier” and as we shall see that is a much better name for it.</p>
+<p>My presentation of this material was heavily influenced by the beautiful paper <span class="citation" data-cites="bennettDuality">[<a href="#ref-bennettDuality" role="doc-biblioref">2</a>]</span>.</p>
 <h2 data-number="1.2" id="a-simple-example"><span class="header-section-number">1.2</span> A simple example</h2>
-<p>Let us begin our discussion with a very simple dataset (see <span class="citation" data-cites="penguins">[<a href="#ref-penguins" role="doc-biblioref">2</a>]</span> and <span class="citation" data-cites="penguindata">[<a href="#ref-penguindata" role="doc-biblioref">3</a>]</span>). This data consists of various measurements of physical characteristics of 344 penguins of 3 different species: Gentoo, Adelie, and Chinstrap. If we focus our attention for the moment on the Adelie and Gentoo species, and plot their body mass against their culmen depth, we obtain the following scatterplot.</p>
+<p>Let us begin our discussion with a very simple dataset (see <span class="citation" data-cites="penguins">[<a href="#ref-penguins" role="doc-biblioref">3</a>]</span> and <span class="citation" data-cites="penguindata">[<a href="#ref-penguindata" role="doc-biblioref">4</a>]</span>). This data consists of various measurements of physical characteristics of 344 penguins of 3 different species: Gentoo, Adelie, and Chinstrap. If we focus our attention for the moment on the Adelie and Gentoo species, and plot their body mass against their culmen depth, we obtain the following scatterplot.</p>
 <div id="fig:penguins" class="fignos">
 <figure>
 <img src="../img/penguins.png" style="width:50.0%" alt="" /><figcaption><span>Figure 1:</span> Penguin Scatterplot</figcaption>
 </figure>
 </div>
-<p>Incidentally, a bird’s <em>culmen</em> is the upper ridge of their beak, and the <em>culmen depth</em> is a measure of the thickness of the beak. There’s a nice picture at <span class="citation" data-cites="penguindata">[<a href="#ref-penguindata" role="doc-biblioref">3</a>]</span> for the penguin enthusiasts.</p>
+<p>Incidentally, a bird’s <em>culmen</em> is the upper ridge of their beak, and the <em>culmen depth</em> is a measure of the thickness of the beak. There’s a nice picture at <span class="citation" data-cites="penguindata">[<a href="#ref-penguindata" role="doc-biblioref">4</a>]</span> for the penguin enthusiasts.</p>
 <p>A striking feature of this scatter plot is that there is a clear separation between the clusters of Adelie and Gentoo penguins. Adelie penguins have deeper culmens and less body mass than Gentoo penguins. These characteristics seem like they should provide a way to classify a penguin between these two species based on these two measurements.</p>
 <p>One way to express the separation between these two clusters is to observe that one can draw a line on the graph with the property that all of the Adelie penguins lie on one side of that line and all of the Gentoo penguins lie on the other. In fig. <a href="#fig:penguinsline">2</a> I’ve drawn in such a line (which I found by eyeballing the picture in fig. <a href="#fig:penguins">1</a>). The line has the equation <span class="math display">\[
 Y = 250X+400.
@@ -109,7 +110,7 @@ w\cdot x+b&lt;0\hbox{ for all $x$ in B}.
 <p>Finally, among all the lines <em>with this particular <span class="math inline">\(w\)</span></em>, it seems that the <strong>best</strong> separating line is the one running right down the middle of the gap between the boundary lines. Any other line in the gap will be closer to either the blue or green set that the midpoint line is.</p>
 <div id="fig:penguinhwy2" class="fignos">
 <figure>
-<img src="../img/penguinhwy2.png" style="width:50.0%" alt="" /><figcaption><span>Figure 4:</span> Supporting lines in Penguin Data for <span class="math inline">\(w=(250,-1)\)</span></figcaption>
+<img src="../img/penguinhwy2.png" style="width:50.0%" alt="" /><figcaption><span>Figure 4:</span> Lines in Penguin Data for <span class="math inline">\(w=(250,-1)\)</span></figcaption>
 </figure>
 </div>
 <p>Let’s put all of this together and see if we can make sense of it in general.</p>
@@ -184,15 +185,15 @@ q = (1-T)q_{m}+Tq&#39;
 <img src="../img/penguinswithhulls.png" style="width:50.0%" alt="" /><figcaption><span>Figure 7:</span> The Convex Hull</figcaption>
 </figure>
 </div>
-<p>One very simple example of a convex set is a half-plane. More specificically, if <span class="math inline">\(f(x)=w\cdot x+b=0\)</span> is a hyperplane, then the two “sides” of the hyperplane, meaning the subsets <span class="math inline">\(\{x: f(x)\ge 0\}\)</span> and <span class="math inline">\(\{x: f(x)\le 0\}\)</span>, are both convex. (This is exercise 1 in section <a href="#sec:exercises">1.5.0</a> ).</p>
+<p>One very simple example of a convex set is a half-plane. More specificically, if <span class="math inline">\(f(x)=w\cdot x+b=0\)</span> is a hyperplane, then the two “sides” of the hyperplane, meaning the subsets <span class="math inline">\(\{x: f(x)\ge 0\}\)</span> and <span class="math inline">\(\{x: f(x)\le 0\}\)</span>, are both convex. (This is exercise 1 in section <a href="#sec:exercises">1.6</a> ).</p>
 <p>As a result of this observation, and the Lemma above, we can conclude that if <span class="math inline">\(f(x)=w\cdot x+b=0\)</span> is a supporting hyperplane for the set <span class="math inline">\(S\)</span> – meaning that either <span class="math inline">\(f(x)\ge 0\)</span> for all <span class="math inline">\(x\in S\)</span>, or <span class="math inline">\(f(x)\le 0\)</span> for all <span class="math inline">\(x\in S\)</span>, with at least one point <span class="math inline">\(x\in S\)</span> such that <span class="math inline">\(f(x)=0\)</span> – then <span class="math inline">\(f(x)=0\)</span> is a supporting hyperplane for the entire convex hull. After all, if <span class="math inline">\(f(x)\ge 0\)</span> for all points <span class="math inline">\(x\in S\)</span>, then <span class="math inline">\(S\)</span> is contained in the convex set of points where <span class="math inline">\(f(x)\ge 0\)</span>, and therefore <span class="math inline">\(C(S)\)</span> is contained in that set as well.</p>
 <p>Interestingly, however, the converse is true as well – the supporting hyperplanes of <span class="math inline">\(C(S)\)</span> are exactly the same as those for <span class="math inline">\(S\)</span>.</p>
 <p><strong>Lemma:</strong> Let <span class="math inline">\(S\)</span> be a finite set of points in <span class="math inline">\(\mathbf{R}^{k}\)</span> and let <span class="math inline">\(f(x)=w\cdot +b=0\)</span> be a supporting hyperplane for <span class="math inline">\(C(S)\)</span>. Then <span class="math inline">\(f(x)\)</span> is a supporting hyperplane for <span class="math inline">\(S\)</span>.</p>
 <p><strong>Proof:</strong> Suppose <span class="math inline">\(f(x)=0\)</span> is a supporting hyperplane for <span class="math inline">\(C(S)\)</span>. Let’s assume that <span class="math inline">\(f(x)\ge 0\)</span> for all <span class="math inline">\(x\in C(S)\)</span> and <span class="math inline">\(f(x^{*})=0\)</span> for a point <span class="math inline">\(x^{*}\in C(S)\)</span>, since the case where <span class="math inline">\(f(x)\le 0\)</span> is identical. Since <span class="math inline">\(S\subset C(S)\)</span>, we have <span class="math inline">\(f(x)\ge 0\)</span> for all <span class="math inline">\(x\in S\)</span>. To show that <span class="math inline">\(f(x)=0\)</span> is a supporting hyperplane, we need to know that <span class="math inline">\(f(x)=0\)</span> for at least one point <span class="math inline">\(x\in S\)</span>.<br />
 Let <span class="math inline">\(x&#39;\)</span> be the point in <span class="math inline">\(S\)</span> where <span class="math inline">\(f(x&#39;)\)</span> is minimal among all <span class="math inline">\(x\in S\)</span>. Note that <span class="math inline">\(f(x&#39;)\ge 0\)</span>. Then the hyperplane <span class="math inline">\(g(x) = f(x)-f(x&#39;)\)</span> has the property that <span class="math inline">\(g(x)\ge 0\)</span> on all of <span class="math inline">\(S\)</span>, and <span class="math inline">\(g(x&#39;)=0\)</span>. Since the halfplane <span class="math inline">\(g(x)\ge 0\)</span> is convex and contains all of <span class="math inline">\(S\)</span>, we have <span class="math inline">\(C(S)\)</span> contained in that halfplane. So, on the one hand we have <span class="math inline">\(g(x^{*})=f(x^{*})-f(x&#39;)\ge 0\)</span>. On the other hand <span class="math inline">\(f(x^{*})=0\)</span>, so <span class="math inline">\(-f(x&#39;)\ge 0\)</span>, so <span class="math inline">\(f(x&#39;)\le 0\)</span>. Since <span class="math inline">\(f(x&#39;)\)</span> is also greater or equal to zero, we have <span class="math inline">\(f(x&#39;)=0\)</span>, and so we have found a point of <span class="math inline">\(S\)</span> on the hyperplane <span class="math inline">\(f(x)=0\)</span>. Therefore <span class="math inline">\(f(x)=0\)</span> is also a supporting hyperplane for <span class="math inline">\(S\)</span>.</p>
-<p>This argument can be used to give an alternative description of <span class="math inline">\(C(S)\)</span> as the intersection of all halfplanes containing <span class="math inline">\(S\)</span> arising from supporting hyperplanes for <span class="math inline">\(S\)</span>. This is exercise 2 in section <a href="#sec:exercises">1.5.0</a>. It also has as a corollary that <span class="math inline">\(C(S)\)</span> is a closed set.</p>
+<p>This argument can be used to give an alternative description of <span class="math inline">\(C(S)\)</span> as the intersection of all halfplanes containing <span class="math inline">\(S\)</span> arising from supporting hyperplanes for <span class="math inline">\(S\)</span>. This is exercise 2 in section <a href="#sec:exercises">1.6</a>. It also has as a corollary that <span class="math inline">\(C(S)\)</span> is a closed set.</p>
 <p><strong>Lemma:</strong> <span class="math inline">\(C(S)\)</span> is compact.</p>
-<p><strong>Proof:</strong> Exercise 2 in section <a href="#sec:exercises">1.5.0</a> shows that it is the intersection of closed sets in <span class="math inline">\(\mathbf{R}^{k}\)</span>, so it is closed. Exercise 3 shows that <span class="math inline">\(C(S)\)</span> is bounded. Thus it is compact.</p>
+<p><strong>Proof:</strong> Exercise 2 in section <a href="#sec:exercises">1.6</a> shows that it is the intersection of closed sets in <span class="math inline">\(\mathbf{R}^{k}\)</span>, so it is closed. Exercise 3 shows that <span class="math inline">\(C(S)\)</span> is bounded. Thus it is compact.</p>
 <p>Now let’s go back to our optimal margin problem, so that we have linearly separable sets of points <span class="math inline">\(A^{+}\)</span> and <span class="math inline">\(A^{-}\)</span>. Recall that we showed that the optimal margin was at most the minimal distance between points in <span class="math inline">\(A^{+}\)</span> and <span class="math inline">\(A^{-}\)</span>, but that there could be a gap between the minimal distance and the optimal margin – see fig. <a href="#fig:nonstrict">5</a> for a reminder.</p>
 <p>It turns out that by considering the minimal distance between <span class="math inline">\(C(A^{+})\)</span> and <span class="math inline">\(C(A^{-})\)</span>, we can “close this gap.” The following proposition shows that we can change the problem of finding the optimal margin into the problem of finding the closest distance between the convex hulls of <span class="math inline">\(C(A^{+})\)</span> and <span class="math inline">\(C(A^{-})\)</span>. The following proposition generalizes the Proposition at the end of section <a href="#sec:linearseparable">1.3.2</a>.</p>
 <p><strong>Proposition:</strong> Let <span class="math inline">\(A^{+}\)</span> and <span class="math inline">\(A^{-}\)</span> be linearly separable sets in <span class="math inline">\(\mathbf{R}^{k}\)</span>. Let <span class="math inline">\(p\in C(A^{+})\)</span> and <span class="math inline">\(q\in C(A^{-})\)</span> be any two points. Then <span class="math display">\[
@@ -254,17 +255,74 @@ D(s)=\|t(s)-q\|^2.
 <p>Now the margin for this <span class="math inline">\(w\)</span> is <span class="math display">\[
 \tau_{w}(A^{+},A^{-}) = \frac{w\cdot (p-q)}{\|w\|} = \|p-q\|=D
 \]</span> and as <span class="math inline">\(w\)</span> varies we know this is the largest possible <span class="math inline">\(\tau\)</span> that can occur. Thus this is the maximal margin.</p>
-<p>To recap, we have shown that</p>
-<blockquote>
-<p><strong>To find <span class="math inline">\(w\)</span> yielding the maximal margin pair of supporting hyperplanes, find points <span class="math inline">\(p\in C(A^{+})\)</span> and <span class="math inline">\(q\in C(A^{-})\)</span> that minimize <span class="math inline">\(\|p-q\|\)</span> and set <span class="math inline">\(w=p-q\)</span>.</strong></p>
-</blockquote>
 <p>Figure <a href="#fig:strict">9</a> shows how considering the closest point in the convex hulls “fixes” the problem that we saw in fig. <a href="#fig:nonstrict">5</a>. The closest point occurs at a point on the boundary of the convex hull that is not one of the points in <span class="math inline">\(A^{+}\)</span> or <span class="math inline">\(A^{-}\)</span>.</p>
 <div id="fig:strict" class="fignos">
 <figure>
 <img src="../img/convexhullwithmargin.png" style="width:50.0%" alt="" /><figcaption><span>Figure 9:</span> Closest distance between convex hulls gives optimal margin</figcaption>
 </figure>
 </div>
-<h2 data-number="1.5" id="sec:exercises"><span class="header-section-number">1.5</span> Exercises</h2>
+<h2 data-number="1.5" id="finding-the-optimal-margin-classifier"><span class="header-section-number">1.5</span> Finding the Optimal Margin Classifier</h2>
+<p>Now that we have translated our problem into geometry, we can attempt to develop an algorithm for solving it. To recap, we have two sets of points <span class="math display">\[
+A^{+}=\{x^+_1,\ldots, x^+_{n_{+}}\}
+\]</span> and <span class="math display">\[
+A^{-}=\{x^-_1,\ldots, x^-_{n_{-}}\}
+\]</span> in <span class="math inline">\(\mathbf{R}^{k}\)</span> that are linearly separable.</p>
+<p>We wish to find points <span class="math inline">\(p\in C(A^{+})\)</span> and <span class="math inline">\(q\in C(A^{-})\)</span> such that <span class="math display">\[
+\|p-q\|=\min_{p&#39;\in C(A^{+}),q&#39;\in C(A^{-})} \|p&#39;-q&#39;\|.
+\]</span></p>
+<p>Using the definition of the convex hull we can express this more concretely. Since <span class="math inline">\(p\in C(A^{+})\)</span>, there are coefficients <span class="math inline">\(\lambda^{+}_{i}\ge 0\)</span> for <span class="math inline">\(i=1,\ldots,n_{+}\)</span> and <span class="math inline">\(\lambda^{-}_{i}\ge 0\)</span> for <span class="math inline">\(i=1,\ldots, n_{-}\)</span> so that <span class="math display">\[
+\begin{aligned}
+p&amp;=&amp;\sum_{i=1}^{n_{+}}\lambda^{+}_{i} x^{+}_{i} \\
+q&amp;=&amp;\sum_{i=1}^{n_{-}}\lambda^{-}_{i} x^{-}_{i} \\
+\end{aligned}
+\]</span> where <span class="math inline">\(\sum_{i=1}^{n_{\pm}} \lambda_{i}^{\pm}=1\)</span>.</p>
+<p>We can summarize this as follows:</p>
+<p><strong>Optimization Problem 1:</strong> Write <span class="math inline">\(\lambda^{\pm}=(\lambda^{\pm}_{1},\ldots, \lambda^{\pm}_{n_{\pm}})\)</span> Define <span class="math display">\[
+w(\lambda^+,\lambda^-) = \sum_{i=1}^{n_{+}}\lambda^{+}_{i}x^{+}_{i} - \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i}
+\]</span> To find the supporting hyperplanes that define the optimal margin between <span class="math inline">\(A^{+}\)</span> and <span class="math inline">\(A^{-}\)</span>, find <span class="math inline">\(\lambda^{+}\)</span> and <span class="math inline">\(\lambda^{-}\)</span> such that <span class="math inline">\(\|w(\lambda^{+},\lambda^{-})\|^2\)</span> is minimal among all such <span class="math inline">\(w\)</span> where all <span class="math inline">\(\lambda^{\pm}_{i}\ge 0\)</span> and <span class="math inline">\(\sum_{i=1}^{n_{\pm}} \lambda^{\pm}_{i}=1\)</span>.</p>
+<p>This is an example of a <em>constrained optimization problem.</em> It’s worth observing that the <em>objective function</em> <span class="math inline">\(\|w(\lambda^{+},\lambda^{-})\|^2\)</span> is just a quadratic function in the <span class="math inline">\(\lambda^{\pm}\)</span>. Indeed we can expand <span class="math display">\[
+\|w(\lambda^{+},\lambda^{-})\|^2 = (\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x_{i}- \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i})\cdot(\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x_{i}- \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i})
+\]</span> to obtain <span class="math display">\[
+\|w(\lambda^{+},\lambda^{-})\|^2 = R -2S +T
+\]</span> where <span class="math display">\[
+\begin{aligned}
+R &amp;=&amp; \sum_{i=1}^{n_{+}}\sum_{j=1}^{n_{+}}\lambda^{+}_{i}\lambda^{+}_{j}(x^{+}_{i}\cdot x^{+}_{j}) \\
+S &amp;=&amp; \sum_{i=1}^{n_{+}}\sum_{j=1}^{n_{-}}\lambda^{+}_{i}\lambda^{-}_{j}(x^{+}_{i}\cdot x^{-}_{j}) \\
+T &amp;=&amp; \sum_{i=1}^{n_{-}}\sum_{j=1}^{n_{-}}\lambda^{-}_{i}\lambda^{-}_{j}(x^{-}_{i}\cdot x^{-}_{j}) \\
+\end{aligned}
+\]</span> Thus the function we are trying to minimize is relatively simple.</p>
+<p>On the other hand, unlike optimization problems we have seen earlier in these lectures, in which we can apply Lagrange multipliers, in this case some of the constraints are inequalities – namely the requirement that all of the <span class="math inline">\(\lambda^{pm}\ge 0\)</span> – rather than equalities. There is an extensive theory of such problems that derives from the idea of Lagrange multipliers. However, in these notes, we will not dive into that theory but will instead construct an algorithm for solving the problem directly.</p>
+<h3 data-number="1.5.1" id="relaxing-the-constraints"><span class="header-section-number">1.5.1</span> Relaxing the constraints</h3>
+<p>Our first step in attacking this problem is to adjust our constraints and our objective function slightly so that the problem becomes easier to attack.</p>
+<p><strong>Optimization Problem 2:</strong> This is a slight revision of problem 1 above. We minimize: <span class="math display">\[
+Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-\sum_{i=1}^{n_{+}}\lambda^{+}_{i}-\sum_{i=1}^{n_{-}}\lambda^{-}_{i}
+\]</span> subject to the constraints that all <span class="math inline">\(\lambda^{\pm}_{i}\ge 0\)</span> and <span class="math display">\[
+\alpha = \sum_{i=1}^{n_{+}}\lambda^+_{i} = \sum_{i=1}^{n_{-}}\lambda^{-}_{i}.
+\]</span></p>
+<p>Problem 2 is like problem 1, except we don’t require the sums of the <span class="math inline">\(\lambda^{\pm}_{i}\)</span> to be one, but only that they be equal to each other; and we modify the objective function slightly. It turns out that the solution to this optimization problem easily yields the solution to our original one.</p>
+<p><strong>Lemma:</strong> Suppose <span class="math inline">\(\lambda^{+}\)</span> and <span class="math inline">\(\lambda^{-}\)</span> satisfy the constraints of problem 2 and yield the minimal value for the objective function <span class="math inline">\(Q(\lambda^{+},\lambda^{-})\)</span>. Rescale the <span class="math inline">\(\lambda^{\pm}\)</span> to have sum equal to one by dividing by <span class="math inline">\(\alpha\)</span>, yielding <span class="math inline">\(\tau^{\pm}=1/\alpha\lambda^{\pm}\)</span>. Then <span class="math inline">\(w(\tau^{+},\tau^{-})\)</span> is a solution to optimization problemm 1.</p>
+<p><strong>Proof:</strong> First of all, notice that <span class="math inline">\(\tau^{\pm}\)</span> still satisfy the constraints of problem 2. Therefore <span class="math display">\[
+Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-2\alpha\le \|w(\tau^{+},\tau^{-})\|-2.
+\]</span> On the other hand, suppose that <span class="math inline">\(\sigma^{\pm}\)</span> are a solution to problem 1. Then <span class="math display">\[
+\|w(\sigma^{+},\sigma^{-})\|^2\le \|w(\tau^{+},\tau^{-})\|^2.
+\]</span> Therefore <span class="math display">\[
+\alpha^2 \|w(\sigma^{+},\sigma^{-})\|^2 = \|w(\alpha\sigma^{+},\alpha\sigma^{-})\|^2\le \|w(\lambda^{+},\lambda^{-}\|^2
+\]</span> and finally <span class="math display">\[
+\|w(\alpha\sigma^{+},\alpha\sigma^{-}\|^2-2\alpha\le Q(\lambda^{+},\lambda^{-})=\|w(\alpha\tau^{+},\alpha\tau^{-})\|^2-2\alpha.
+\]</span> Since <span class="math inline">\(Q\)</span> is the minimal value, we have <span class="math display">\[
+\alpha^{2}\|w(\sigma^{+},\sigma^{-})\|^2 = \alpha^{2}\|w(\tau^{+},\tau^{-})\|^2
+\]</span> so that indeed <span class="math inline">\(w(\tau^{+},\tau^{-})\)</span> gives a solution to Problem 1.</p>
+<h3 data-number="1.5.2" id="sequential-minimal-optimization"><span class="header-section-number">1.5.2</span> Sequential Minimal Optimization</h3>
+<p>Now we outline an algorithm for solving Problem 2 that is called Sequential Minimal Optimization that was introduced by John Platt in 1998 (See +<span class="citation" data-cites="plattSMO">[<a href="#ref-plattSMO" role="doc-biblioref">5</a>]</span> and Chapter 12 of +<span class="citation" data-cites="KernelMethodAdvances">[<a href="#ref-KernelMethodAdvances" role="doc-biblioref">6</a>]</span>). The algorithm is based on the principle of “gradient ascent”, where we exploit the fact that the negative gradient of a function points in the direction of its most rapid decrease and we take small steps in the direction of the negative gradient until we reach the minimum.</p>
+<p>However, in this case simplify this idea a little. Recall that the objective function <span class="math inline">\(Q(\lambda^{+},\lambda^{-})\)</span> is a quadratic function in the <span class="math inline">\(\lambda\)</span>’s and that we need to preserve the condition that <span class="math inline">\(\sum \lambda^{+}_{i}=\sum\lambda^{-}_{i}\)</span>. So our approach is going to be to take, one at a time, a pair <span class="math inline">\(\lambda^{+}_{i}\)</span> and <span class="math inline">\(\lambda^{-}_{j}\)</span> and change them <em>together</em> so that the equality of the sums is preserved and the change reduces the value of the objective function. Iterating this will take us to a minimum.</p>
+<p>So, for example, let’s look at <span class="math inline">\(\lambda^{+}_i\)</span> and <span class="math inline">\(\lambda^{-}_{j}\)</span> and, for the moment, think of all of the other <span class="math inline">\(\lambda\)</span>’s as constants. Then our objective function reduces to a quadratic function of these two variables that looks something like: <span class="math display">\[
+Q(\lambda_{i}^{+},\lambda_{j}^{-}) = a(\lambda^{+}_i)^2+b\lambda^{+}_i\lambda^{-}_j+c(\lambda^{-}_{i})^2+d\lambda^{+}_i+e\lambda^{-}_{j}+f.
+\]</span> The constraints that remain are <span class="math inline">\(\lambda^{\pm}\ge 0\)</span>, and we are going to try to minimize <span class="math inline">\(Q\)</span> by changing <span class="math inline">\(\lambda_{i}^{+}\)</span> and <span class="math inline">\(\lambda_{j}^{-}\)</span> <em>by the same amount</em> <span class="math inline">\(\delta\)</span>. Furthermore, since we still must have <span class="math inline">\(\lambda_{i}^{+}+\delta\ge 0\)</span> and <span class="math inline">\(\lambda_{j}^{-}+\delta\ge 0\)</span>, we have</p>
+<p><span id="eq:delta" class="eqnos"><span class="math display">\[
+\delta\ge\max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
+\]</span><span class="eqnos-number">(2)</span></span></p>
+<p>In terms of this single variable <span class="math inline">\(\delta\)</span>, our optimization problem becomes the job of finding the minimum of a quadratic polynomial in one variable subject to the constraint in eq. <a href="#eq:delta">2</a>.</p>
+<h2 data-number="1.6" id="sec:exercises"><span class="header-section-number">1.6</span> Exercises</h2>
 <ol type="1">
 <li><p>Prove that, if <span class="math inline">\(f(x)=w\cdot x+b=0\)</span> is a hyperplane in <span class="math inline">\(\mathbf{R}^{k}\)</span>, then the two “sides” of this hyperplane, consisting of the points where <span class="math inline">\(f(x)\ge 0\)</span> and <span class="math inline">\(f(x)\le 0\)</span>, are both convex sets.</p></li>
 <li><p>Prove that <span class="math inline">\(C(S)\)</span> is the intersection of all the halfplanes <span class="math inline">\(f(x)\ge 0\)</span> as <span class="math inline">\(f(x)=w\cdot x+b\)</span> runs through all supporting hyperplanes for <span class="math inline">\(S\)</span> where <span class="math inline">\(f(x)\ge 0\)</span> for all <span class="math inline">\(p\in S\)</span>.</p></li>
@@ -275,11 +333,20 @@ D(s)=\|t(s)-q\|^2.
 <div id="ref-vapnik92">
 <p>[1] <span class="smallcaps">Boser</span>, B., <span class="smallcaps">Guyon</span>, I. and <span class="smallcaps">Vapnik</span>, V. A training algorithm for optimal margin classifiers. In <em>Colt ’92: Proceedings of the fifth annual workshop on computational learning theory</em> (D. Haussler, ed) pp 144–52. ACM.</p>
 </div>
+<div id="ref-bennettDuality">
+<p>[2] <span class="smallcaps">Bennett</span>, K. P. and <span class="smallcaps">Bredensteiner</span>, E. J. (2000). Duality and geometry in svm classifiers. In <em>Proceedings of the seventeenth international conference on machine learning</em> (P. Langley, ed). Morgan Kaufmann Publishers.</p>
+</div>
 <div id="ref-penguins">
-<p>[2] <span class="smallcaps">KB</span>, G., <span class="smallcaps">TD</span>, W. and <span class="smallcaps">WR</span>, F. (2014). Ecological sexual dimorphism and environmental variability within a community of antarctic penguins (genus pygoscelis). <em>PLoS ONE</em> <strong>9(3)</strong> –13.</p>
+<p>[3] <span class="smallcaps">Gorman</span>, K. B., <span class="smallcaps">Williams</span>, T. D. and <span class="smallcaps">Fraser</span>, W. R. (2014). Ecological sexual dimorphism and environmental variability within a community of antarctic penguins (genus pygoscelis). <em>PLoS ONE</em> <strong>9(3)</strong> –13.</p>
 </div>
 <div id="ref-penguindata">
-<p>[3] <span class="smallcaps">Horst</span>, A. Palmer penguins.Available at <a href="https://https://github.com/allisonhorst/palmerpenguins">https://https://github.com/allisonhorst/palmerpenguins</a>.</p>
+<p>[4] <span class="smallcaps">Horst</span>, A. Palmer penguins.Available at <a href="https://https://github.com/allisonhorst/palmerpenguins">https://https://github.com/allisonhorst/palmerpenguins</a>.</p>
+</div>
+<div id="ref-plattSMO">
+<p>[5] <span class="smallcaps">Platt</span>, J. C. (1998). <em>Sequential minimal optimization: A fast algorithm for training support vector machines</em>. Microsoft Research.</p>
+</div>
+<div id="ref-KernelMethodAdvances">
+<p>[6] <span class="smallcaps">Schölkopf</span>, B., <span class="smallcaps">Burges</span>, C. and <span class="smallcaps">Smola</span>, A. (1998). <em>Advances in kernel methods: Support vector learning</em>. MIT Press.</p>
 </div>
 </div>
 </body>

@@ -841,11 +841,11 @@ Let $U = X_{0}P'\Lambda_{+}^{-1/2}$. Note that $U$ is a $k\times s$ dimensional 
 
 **Proof:**  Compute the $s\times s$ matrix $U^{\intercal}U$, whose entries are all of the dot products
 of the columns of $U$:
-$$\begin{align}
+$$\begin{aligned}
 U^{\intercal}U &=& \Lambda_{+}^{-1/2}P'^{\intercal}X_{0}^{\intercal}X_{0}P'\Lambda_{+}^{-1/2} \\
 &=& \Lambda_{+}^{-1/2}P'^{\intercal}P'\Lambda_{+}P'^{\intercal}P'\Lambda_{+}^{-1/2} \\
 &=& I_{s} \\
-\end{align}
+\end{aligned}
 $$
 by the previous lemma and the fact that $P'P'^{\intercal}$ is the $s\times s$ identity matrix.
 

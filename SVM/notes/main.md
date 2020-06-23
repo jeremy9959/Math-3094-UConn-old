@@ -37,6 +37,8 @@ Incidentally, I'm not sure why this algorithm is called a "machine"; the algorit
 was introduced in the paper @vapnik92 where it is called the "Optimal Margin Classifier" and as we shall
 see that is a much better name for it.
 
+My presentation of this material was heavily influenced by the beautiful paper @bennettDuality.
+
 ## A simple example
 
 Let us begin our discussion with a very simple dataset (see @penguins and @penguindata).  This data
@@ -543,16 +545,161 @@ $$
 $$
 and as $w$ varies we know this is the largest possible $\tau$ that can occur.  Thus this is the maximal margin.
 
-To recap, we have shown that
-
->**To find $w$ yielding the maximal margin pair of supporting hyperplanes, find points $p\in C(A^{+})$
->and $q\in C(A^{-})$ that minimize $\|p-q\|$ and set $w=p-q$.**
-
 *@fig:strict shows how considering the closest point in the convex hulls "fixes" the problem
 that we saw in +@fig:nonstrict.  The closest point occurs at a point on the boundary of the convex hull that
 is not one of the points in $A^{+}$ or $A^{-}$.  
 
+
+
 ![Closest distance between convex hulls gives optimal margin](../img/convexhullwithmargin.png){#fig:strict width=50%}
+
+## Finding the Optimal Margin Classifier
+
+Now that we have translated our problem into geometry, we can attempt to develop an algorithm for solving
+it.  To recap, we have two sets of points 
+$$
+A^{+}=\{x^+_1,\ldots, x^+_{n_{+}}\}
+$$ and 
+$$
+A^{-}=\{x^-_1,\ldots, x^-_{n_{-}}\}
+$$
+in $\mathbf{R}^{k}$ that are linearly separable.
+
+We wish to find points $p\in C(A^{+})$ and $q\in C(A^{-})$ such that 
+$$
+\|p-q\|=\min_{p'\in C(A^{+}),q'\in C(A^{-})} \|p'-q'\|.
+$$
+
+Using the definition of the convex hull we can express this more concretely.  Since
+$p\in C(A^{+})$, there are coefficients $\lambda^{+}_{i}\ge 0$ for $i=1,\ldots,n_{+}$ and
+$\lambda^{-}_{i}\ge 0$ for $i=1,\ldots, n_{-}$ so that
+$$
+\begin{aligned}
+p&=&\sum_{i=1}^{n_{+}}\lambda^{+}_{i} x^{+}_{i} \\
+q&=&\sum_{i=1}^{n_{-}}\lambda^{-}_{i} x^{-}_{i} \\
+\end{aligned}
+$$
+where $\sum_{i=1}^{n_{\pm}} \lambda_{i}^{\pm}=1$.
+
+We can summarize this as follows:
+
+**Optimization Problem 1:** Write $\lambda^{\pm}=(\lambda^{\pm}_{1},\ldots, \lambda^{\pm}_{n_{\pm}})$
+Define
+$$
+w(\lambda^+,\lambda^-) = \sum_{i=1}^{n_{+}}\lambda^{+}_{i}x^{+}_{i} - \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i}
+$$
+To find the supporting hyperplanes that define the optimal margin between $A^{+}$ and $A^{-}$,
+find $\lambda^{+}$ and $\lambda^{-}$ such that $\|w(\lambda^{+},\lambda^{-})\|^2$ is minimal among
+all such $w$ where all $\lambda^{\pm}_{i}\ge 0$ and $\sum_{i=1}^{n_{\pm}} \lambda^{\pm}_{i}=1$.
+
+This is an example of a *constrained optimization problem.*   It's worth observing that
+the *objective function* $\|w(\lambda^{+},\lambda^{-})\|^2$ is just a quadratic function in the $\lambda^{\pm}$.
+Indeed we can expand
+$$
+\|w(\lambda^{+},\lambda^{-})\|^2 = (\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x_{i}- \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i})\cdot(\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x_{i}- \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i})
+$$
+to obtain
+$$
+\|w(\lambda^{+},\lambda^{-})\|^2 = R -2S +T
+$$
+where
+$$
+\begin{aligned}
+R &=& \sum_{i=1}^{n_{+}}\sum_{j=1}^{n_{+}}\lambda^{+}_{i}\lambda^{+}_{j}(x^{+}_{i}\cdot x^{+}_{j}) \\
+S &=& \sum_{i=1}^{n_{+}}\sum_{j=1}^{n_{-}}\lambda^{+}_{i}\lambda^{-}_{j}(x^{+}_{i}\cdot x^{-}_{j}) \\
+T &=& \sum_{i=1}^{n_{-}}\sum_{j=1}^{n_{-}}\lambda^{-}_{i}\lambda^{-}_{j}(x^{-}_{i}\cdot x^{-}_{j}) \\
+\end{aligned}
+$$
+Thus the function we are trying to minimize is relatively simple.  
+
+On the other hand, unlike optimization problems we have seen earlier in these lectures,
+in which we can apply Lagrange multipliers, in this case
+some of the constraints are inequalities -- namely
+the requirement that all of the $\lambda^{pm}\ge 0$ -- rather than equalities.  There is an extensive theory of such problems that derives from the idea of Lagrange multipliers.  However, in these notes, we will not dive into that
+theory but will instead construct an algorithm for solving the problem directly.
+
+
+### Relaxing the constraints
+
+Our first step in attacking this problem is to adjust our constraints and our objective function
+slightly so that the problem becomes easier to attack.  
+
+**Optimization Problem 2:** This is a slight revision of problem 1 above.   We minimize:
+$$
+Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-\sum_{i=1}^{n_{+}}\lambda^{+}_{i}-\sum_{i=1}^{n_{-}}\lambda^{-}_{i}
+$$
+subject to the constraints that all $\lambda^{\pm}_{i}\ge 0$ and 
+$$
+\alpha = \sum_{i=1}^{n_{+}}\lambda^+_{i} = \sum_{i=1}^{n_{-}}\lambda^{-}_{i}.
+$$
+
+Problem 2 is like problem 1, except we don't require the sums of the $\lambda^{\pm}_{i}$ to be 
+one, but only that they be equal to each other; and we modify the objective function slightly.
+It turns out that the solution to this optimization problem easily yields the solution to our original one.
+
+**Lemma:**  Suppose $\lambda^{+}$ and $\lambda^{-}$ satisfy the constraints of problem 2 and
+yield the minimal value for the objective function $Q(\lambda^{+},\lambda^{-})$.  Rescale the
+$\lambda^{\pm}$ to have sum equal to one by dividing by $\alpha$, yielding 
+$\tau^{\pm}=1/\alpha\lambda^{\pm}$.  Then $w(\tau^{+},\tau^{-})$ is a solution to optimization problemm 1.
+
+**Proof:** First of all, notice that $\tau^{\pm}$ still satisfy the constraints of problem 2.
+Therefore
+$$
+Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-2\alpha\le \|w(\tau^{+},\tau^{-})\|-2.
+$$
+On the other hand, suppose that $\sigma^{\pm}$ are a solution to problem 1.
+Then 
+$$
+\|w(\sigma^{+},\sigma^{-})\|^2\le \|w(\tau^{+},\tau^{-})\|^2.
+$$
+Therefore
+$$
+\alpha^2 \|w(\sigma^{+},\sigma^{-})\|^2 = \|w(\alpha\sigma^{+},\alpha\sigma^{-})\|^2\le \|w(\lambda^{+},\lambda^{-}\|^2
+$$
+and finally
+$$
+\|w(\alpha\sigma^{+},\alpha\sigma^{-}\|^2-2\alpha\le Q(\lambda^{+},\lambda^{-})=\|w(\alpha\tau^{+},\alpha\tau^{-})\|^2-2\alpha.
+$$
+Since $Q$ is the minimal value, we have
+$$
+\alpha^{2}\|w(\sigma^{+},\sigma^{-})\|^2 = \alpha^{2}\|w(\tau^{+},\tau^{-})\|^2
+$$
+so that indeed $w(\tau^{+},\tau^{-})$ gives a solution to Problem 1.
+
+
+### Sequential Minimal Optimization
+
+Now we outline an algorithm for solving Problem 2 that is called Sequential Minimal Optimization
+that was introduced by John Platt in 1998 (See +@plattSMO and Chapter 12 of +@KernelMethodAdvances).
+The algorithm is based on the principle of "gradient ascent", where we exploit the fact that the
+negative gradient of a function points in the direction of its most rapid decrease and we take small steps 
+in the direction of the negative gradient until we reach the minimum.
+
+However, in this case simplify this idea a little.  Recall that the objective function $Q(\lambda^{+},\lambda^{-})$
+is a quadratic function in the $\lambda$'s and that we need to preserve the condition that
+$\sum \lambda^{+}_{i}=\sum\lambda^{-}_{i}$.  So our approach is going to be to take, one at a time,
+a pair $\lambda^{+}_{i}$ and $\lambda^{-}_{j}$ and change them *together* so that the equality of the sums
+is preserved and the change reduces the value of the objective function.  Iterating this will take us
+to a minimum.
+
+So, for example, let's look at $\lambda^{+}_i$ and $\lambda^{-}_{j}$ and, for the moment, think
+of all of the other $\lambda$'s as constants.  Then our objective function reduces to a quadratic function
+of these two variables that looks something like:
+$$
+Q(\lambda_{i}^{+},\lambda_{j}^{-}) = a(\lambda^{+}_i)^2+b\lambda^{+}_i\lambda^{-}_j+c(\lambda^{-}_{i})^2+d\lambda^{+}_i+e\lambda^{-}_{j}+f.
+$$
+The constraints that remain are $\lambda^{\pm}\ge 0$, and we are going to try to minimize $Q$ by changing
+$\lambda_{i}^{+}$ and $\lambda_{j}^{-}$ *by the same amount* $\delta$.    Furthermore, since we still must have
+$\lambda_{i}^{+}+\delta\ge 0$ and $\lambda_{j}^{-}+\delta\ge 0$, we have
+
+$$
+\delta\ge\max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
+$${#eq:delta}
+
+In terms of this single variable
+$\delta$, our optimization problem becomes the job of finding the minimum of a quadratic polynomial in one
+variable subject to the constraint in +@eq:delta.
+
 
 
 
