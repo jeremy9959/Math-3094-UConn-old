@@ -360,7 +360,7 @@ is.
 \hypertarget{fig:penguinhwy2}{%
 \centering
 \includegraphics[width=0.5\textwidth,height=\textheight]{../img/penguinhwy2.png}
-\caption{Supporting lines in Penguin Data for
+\caption{Lines in Penguin Data for
 \(w=(250,-1)\)}\label{fig:penguinhwy2}
 }
 \end{figure}
@@ -546,20 +546,21 @@ q = (1-T)q_{m}+Tq'
 \] also belongs to \(U\). It follows that all of \(C(S)\) belongs to
 \(U\).
 
-In \cref{fig:convexhull} we given an example of the convex hull of a
-finite set of points in \(\mathbf{R}^{2}\). Notice that its boundary is
-a finite collection of line segments that join the ``outermost'' points
-in the point set.
+In \cref{fig:convexhull} we show our penguin data together with the
+convex hull of points corresponding to the two types of penguins. Notice
+that the boundary of each convex hull is a finite collection of line
+segments that join the ``outermost'' points in the point set.
 
 \begin{figure}
 \hypertarget{fig:convexhull}{%
 \centering
-\includegraphics[width=\textwidth,height=4in]{../img/convexhull.png}
+\includegraphics[width=0.5\textwidth,height=\textheight]{../img/penguinswithhulls.png}
 \caption{The Convex Hull}\label{fig:convexhull}
 }
 \end{figure}
 
-Notice that if \(f(x)=w\cdot x+b=0\) is a hyperplane, then the two
+One very simple example of a convex set is a half-plane. More
+specificically, if \(f(x)=w\cdot x+b=0\) is a hyperplane, then the two
 ``sides'' of the hyperplane, meaning the subsets \(\{x: f(x)\ge 0\}\)
 and \(\{x: f(x)\le 0\}\), are both convex. (This is exercise 1 in
 \cref{sec:exercises} ).
@@ -713,7 +714,7 @@ would contradict the assumption that \(v_1\) is the closet point in
 \begin{figure}
 \hypertarget{fig:chord}{%
 \centering
-\includegraphics[width=0.5\textwidth,height=\textheight]{../img/chord2.png}
+\includegraphics[width=3in,height=\textheight]{../img/chord2.png}
 \caption{Chord of a circle}\label{fig:chord}
 }
 \end{figure}
@@ -779,6 +780,20 @@ To recap, we have shown that
 hyperplanes, find points \(p\in C(A^{+})\) and \(q\in C(A^{-})\) that
 minimize \(\|p-q\|\) and set \(w=p-q\).}
 \end{quote}
+
+\Cref{fig:strict} shows how considering the closest point in the convex
+hulls ``fixes'' the problem that we saw in \cref{fig:nonstrict}. The
+closest point occurs at a point on the boundary of the convex hull that
+is not one of the points in \(A^{+}\) or \(A^{-}\).
+
+\begin{figure}
+\hypertarget{fig:strict}{%
+\centering
+\includegraphics[width=0.5\textwidth,height=\textheight]{../img/convexhullwithmargin.png}
+\caption{Closest distance between convex hulls gives optimal
+margin}\label{fig:strict}
+}
+\end{figure}
 
 \hypertarget{sec:exercises}{%
 \subsection{Exercises}\label{sec:exercises}}

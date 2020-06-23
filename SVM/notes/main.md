@@ -207,7 +207,7 @@ Finally, among all the lines *with this particular $w$*, it seems that the **bes
 right down the middle of the gap between the boundary lines.  Any other line in the gap will be closer to either the blue
 or green set that the midpoint line is.
 
-![Supporting lines in  Penguin Data for $w=(250,-1)$](../img/penguinhwy2.png){#fig:penguinhwy2 width=50%}
+![Lines in  Penguin Data for $w=(250,-1)$](../img/penguinhwy2.png){#fig:penguinhwy2 width=50%}
 
 Let's put all of this together and see if we can make sense of it in general.
 
@@ -356,12 +356,14 @@ q = (1-T)q_{m}+Tq'
 $$
 also belongs to $U$.  It follows that all of $C(S)$ belongs to $U$.
 
-In +@fig:convexhull we given an example of the convex hull of a finite set of points in $\mathbf{R}^{2}$.  Notice
-that its boundary is a finite collection of line segments that join the "outermost" points in the point set.  
+In +@fig:convexhull we show our penguin data together with the convex hull of points corresponding
+to the two types of penguins.  Notice that the boundary of each convex hull
+is a finite collection of line segments that join the "outermost" points in the point set.  
 
-![The Convex Hull](../img/convexhull.png){#fig:convexhull height=4in}
+![The Convex Hull](../img/penguinswithhulls.png){#fig:convexhull width=50%}
 
-Notice that if $f(x)=w\cdot x+b=0$ is a hyperplane, then the two "sides" of the hyperplane, meaning
+One very simple example of a convex set is a half-plane.  More specificically,
+if $f(x)=w\cdot x+b=0$ is a hyperplane, then the two "sides" of the hyperplane, meaning
 the subsets $\{x: f(x)\ge 0\}$ and $\{x: f(x)\le 0\}$, are both convex. (This is exercise 1 in +@sec:exercises ).
 
 
