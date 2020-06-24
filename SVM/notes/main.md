@@ -693,17 +693,93 @@ $\lambda_{i}^{+}$ and $\lambda_{j}^{-}$ *by the same amount* $\delta$.    Furthe
 $\lambda_{i}^{+}+\delta\ge 0$ and $\lambda_{j}^{-}+\delta\ge 0$, we have
 
 $$
-\delta\ge\max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
+\delta\ge M=\max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
 $${#eq:delta}
 
 In terms of this single variable
 $\delta$, our optimization problem becomes the job of finding the minimum of a quadratic polynomial in one
-variable subject to the constraint in +@eq:delta.
+variable subject to the constraint in +@eq:delta. This is easy!  There are two cases: the critical
+point of the quadratic is to the left of $M$, in which case the minimum value occurs at $M$; or the critical
+point of the quadratic is to the right of $M$, in which case the critical point occurs there.
+This is illustrated in +@fig:quadratics.
+
+![Minimizing the 1-variable quadratic objective function](../img/quadratic.png){#fig:quadratics width=50%}
+
+Computationally,  let's write 
+$$
+w_{\delta,i,j}(\lambda^{+},\lambda^{-}) = w(\lambda^{+},\lambda^{-})+\delta(x^{+}_{i}-x^{-}_{j}).
+$$
+Then
+$$
+\frac{d}{d\delta}\|w_{\delta,i,j}(\lambda^{+},\lambda^{-})\|^2  = 2w_{\delta,i,j}(\lambda^{+},\lambda^{-})\cdot(x^{+}_{i}-x^{-}_{j})
+$$
+and using the definition of $w_{\delta,i,j}$ we obtain the following formula for the critical value of 
+$\delta$ by setting this derivative to zero:
+$$
+\delta_{i,j} = -\frac{w(\lambda^{+},\lambda^{-})\cdot(x_{i}^{+}-x_{j}^{-})}{\|x^+_{i}-x^{-}_{j}\|^2}
+$$
+
+Using this information we can describe the SMO algorithm.
+
+**Algorithm (SMO, see @plattSMO):**
+
+**Given:** Two linearly separable sets of points $A^{+}=\{x_{1}^{+},\ldots,x_{n_{+}}^{+}\}$ and
+$A^{-}=\{x_{1}^{-},\ldots, x_{n_{-}}^{-}\}$ in $\mathbf{R}^{k}$.
+
+**Find:** Points $p$ and $q$ belonging to $C(A^{+})$ and $C(A^{-})$ respectively such that
+$$
+\|p-q\|^2=\min_{p'\in C(A^{+}),q'\in C(A^{-})} \|p'-q'\|^2
+$$
+
+**Initialization:** Set $\lambda_{i}^{+}=\frac{1}{n_{+}}$ for $i=1,\ldots, n_{+}$ and
+$\lambda_{i}^{-}=\frac{1}{n_{-}}$ for $i=1,\ldots, n_{-}$.  Set 
+$$
+p(\lambda^{+})=\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x^{+}_{i}
+$$
+and
+$$
+q(\lambda^{-})=\sum_{i=1}^{n_{-}}\lambda^{-}_{i}x^{-}_{i}
+$$
+Notice that $w(\lambda^{+},\lambda^{-})=p(\lambda^{+})-q(\lambda^{-})$.
+Let $\alpha=\sum_{i=1}^{n_{+}}\lambda^{+}=\sum_{i=1}^{n_{-}}\lambda^{-}$.  These sums
+will remain equal to each other throughout the operation of the algorithm.
+
+Repeat the following steps until 
+$$
+D=\|\alpha^{-}p(\lambda^{+})-\alpha^{-}q(\lambda^{-})\|^2
+$$ 
+changes by less than some small tolerance value (say, $10^{-6})$ between successive iterations:
+
+- For each pair $i,j$ with $1\le i\le n_{+}$ and $1\le j\le n_{-}$, compute
+$$
+M_{i,j} = \max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
+$$
+and 
+$$
+\delta_{i,j} = -\frac{(p(\lambda^{+})-q(\lambda^{-}))\cdot(x_{i}^{+}-x_{j}^{-})}{\|x^+_{i}-x^{-}_{j}\|^2}.
+$$
+If $\delta_{i,j}\ge M$ then set $\delta^{*}=\delta_{i,j}$; otherwise set $\delta^{*}=M$.  Then update
+the $\lambda^{\pm}$ by the equations:
+$$
+\begin{aligned}
+\lambda^{+}_{i}&=&\lambda^{+}_{i}+\delta_{i,j}^{*} \\
+\lambda^{+}_{j}&=&\lambda^{-}_{j}+\delta_{i,j}^{*} \\
+\end{aligned}
+$$
 
 
+When this algorithm finishes, $p\approx p(\lambda^{+})$ and $q\approx q(\lambda^{-})$ will be very good approximations
+to the desired closest points.
 
-
-
+Recall that if we set $w=p-q$, then 
+the optimal margin classifier is
+$$
+f(x)=w\cdot x - \frac{B^{+}+B^{-}){2}
+$$
+where $B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Since $w=p-q$ we can simplify this to obtain
+$$
+f(x)=(p-q)\cot x -\frac{\|p\|^2-\|q\|^2}{2}.
+$$
 
 
 
@@ -718,3 +794,5 @@ for $S$ where $f(x)\ge 0$ for all $p\in S$.
 
 3.  Prove that $C(S)$ is bounded.  Hint: show that $S$ is contained in a sphere of sufficiently large radius centered
 at zero, and then that $C(S)$ is contained in that sphere as well.
+
+4. Confirm the final formula for the optimal margin classifier at the end of the lecture.
