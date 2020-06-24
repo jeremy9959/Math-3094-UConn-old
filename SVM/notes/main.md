@@ -746,7 +746,7 @@ will remain equal to each other throughout the operation of the algorithm.
 
 Repeat the following steps until 
 $$
-D=\|\alpha^{-}p(\lambda^{+})-\alpha^{-}q(\lambda^{-})\|^2
+D=\|\alpha^{-1}p(\lambda^{+})-\alpha^{-1}q(\lambda^{-})\|^2
 $$ 
 changes by less than some small tolerance value (say, $10^{-6})$ between successive iterations:
 
@@ -771,14 +771,16 @@ $$
 When this algorithm finishes, $p\approx p(\lambda^{+})$ and $q\approx q(\lambda^{-})$ will be very good approximations
 to the desired closest points.
 
-Recall that if we set $w=p-q$, then 
-the optimal margin classifier is
+Recall that if we set $w=p-q$, then the optimal margin classifier is
+
 $$
-f(x)=w\cdot x - \frac{B^{+}+B^{-}){2}
+f(x)=w\cdot x - \frac{B^{+}+B^{-}}{2}
 $$
+
 where $B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Since $w=p-q$ we can simplify this to obtain
+
 $$
-f(x)=(p-q)\cot x -\frac{\|p\|^2-\|q\|^2}{2}.
+f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}.
 $$
 
 

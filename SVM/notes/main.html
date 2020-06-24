@@ -346,7 +346,7 @@ p(\lambda^{+})=\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x^{+}_{i}
 q(\lambda^{-})=\sum_{i=1}^{n_{-}}\lambda^{-}_{i}x^{-}_{i}
 \]</span> Notice that <span class="math inline">\(w(\lambda^{+},\lambda^{-})=p(\lambda^{+})-q(\lambda^{-})\)</span>. Let <span class="math inline">\(\alpha=\sum_{i=1}^{n_{+}}\lambda^{+}=\sum_{i=1}^{n_{-}}\lambda^{-}\)</span>. These sums will remain equal to each other throughout the operation of the algorithm.</p>
 <p>Repeat the following steps until <span class="math display">\[
-D=\|\alpha^{-}p(\lambda^{+})-\alpha^{-}q(\lambda^{-})\|^2
+D=\|\alpha^{-1}p(\lambda^{+})-\alpha^{-1}q(\lambda^{-})\|^2
 \]</span> changes by less than some small tolerance value (say, <span class="math inline">\(10^{-6})\)</span> between successive iterations:</p>
 <ul>
 <li>For each pair <span class="math inline">\(i,j\)</span> with <span class="math inline">\(1\le i\le n_{+}\)</span> and <span class="math inline">\(1\le j\le n_{-}\)</span>, compute <span class="math display">\[
@@ -360,13 +360,21 @@ M_{i,j} = \max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
 \end{aligned}
 \]</span></li>
 </ul>
-<p>When this algorithm finishes, <span class="math inline">\(p{\sim\atop{=}}p(\lambda^{+})\)</span> and <span class="math inline">\(q{\sim\atop{=}}q(\lambda^{-})\)</span> will be very good approximations</p>
-<p>From these points</p>
+<p>When this algorithm finishes, <span class="math inline">\(p\approx p(\lambda^{+})\)</span> and <span class="math inline">\(q\approx q(\lambda^{-})\)</span> will be very good approximations to the desired closest points.</p>
+<p>Recall that if we set <span class="math inline">\(w=p-q\)</span>, then the optimal margin classifier is</p>
+<p><span class="math display">\[
+f(x)=w\cdot x - \frac{B^{+}+B^{-}}{2}
+\]</span></p>
+<p>where <span class="math inline">\(B^{+}=w\cdot p\)</span> and <span class="math inline">\(B^{-}=w\cdot q\)</span>. Since <span class="math inline">\(w=p-q\)</span> we can simplify this to obtain</p>
+<p><span class="math display">\[
+f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}.
+\]</span></p>
 <h2 data-number="1.6" id="sec:exercises"><span class="header-section-number">1.6</span> Exercises</h2>
 <ol type="1">
 <li><p>Prove that, if <span class="math inline">\(f(x)=w\cdot x+b=0\)</span> is a hyperplane in <span class="math inline">\(\mathbf{R}^{k}\)</span>, then the two “sides” of this hyperplane, consisting of the points where <span class="math inline">\(f(x)\ge 0\)</span> and <span class="math inline">\(f(x)\le 0\)</span>, are both convex sets.</p></li>
 <li><p>Prove that <span class="math inline">\(C(S)\)</span> is the intersection of all the halfplanes <span class="math inline">\(f(x)\ge 0\)</span> as <span class="math inline">\(f(x)=w\cdot x+b\)</span> runs through all supporting hyperplanes for <span class="math inline">\(S\)</span> where <span class="math inline">\(f(x)\ge 0\)</span> for all <span class="math inline">\(p\in S\)</span>.</p></li>
 <li><p>Prove that <span class="math inline">\(C(S)\)</span> is bounded. Hint: show that <span class="math inline">\(S\)</span> is contained in a sphere of sufficiently large radius centered at zero, and then that <span class="math inline">\(C(S)\)</span> is contained in that sphere as well.</p></li>
+<li><p>Confirm the final formula for the optimal margin classifier at the end of the lecture.</p></li>
 </ol>
 <h1 class="unnumbered" data-number="" id="bibliography">References</h1>
 <div id="refs" class="references" role="doc-bibliography">
