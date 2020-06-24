@@ -18,18 +18,21 @@ df['type'] = df['Species'].apply(lambda x: x.split()[0])
 df['color'] = df['type'].map({'Adelie':'blue','Gentoo':'green','Chinstrap':'red'})
 
 
-
-f = figure(toolbar_location=None)
+f = figure(toolbar_location=None,match_aspect=True)
 f.xaxis.axis_label = 'Culmen Depth (mm)'
-f.yaxis.axis_label = 'Body Mass (g)'
-f.title.text = 'Penguin Features with Convex Hulls'
+f.yaxis.axis_label = 'Body Mass (x200 g)'
+f.title.text = 'Penguin Features'
+
+df['Body Mass (x200 g)'] = df['Body Mass (g)']/200
+df['Body Mass (x200 g)'] = df['Body Mass (g)']/200
 adelie = df[df['type']=='Adelie']
 gentoo = df[df['type']=='Gentoo']
-f.circle(x='Culmen Depth (mm)',y='Body Mass (g)',fill_color='color',legend_label = 'Adelie',source=ColumnDataSource(adelie))
-f.circle(x='Culmen Depth (mm)',y='Body Mass (g)',fill_color='color',legend_label = 'Gentoo',source=ColumnDataSource(gentoo))
 
-adelie_pts = adelie[['Culmen Depth (mm)', 'Body Mass (g)']].dropna().values
-gentoo_pts = gentoo[['Culmen Depth (mm)', 'Body Mass (g)']].dropna().values
+f.circle(x='Culmen Depth (mm)',y='Body Mass (x200 g)',fill_color='color',legend_label = 'Adelie',source=ColumnDataSource(adelie))
+f.circle(x='Culmen Depth (mm)',y='Body Mass (x200 g)',fill_color='color',legend_label = 'Gentoo',source=ColumnDataSource(gentoo))
+
+adelie_pts = adelie[['Culmen Depth (mm)', 'Body Mass (x200 g)']].dropna().values
+gentoo_pts = gentoo[['Culmen Depth (mm)', 'Body Mass (x200 g)']].dropna().values
 
 adelie_vertices = adelie_pts[ConvexHull(adelie_pts).vertices,:]
 gentoo_vertices = gentoo_pts[ConvexHull(gentoo_pts).vertices,:]

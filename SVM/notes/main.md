@@ -61,13 +61,14 @@ a line on the graph with the property that all of the Adelie penguins lie on one
 line and all of the Gentoo penguins lie on the other. In +@fig:penguinsline I've drawn in
 such a line (which I found by eyeballing the picture in +@fig:penguins).  The line has the equation
 $$
-Y = 250X+400.
+Y = 1.25X+2.
 $$
 
 ![Penguins with Separating Line](../img/penguins_with_line.png){#fig:penguinsline width=50%}
 
 The fact that all of the Gentoo penguins lie above this line means that, for the Gentoo penguins,
-their body mass in grams is at least $400$ more than $250$ times their culmen depth in mm. 
+their body mass in grams is at least $400$ more than $250$ times their culmen depth in mm. (Note
+that the $y$ axis of the graph is scaled by $200$ grams).
 
 $$
 \mathrm{Gentoo\ mass}> 250(\mathrm{Gentoo\ culmen\ depth})+400
@@ -198,18 +199,18 @@ $$
 If this inequality holds for some $w$, and $-b$ within this open interval, then $f(x)=w\cdot x+b$ is a separating hyperplane 
 for $A$ and $B$.
 
-*@fig:penguinhwy2 is an illustration of this argument for a subset of the penguin data.  Here, we have fixed $w=(250,-1)$
-coming from the line $y=250x+400$ that we eyeballed earlier.  For each Gentoo (green) point $x_{i}$, we computed $-b=w\cdot x_{i}$ 
+*@fig:penguinhwy2 is an illustration of this argument for a subset of the penguin data.  Here, we have fixed $w=(1.25,-1)$
+coming from the line $y=1.25x+2$ that we eyeballed earlier.  For each Gentoo (green) point $x_{i}$, we computed $-b=w\cdot x_{i}$ 
 and drew the line $f(x) = w\cdot x - w\cdot x_{i}$ giving a family of parallel lines through each of the green points. 
 Similarly for each Adelie (blue) point we drew the corresponding line.  The maximum value of $w\cdot x$ for the blue points
-turned out to be $-75$ and the minimum value of $w\cdot x$ for the green points turned out to be $525$.  Thus we have
+turned out to be $1.998$ and the minimum value of $w\cdot x$ for the green points turned out to be $2.003$.  Thus we have
 two lines with a gap between them, and any parallel line in that gap will separate the two sets. 
 
 Finally, among all the lines *with this particular $w$*, it seems that the **best** separating line is the one running
 right down the middle of the gap between the boundary lines.  Any other line in the gap will be closer to either the blue
 or green set that the midpoint line is.
 
-![Lines in  Penguin Data for $w=(250,-1)$](../img/penguinhwy2.png){#fig:penguinhwy2 width=50%}
+![Lines in  Penguin Data for $w=(1.25,-1)$](../img/penguinhwy2.png){#fig:penguinhwy2 width=50%}
 
 Let's put all of this together and see if we can make sense of it in general.
 
@@ -711,12 +712,12 @@ w_{\delta,i,j}(\lambda^{+},\lambda^{-}) = w(\lambda^{+},\lambda^{-})+\delta(x^{+
 $$
 Then
 $$
-\frac{d}{d\delta}\|w_{\delta,i,j}(\lambda^{+},\lambda^{-})\|^2  = 2w_{\delta,i,j}(\lambda^{+},\lambda^{-})\cdot(x^{+}_{i}-x^{-}_{j})
+\frac{d}{d\delta}(\|w_{\delta,i,j}(\lambda^{+},\lambda^{-})\|^2-2\alpha)  = 2w_{\delta,i,j}(\lambda^{+},\lambda^{-})\cdot(x^{+}_{i}-x^{-}_{j})-2
 $$
 and using the definition of $w_{\delta,i,j}$ we obtain the following formula for the critical value of 
 $\delta$ by setting this derivative to zero:
 $$
-\delta_{i,j} = -\frac{w(\lambda^{+},\lambda^{-})\cdot(x_{i}^{+}-x_{j}^{-})}{\|x^+_{i}-x^{-}_{j}\|^2}
+\delta_{i,j} = \frac{(1-w(\lambda^{+},\lambda^{-})\cdot(x_{i}^{+}-x_{j}^{-})}{\|x^+_{i}-x^{-}_{j}\|^2}
 $$
 
 Using this information we can describe the SMO algorithm.
@@ -744,11 +745,9 @@ Notice that $w(\lambda^{+},\lambda^{-})=p(\lambda^{+})-q(\lambda^{-})$.
 Let $\alpha=\sum_{i=1}^{n_{+}}\lambda^{+}=\sum_{i=1}^{n_{-}}\lambda^{-}$.  These sums
 will remain equal to each other throughout the operation of the algorithm.
 
-Repeat the following steps until 
-$$
-D=\|\alpha^{-1}p(\lambda^{+})-\alpha^{-1}q(\lambda^{-})\|^2
-$$ 
-changes by less than some small tolerance value (say, $10^{-6})$ between successive iterations:
+Repeat the following steps until maximum value of  $\delta^{*}$ computed
+in each iteration is smaller than some tolerance (so that the change in all of the $\lambda$'s
+is very small):
 
 - For each pair $i,j$ with $1\le i\le n_{+}$ and $1\le j\le n_{-}$, compute
 $$
@@ -774,16 +773,25 @@ to the desired closest points.
 Recall that if we set $w=p-q$, then the optimal margin classifier is
 
 $$
-f(x)=w\cdot x - \frac{B^{+}+B^{-}}{2}
+f(x)=w\cdot x - \frac{B^{+}+B^{-}}{2}=0
 $$
 
 where $B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Since $w=p-q$ we can simplify this to obtain
 
 $$
-f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}.
+f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}=0.
 $$
 
+In +@fig:penguinsolution, we show the result of applying this algorithm to the penguin data
+and illustrate the closest points as found by an implementation of the SMO algorithm, together
+with the optimal classifying line.
 
+Bearing in mind that the y-axis is scaled by a factor of 200, we obtain the following rule for distinguishing
+between Adelie and Gentoo penguins -- if the culmen depth and body mass put you above the red line,
+you are a Gentoo penguin, otherwise you are an Adelie.
+
+
+![Closest points in convex hulls of penguin data](../img/solution.png){#fig:penguinsolution width=50%}
 
 
 ## Exercises{#sec:exercises}
