@@ -64,6 +64,9 @@
 
 %% pandoc-fignos: required package
 \usepackage{cleveref}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newenvironment{cslreferences}%
