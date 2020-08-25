@@ -552,7 +552,7 @@ is not one of the points in $A^{+}$ or $A^{-}$.
 
 
 
-![Closest distance between convex hulls gives optimal margin](../img/convexhullwithmargin.png){#fig:strict width=50%}
+![Closest distance between convex hulls gives optimal margin](../img/ConvexHullWithMargin.png){#fig:strict width=50%}
 
 ## Finding the Optimal Margin Classifier
 
