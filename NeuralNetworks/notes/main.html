@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Neural Networks</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 data-number="1" id="basic-neural-networks"><span class="header-section-number">1</span> Basic Neural Networks</h1>
+<h2 data-number="1.1" id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p><em>Neural networks</em> were originally designed as a way to mimic the operation of neurons in the brain. The idea is that we form a graph with some nodes corresponding to inputs and other nodes corresponding to outputs, and with some extra nodes between them. These extra nodes are organized into layers, and the output of each layer is the input to the next layer. Each node is meant to play the role of a neuron in the brain. The neural network is also known as the <em>multilayer perceptron</em>, or <em>MLP</em>.</p>
+<p>The idea is that activations in one layer determine the activations in the next layer, similarly to the behavior of neurons. In this way, the original data, which is fed into the input layer, activates nodes in the successive layers, ending with the nodes in the output layer. In each layer of a typical neural network, logistic regressions are performed. One could view neural networks as successive logistic regressions taking place at each node and the resulting model comprises multiple layers of logistic regression models.</p>
+<h2 data-number="1.2" id="set-ups"><span class="header-section-number">1.2</span> Set-ups</h2>
+<p>Assume that we have categories <span class="math inline">\(\mathcal C_k\)</span> for <span class="math inline">\(k=1, \dots, K\)</span>, and suppose that we want to classify an input into one of the categories <span class="math inline">\(\mathcal C_k\)</span>. Then we can choose our network to have <span class="math inline">\(n\)</span> output nodes, and each output node will produce probability for the input to be in the corresponding category.</p>
+<div id="fig:dia" class="fignos">
+<figure>
+<img src="diagram.png" style="width:50.0%" alt="" /><figcaption><span>Figure 1:</span> Neural Network</figcaption>
+</figure>
+</div>
+<p><span class="math display">\[\begin{aligned} \text{input: }&amp;\quad x_1,x_2 \dots , x_N \\
+\text{hidden layer: }&amp; \quad h_i = \sigma ( w_{i,1}^{(1)} x_1 + \cdots + w_{i, N}^{(1)} x_N + b_i^{(1)}), \quad i =1, 2, \dots , M\\ 
+\text{output: }&amp;\quad y_i = \sigma ( w_{i,1}^{(2)} h_1 + \cdots + w_{i, M}^{(2)} h_M + b_i^{(2)}), \quad i =1, 2, \dots , K \\ 
+\text{actual class $\mathcal C_k$: }&amp;\quad \hat y_k=1 \quad \text{and} \quad \hat y_i = 0 \quad \text{ for }i \neq k
+\end{aligned}\]</span> Here the parameters <span class="math inline">\(w_{i,j}^{(\ell)}\)</span> are called <em>weights</em> and <span class="math inline">\(b_i^{(\ell)}\)</span> <em>biases</em> for <span class="math inline">\(\ell =1, 2\)</span>. Initially, we might make random choices for the parameters <span class="math inline">\(w_{i,j}^{(\ell)}\)</span> and <span class="math inline">\(b_i^{(\ell)}\)</span> at each node. Using the training data, we want to learn the best values of these parameters.</p>
+<p>In a matrix form, write <span class="math inline">\({\boldsymbol{x}}=[x_i]^T=[x_1, x_2, \dots, x_N]^T\)</span>, <span class="math inline">\({\boldsymbol{y}}=[y_i]^T=[y_1, y_2, \dots, y_K]^T\)</span>, <span class="math inline">\({\boldsymbol{h}}=[h_i]^T=[h_1, h_2, \dots, h_M]^T\)</span>. Similarly, <span class="math display">\[\mathbf b^{(\ell)}=[b_i^{(\ell)}]^T \quad \text{ and } \quad
+{\boldsymbol{w}}^{(\ell)} = [ w_{i,j}^{(\ell)}].\]</span> Then we have <span class="math display">\[  {\boldsymbol{h}}= \sigma ( \mathbf{w}^{(1)} {\boldsymbol{x}}+ \mathbf{b}^{(1)})\quad \text{ and } \quad  {\boldsymbol{y}}= \sigma ( \mathbf{w}^{(2)} {\boldsymbol{h}}+ \mathbf{b}^{(2)}). \]</span> This process is considered as <em>forward propagation</em>.</p>
+<p>We can develop more general network mappings by considering more complex network diagrams with many layers. However, these must be restricted to a feed-forward architecture, in other words to one having no closed directed cycles, to ensure that the outputs are deterministic functions of the inputs. In other words, a network must be an <em>acyclic quiver</em>.</p>
+<h2 data-number="1.3" id="backpropagation"><span class="header-section-number">1.3</span> Backpropagation</h2>
+<p>We need to measure how far the results are from the correct classes, and update the weights and biases to improve the classification. We will do this with gradient descent after choosing a cost function. For simplicity in notations, write <span class="math display">\[ z_i^{(1)} = \left ( \sum_{k=1}^{N} w_{i,k}^{(1)} x_k \right ) + b_i^{(1)} \quad \text{ and } \quad 
+z_i^{(2)} = \left ( \sum_{k=1}^{M} w_{i,k}^{(2)} h_k \right ) + b_i^{(2)}. \]</span> Then we have <span class="math display">\[ h_i = \sigma(z_i^{(1)}) \quad \text{ and } \quad y_i = \sigma(z_i^{(2)}) . \]</span></p>
+<p>The cost function for a particular input <span class="math inline">\({\boldsymbol{x}}\)</span> can be taken to be <span class="math display">\[  C_{\boldsymbol{x}}=  \sum_{i=1}^K \ (y_i -\hat y_i)^2,\]</span> where <span class="math inline">\(\hat y_k =1\)</span> and <span class="math inline">\(\hat y_i =0\)</span>, <span class="math inline">\(i \neq k\)</span>, for actual class <span class="math inline">\(\mathcal C_k\)</span>. As in logistic regression, we may also take <span class="math display">\[ C_{\boldsymbol{x}}= - \sum_{i=1}^K \hat y_i \ln y_i. \]</span> The total cost to be minimized is given by <span class="math inline">\(\sum_{{\boldsymbol{x}}\in \mathcal T} C_{\boldsymbol{x}}\)</span> where <span class="math inline">\(\mathcal T\)</span> is a training set. For simplicity, we write <span class="math inline">\(C=C_{\boldsymbol{x}}\)</span> in what follows.</p>
+<p>We need to take the partial derivatives of the cost function <span class="math inline">\(C\)</span> with respect to all the weights and biases. This process of taking the partial derivatives is called <em>backpropagation</em>. Define <span class="math display">\[ \delta_j^{(\ell)} = \frac {\partial C} {\partial z_j^{(\ell)}} \]</span> This can be interpreted as an error. (See [Bishop, p.243])</p>
+<p>From the chain rule, <span class="math display">\[\delta_j^{(2)} = \frac {\partial C} {\partial y_j} \cdot \frac {\partial y_j} {\partial z_j^{(2)}}= \frac {\partial C} {\partial y_j} \cdot \sigma&#39; (z_j^{(2)}) ,\]</span> where <span class="math inline">\(\frac {\partial C} {\partial y_j}\)</span> can be calculated from the formula of <span class="math inline">\(C\)</span> and <span class="math inline">\(z_j^{(2)}\)</span> has been calculated before backpropagation. Using the chain rule again, we obtain <span class="math display">\[ \begin{aligned}  \delta_j^{(1)} &amp;= \frac  {\partial C} {\partial h_j} \cdot \frac {\partial h_j} {\partial z_j^{(1)}}= \frac {\partial C} {\partial h_j} \cdot \sigma&#39; (z_j^{(1)})\\ &amp;= \sum_{i=1}^K \frac {\partial C}{\partial z_i^{(2)}} \cdot \frac{\partial z_i^{(2)}}{\partial h_j} \cdot \sigma&#39;(z_j^{(1)}) = \sum_{i=1}^K \delta_i^{(2)} w_{i,j}^{(2)} \sigma&#39;(z_j^{(1)}) .\end{aligned} \]</span> The formula <span class="math display">\[\boxed{ \delta_j^{(1)} = \sum_{i=1}^{K} \delta_i^{(2)} w_{i,j}^{(2)} \sigma&#39;(z_j^{(1)})} \]</span> is usually referred to as <em>backpropagation formula</em>.</p>
+<p>Now we have <span class="math display">\[ \frac {\partial C} {\partial w_{i,j}^{(1)}} = \frac {\partial C}{\partial z_i^{(1)}} \cdot \frac {\partial z_i^{(1)}}{\partial w_{i,j}^{(1)}} = \delta_i^{(1)} x_j, \]</span> and similarly,<br />
+<span class="math display">\[\frac {\partial C} {\partial w_{i,j}^{(2)}} = \delta_i^{(2)} h_j \quad \text{ and } \quad \frac {\partial C} {\partial b_j^{(\ell)}} =  \delta_j^{(\ell)} \quad \text{ for } \ \ell=1,2. \]</span> Using these partial derivatives, we can apply gradient descent.</p>
+<h2 data-number="1.4" id="examplemnist-hand-written-digits"><span class="header-section-number">1.4</span> Example–MNIST hand-written digits</h2>
+<p>The MNIST (Modified National Institute of Standards and Technology) database is a large database of handwritten digits that is commonly used for training various image processing systems. We design a neural network to classify the MNIST handwritten digits.</p>
+<p>The input layer will contain 784 nodes, with each node corresponding to a pixel, and the input value would be between 0 (white) and 1 (black). After passing through the network, we want the output layer to tell us what the computer thinks the digit is. We therefore have 10 nodes in the output layer, corresponding to the digits 0 to 9. We would classify an image by selecting the output with the largest probability (this is <em>softmax</em> classification).</p>
+<p>The standard softmax function <span class="math inline">\(\sigma: \mathbb R^K \rightarrow \mathbb R^K\)</span> is defined by <span class="math display">\[ \sigma(\mathbf z)_i = \frac {e^{z_i}}{\sum_{j=1}^k e^{z_j}} , \quad i=1,\dots, K, \quad \mathbf z = (z_1, \dots , z_K) \in \mathbb R^K. \]</span> The sigmoid function is a special case of softmax function.</p>
+<h2 data-number="1.5" id="miscellanies"><span class="header-section-number">1.5</span> Miscellanies</h2>
+<h3 data-number="1.5.1" id="convolutional-neural-networks-cnn"><span class="header-section-number">1.5.1</span> Convolutional Neural Networks (CNN)</h3>
+<p>An important property of images is that nearby pixels are more strongly correlated than more distant pixels, and recognizing local features can enhance the performance of a classifier. The <strong>convolutional neural network</strong> is a neural network with <em>local receptive fields</em> in a hidden layer where the weights are shared across the layer. Consequently, the number of parameters is reduced and the resulting network has the translation invariance property. The reason behind parameter-sharing is that any useful features that are detected in some portion of the input may be valid in other parts.</p>
+<h3 data-number="1.5.2" id="deep-learning"><span class="header-section-number">1.5.2</span> Deep Learning</h3>
+<p><strong>Deep learning </strong> uses multiple layers to progressively extract higher-level features from the raw input to imitate how the human brain works. Most deep learning models are based on convolutional neural networks.</p>
+<h3 data-number="1.5.3" id="tensorflow-and-keras"><span class="header-section-number">1.5.3</span> TensorFlow and Keras</h3>
+<p><strong>TensorFlow</strong> is an open-source software library for machine learning. It has a particular focus on training and inference of deep neural networks.</p>
+<p><strong>Keras</strong> is an open-source library that provides a Python interface for neural networks. It acts as an interface for the TensorFlow library.</p>
+<p><br><br><br></p>
+</body>
+</html>
