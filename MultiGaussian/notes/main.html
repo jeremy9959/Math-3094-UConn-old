@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Multivariate Gaussian</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  
+  <!-- pandoc-eqnos: equation style -->
+  <style>
+    .eqnos { display: inline-block; position: relative; width: 100%; }
+    .eqnos br { display: none; }
+    .eqnos-number { position: absolute; right: 0em; top: 50%; line-height: 0; }
+  </style>
+</head>
+<body>
+
+
+
+<h1 id="multivariate-gaussian"><span class="header-section-number">1</span> Multivariate Gaussian</h1>
+<h2 id="probabilistic-approach-to-linear-regression"><span class="header-section-number">1.1</span> Probabilistic Approach to Linear Regression</h2>
+<ul>
+<li><p><span class="math inline">\(X\)</span>: random variable<br />
+<span class="math inline">\(p(x)\)</span>: probability density function of <span class="math inline">\(X\)</span><br />
+   <span class="math inline">\(\Longleftrightarrow\)</span>    <span class="math inline">\(p(x) \ge 0\)</span>,    <span class="math inline">\(\int_{-\infty}^\infty p(x) dx =1\)</span>    and <span class="math display">\[ P[ a \le X \le b ]= \int_a^b p(x) dx \]</span></p></li>
+<li><p>For example, the <em>normal</em> random variable with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> has the density function <span class="math display">\[ p(x) = \frac 1 {\sqrt{2 \pi \sigma^2}} \exp \left ( -\tfrac{(x-\mu)^2}{2 \sigma^2} \right ). \]</span> In this case, we write <span class="math inline">\(X \sim \mathcal N (\mu, \sigma^2)\)</span> and <span class="math display">\[ p(x) = \mathcal N(x| \mu, \sigma^2) .\]</span></p></li>
+</ul>
+<div id="fig:normal" class="fignos">
+<figure>
+<img src="normal.png" alt="Figure 1: Graph of \mathcal N(x|0,1)" style="width:50.0%" /><figcaption><span>Figure 1:</span> Graph of <span class="math inline">\(\mathcal N(x|0,1)\)</span></figcaption>
+</figure>
+</div>
+<ul>
+<li><span class="math inline">\(X,Y\)</span>: two random variables<br />
+<span class="math inline">\(p(x,y)\)</span>: (joint) probability density function<br />
+  <span class="math inline">\(\Longleftrightarrow\)</span>    <span class="math inline">\(p(x,y) \ge 0\)</span>,   <span class="math inline">\(\int_{-\infty}^\infty \int_{-\infty}^\infty p(x,y) dx dy =1\)</span>    and <span class="math display">\[ P[ (X,Y) \in A ]= \iint \limits_A p(x,y) dx dy \]</span></li>
+<li><p>Marginal density functions: <span class="math display">\[p_X(x)= \int_{-\infty}^\infty p(x,y) \, dy  \quad\text{ and } \quad p_Y(y)= \int_{-\infty}^\infty p(x,y) \, dx\]</span></p></li>
+<li><p>The <em>covariance</em> of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is defined by <span class="math display">\[ \mathrm{Cov}(X,Y)= \operatorname{E}[ (X-\operatorname{E}(X)) (Y-\operatorname{E}(Y))]=\operatorname{E}(XY) -\operatorname{E}(X)\operatorname{E}(Y) .\]</span></p></li>
+<li><p>The <em>conditional density</em> of <span class="math inline">\(X\)</span> given that <span class="math inline">\(Y=y\)</span> is defined to be <span class="math display">\[ p_{X|Y}(x|y)= \frac {p(x,y)}{p_Y(y)}= \frac {p(x,y)}{\int p(u,y)du} .\]</span></p></li>
+<li><p>More generally, we consider <span class="math display">\[ T,X_1, \dots, X_m: \text{ random variables}. \]</span> Let <span class="math inline">\({\boldsymbol{x}}=(x_1, \dots , x_m)\)</span>. Then we have<br />
+<span class="math inline">\(p(t,{\boldsymbol{x}})\)</span>: probability density,   <br />
+<span class="math inline">\(p(t|{\boldsymbol{x}})\)</span>: conditional density</p></li>
+<li><p>Given random variables <span class="math inline">\(X_1, \dots , X_m\)</span>, the <em>covariance matrix</em> is defined to be <span class="math display">\[ \Sigma = [ \mathrm{Cov}(X_i, X_j) ]. \]</span></p></li>
+</ul>
+<p>Recall the settings of linear regression.</p>
+<ul>
+<li><p>Input: <span class="math inline">\(x\)</span>    Output: <span class="math inline">\(t\)</span><br />
+Observations: <span class="math inline">\((x_1,t_1), (x_2, t_2), \dots , (x_N, t_N)\)</span></p></li>
+<li><p>In many applications we expect some noise in determining the output, and the following assumption is reasonable.</p></li>
+<li><p>Assume that given <span class="math inline">\(x\)</span>, the corresponding value of <span class="math inline">\(t\)</span> has a normal distribution with a mean equal to the value <span class="math inline">\(y(x, {\boldsymbol{w}})\)</span> of the polynomial curve <span class="math display">\[ y(x,{\boldsymbol{w}}) = w_0 +w_1 x + w_2 x^2 + \cdots + w_D x^D ,\]</span> where <span class="math inline">\({\boldsymbol{w}}=[w_0, w_1, \dots , w_D]^\top\)</span>.</p></li>
+<li><p>That is to say,<br />
+<span class="math display">\[ t=y(x,{\boldsymbol{w}})+\epsilon , \]</span> where <span class="math inline">\(\epsilon\)</span> is a Gaussian noise with variance <span class="math inline">\(\sigma^2\)</span>. Then we can write <span class="math display">\[ p(t|x, {\boldsymbol{w}}, \beta) = \mathcal N(t|y(x, {\boldsymbol{w}}), \beta^{-1}), \]</span> where <span class="math inline">\(\beta = 1/\sigma^2\)</span> is the inverse variance, called <em>precision</em>.</p></li>
+<li><p>Given <span class="math inline">\({\boldsymbol{x}}=(x_1, \dots , x_N)\)</span> and <span class="math inline">\(\mathbf{t}= (t_1, \dots , t_N)\)</span>, we have <span class="math display">\[ p(\mathbf{t}|{\boldsymbol{x}}, {\boldsymbol{w}}, \beta) = \prod_{n=1}^N \mathcal N(t_n|y(x_n, {\boldsymbol{w}}), \beta^{-1}). \]</span></p></li>
+<li><p>Let <span class="math inline">\({\boldsymbol{x}}=(x_1, \dots, x_N)\)</span> and <span class="math inline">\(\mathbf{t}= (t_1,\dots, t_N)\)</span> be given.<br />
+<strong>Task</strong>: Determine <span class="math inline">\({\boldsymbol{w}}\)</span> and <span class="math inline">\(\beta\)</span> by maximum likelihood.<br />
+This is a probabilistic approach to the regression problem.</p></li>
+<li><p>We have</p></li>
+</ul>
+<p><span class="math display">\[ p(\mathbf{t}|{\boldsymbol{x}}, {\boldsymbol{w}}, \beta) = \prod_{n=1}^N \mathcal N(t_n|y(x_n, {\boldsymbol{w}}), \beta^{-1}). \]</span></p>
+<p>To maximize this function, we take logarithm: <span id="eq:log" class="eqnos"><span class="math display">\[ \ln p(\mathbf{t}|{\boldsymbol{x}}, {\boldsymbol{w}}, \beta) = -\frac \beta 2 \sum_{n=1}^N \{ y(x_n, {\boldsymbol{w}})-t_n \}^2 + \frac N 2 \ln \beta - \frac N 2 \ln (2 \pi) .\]</span><span class="eqnos-number">(1)</span></span></p>
+<p><strong><em>Exercise</em></strong>: Verify equality eq. <a href="#eq:log">1</a>.</p>
+<ul>
+<li>Thus maximizing likelihood with respect to <span class="math inline">\({\boldsymbol{w}}\)</span> is equivalent to minimizing the error function <span class="math inline">\(E({\boldsymbol{w}})\)</span>: <span class="math display">\[\begin{align*} E({\boldsymbol{w}})&amp;=\tfrac 1 2 \sum_{n=1}^N \{ y(x_n, {\boldsymbol{w}})-t_n \}^2 . \end{align*}\]</span></li>
+</ul>
+<p>Thus this probabilistic approach leads to the same computation as the usual linear regression to determine <span class="math inline">\({\boldsymbol{w}}\)</span>. Nevertheless, we can also determine the parameter <span class="math inline">\(\beta\)</span> to get maximum likelihood as follow.</p>
+<ul>
+<li><p>After finding out <span class="math inline">\({\boldsymbol{w}}_{\mathrm{ML}}\)</span>, take the derivative with respect to <span class="math inline">\(\beta\)</span> to obtain <span class="math display">\[ \frac 1 {\beta_{\mathrm{ML}}} = \frac 1 N \sum_{n=1}^N \{ y(x_n, {\boldsymbol{w}}_{\mathrm{ML}})-t_n \}^2 .\]</span></p></li>
+<li><p>Finally, the <em>predictive distribution</em> is given by <span class="math display">\[ \boxed{ p(t|x, {\boldsymbol{w}}_{\mathrm{ML}}, \beta_{\mathrm{ML}}) = \mathcal N(t|y(x, {\boldsymbol{w}}_{\mathrm{ML}}), \beta_{\mathrm{ML}}^{-1})} .\]</span></p></li>
+</ul>
+<p>!!Example or code??</p>
+<h2 id="bayesian-linear-regression"><span class="header-section-number">1.2</span> Bayesian Linear Regression</h2>
+<ul>
+<li><p>Bayesian linear regression avoids the over-fitting problem of maximum likelihood.</p></li>
+<li><p>We need multi-dimensional normal distributions.</p></li>
+</ul>
+<p>Recall one-dimensional normal distribution: <span class="math display">\[ p(x) =  \mathcal N(x| \mu, \sigma^2)= \frac 1 {\sqrt{2 \pi \sigma^2}} \exp \left ( -\tfrac{(x-\mu)^2}{2 \sigma^2} \right ). \]</span></p>
+<ul>
+<li><p><span class="math inline">\(D\)</span>-dimensional Gaussian distribution: <span class="math display">\[ \mathcal N({\boldsymbol{x}}|\pmb \mu,  \Sigma) = \frac 1 {(2\pi)^{D/2}}\frac 1 {| \Sigma|^{1/2}} \exp \left \{ -\frac 1 2 ({\boldsymbol{x}}-\pmb \mu)^\top  \Sigma^{-1} ({\boldsymbol{x}}-\pmb\mu) \right \} \]</span> where the <span class="math inline">\(D\)</span>-dimensional vector <span class="math inline">\(\pmb \mu\)</span> is the mean, the <span class="math inline">\(D\times D\)</span> matrix <span class="math inline">\(\Sigma\)</span> is the covariance, and <span class="math inline">\(|\Sigma|\)</span> is the determinant of <span class="math inline">\(\Sigma\)</span>.</p></li>
+<li><p>Assume <span class="math display">\[\begin{align*}
+p({\boldsymbol{x}}) &amp; = \mathcal N ({\boldsymbol{x}}| \pmb \mu, \Lambda^{-1}), \\
+p({\boldsymbol{y}}|{\boldsymbol{x}}) &amp; = \mathcal N ({\boldsymbol{y}}| A{\boldsymbol{x}}+ \pmb b, L^{-1}) .
+\end{align*}\]</span></p></li>
+<li><p>Then we have <span class="math display">\[\begin{align*}
+p({\boldsymbol{y}}) &amp; = \mathcal N ({\boldsymbol{y}}| A \, \pmb \mu+\pmb b,  L^{-1}+ A \,  \Lambda^{-1} A^\top), \\
+p({\boldsymbol{x}}|{\boldsymbol{y}}) &amp; = \mathcal N( {\boldsymbol{x}}|  \Sigma \, \{ A^\top  L({\boldsymbol{y}}-\pmb b) +  \Lambda \, \pmb \mu \},  \Sigma),
+\end{align*}\]</span> where <span class="math inline">\(\Sigma=(\Lambda+A^\top L A)^{-1}\)</span>.</p></li>
+</ul>
+<p>!! Do we need to verify this??</p>
+<p>Recall the settings of linear regression.</p>
+<ul>
+<li><p>Input: <span class="math inline">\(x\)</span>;    Output: <span class="math inline">\(t\)</span><br />
+Observations: <span class="math inline">\((x_1,t_1), (x_2, t_2), \dots , (x_N, t_N)\)</span></p></li>
+<li><p>Assume that given <span class="math inline">\(x\)</span>, the corresponding value of <span class="math inline">\(t\)</span> has a normal distribution with a mean equal to the value <span class="math inline">\(y(x, {\boldsymbol{w}})\)</span> of the polynomial curve <span class="math display">\[ y(x,{\boldsymbol{w}}) = w_0 +w_1 x + w_2 x^2 + \cdots + w_D x^D ,\]</span> where <span class="math inline">\({\boldsymbol{w}}=[w_0, w_1, \dots , w_D]^\top\)</span>.</p></li>
+<li>Consider a prior distribution for <span class="math inline">\({\boldsymbol{w}}\)</span>: <span class="math display">\[ p({\boldsymbol{w}}|\alpha) = \mathcal N({\boldsymbol{w}}| \pmb{0}, \alpha^{-1} I) . \]</span> Note that we are taking the initial vector for <span class="math inline">\({\boldsymbol{w}}\)</span> to be the zero vector <span class="math inline">\(\pmb{0}\)</span>.</li>
+<li><p>Recall that we have <span class="math display">\[ p(\mathbf{t}|{\boldsymbol{x}}, {\boldsymbol{w}}, \beta) = \prod_{n=1}^N \mathcal N(t_n|y(x_n, {\boldsymbol{w}}), \beta^{-1}). \]</span></p></li>
+<li><p>Bayes’ Theorem says <span class="math display">\[ \text{(posterior)} \propto \text{(likelihood)} \times \text{(prior)} .\]</span> In our situation, it becomes <span class="math display">\[ p({\boldsymbol{w}}| {\boldsymbol{x}}, \mathbf{t}, \alpha, \beta) \propto p(\mathbf{t}|{\boldsymbol{x}}, {\boldsymbol{w}}, \beta) p({\boldsymbol{w}}| \alpha) .\]</span> <strong>Task</strong>: Given the data, determine <span class="math inline">\({\boldsymbol{w}}\)</span> so that the posterior is maximized. This process is called <em>maximum posterior</em> (MAP).</p></li>
+<li><p>Take the negative logarithm of the posterior <span class="math display">\[\begin{align*} &amp; - \ln p({\boldsymbol{w}}| {\boldsymbol{x}}, \mathbf{t}, \alpha, \beta)  \\ &amp; \hskip 1 cm  = - \ln \left [  p(\mathbf{t}|{\boldsymbol{x}}, {\boldsymbol{w}}, \beta) p({\boldsymbol{w}}| \alpha) \right ]  + \text{constant} \\ &amp;\hskip 1 cm =   
+\frac \beta 2 \sum_{n=1}^N \{ y(x_n, {\boldsymbol{w}})-t_n \}^2 + \frac \alpha 2 {\boldsymbol{w}}^\top {\boldsymbol{w}}+ \text{constants} 
+\end{align*}\]</span></p></li>
+<li><p>The maximum of the posterior is given by the minimum of <span class="math display">\[ \tilde E({\boldsymbol{w}}) = \frac \beta 2 \sum_{n=1}^N \{ y(x_n, {\boldsymbol{w}})-t_n \}^2 + \frac \alpha 2 {\boldsymbol{w}}^\top {\boldsymbol{w}}.  \]</span> Thus maximizing the posterior distribution is equivalent to minimizing the <em>regularized</em> sum-of-square error function.</p></li>
+<li><p>Let <span class="math inline">\(\phi_i(x)=x^i\)</span> and <span class="math display">\[ X=\begin{bmatrix} 1 &amp;1 &amp; \cdots &amp;1 \\ \phi_1(x_1) &amp; \phi_1(x_2) &amp; \cdots &amp;\phi_1(x_N) \\ \phi_2(x_1) &amp; \phi_2(x_2) &amp; \cdots &amp;\phi_2(x_N) \\ \vdots &amp; \vdots &amp; &amp; \vdots \\ \phi_{M-1}(x_1) &amp; \phi_{M-1}(x_2) &amp; \cdots &amp; \phi_{M-1}(x_N) \end{bmatrix} .\]</span> Then <span class="math display">\[ \tilde E({\boldsymbol{w}}) = \frac \beta 2 \lVert X^\top {\boldsymbol{w}}- \mathbf{t}\rVert^2 + \frac \alpha 2 {\boldsymbol{w}}^\top {\boldsymbol{w}},\]</span> and <span class="math display">\[ \nabla \tilde E({\boldsymbol{w}})= \beta X(X^\top {\boldsymbol{w}}- \mathbf{t}) +\alpha {\boldsymbol{w}}=0 . \]</span> Thus <span class="math display">\[ {\boldsymbol{w}}= \beta S X \mathbf{t}\quad \text{ with } \quad S^{-1}= \beta X X^\top + \alpha I . \]</span></p></li>
+</ul>
+<p>We can choose values of the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>.</p>
+<div id="fig:bcf" class="fignos">
+<figure>
+<img src="bayesian-curve-fitting.png" alt="Figure 2: N=9, \alpha=0.01, \beta=1000" style="width:50.0%" /><figcaption><span>Figure 2:</span> <span class="math inline">\(N=9\)</span>, <span class="math inline">\(\alpha=0.01\)</span>, <span class="math inline">\(\beta=1000\)</span></figcaption>
+</figure>
+</div>
+<p>Recall the maximum likelihood gave us</p>
+<div id="fig:f9" class="fignos">
+<figure>
+<img src="f-9.png" alt="Figure 3: Over-fitting" style="width:50.0%" /><figcaption><span>Figure 3:</span> Over-fitting</figcaption>
+</figure>
+</div>
+<h2 id="predictive-distribution"><span class="header-section-number">1.3</span> Predictive distribution</h2>
+<ul>
+<li><p>The posterior can be computed explicitly, since the prior and the likelihood are all Gaussian. Indeed, we obtain <span class="math display">\[ p({\boldsymbol{w}}|\mathbf{t}) = \mathcal N({\boldsymbol{w}}| m_N, S_N),\]</span> where <span class="math display">\[ m_N = \beta S_N X \mathbf{t}\quad \text{ and } \quad S_N^{-1}  = \alpha I +\beta X X^\top .\]</span></p></li>
+<li><p>Furthermore, we can compute the predictive distribution <span class="math inline">\(p(t|x, {\boldsymbol{x}}, \mathbf{t})\)</span>. Assume that <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are fixed. Then the predictive distribution is given by <span class="math display">\[ p(t|x, {\boldsymbol{x}}, \mathbf{t}) = \int p(t|x, {\boldsymbol{w}}) p({\boldsymbol{w}}| {\boldsymbol{x}}, \mathbf{t}) d{\boldsymbol{w}},  \]</span> where <span class="math display">\[p(t|x, {\boldsymbol{w}}) = \mathcal N(t|y(x, {\boldsymbol{w}}), \beta^{-1}).\]</span></p></li>
+<li><p>One can compute the integral to obtain <span class="math display">\[p(t|x, {\boldsymbol{x}}, \mathbf{t}) = \mathcal N(t| m(x), s^2(x) ),\]</span> where <span class="math display">\[\begin{align*}
+m(x)&amp;= \beta \boldsymbol\phi(x)^\top S \sum_{n=1}^N \boldsymbol\phi(x_n) t_n, \\
+s^2(x) &amp;= \beta^{-1} + \boldsymbol\phi(x)^\top S \boldsymbol\phi(x), \\
+S^{-1} &amp;= \alpha I + \beta \sum_{n=1}^N \boldsymbol \phi(x_n) \boldsymbol\phi(x)^\top, \\
+\boldsymbol \phi(x)&amp;=[1, \phi_1(x), \phi_2(x),  \dots , \phi_M(x)]^\top ,  \quad \phi_i(x)=x^i . 
+\end{align*}\]</span></p></li>
+</ul>
+<p><br/> <br/></p>
+</body>
+</html>
