@@ -1,5 +1,5 @@
 paper: main.md 
-	pandoc -N --standalone  --filter pandoc-tablenos --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --citeproc  -t latex -o main.tex main.md
+	pandoc -N --standalone  --filter pandoc-tablenos --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos  --citeproc  -t latex -o main.tex main.md
 
 
 pdf: paper
