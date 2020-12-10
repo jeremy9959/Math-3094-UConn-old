@@ -1,5 +1,5 @@
 paper: main.md 
-	pandoc -N --standalone  --filter pandoc-tablenos --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --filter pandoc-citeproc  -t latex -o main.tex main.md
+	pandoc -N --standalone  --filter pandoc-tablenos --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --citeproc  -t latex -o main.tex main.md
 
 
 pdf: paper
@@ -7,5 +7,5 @@ pdf: paper
 	pdflatex main.tex
 
 html: main.md 
-	pandoc -N --standalone --mathjax  --filter pandoc-tablenos --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --filter pandoc-citeproc   -t html -o main.html main.md
+	pandoc -N --standalone --mathjax  --filter pandoc-tablenos --filter pandoc-secnos --filter pandoc-fignos --filter pandoc-eqnos --citeproc   -t html -o main.html main.md
 

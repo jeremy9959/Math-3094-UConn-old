@@ -72,9 +72,25 @@
 \fi
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
-\newenvironment{cslreferences}%
-  {}%
-  {\par}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry sp
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set line spacing
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#3\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc} % for \widthof, \maxof
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\maxof{\widthof{#1}}{\csllabelwidth}}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth}{#1}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \author{}
 \date{}
@@ -122,14 +138,14 @@ the algorithm was introduced in the paper
 name for it.
 
 My presentation of this material was heavily influenced by the beautiful
-paper {[}\protect\hyperlink{ref-bennettDuality}{2}{]}.
+paper {[}\protect\hyperlink{ref-bennettDuality}{6}{]}.
 
 \hypertarget{a-simple-example}{%
 \subsection{A simple example}\label{a-simple-example}}
 
 Let us begin our discussion with a very simple dataset (see
-{[}\protect\hyperlink{ref-penguins}{3}{]} and
-{[}\protect\hyperlink{ref-penguindata}{4}{]}). This data consists of
+{[}\protect\hyperlink{ref-penguins}{2}{]} and
+{[}\protect\hyperlink{ref-penguindata}{3}{]}). This data consists of
 various measurements of physical characteristics of 344 penguins of 3
 different species: Gentoo, Adelie, and Chinstrap. If we focus our
 attention for the moment on the Adelie and Gentoo species, and plot
@@ -146,7 +162,7 @@ scatterplot.
 
 Incidentally, a bird's \emph{culmen} is the upper ridge of their beak,
 and the \emph{culmen depth} is a measure of the thickness of the beak.
-There's a nice picture at {[}\protect\hyperlink{ref-penguindata}{4}{]}
+There's a nice picture at {[}\protect\hyperlink{ref-penguindata}{3}{]}
 for the penguin enthusiasts.
 
 A striking feature of this scatter plot is that there is a clear
@@ -907,8 +923,8 @@ Optimization}\label{sequential-minimal-optimization}}
 Now we outline an algorithm for solving Problem 2 that is called
 Sequential Minimal Optimization that was introduced by John Platt in
 1998 (See +{[}\protect\hyperlink{ref-plattSMO}{5}{]} and Chapter 12 of
-+{[}\protect\hyperlink{ref-KernelMethodAdvances}{6}{]}). The algorithm
-is based on the principle of ``gradient ascent'', where we exploit the
++{[}\protect\hyperlink{ref-KernelMethodAdvances}{4}{]}). The algorithm
+is based on the principle of ``gradient ascent,'' where we exploit the
 fact that the negative gradient of a function points in the direction of
 its most rapid decrease and we take small steps in the direction of the
 negative gradient until we reach the minimum.
@@ -1076,38 +1092,46 @@ data}\label{fig:penguinsolution}
 \addcontentsline{toc}{section}{References}
 
 \hypertarget{refs}{}
-\begin{cslreferences}
+\begin{CSLReferences}{0}{0}
 \leavevmode\hypertarget{ref-vapnik92}{}%
-{[}1{]} \textsc{Boser}, B., \textsc{Guyon}, I. and \textsc{Vapnik}, V. A
-training algorithm for optimal margin classifiers. In \emph{Colt '92:
-Proceedings of the fifth annual workshop on computational learning
-theory} (D. Haussler, ed) pp 144--52. ACM.
-
-\leavevmode\hypertarget{ref-bennettDuality}{}%
-{[}2{]} \textsc{Bennett}, K. P. and \textsc{Bredensteiner}, E. J.
-(2000). Duality and geometry in svm classifiers. In \emph{Proceedings of
-the seventeenth international conference on machine learning} (P.
-Langley, ed). Morgan Kaufmann Publishers.
+\CSLLeftMargin{{[}1{]} }
+\CSLRightInline{\textsc{Boser}, B., \textsc{Guyon}, I. and
+\textsc{Vapnik}, V. {A training algorithm for optimal margin
+classifiers}. In \emph{Colt '92: Proceedings of the fifth annual
+workshop on computational learning theory} (D. Haussler, ed) pp 144--52.
+ACM.}
 
 \leavevmode\hypertarget{ref-penguins}{}%
-{[}3{]} \textsc{Gorman}, K. B., \textsc{Williams}, T. D. and
+\CSLLeftMargin{{[}2{]} }
+\CSLRightInline{\textsc{Gorman}, K. B., \textsc{Williams}, T. D. and
 \textsc{Fraser}, W. R. (2014). Ecological sexual dimorphism and
 environmental variability within a community of antarctic penguins
-(genus pygoscelis). \emph{PLoS ONE} \textbf{9(3)} --13.
+(genus pygoscelis). \emph{PLoS ONE} \textbf{9(3)} --13.}
 
 \leavevmode\hypertarget{ref-penguindata}{}%
-{[}4{]} \textsc{Horst}, A. Palmer penguins.Available at
-\url{https://https://github.com/allisonhorst/palmerpenguins}.
-
-\leavevmode\hypertarget{ref-plattSMO}{}%
-{[}5{]} \textsc{Platt}, J. C. (1998). \emph{Sequential minimal
-optimization: A fast algorithm for training support vector machines}.
-Microsoft Research.
+\CSLLeftMargin{{[}3{]} }
+\CSLRightInline{\textsc{Horst}, A. Palmer penguins.Available at
+\url{https://https://github.com/allisonhorst/palmerpenguins}.}
 
 \leavevmode\hypertarget{ref-KernelMethodAdvances}{}%
-{[}6{]} \textsc{Schölkopf}, B., \textsc{Burges}, C. and \textsc{Smola},
-A. (1998). \emph{Advances in kernel methods: Support vector learning}.
-MIT Press.
-\end{cslreferences}
+\CSLLeftMargin{{[}4{]} }
+\CSLRightInline{\textsc{Schölkopf}, B., \textsc{Burges}, C. and
+\textsc{Smola}, A. (1998). \emph{Advances in kernel methods: Support
+vector learning}. MIT Press.}
+
+\leavevmode\hypertarget{ref-plattSMO}{}%
+\CSLLeftMargin{{[}5{]} }
+\CSLRightInline{\textsc{Platt}, J. C. (1998). \emph{Sequential minimal
+optimization: A fast algorithm for training support vector machines}.
+Microsoft Research.}
+
+\leavevmode\hypertarget{ref-bennettDuality}{}%
+\CSLLeftMargin{{[}6{]} }
+\CSLRightInline{\textsc{Bennett}, K. P. and \textsc{Bredensteiner}, E.
+J. (2000). Duality and geometry in SVM classifiers. In \emph{Proceedings
+of the seventeenth international conference on machine learning} (P.
+Langley, ed). Morgan Kaufmann Publishers.}
+
+\end{CSLReferences}
 
 \end{document}

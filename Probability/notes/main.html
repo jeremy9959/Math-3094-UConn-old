@@ -322,10 +322,11 @@ P=P(|t_1-t_0|&lt;\delta,|t_2-t_0|&lt;\delta,\ldots) = P(|t_1-t_0|&lt;\delta)P(|t
 P = \left(\frac{1}{\sigma\sqrt{2\pi}}\right)^{10}\int_{-\delta}^{\delta}\cdots\int_{-\delta}^{\delta}
 e^{-(\sum_{i=1}^{10} x_i^2)/2\sigma^2} dx_1\cdots dx_{10}
 \]</span></p>
-<p>One way to look at this is that the vector <span class="math inline">\(\mathbf{e}\)</span> of errors <span class="math inline">\((|t_1-t_0|,\ldots,|t_{10}-t_0|)\)</span> is distributed according to a <em>multivariate gaussian distribution</em>: <span class="math display">\[
+<p>One way to look at this is that the vector <span class="math inline">\(\mathbf{e}\)</span> of errors <span class="math inline">\((|t_1-t_0|,\ldots,|t_{10}-t_0|)\)</span> is distributed according to a <em>multivariate gaussian distribution</em>: <span id="eq:multivariategaussian" class="eqnos"><span class="math display">\[
 P(\mathbf{e}\in U) =\left(\frac{1}{\sigma\sqrt{2\pi}}\right)^{10}\int_{U} 
 e^{-\|x\|^2/2\sigma^2} d\mathbf{x}
-\]</span> where <span class="math inline">\(U\)</span> is a region in <span class="math inline">\(\mathbf{R}^{10}\)</span>.</p>
+\]</span><span class="eqnos-number">(3)</span></span></p>
+<p>where <span class="math inline">\(U\)</span> is a region in <span class="math inline">\(\mathbf{R}^{10}\)</span>.</p>
 <p>The multivariate gaussian can also describe situations where independence does not hold. For simplicity, let’s work in two dimensions and consider the probability density on <span class="math inline">\(\mathbf{R}^{2}\)</span> given by <span class="math display">\[
 P(\mathbf{e}\in U) = A\int_{U} e^{-(x_1^2-x_1x_2+x_2^2)/2\sigma^2} d\mathbf{x}.
 \]</span> where the constant <span class="math inline">\(A\)</span> is chosen so that <span class="math display">\[
@@ -367,10 +368,10 @@ P(f&lt;r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf
 P(f&lt;r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{\theta=0}^{2\pi}\int_{\rho=0}^{r} e^{-\rho^2/2}\rho d\rho d\theta.
 \]</span> Since <span class="math display">\[
 \frac{d}{d\rho}e^{-\rho^2/2}=-\rho e^{-\rho^2/2}
-\]</span> we have <span class="math display">\[\begin{align}
+\]</span> we have <span class="math display">\[\begin{align*}
 P(f&lt;r)&amp;=-\frac{1}{2\pi}\theta e^{-\rho^2/2}|_{\theta=0}^{2\pi}|_{\rho=0}^{r}\cr
 &amp;=1-e^{-r^2/2}\cr
-\end{align}\]</span></p>
+\end{align*}\]</span></p>
 <p>The probability density associated with this random variable is the derivative of <span class="math inline">\(1-e^{-r^2/2}\)</span> <span class="math display">\[
 P(f\in [a,b])=\int_{r=a}^{b} re^{-r^2/2} dr
 \]</span> as you can see by the fundamental theorem of calculus. This density is drawn in fig. <a href="#fig:maxwell">4</a> where you can see that the points are clustered at a distance of <span class="math inline">\(1\)</span> from the origin.</p>
@@ -387,8 +388,8 @@ P(f=a\hbox{\rm\ and\ }g=b)=P(f=a)P(g=b).
 \]</span></p>
 <p>For continous probability distributions given by a density function <span class="math inline">\(P(x)\)</span>, independence can be more complicated to figure out.</p>
 <h3 data-number="1.5.2" id="expectation-mean-and-variance"><span class="header-section-number">1.5.2</span> Expectation, Mean and Variance</h3>
-<p>The most fundamental tool in the study of random variables is the concept of “expectation,” which is a fancy version of average.</p>
-<p><strong>Definition:</strong> Let <span class="math inline">\(X\)</span> be a sample space with probability measure <span class="math inline">\(P\)</span>. Let <span class="math inline">\(f:X\to \mathbb{R}\)</span> be a random variable. Then the <em>expected value</em> <span class="math inline">\(E[f]\)</span> of <span class="math inline">\(f\)</span> is <span class="math display">\[
+<p>The most fundamental tool in the study of random variables is the concept of “expectation,” which is a fancy version of average. The word “mean” is a synonym for expectation – the mean of a random variable is the same as its expectation or “expected value.”</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(X\)</span> be a sample space with probability measure <span class="math inline">\(P\)</span>. Let <span class="math inline">\(f:X\to \mathbb{R}\)</span> be a random variable. Then the <em>expectation</em> or <em>expected value</em> <span class="math inline">\(E[f]\)</span> of <span class="math inline">\(f\)</span> is <span class="math display">\[
 E[f] = \int_X f(x)dP.
 \]</span> More specifically, if <span class="math inline">\(X\)</span> is discrete, then <span class="math display">\[
 E[f] = \sum_{x\in X} f(x)P(x)
@@ -400,24 +401,70 @@ E[f] = 1\cdot p+0\cdot (1-p) = p
 \]</span></p>
 <p>If <span class="math inline">\(f\)</span> is a binomial random variable with parameters <span class="math inline">\(p\)</span> and <span class="math inline">\(N\)</span>, then <span class="math display">\[
 E[f] = \sum_{i=0}^{N} i\binom{N}{i}p^{i}(1-p)^{N-i}
-\]</span> One can evaluate this using some combinatorial tricks, but it’s easier to apply the following fundamental theorem.</p>
+\]</span> One can evaluate this using some combinatorial tricks, but it’s easier to apply this basic fact about expectations.</p>
+<p><strong>Proposition:</strong> Expectation is linear: <span class="math inline">\(E[aX+bY]=aE[X]+bE[Y]\)</span> for random variables <span class="math inline">\(X,Y\)</span> and constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
+<p>The proof is an easy consequence of the expression of <span class="math inline">\(E\)</span> as a sum (or integral).</p>
+<p>Since a binomial random variable <span class="math inline">\(Z\)</span> with parameters <span class="math inline">\(N\)</span> and <span class="math inline">\(p\)</span> is the sum of <span class="math inline">\(N\)</span> Bernoulli random variables, its expectation is <span class="math display">\[
+E[X_1+\cdots+X_N]=Np.
+\]</span></p>
+<p>A more sophisticated property of expectation is that it is multiplicative when the random variables are independent.</p>
 <p><strong>Proposition:</strong> Let <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> be two independent random variables. Then <span class="math inline">\(E[fg]=E[f]E[g]\)</span>.</p>
 <p><strong>Proof:</strong> Let’s suppose that the sample space <span class="math inline">\(X\)</span> is discrete. By definition, <span class="math display">\[
 E[f]=\sum_{x\in X}f(x)P(x)
 \]</span> and we can rewrite this as <span class="math display">\[
 E[f]=\sum_{a\in\mathbf{R}} aP(\{x: f(x)=a\}).
-\]</span> Let <span class="math inline">\(Z\subset\mathbb{R}\)</span> be the range of <span class="math inline">\(f\)</span>. Then <span class="math display">\[\begin{align}
+\]</span> Let <span class="math inline">\(Z\subset\mathbb{R}\)</span> be the range of <span class="math inline">\(f\)</span>. Then <span class="math display">\[\begin{align*}
 E[fg]&amp;=\sum_{a\in Z} aP(\{x: fg(x)=a\}) \\
-&amp;=\sum_{a\in Z}\sum_{(u,v)\in\mathbf{Z}^{2}\atop{uv=a}}aP(\{x:f(x)=u\hbox{\rm\ and\ }g(x)=v\}) \\
-&amp;=\sum_{a\in Z}\sum_{(u,v)\in\mathbf{Z}^{2}\atop{uv=a}}uvP(\{x:f(x)=u\})P(\{x:g(x)=v\}) \\
+&amp;=\sum_{a\in Z}\sum_{(u,v)\in\genfrac{}{}{0pt}{}{\mathbf{Z}^{2}}{uv=a}}aP(\{x:f(x)=u\hbox{\rm\ and\ }g(x)=v\}) \\
+&amp;=\sum_{a\in Z}\sum_{\genfrac{}{}{0pt}{}{\mathbf{Z}^{2}}{uv=a}}uvP(\{x:f(x)=u\})P(\{x:g(x)=v\}) \\
 &amp;=\sum_{u\in Z}uP(\{x:f(x)=u\})\sum_{v\in Z}vP(\{x:f(x)=v\}) \\
 &amp;=E[f]E[g] 
-\end{align}\]</span></p>
+\end{align*}\]</span></p>
+<h4 data-number="1.5.2.1" id="variance"><span class="header-section-number">1.5.2.1</span> Variance</h4>
+<p>The variance of a random variable is a measure of its dispersion around its mean.</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(f\)</span> be a random variable. Then the variance is the expression <span class="math display">\[
+\sigma^2(f) = E[(f-E[f])^2]=E[f^2]-(E[f])^2
+\]</span> The square root of the variance is called the “standard deviation.”</p>
+<p>The two formulae for the variance arise from the calculation <span class="math display">\[
+E[(f-E[f])^2]=E[(f^2-2fE[f]+E[f]^2)]=E[f^2]-2E[f]^2+E[f]^2=E[f^2]-E[f]^2.
+\]</span></p>
+<p>To compute the variance of the Bernoulli random variable <span class="math inline">\(f\)</span> with parameter <span class="math inline">\(p\)</span>, we first compute <span class="math display">\[
+E[f^2]=p(1)^2+(1-p)0^2=p.
+\]</span> Since <span class="math inline">\(E[f]=p\)</span>, we have <span class="math display">\[
+\sigma^2(f)=p-p^2=p(1-p).
+\]</span></p>
+<p>If <span class="math inline">\(f\)</span> is the binomial random variable with parameters <span class="math inline">\(N\)</span> and <span class="math inline">\(p\)</span>, we can again use the fact that <span class="math inline">\(f\)</span> is the sum of <span class="math inline">\(N\)</span> Bernoulli random variables <span class="math inline">\(X_1+\cdots+X_n\)</span> and compute</p>
+<p><span class="math display">\[\begin{align*}
+E[(\sum_{i}X_i)^2]-E[\sum_{i} X_{i}]^2 &amp;= \\
+&amp;=E[\sum_{i} X_i^2+\sum_{i,j}X_{i}X_{j}]-N^2p^2\\
+&amp;=Np+N(N-1)p^2-N^2p^2 \\
+&amp;=Np(1-p)
+\end{align*}\]</span></p>
+<p>where we have used the fact that the square <span class="math inline">\(X^2\)</span> of a Bernoulli random variable is equal to <span class="math inline">\(X\)</span>.</p>
+<p>For a continuous example, suppose that we consider a sample space <span class="math inline">\(\mathbb{R}\)</span> with the normal probability density <span class="math display">\[
+P(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2}dx.
+\]</span></p>
+<p>The mean of the random variable <span class="math inline">\(x\)</span> is <span class="math display">\[
+E[x] =\frac{1}{\sigma\sqrt{2\pi}}\int_{-\infty}^{\infty} xe^{-x^2/2\sigma^2}dx=0
+\]</span></p>
+<p>since the function being integrated is odd. The variance is</p>
+<p><span class="math display">\[
+E[x^2] = \frac{1}{\sigma\sqrt{2\pi}}\int_{-\infty}^{\infty} x^2e^{-x^2/2\sigma^2}dx.
+\]</span></p>
+<p>The trick to evaluating this integral is to consider the derivative:</p>
+<p><span class="math display">\[
+\frac{d}{d\sigma}\left[\frac{1}{\sigma\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{-x^2/(2\sigma^2)}dx\right]=0
+\]</span></p>
+<p>where the result is zero since the quantity being differentiated is a constant (namely <span class="math inline">\(1\)</span>). Sorting through the resulting equation leads to the fact that</p>
+<p><span class="math display">\[
+E[x^2]=\sigma^2
+\]</span></p>
+<p>so that the <span class="math inline">\(\sigma^2\)</span> parameter in the normal distribution really <em>is</em> the variance of the associated random variable.</p>
 <h2 data-number="1.6" id="models-and-likelihood"><span class="header-section-number">1.6</span> Models and Likelihood</h2>
 <p>A <em>statistical model</em> is a mathematical model that accounts for data via a process that incorporates random behavior in a structured way. We have seen several examples of such models in our discussion so far. For example, the Bernoulli process that describes the outcome of a series of coin flips as independent choices of heads or tails with probability <span class="math inline">\(p\)</span> is a simple statistical model; our more complicated mixture model in which we choose one of two coins at random and then flip that is a more complicated model.<br />
 Our description of the variation in temperature measurements as arising from perturbations from the true temperature by a normally distributed amount is another example of a statistical model, this one involving a continuous random variable.</p>
 <p>When we apply a mathematical model to understand data, we often have a variety of parameters in the model that we must adjust to get the model to best “fit” the observed data. For example, suppose that we observe the vibrations of a block attached to a spring. We know that the motion is governed by a second order linear differential equation, but the dynamics depend on the mass of the block, the spring constant, and the damping coefficient. By measuring the dynamics of the block over time, we can try to work backwards to figure out these parameters, after which we will be able to predict the block’s motion into the future.</p>
-<h4 data-number="1.6.0.1" id="maximum-likelihood-discrete-case"><span class="header-section-number">1.6.0.1</span> Maximum Likelihood (Discrete Case)</h4>
+<h3 data-number="1.6.1" id="sec:mlcoin"><span class="header-section-number">1.6.1</span> Maximum Likelihood (Discrete Case)</h3>
 <p>To see this process in a statistical setting, let’s return to the simple example of a coin flip. The only parameter in our model is the probability <span class="math inline">\(p\)</span> of getting heads on a particular flip. Suppose that we flip the coin <span class="math inline">\(100\)</span> times and get <span class="math inline">\(55\)</span> heads and <span class="math inline">\(45\)</span> tails. What can we say about <span class="math inline">\(p\)</span>?</p>
 <p>We will approach this question via the “likelihood” function for our data. We ask: for a particular value of the parameter <span class="math inline">\(p\)</span>, how likely is this outcome? From eq. <a href="#eq:binomial">2</a> we have <span class="math display">\[
 P(55H,45T)=\binom{100}{55}p^{55}(1-p)^{45}.
@@ -428,14 +475,172 @@ P(55H,45T)=\binom{100}{55}p^{55}(1-p)^{45}.
 <img src="../img/beta.png" alt="Figure 5: Likelihood Plot" /><figcaption aria-hidden="true"><span>Figure 5:</span> Likelihood Plot</figcaption>
 </figure>
 </div>
-<h4 data-number="1.6.0.2" id="maximum-likelihood-continuous-case"><span class="header-section-number">1.6.0.2</span> Maximum Likelihood (Continuous Case)</h4>
-<h2 data-number="1.7" id="bayes-theorem-1"><span class="header-section-number">1.7</span> Bayes Theorem</h2>
-<h3 data-number="1.7.1" id="conditional-probability"><span class="header-section-number">1.7.1</span> Conditional probability</h3>
-<h3 data-number="1.7.2" id="bayes-theorem-2"><span class="header-section-number">1.7.2</span> Bayes Theorem</h3>
-<h3 data-number="1.7.3" id="bayesian-inference"><span class="header-section-number">1.7.3</span> Bayesian inference</h3>
-<h4 data-number="1.7.3.1" id="priors"><span class="header-section-number">1.7.3.1</span> Priors</h4>
-<h4 data-number="1.7.3.2" id="data"><span class="header-section-number">1.7.3.2</span> Data</h4>
-<h4 data-number="1.7.3.3" id="posterior"><span class="header-section-number">1.7.3.3</span> Posterior</h4>
+<h3 data-number="1.6.2" id="maximum-likelihood-continuous-case"><span class="header-section-number">1.6.2</span> Maximum Likelihood (Continuous Case)</h3>
+<p>Now let’s look at our temperature measurements where the error is normally distributed with variance parameter <span class="math inline">\(\sigma^2\)</span>. As we have seen earlier, the probability density of errors <span class="math inline">\(\mathbf{x}=(x_1,\ldots,x_n)\)</span> of <span class="math inline">\(n\)</span> independent measurements is <span class="math display">\[
+P(\mathbf{x}) = \left(\frac{1}{\sigma\sqrt{2\pi}}\right)^{n}e^{-\|\mathbf{x}\|^2/(2\sigma^2)}d\mathbf{x}.
+\]</span> (see eq. <a href="#eq:multivariategaussian">3</a>). What should we use as the parameter <span class="math inline">\(\sigma\)</span>? We can ask which choice of <span class="math inline">\(\sigma\)</span> makes our data <em>most likely</em>. To calculate this, we think of the probability of a function of <span class="math inline">\(\sigma\)</span> and use Calculus to find the maximum. It’s easier to do this with the logarithm.</p>
+<p><span class="math display">\[
+\log P(\mathbf{x})=\frac{-\|\mathbf{x}\|^2}{2\sigma^2}-n\log{\sigma}+C
+\]</span> where <span class="math inline">\(C\)</span> is a constant that we’ll ignore. Taking the derivative and setting it to zero, we obtain <span class="math display">\[
+-\|\mathbf{x}\|^2\sigma^{-3}-n\sigma^{-1}=0
+\]</span> which gives the formula <span class="math display">\[
+\sigma^2=\frac{\|\mathbf{x}\|^2}{n}
+\]</span></p>
+<p>This should look familiar! The maximum likelihood estimate of the variance is the <em>mean-squared-error</em>.</p>
+<h3 data-number="1.6.3" id="linear-regression-and-likelihood"><span class="header-section-number">1.6.3</span> Linear Regression and likelihood</h3>
+<p>In our earlier lectures we discussed linear regression at length. Our introduction of ideas from probability give us new insight into this fundamental tool. Consider a statistical model in which certain measured values <span class="math inline">\(y\)</span> depend linearly on <span class="math inline">\(x\)</span> up to a normally distributed error: <span class="math display">\[
+y=mx+b+\epsilon
+\]</span> where <span class="math inline">\(\epsilon\)</span> is drawn from the normal distribution with variance <span class="math inline">\(\sigma^2\)</span>.</p>
+<p>The classic regression setting has us measuring a collection of <span class="math inline">\(N\)</span> points <span class="math inline">\((x_i,y_i)\)</span> and then asking for the “best” <span class="math inline">\(m\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(\sigma^2\)</span> to explain these measurements. Using the likelihood perspective, each value <span class="math inline">\(y_i-mx_i-b\)</span> is an independent draw from the normal distribution with variance <span class="math inline">\(\sigma^2\)</span>, exactly like our temperature measurements in the one variable case.</p>
+<p>The likelihood (density) of those draws is therefore <span class="math display">\[
+P = \left(\frac{1}{\sigma\sqrt{2\pi}}\right)^Ne^{-\sum_{i}(y_i-mx_i-b)^2/(2\sigma^2)}.
+\]</span> What is the maximum likelihood estimate of the parameters <span class="math inline">\(m\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(\sigma^2\)</span>?</p>
+<p>To find this we look at the logarithm of <span class="math inline">\(P\)</span> and take derivatives. <span class="math display">\[
+\log(P) = -N\log(\sigma) -\frac{1}{2\sigma^2}\sum_{i}(y_i-mx_i-b)^2.
+\]</span></p>
+<p>As far as <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> are concerned, the minimum comes from the derivatives with respect to <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> of <span class="math display">\[
+\sum_{i}(y_i-mx_i-b)^2.
+\]</span> In other words, the maximum likelihood estimate <span class="math inline">\(m_*\)</span> and <span class="math inline">\(b_*\)</span> for <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> are <em>exactly the ordinary least squares estimates.</em></p>
+<p>As far as <span class="math inline">\(\sigma^2\)</span> is concerned, we find just as above that the maximum likelihood estimate <span class="math inline">\(\sigma^2_*\)</span> is the mean squared error <span class="math display">\[
+\sigma^2_*=\frac{1}{N}\sum_{i}(y_i-m_*x_i-b_*)^2.
+\]</span></p>
+<h2 data-number="1.7" id="bayesian-inference"><span class="header-section-number">1.7</span> Bayesian Inference</h2>
+<p>We conclude our review of ideas from probability by examining the Bayesian perspective on data.</p>
+<p>Suppose that we wish to conduct an experiment to determine the temperature outside our house. We begin our experiment with a statistical model that is supposed to explain the variability in the results. The model depends on some parameters that we wish to estimate. For example, the parameters of our experiment might be the ‘true’ temperature <span class="math inline">\(t_*\)</span> and the variance <span class="math inline">\(\sigma^2\)</span> of the error.</p>
+<p>From the Bayesian point of view, at the beginning of this experiment we have an initial sense of what the temperature is likely to be, expressed in the form of a probability distribution. This initial information is called the <em>prior</em> distribution.</p>
+<p>For example, if we know that it’s December in Connecticut, our prior distribution might say that the temperature is more likely to be between 20 and 40 degrees Fahrenheit and is quite unlikely to be higher than 60 or lower than 0. So our prior distribution might look like fig. <a href="#fig:tempprior">6</a>.</p>
+<div id="fig:tempprior" class="fignos">
+<figure>
+<img src="../img/prior.png" alt="Figure 6: Prior Distribution on Temperature" /><figcaption aria-hidden="true"><span>Figure 6:</span> Prior Distribution on Temperature</figcaption>
+</figure>
+</div>
+<p>If we really have no opinion about the temperature other than its between say, <span class="math inline">\(-20\)</span> and <span class="math inline">\(100\)</span> degrees, our prior distribution might be uniform over that range, as in fig. <a href="#fig:uniformprior">7</a>.</p>
+<div id="fig:uniformprior" class="fignos">
+<figure>
+<img src="../img/uniform.png" alt="Figure 7: Uniform Prior" /><figcaption aria-hidden="true"><span>Figure 7:</span> Uniform Prior</figcaption>
+</figure>
+</div>
+<p>The choice of a prior will guide the interpretation of our experiments in ways that we will see shortly.</p>
+<p>The next step in our experiment is the collection of data. Suppose we let <span class="math inline">\(\mathbf{t}=(t_1,t_2,\ldots, t_n)\)</span> be a random variable representing <span class="math inline">\(n\)</span> independent measurements of the temperature. We consider the <em>joint distribution</em> of the parameters <span class="math inline">\(t_*\)</span> and <span class="math inline">\(\sigma^2\)</span> and the possible measurements <span class="math inline">\(\mathbf{t}\)</span>: <span class="math display">\[
+P(\mathbf{t},t_*,\sigma^2)=\left(\frac{1}{\sigma\sqrt{2\pi}}\right)^{n}e^{-\|\mathbf{t}-t_*\mathbf{e}\|^2/(2\sigma^2)}
+\]</span> where <span class="math inline">\(\mathbf{e}=(1,1,\ldots, 1)\)</span>.</p>
+<p>The conditional probability <span class="math inline">\(P(t_{*},\sigma^2|\mathbf{t})\)</span> is the distribution of the values of <span class="math inline">\(t_*\)</span> and <span class="math inline">\(\sigma^2\)</span> <em>given</em> a value of the <span class="math inline">\(\mathbf{t}\)</span>. This is what we hope to learn by our experiment – namely, if we make a particular measurement, what does it tell us about <span class="math inline">\(t_*\)</span> and <span class="math inline">\(\sigma^2\)</span>?</p>
+<p>Now suppose that we actually make some measurements, and so we obtain a specific set of values <span class="math inline">\(\mathbf{t}_0\)</span> for <span class="math inline">\(\mathbf{t}\)</span>.</p>
+<p>By Bayes Theorem, <span class="math display">\[
+P(t_{*},\sigma^2|\mathbf{t}=\mathbf{t}_0) = \frac{P(\mathbf{t}=\mathbf{t}_0|t_{*},\sigma^2)P(t_{*},\sigma^2)}{P(\mathbf{t}=\mathbf{t}_0)}
+\]</span> We interpret this as follows:</p>
+<ul>
+<li>the left hand side <span class="math inline">\(P(t_{*},\sigma^2|\mathbf{t}=\mathbf{t}_0)\)</span> is called the <em>posterior distribution</em> and is the distribution of <span class="math inline">\(t_{*}\)</span> and <span class="math inline">\(\sigma^2\)</span> obtained by <em>updating our prior knowledge with the results of our experiment.</em></li>
+<li>The probability <span class="math inline">\(P(\mathbf{t}=\mathbf{t}_{0}|t_{*},\sigma^2)\)</span> is the probability of obtaining the measurements we found for a particular value of the parameters <span class="math inline">\(t_{*}\)</span> and <span class="math inline">\(\sigma^2\)</span>.</li>
+<li>The probability <span class="math inline">\(P(t_{*},\sigma^2)\)</span> is the <em>prior distribution</em> on the parameters that reflects our initial impression of the distribution of these parameters.</li>
+<li>The denominator <span class="math inline">\(P(\mathbf{t}=\mathbf{t}_{0})\)</span> is the total probability of the results that we obtained, and is the integral over the distribution of the parameters weighted by their prior probability: <span class="math display">\[
+P(\mathbf{t}=\mathbf{t}_{0})=\int_{t_{*},\sigma^2}P(\mathbf{t}=\mathbf{t}_{0}|t_{*},\sigma^2)P(t_{*},\sigma^2)
+\]</span></li>
+</ul>
+<h3 data-number="1.7.1" id="bayesian-experiments-with-the-normal-distribution"><span class="header-section-number">1.7.1</span> Bayesian experiments with the normal distribution</h3>
+<p>To illustrate these Bayesian ideas, we’ll consider the problem of measuring the temperature, but for simplicity let’s assume that we fix the variance in our error measurements at <span class="math inline">\(1\)</span> degree. Let’s use the prior distribution on the true temperature that I proposed in fig. <a href="#fig:tempprior">6</a>, which is a normal distribution with variance <span class="math inline">\(15\)</span> “shifted” to be centered at <span class="math inline">\(30\)</span>: <span class="math display">\[
+P(t_*)=\left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t_*-30)^2/30}.
+\]</span> The expected value <span class="math inline">\(E[t]\)</span> – the mean of the this distribution – is <span class="math inline">\(30\)</span>.</p>
+<p>Since the error in our measurements is normally distributed with variance <span class="math inline">\(1\)</span>, we have <span class="math display">\[
+P(t-t_{*})=\left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t-t_{*})^2/2}
+\]</span> or as a function of the absolute temperature, we have <span class="math display">\[
+P(t,t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t-t_*)^2/2}.
+\]</span></p>
+<p>Now we make a bunch of measurements to obtain <span class="math inline">\(\mathbf{t}_0=(t_1,\ldots, t_n)\)</span>. We have <span class="math display">\[
+P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-(\mathbf{t}-t_*\mathbf{e})^2/2}.
+\]</span></p>
+<p>The total probability <span class="math inline">\(T=P(\mathbf{t}=\mathbf{t_0})\)</span> is hard to calculate, so let’s table that for a while. The posterior probability is <span class="math display">\[
+P(t_{*}|\mathbf{t}=\mathbf{t}_{0}) = \frac{1}{T} 
+\left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-\|\mathbf{t}-t_*\mathbf{e}\|^2/2}
+\left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t_*-30)^2/30}.
+\]</span></p>
+<p>Leaving aside the multiplicative constants for the moment, consider the exponential <span class="math display">\[
+e^{-(\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2)/30}.
+\]</span> Since <span class="math inline">\(\mathbf{t}\)</span> is a vector of constants – it is a vector of our particular measurements – the exponent <span class="math display">\[
+\|\mathbf{t}-t_{*}\mathbf{e}\|^2+(t_{*}-30)^2 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
+\]</span> is a quadratic polynomial in <span class="math inline">\(t_{*}\)</span> that simplifies: <span class="math display">\[
+(t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2 = At_{*}^2+Bt_{*}+C.
+\]</span> Here <span class="math display">\[
+A=(\frac{1}{30}+\frac{n}{2}),
+\]</span> <span class="math display">\[
+B=-2-\sum_{i} t_{i}
+\]</span> <span class="math display">\[
+C=30+\frac{1}{2}\sum_{i} t_{i}^2.
+\]</span></p>
+<p>We can complete the square to write <span class="math display">\[
+At_{*}^2+Bt_{*}+C = (t_{*}-U)^2/2V +K
+\]</span> where <span class="math display">\[
+U=\frac{2+\sum_{i}t_{i}}{\frac{1}{15}+n}
+\]</span> and <span class="math display">\[ 
+V=\frac{1}{\frac{1}{15}+n}.
+\]</span> So up to constants that don’t involve <span class="math inline">\(t_{*}\)</span>, the posterior density is of the form <span class="math display">\[
+e^{(t_{*}-U)^2/2V}
+\]</span> and since it is a probability density, the constants must work out to give total integral of <span class="math inline">\(1\)</span>. Therefore the posterior density is a normal distribution centered at <span class="math inline">\(U\)</span> and with variance <span class="math inline">\(V\)</span>. Here <span class="math inline">\(U\)</span> is called the <em>posterior mean</em> and <span class="math inline">\(V\)</span> the <em>posterior variance</em>.</p>
+<p>To make this explicit, suppose <span class="math inline">\(n=5\)</span> and we measured the following temperatures: <span class="math display">\[
+40, 41,39, 37, 44
+\]</span> The mean of these observations is <span class="math inline">\(40.2\)</span> and the variance is <span class="math inline">\(5.4\)</span>.</p>
+<p>A calculation shows that the posterior mean is <span class="math inline">\(40.1\)</span> and the posterior variance is <span class="math inline">\(0.2\)</span>. Comparing the prior with the posterior, we obtain the plot in fig. <a href="#fig:comparison">8</a>. The posterior has a sharp peak at <span class="math inline">\(40.1\)</span> degrees. This value is just a bit smaller than the mean of the observed temperatures which is <span class="math inline">\(40.2\)</span> degrees. This difference is caused by the prior – our prior distribution said the temperature was likely to be around <span class="math inline">\(30\)</span> degrees, and so the prior pulls the observed mean a bit towards the prior mean taking into account past experience. Because the variance of the prior is large, it has a relatively small influence on the posterior.</p>
+<p>The general version of the calculation above is summarized in this proposition.</p>
+<p><strong>Proposition:</strong> Suppose that our statistical model for an experiment proposes that the measurements are normally distributed around an (unknown) mean value of <span class="math inline">\(\mu\)</span> with a (fixed) variance <span class="math inline">\(\sigma^2\)</span>. Suppose further that our prior distribution on the unknown mean <span class="math inline">\(\mu\)</span> is normal with mean <span class="math inline">\(\mu_0\)</span> and variance <span class="math inline">\(\tau^2\)</span>. Suppose we make measurements <span class="math display">\[
+y_1,\ldots, y_n
+\]</span> with mean <span class="math inline">\(\overline{y}\)</span>. Then the posterior distribution of <span class="math inline">\(\mu\)</span> is again normal, with posterior variance <span class="math display">\[
+\tau&#39;^2 = \frac{1}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}}
+\]</span> and posterior mean <span class="math display">\[
+\mu&#39; = \frac{\frac{\mu_0}{\tau^2}+\frac{n}{\sigma^2}\overline{y}}{\frac{1}{\frac{1}{\tau^2}+\frac{n}{\sigma^2}}}
+\]</span></p>
+<p>So the posterior mean is a sort of weighted average of the sample mean and the prior mean; and as <span class="math inline">\(n\to\infty\)</span>, the posterior mean approaches the sample mean – in other words, as you get more data, the prior has less and less influence on the results of the experiment.</p>
+<div id="fig:comparison" class="fignos">
+<figure>
+<img src="../img/priorposterior.png" alt="Figure 8: Prior and Posterior" /><figcaption aria-hidden="true"><span>Figure 8:</span> Prior and Posterior</figcaption>
+</figure>
+</div>
+<h3 data-number="1.7.2" id="bayesian-coin-flipping"><span class="header-section-number">1.7.2</span> Bayesian coin flipping</h3>
+<p>For our final example in this fast overview of ideas from probability, we consider the problem of deciding whether a coin is fair. Our experiment consists of <span class="math inline">\(N\)</span> flips of a coin with unknown probability <span class="math inline">\(p\)</span> of heads, so the data consists of the number <span class="math inline">\(h\)</span> of heads out of the <span class="math inline">\(N\)</span> flips. To apply Bayesian reasoning, we need a prior distribution on <span class="math inline">\(p\)</span>. Let’s first assume that we have no reason to prefer one value of <span class="math inline">\(p\)</span> over another, and so we choose for our prior the uniform distribution on <span class="math inline">\(p\)</span> between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>.</p>
+<p>We wish to analyze <span class="math inline">\(P(p|h)\)</span>, the probability distribution of <span class="math inline">\(p\)</span> given <span class="math inline">\(h\)</span> heads out of <span class="math inline">\(N\)</span> flips. Bayes Theorem gives us: <span class="math display">\[
+P(p|h) = \frac{P(h|p)P(p)}{P(h)}
+\]</span> where <span class="math display">\[
+P(h|p) = \binom{N}{h}p^{h}(1-p)^{N-h}
+\]</span> and <span class="math display">\[
+P(h)=\int_{p=0}^{1} P(h|p)P(p) dp = \binom{N}{h}\int_{p=0}^{1} p^{h}(1-p)^{N-h}dp
+\]</span> is a constant which insures that <span class="math display">\[\int_{p}P(p|h)dp=1.\]</span></p>
+<p>We see that the posterior distribution <span class="math inline">\(P(p|h)\)</span> is proportional to the polynomial function <span class="math display">\[
+P(p|h)\propto p^{h}(1-p)^{N-h}.
+\]</span> As in section <a href="#sec:mlcoin">1.6.1</a>, we see that this function peaks at <span class="math inline">\(h/N\)</span>. This is called the maximum <em>a posteriori estimate</em> for <span class="math inline">\(p\)</span>.</p>
+<p>Another way to summarize the posterior distribution <span class="math inline">\(P(p|h)\)</span> is to look at the expected value of <span class="math inline">\(p\)</span>. This is called the <em>posterior mean</em> of <span class="math inline">\(p\)</span>. To compute it, we need to know the normalization constant in the expression for <span class="math inline">\(P(p|h)\)</span>, and for that we can take advantage of the properties of a special function <span class="math inline">\(B(a,b)\)</span> called the Beta-function: <span class="math display">\[
+B(a,b) = \int_{p=0}^{1} p^{a-1}(1-p)^{b-1} dp.
+\]</span></p>
+<p><strong>Proposition:</strong> If <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are integers, then <span class="math inline">\(B(a,b)=\frac{a+b}{ab}\frac{1}{\binom{a+b}{a}}\)</span>.</p>
+<p><strong>Proof:</strong> Using integration by parts, one can show that <span class="math display">\[
+B(a,b)=\frac{a-1}{b}B(a-1,b+1)
+\]</span> and a simple calculation shows that <span class="math display">\[
+B(1,b) = \frac{1}{b}.
+\]</span> Let <span class="math display">\[
+H(a,b)=\frac{a+b}{ab}\frac{1}{\binom{a+b}{a}} = \frac{(a-1)!(b-1)!}{(a+b-1)!}
+\]</span> Then it’s easy to check that <span class="math inline">\(H\)</span> satsifies the same recurrences as <span class="math inline">\(B(a,b)\)</span>, and that <span class="math inline">\(H(1,b)=1/b\)</span>. So the two functions agree by induction.</p>
+<p>Using this Proposition, we see that <span class="math display">\[
+P(p|h) = \frac{p^{h}(1-p)^{N-h}}{B(h+1,N-h+1)}
+\]</span> and <span class="math display">\[
+E[p] = \frac{\int_{p=0}^{1} p^{h+1}(1-p)^{N-h}dp}{B(h+1,N-h+1)}=\frac{B(h+2,N-h+1)}{B(h+1,N-h+1)}.
+\]</span> Sorting through this using the formula for <span class="math inline">\(B(a,b)\)</span> we obtain <span class="math display">\[
+E[p]=\frac{h+1}{N+2}.
+\]</span></p>
+<p>So if we obtained <span class="math inline">\(55\)</span> heads out of <span class="math inline">\(100\)</span> flips, the maximum a posteriori estimate for <span class="math inline">\(p\)</span> is <span class="math inline">\(.55\)</span>, while the posterior mean is <span class="math inline">\(56/102=.549\)</span> – just a bit less.</p>
+<p>Now suppose that we had some reason to believe that our coin was fair. Then we can choose a prior probability distribution that expresses this. For example, we can choose <span class="math display">\[
+P(p) = \frac{1}{B(5,5)}p^{4}(1-p)^{4}.
+\]</span> Here we use the Beta function to guarantee that <span class="math inline">\(\int_{0}^{1}P(p)dp=1\)</span>. We show this prior distribution in fig. <a href="#fig:betaprior">9</a>.</p>
+<div id="fig:betaprior" class="fignos">
+<figure>
+<img src="../img/betaprior.png" alt="Figure 9: Beta(5,5) Prior" /><figcaption aria-hidden="true"><span>Figure 9:</span> Beta(5,5) Prior</figcaption>
+</figure>
+</div>
+<p>If we redo our Bayes theorem calculation, we find that our posterior distribution is <span class="math display">\[
+P(p|h) \propto p^{h+4}(1-p)^{N-h+4}
+\]</span> and relying again on the Beta function for normalization we have <span class="math display">\[
+P(p|h) = \frac{1}{B(h+5,N-h+5)}p^{h+4}(1-p)^{N-h+4}
+\]</span> Here the maximum a posterior estimate for <span class="math inline">\(p\)</span> is <span class="math inline">\(h+4/N+8\)</span> while our posterior mean is <span class="math display">\[
+\frac{B(h+6,N-h+5)}{B(h+5,N-h+5)} = \frac{h+5}{N+10}.
+\]</span></p>
+<p>In the situation of <span class="math inline">\(55\)</span> heads out of <span class="math inline">\(100\)</span>, the maximum a posteriori estimate is <span class="math inline">\(.546\)</span> and the posterior mean is <span class="math inline">\(.545\)</span>. These numbers have been pulled just a bit towards <span class="math inline">\(.5\)</span> because our prior knowledge makes us a little bit biased towards <span class="math inline">\(p=.5\)</span>.</p>
 <h1 class="unnumbered" id="bibliography">References</h1>
 <div id="refs" class="references csl-bib-body" role="doc-bibliography">
 <div id="ref-Bertsekas" class="csl-entry" role="doc-biblioentry">
