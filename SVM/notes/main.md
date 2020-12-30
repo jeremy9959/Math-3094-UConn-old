@@ -365,7 +365,7 @@ is a finite collection of line segments that join the "outermost" points in the 
 
 ![The Convex Hull](../img/penguinswithhulls.png){#fig:convexhull width=50%}
 
-One very simple example of a convex set is a half-plane.  More specificically,
+One very simple example of a convex set is a half-plane.  More specifically,
 if $f(x)=w\cdot x+b=0$ is a hyperplane, then the two "sides" of the hyperplane, meaning
 the subsets $\{x: f(x)\ge 0\}$ and $\{x: f(x)\le 0\}$, are both convex. (This is exercise 1 in +@sec:exercises ).
 
@@ -380,7 +380,7 @@ Interestingly, however, the converse is true as well -- the supporting hyperplan
 as those for $S$.
 
 **Lemma:** Let $S$ be a finite set of points in $\mathbf{R}^{k}$ and 
-let $f(x)=w\cdot +b=0$ be a supporting hyperplane for $C(S)$.  Then $f(x)$ is a supporting hyperplane for $S$.
+let $f(x)=w\cdot x +b=0$ be a supporting hyperplane for $C(S)$.  Then $f(x)$ is a supporting hyperplane for $S$.
 
 **Proof:** Suppose $f(x)=0$ is a supporting hyperplane for $C(S)$.  Let's assume that  $f(x)\ge 0$ for all $x\in C(S)$ and $f(x^{*})=0$ 
 for a point $x^{*}\in C(S)$, since the case where $f(x)\le 0$ is identical.  Since $S\subset C(S)$, we have $f(x)\ge 0$ for all $x\in S$.
@@ -594,7 +594,7 @@ find $\lambda^{+}$ and $\lambda^{-}$ such that $\|w(\lambda^{+},\lambda^{-})\|^2
 all such $w$ where all $\lambda^{\pm}_{i}\ge 0$ and $\sum_{i=1}^{n_{\pm}} \lambda^{\pm}_{i}=1$.
 
 This is an example of a *constrained optimization problem.*   It's worth observing that
-the *objective function* $\|w(\lambda^{+},\lambda^{-})\|^2$ is just a quadratic function in the $\lambda^{\pm}$.
+the *objective function* $\|w(\lambda^{+},\lambda^{-})\|^2$ is just a quadratic function in the $\lambda^{\pm}.$
 Indeed we can expand
 $$
 \|w(\lambda^{+},\lambda^{-})\|^2 = (\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x_{i}- \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i})\cdot(\sum_{i=1}^{n_{+}}\lambda^{+}_{i}x_{i}- \sum_{i=1}^{n_{-}}\lambda^{-}x^{-}_{i})
@@ -610,13 +610,13 @@ R &=& \sum_{i=1}^{n_{+}}\sum_{j=1}^{n_{+}}\lambda^{+}_{i}\lambda^{+}_{j}(x^{+}_{
 S &=& \sum_{i=1}^{n_{+}}\sum_{j=1}^{n_{-}}\lambda^{+}_{i}\lambda^{-}_{j}(x^{+}_{i}\cdot x^{-}_{j}) \\
 T &=& \sum_{i=1}^{n_{-}}\sum_{j=1}^{n_{-}}\lambda^{-}_{i}\lambda^{-}_{j}(x^{-}_{i}\cdot x^{-}_{j}) \\
 \end{aligned}
-$$
+$${#eq:kernel}
 Thus the function we are trying to minimize is relatively simple.  
 
 On the other hand, unlike optimization problems we have seen earlier in these lectures,
 in which we can apply Lagrange multipliers, in this case
 some of the constraints are inequalities -- namely
-the requirement that all of the $\lambda^{pm}\ge 0$ -- rather than equalities.  There is an extensive theory of such problems that derives from the idea of Lagrange multipliers.  However, in these notes, we will not dive into that
+the requirement that all of the $\lambda^{\pm}\ge 0$ -- rather than equalities.  There is an extensive theory of such problems that derives from the idea of Lagrange multipliers.  However, in these notes, we will not dive into that
 theory but will instead construct an algorithm for solving the problem directly.
 
 
@@ -641,12 +641,12 @@ It turns out that the solution to this optimization problem easily yields the so
 **Lemma:**  Suppose $\lambda^{+}$ and $\lambda^{-}$ satisfy the constraints of problem 2 and
 yield the minimal value for the objective function $Q(\lambda^{+},\lambda^{-})$.  Rescale the
 $\lambda^{\pm}$ to have sum equal to one by dividing by $\alpha$, yielding 
-$\tau^{\pm}=1/\alpha\lambda^{\pm}$.  Then $w(\tau^{+},\tau^{-})$ is a solution to optimization problemm 1.
+$\tau^{\pm}=(1/\alpha)\lambda^{\pm}$.  Then $w(\tau^{+},\tau^{-})$ is a solution to optimization problem 1.
 
 **Proof:** First of all, notice that $\tau^{\pm}$ still satisfy the constraints of problem 2.
 Therefore
 $$
-Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-2\alpha\le \|w(\tau^{+},\tau^{-})\|-2.
+Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-2\alpha\le \|w(\tau^{+},\tau^{-})\|^2-2.
 $$
 On the other hand, suppose that $\sigma^{\pm}$ are a solution to problem 1.
 Then 
@@ -655,11 +655,11 @@ $$
 $$
 Therefore
 $$
-\alpha^2 \|w(\sigma^{+},\sigma^{-})\|^2 = \|w(\alpha\sigma^{+},\alpha\sigma^{-})\|^2\le \|w(\lambda^{+},\lambda^{-}\|^2
+\alpha^2 \|w(\sigma^{+},\sigma^{-})\|^2 = \|w(\alpha\sigma^{+},\alpha\sigma^{-})\|^2\le \|w(\lambda^{+},\lambda^{-})\|^2
 $$
 and finally
 $$
-\|w(\alpha\sigma^{+},\alpha\sigma^{-}\|^2-2\alpha\le Q(\lambda^{+},\lambda^{-})=\|w(\alpha\tau^{+},\alpha\tau^{-})\|^2-2\alpha.
+\|w(\alpha\sigma^{+},\alpha\sigma^{-})\|^2-2\alpha\le Q(\lambda^{+},\lambda^{-})=\|w(\alpha\tau^{+},\alpha\tau^{-})\|^2-2\alpha.
 $$
 Since $Q$ is the minimal value, we have
 $$
@@ -671,7 +671,7 @@ so that indeed $w(\tau^{+},\tau^{-})$ gives a solution to Problem 1.
 ### Sequential Minimal Optimization
 
 Now we outline an algorithm for solving Problem 2 that is called Sequential Minimal Optimization
-that was introduced by John Platt in 1998 (See +@plattSMO and Chapter 12 of +@KernelMethodAdvances).
+that was introduced by John Platt in 1998 (See @plattSMO and Chapter 12 of @KernelMethodAdvances).
 The algorithm is based on the principle of "gradient ascent", where we exploit the fact that the
 negative gradient of a function points in the direction of its most rapid decrease and we take small steps 
 in the direction of the negative gradient until we reach the minimum.
@@ -792,6 +792,39 @@ you are a Gentoo penguin, otherwise you are an Adelie.
 
 
 ![Closest points in convex hulls of penguin data](../img/solution.png){#fig:penguinsolution width=50%}
+
+## Inseparable Sets
+
+Not surprisingly, real life is often more complicated than the penguin example we've discussed at length
+in these notes.  In particular, sometimes we have to work with sets that are not linearly separable.
+Instead, we might have two point clouds, the bulk of which are separable, but because of some outliers
+there is no hyperplane we can draw that separates the two sets into two halfplanes.  
+
+Fortunately, all is not lost.  There are two common ways to address this problem, and while we won't take
+the time to develop the theory behind them, we can at least outline how they work.
+
+### Best Separating Hyperplanes
+
+If our sets are not linearly separable, then their convex hulls overlap and so our technique
+for finding the closest points of the convex hulls won't work.  In this case, we can "shrink" the
+convex hull by considering combinations of points $\sum_{i}\lambda_{i}x_{i}$ where
+$\sum\lambda_{i}=1$ and  $C\ge\lambda_{i}\ge 0$ for some $C\le 1$.  For $C$ small enough, reduced
+convex hulls will be linearly separable -- although some outlier points from each class will
+lie outside of them -- and we can find hyperplane that separates the reduced hulls.  
+In practice, this means we allow a few points to lie on the "wrong side" of the hyperplane.
+Our tolerance for these mistakes depends on $C$, but we can include $C$ in the optimization problem to try to
+find the smallest $C$ that "works".
+
+### Nonlinear kernels
+
+The second option is to look not for separating hyperplanes but instead for separating curves -- perhaps polynomials
+or even more exotic curves.  This can be achieved by taking advantage of the form of +@eq:kernel.  As you see
+there, the only way the points $x_{i}^{\pm}$ enter in to the function being minimized is through the
+inner products $x_{i}^{\pm}\cdot x_{j}^{\pm}$.  We can adopt a different inner product than the usual
+Euclidean one, and reconsider the problem using this different inner product.  This amounts to embedding
+our points in a higher dimensional space where they are more likely to be linearly separable.  Again,
+we will not pursue the mathematics of this further in these notes.
+
 
 
 ## Exercises{#sec:exercises}
