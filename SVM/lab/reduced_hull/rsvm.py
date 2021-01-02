@@ -1,63 +1,45 @@
-from bokeh.plotting import figure
-from bokeh.io import show, output_notebook
 import numpy as np
+from collections import namedtuple
+
+Vertex = namedtuple('Vertex','support vertex indices')
 
 
-output_notebook()
-pts = np.random.normal(0,1,size=(10,2))
+def _top(pts, w, mu):
+    k = int(np.ceil(1 / mu))
+    z = np.dot(pts, w.T)
+    indices = np.argsort(-z)[:k]
+    u = pts[indices]
+    
+    vert = u[: (k - 1), :].sum(axis=0) * mu + (1 - (k - 1) * mu) * u[k - 1, :]
+    return Vertex(support=u, vertex=vert, indices=indices)
 
-def top(pts,w,mu):
-    k = int(np.ceil(1/mu))
-    z = np.dot(pts,w.T)
-    u = pts[np.argsort(-z)[:k]]
-    vertex = u[:(k-1),:].sum(axis=0)*mu+(1-(k-1)*mu)*u[k-1,:]
-    return (u,vertex)
 
-def normal(x,y):
-    z = y-x
-    return np.array([-z[1],z[0]])
+def _normal(x, y):
+    z = y - x
+    return np.array([-z[1], z[0]])
 
-def bump(pts, x,y,mu):
-    z=normal(x[1],y[1])
-    support = np.concatenate([x[0],y[0]])
-    A=pts[np.dot(pts,z.T)>=np.min(np.dot(support,z.T))]
+
+def _bump(pts, x, y, mu):
+    z = _normal(x.vertex, y.vertex)
+    support = np.concatenate([x.support, y.support])
+    A = pts[np.dot(pts, z.T) >= np.min(np.dot(support, z.T))]
     return A
 
 
-def RGH(pts,l,r,mu):
-    h = top(pts,normal(l[1],r[1]),mu)
-    if np.allclose(h[1],l[1]) or np.allclose(h[1],r[1]):
-        return [l,r]
-    A = bump(pts,l,h,mu)
-    B = bump(pts,h,r,mu)
-    x = RGH(A,l,h,mu)
-    y = RGH(B,h,r,mu)
-    return x+y
+def _RCH0(pts, left, right, mu):
+    h = _top(pts, _normal(left.vertex, right.vertex), mu)
+    if np.allclose(h.vertex, left.vertex) or np.allclose(h.vertex, right.vertex):
+        return [left, right]
+    A = _bump(pts, left, h, mu)
+    B = _bump(pts, h, right, mu)
+    x = _RCH0(A, left, h, mu)
+    y = _RCH0(B, h, right, mu)
+    return x[:-1] + y
 
 
-
-
-first = top(pts,np.array([0,1]),.4)
-second = top(pts,np.array([0,-1]),.4)
-z=normal(first[1],second[1])
-right = top(pts,z,.4)
-left=top(pts,-z,.4)
-
-
-A  = bump(pts,first,right,.4)
-new1 = top(A,normal(first[1],right[1]),.4)
-B = bump(pts,right,second,.4)
-new2 = top(B,normal(right[1],second[1]),.4)
-f=figure(x_range=(-2,2),y_range=(-2,2))
-
-
-f.scatter(x=pts[:,0],y=pts[:,1])
-
-#for i,u in enumerate([first,left,second,right]):
-#    f.circle(x=u[1][0],y=u[1][1],color=['orange','black','blue','green'][i],size=5)
-#f.circle(x=A[:,0],y=A[:,1],color='red',size=5)
-#f.circle(x=B[:,0],y=B[:,1],color='pink',size=5)
-
-f.circle(x=new1[1][0],y=new1[1][1],color='black',size=10)
-show(f)
-
+def RCH(pts, mu):
+    first = _top(pts, np.array([0, 1]), mu)
+    second = _top(pts, np.array([0, -1]), mu)
+    L = _RCH0(pts, first, second, mu)
+    R = _RCH0(pts, second, first, mu)
+    return L[:-1] + R
