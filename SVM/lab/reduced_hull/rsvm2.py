@@ -1,7 +1,7 @@
 import numpy as np
 from collections import namedtuple
 
-Vertex = namedtuple('Vertex','support vertex indices')
+Vertex = namedtuple('Vertex','vertex indices')
 
 
 def _top(pts, indices, w, mu):
@@ -12,7 +12,7 @@ def _top(pts, indices, w, mu):
     v = indices[n_indices]
     u = pts[v]
     vert = u[: (k - 1), :].sum(axis=0) * mu + (1 - (k - 1) * mu) * u[k - 1, :]
-    return Vertex(support=u, vertex=vert, indices=v)
+    return Vertex(vertex=vert, indices=v)
 
 
 def _normal(x, y):
