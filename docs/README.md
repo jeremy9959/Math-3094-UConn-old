@@ -1,10 +1,26 @@
 # Honors Seminar in Machine Learning
-## Math 3094 
-## University of Connecticut
-## Spring, 2021
+
+Math 3094, Spring Semester 2021<br>
+University of Connecticut<br>
 
 ### Instructors
 - [Kyu-Hwan Lee](mailto:khlee@math.uconn.edu)
 - [Jeremy Teitelbaum](mailto:jeremy.teitelbaum@uconn.edu)
+
+
+### Introduction
+
+The interdisciplinary field known as Machine Learning or Data Science draws
+together techniques from computer science, mathematics, and statistics to 
+extract meaning from data.  In this course, we will discuss some of the
+essential mathematical ideas that drive some of the central techniques in the field.
+While our focus will be on the role of Calculus, Probability, and Linear Algebra in this field,
+we will introduce computational techniques using Python and the Jupyter notebook
+environment, and some ideas from statistics, in order to closely link theory
+and practice.
+
+
+
+
 
 
