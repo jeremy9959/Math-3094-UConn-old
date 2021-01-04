@@ -10,3 +10,5 @@ auto/
 *.run.xml
 .ipynb_checkpoints/
 __pycache__/
+video
+ferpa/
