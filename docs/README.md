@@ -24,7 +24,9 @@ and practice.
 We will rely on the Python programming language, the Anaconda open source
 data science platform, and the Jupyter notebook environment for our computer
 work.  All of this software can be obtained for Linux, Mac, or Windows
-from the Anaconda website: [www.anaconda.com](http://www.anaconda.com)
+from the Anaconda website: [www.anaconda.com](http://www.anaconda.com).
+
+[More information on setting up Anaconda/Python/Jupyter is available here.](installing.md)
 
 
 
