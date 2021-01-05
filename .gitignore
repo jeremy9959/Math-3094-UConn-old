@@ -12,3 +12,4 @@ auto/
 __pycache__/
 video
 ferpa/
+.#*

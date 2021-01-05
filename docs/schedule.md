@@ -1,10 +1,27 @@
 # Course Schedule
 
-### Week 1 (1/18-1/22)
+### Week 1 (1/18-1/22): Getting set up
 
-### Week 2 (1/25-1/29)
+Goals: 
+
+- get a working installation of anaconda, python, and jupyter on your computer.
+- a basic introduction to working with  the Jupyter notebook
+  - code cells
+  - markdown cells
+- fundamentals of Python
+  
+
+### Week 2 (1/25-1/29): Linear Regression
+
+Goals:
+
+- An introduction to the theory Linear Regression (ordinary least squares and linear algebra)
+- Lab: calculations and plotting examples of linear regression
+
 
 ### Week 3 (2/1-2/5)
+
+
 
 ### Week 4 (2/8-2/12)
 
