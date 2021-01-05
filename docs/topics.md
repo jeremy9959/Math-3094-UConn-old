@@ -23,7 +23,7 @@ Goals
 References
 
 - Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
-- Linear Regression lab [ipynb](RegressionLab.ipynb)
+- Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb)
 
 ### Gradient Descent
 
