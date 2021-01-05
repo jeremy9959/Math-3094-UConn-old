@@ -2,27 +2,23 @@
 
 ## Part One
 
-### Getting Set Up
-
-Goals: 
-
-- get a working installation of anaconda, python, and jupyter on your computer.
-- a basic introduction to working with  the Jupyter notebook
-  - code cells
-  - markdown cells
-- fundamentals of Python
-
-
 ### Linear Regression
 
 Goals 
 
 - Learn the mathematics of Linear Regression (ordinary least squares) using Linear Algebra
-- Lab: calculations and plotting examples of linear regression
+
+- Lab: 
+
+	- get a working installation of anaconda, python, and jupyter on your computer.
+	- a basic introduction to working with  the Jupyter notebook
+	- fundamentals of Python
+	- calculations and plotting examples of linear regression
 
 References
 
 - Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
+- [Installing Anaconda](installing.md)
 - Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb)
 
 ### Gradient Descent
