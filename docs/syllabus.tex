@@ -1,0 +1,216 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\author{}
+\date{}
+
+\begin{document}
+
+\hypertarget{honors-seminar-in-machine-learning}{%
+\section{Honors Seminar in Machine
+Learning}\label{honors-seminar-in-machine-learning}}
+
+Math 3094, Spring Semester 2021 University of Connecticut
+
+\hypertarget{instructors}{%
+\subsubsection{Instructors}\label{instructors}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{mailto:khlee@math.uconn.edu}{Kyu-Hwan Lee}
+\item
+  \href{mailto:jeremy.teitelbaum@uconn.edu}{Jeremy Teitelbaum}
+\end{itemize}
+
+\hypertarget{introduction}{%
+\subsubsection{Introduction}\label{introduction}}
+
+The interdisciplinary field known as Machine Learning or Data Science
+draws together techniques from computer science, mathematics, and
+statistics to extract meaning from data. In this course, we will discuss
+some of the essential mathematical ideas in this field.
+
+While our focus will be on the role of Calculus, Probability, and Linear
+Algebra, we will introduce computational techniques using Python and the
+Jupyter notebook environment, and some ideas from statistics, in order
+to closely link theory and practice.
+
+\hypertarget{schedule}{%
+\subsubsection{Schedule}\label{schedule}}
+
+The course will meet synchronously online on Tuesdays and Thursdays from
+11:00 to 12:15 EST.
+
+\hypertarget{topics}{%
+\subsubsection{Topics}\label{topics}}
+
+Topics will include Linear Regression, Gradient Descent, Logistic
+Regression, Principal Component Analysis, and others as time permits.
+The course will include both (online) lectures and lab sessions.
+
+\hypertarget{assessment}{%
+\subsubsection{Assessment}\label{assessment}}
+
+Students will be expected to complete two projects, one due at midterm
+time and one by the final. The final project may be a
+continuation/extension of the midterm project. A typical project will be
+an example data analysis written up using the Jupyter notebook. Projects
+may be done individually or in groups of up to three people.
+
+\hypertarget{resources}{%
+\subsubsection{Resources}\label{resources}}
+
+We will use the \href{http://campuswire.com}{Campus Wire} platform for
+online help and discussions. Students enrolled in the course should
+receive an electronic invite to the forum. Contact one of the professors
+if you need access.
+
+We will rely on the Python programming language, the Anaconda open
+source data science platform, and the Jupyter notebook environment for
+our computer work. All of this software can be obtained for Linux, Mac,
+or Windows from the Anaconda website:
+\href{http://www.anaconda.com}{www.anaconda.com}.
+
+A very brief guide to installing the software is
+\href{installing.md}{available here}.
+
+There is no official textbook for the course. We will be providing notes
+as we progress. The following texts may be useful as references.
+
+\begin{itemize}
+\item
+  James, Witten, Hastie, Tibshirani. An Introduction to Statistical
+  Learning (with Applications in R). This is an introductory text on
+  machine learning with a more statistical emphasis than our course, and
+  with computer examples in R instead of Python. It is an excellent and
+  informative work, and it is \href{https://statlearning.com/}{available
+  for free} from the book home page.
+\item
+  Bass, Alonso-Ruiz, Baudoin, et. al.\\
+  \href{https://probability.oer.math.uconn.edu/3160-oer/}{UConn's Open
+  Undergraduate Probability Text}. This is the (open source) textbook
+  for UConn's undergraduate probability course, Math 3160.
+\item
+  Boyd, S. and Vandenberghe, L.
+  \href{https://web.stanford.edu/~boyd/vmls/}{Introduction to Applied
+  Linear Algebra}. This is a (free) introductory text on Linear Algebra
+  with a focus on applications, especially to Least Squares.
+\item
+  Treil, S.
+  \href{https://www.math.brown.edu/streil/papers/LADW/LADW.html}{Linear
+  Algebra Done Wrong}. This is a more theoretical linear algebra text
+  that treats important topics such as inner product spaces.
+\item
+  Bishop, C.
+  \href{https://www.microsoft.com/en-us/research/people/cmbishop/prml-book/}{Pattern
+  Recognition and Machine Learning} This is a (free) comprehensive look
+  at machine learning; it claims to be aimed at ``advanced
+  undergraduates or first year PhD students'' but is technically
+  demanding.
+\end{itemize}
+
+\hypertarget{policy-statements}{%
+\subsection{Policy Statements}\label{policy-statements}}
+
+\hypertarget{academic-integrity}{%
+\subsubsection{Academic Integrity}\label{academic-integrity}}
+
+Students are bound by the university's policies on academic integrity.
+
+\hypertarget{students-with-disabilities}{%
+\subsubsection{Students with
+disabilities}\label{students-with-disabilities}}
+
+Students with disabilities should contact one of the instructors as soon
+as possible to discuss any accommodations needed during the semester due
+to a documented disabilities. If you have a documented disability for
+which you wish to request academic accommodations and have not contacted
+the Center for Students with Disabilities, please do so as soon as
+possible. The CSD is located in Wilbur Cross, Room 204 and can be
+reached at (860) 486-2020 or at csd@uconn.edu. Detailed information
+regarding the process to request accommodations is available on the CSD
+website at www.csd.uconn.edu.
+
+\hypertarget{policy-against-discrimination-harassment-and-inappropriate-romantic-relationships}{%
+\subsubsection{Policy Against Discrimination, Harassment and
+Inappropriate Romantic
+Relationships}\label{policy-against-discrimination-harassment-and-inappropriate-romantic-relationships}}
+
+The University is committed to maintaining an environment free of
+discrimination or discriminatory harassment directed toward any person
+or group within its community -- students, employees, or visitors.
+Academic and professional excellence can flourish only when each member
+of our community is assured an atmosphere of mutual respect. All members
+of the University community are responsible for the maintenance of an
+academic and work environment in which people are free to learn and work
+without fear of discrimination or discriminatory harassment. In
+addition, inappropriate Romantic relationships can undermine the
+University's mission when those in positions of authority abuse or
+appear to abuse their authority. To that end, and in accordance with
+federal and state law, the University prohibits discrimination and
+discriminatory harassment, as well as inappropriate Romantic
+relationships, and such behavior will be met with appropriate
+disciplinary action, up to and including dismissal from the University.
+More information is available at http://policy.uconn.edu/?p=2884.
+
+\hypertarget{sexual-assault-reporting-policy}{%
+\subsubsection{Sexual Assault Reporting
+Policy}\label{sexual-assault-reporting-policy}}
+
+To protect the campus community, all non-confidential University
+employees (including faculty) are required to report assaults they
+witness or are told about to the Office of Diversity \& Equity under the
+Sexual Assault Response Policy. The University takes all reports with
+the utmost seriousness. Please be aware that while the information you
+provide will remain private, it will not be confidential and will be
+shared with University officials who can help. More information is
+available at http://sexualviolence.uconn.edu/.
+
+\end{document}

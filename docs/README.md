@@ -23,7 +23,8 @@ and practice.
 ### Schedule
 
 The course will meet synchronously online on Tuesdays and Thursdays from 
-11:00 to 12:15 EST.
+11:00 to 12:15 EST using BlackBoard Collaborate through the [HuskyCT](http://lms.uconn.edu)
+UConn LMS.
 
 ### Topics
 
