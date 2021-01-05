@@ -12,20 +12,18 @@ Goals:
   - markdown cells
 - fundamentals of Python
 
+
 ### Linear Regression
 
-Goals: 
+Goals 
 
 - Learn the mathematics of Linear Regression (ordinary least squares) using Linear Algebra
 - Lab: calculations and plotting examples of linear regression
 
-### Principal Components and the Singular Value Decomposition
+References
 
-Goals:
-
-- Understand the theory of principal components using linear algebra
-- Learn how principal components analysis (PCA) can reveal structure in data
-- Apply software tools that compute PCA to see the theory in action.
+- Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
+- Linear Regression lab [ipynb](RegressionLab.ipynb)
 
 ### Gradient Descent
 

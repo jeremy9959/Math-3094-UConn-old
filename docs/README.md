@@ -20,6 +20,16 @@ we will introduce computational techniques using Python and the Jupyter notebook
 environment, and some ideas from statistics, in order to closely link theory
 and practice.
 
+### Schedule
+
+The course will meet synchronously online on Tuesdays and Thursdays from 
+11:00 to 12:15 EST.
+
+## Topics
+
+[An outline of the course topics is available here.](topics.md)
+
+
 ### Resources
 
 We will use the [Campus Wire](http://campuswire.com) platform for online help and discussions.
@@ -30,6 +40,9 @@ We will rely on the Python programming language, the Anaconda open source
 data science platform, and the Jupyter notebook environment for our computer
 work.  All of this software can be obtained for Linux, Mac, or Windows
 from the Anaconda website: [www.anaconda.com](http://www.anaconda.com).
+
+A very brief guide to installing the software is [available here](installing.md).
+
 
 There is no official textbook for the course.  We will be providing notes as we progress. 
 The following texts may be useful as references.

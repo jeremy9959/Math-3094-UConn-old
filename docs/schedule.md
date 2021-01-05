@@ -13,10 +13,10 @@ Goals:
 
 ### Week 2 (1/25-1/29): Linear Regression
 
-Goals:
 
 - An introduction to the theory Linear Regression (ordinary least squares and linear algebra)
 - Lab: calculations and plotting examples of linear regression
+
 
 
 ### Week 3 (2/1-2/5)
