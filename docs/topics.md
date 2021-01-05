@@ -9,13 +9,12 @@ Goals
 - Learn the mathematics of Linear Regression (ordinary least squares) using Linear Algebra
 
 - Lab: 
-
 	- get a working installation of anaconda, python, and jupyter on your computer.
 	- a basic introduction to working with  the Jupyter notebook
 	- fundamentals of Python
 	- calculations and plotting examples of linear regression
 
-References
+*References*
 
 - Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
 - [Installing Anaconda](installing.md)

@@ -25,7 +25,7 @@ and practice.
 The course will meet synchronously online on Tuesdays and Thursdays from 
 11:00 to 12:15 EST.
 
-## Topics
+### Topics
 
 [An outline of the course topics is available here.](topics.md)
 
