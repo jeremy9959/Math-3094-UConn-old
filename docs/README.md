@@ -44,7 +44,6 @@ from the Anaconda website: [www.anaconda.com](http://www.anaconda.com).
 
 A very brief guide to installing the software is [available here](installing.md).
 
-
 There is no official textbook for the course.  We will be providing notes as we progress. 
 The following texts may be useful as references.
 

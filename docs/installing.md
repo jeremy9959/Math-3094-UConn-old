@@ -15,6 +15,11 @@ shell script that you download from the anaconda site.
 As well as installing the software, this process will set up anaconda navigator, 
 which is a graphical tool for managing the software.
 
+For a video walkthrough, see:
+
+- [Windows 10](https://www.youtube.com/watch?v=HlmhkvV51f0&t=179s)
+- [Mac OS](https://www.youtube.com/watch?v=i4GxctDcx6s)
+
 ### Verify your installation
 
 To make sure things are set up correctly, refer to the 
