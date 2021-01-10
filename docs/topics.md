@@ -2,7 +2,7 @@
 
 ## Part One
 
-### Linear Regression
+### Linear Regression (1/18/21-1/29/21)
 
 Goals 
 
@@ -18,7 +18,11 @@ Goals
 
 - Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
 - [Installing Anaconda](installing.md)
-- Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb)
+- [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA)
+- Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb).  To use the lab, download
+the `.ipynb` file into a directory you can access from Jupyter Lab (such as the Math 3094 directory
+suggested in the videos).  Then open the file in Jupyter Lab.  *Note:* The file will likely be downloaded
+as a text file.  You will need to rename the file so that it has the `.ipynb` extension.
 
 ### Gradient Descent
 
