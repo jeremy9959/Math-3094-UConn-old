@@ -18,7 +18,7 @@ Goals
 
 - Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
 - [Installing Anaconda](installing.md)
-- [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA)
+- [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the [notebook created there](notebooks/TestNotebook.ipynb).
 - Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb).  To use the lab, download
 the `.ipynb` file into a directory you can access from Jupyter Lab (such as the Math 3094 directory
 suggested in the videos).  Then open the file in Jupyter Lab.  *Note:* The file will likely be downloaded
