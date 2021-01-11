@@ -21,10 +21,10 @@ treat it as a text file and it may even append a `.txt` or `text` extension.  To
 Lab, you will need to rename it to have just the `.ipynb` extension.  I recommend  keeping these
 example notebooks in your "Math 3094" directory.
 
-- Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
+- Linear Regression [html](published_notes/notes/LR.html)  [pdf](published_notes/notes/LR.pdf)
 - [Installing Anaconda](installing.md)
 - [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the example notebook created there. [ipynb](notebooks/TestNotebook.ipynb).
-- Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb). 
+- Linear Regression lab [ipynb](published_notes/notes/RegressionLab.ipynb). 
 
 
 ### Gradient Descent
