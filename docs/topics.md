@@ -16,13 +16,16 @@ Goals
 
 *References*
 
+Note: When you download a jupyter notebook (a `.ipynb` file), it is likely your system will
+treat it as a text file and it may even append a `.txt` or `text` extension.  To open it in Jupyter
+Lab, you will need to rename it to have just the `.ipynb` extension.  I recommend  keeping these
+example notebooks in your "Math 3094" directory.
+
 - Linear Regression [html](published_notes/LR.html)  [pdf](published_notes/LR.pdf)
 - [Installing Anaconda](installing.md)
-- [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the [notebook created there](notebooks/TestNotebook.ipynb).
-- Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb).  To use the lab, download
-the `.ipynb` file into a directory you can access from Jupyter Lab (such as the Math 3094 directory
-suggested in the videos).  Then open the file in Jupyter Lab.  *Note:* The file will likely be downloaded
-as a text file.  You will need to rename the file so that it has the `.ipynb` extension.
+- [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the example notebook created there. [ipynb](notebooks/TestNotebook.ipynb).
+- Linear Regression lab [ipynb](published_notes/RegressionLab.ipynb). 
+
 
 ### Gradient Descent
 
