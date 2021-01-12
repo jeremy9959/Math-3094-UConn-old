@@ -5,13 +5,140 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Linear Regression</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  <style>
+    html {
+      line-height: 1.7;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 40em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin-top: 1.7em;
+    }
+    a {
+      color: blue;
+    }
+    a:visited {
+      color: blue;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.7em;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1.7em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1.7em 0 1.7em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      font-style: italic;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      background-color: #f0f0f0;
+      font-size: 85%;
+      margin: 0;
+      padding: .2em .4em;
+    }
+    pre {
+      line-height: 1.5em;
+      padding: 1em;
+      background-color: #f0f0f0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin-top: 1.7em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+    }
+    th, td {
+      border-bottom: 1px solid lightgray;
+      padding: 1em 3em 1em 0;
+    }
+    header {
+      margin-bottom: 6em;
+      text-align: center;
+    }
+    nav a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -24,23 +151,22 @@
   </style>
 </head>
 <body>
-
-<h1 id="linear-regression"><span class="header-section-number">1</span> Linear Regression</h1>
-<h2 id="sec:Intro"><span class="header-section-number">1.1</span> Introduction</h2>
+<h1 data-number="1" id="linear-regression"><span class="header-section-number">1</span> Linear Regression</h1>
+<h2 data-number="1.1" id="sec:Intro"><span class="header-section-number">1.1</span> Introduction</h2>
 <p>Suppose that we are trying to study two quantities <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> that we suspect are related – at least approximately – by a linear equation <span class="math inline">\(y=ax+b\)</span>. Sometimes this linear relationship is predicted by theoretical considerations, and sometimes it is just an empirical hypothesis.</p>
-<p>For example, if we are trying to determine the velocity of an object travelling towards us at constant speed, and we measure measure the distances <span class="math inline">\(d_1, d_2, \ldots, d_n\)</span> between us and the object at a series of times <span class="math inline">\(t_1, t_2, \ldots, t_n\)</span>, then since “distance equals rate times time” we have a theoretical foundation for the assumption that <span class="math inline">\(d=rt+b\)</span> for some constants <span class="math inline">\(r\)</span> and <span class="math inline">\(b\)</span>. On the other hand, because of unavoidable experimental errors, we can’t expect that this relationship will hold exactly for the observed data; instead, we likely get a graph like that shown in fig. <a href="#fig:dvt">1</a>. We’ve drawn a line on the plot that seems to capture the true slope (and hence velocity) of the object.</p>
+<p>For example, if we are trying to determine the velocity of an object travelling towards us at constant speed, and we measure measure the distances <span class="math inline">\(d_1, d_2, \ldots, d_n\)</span> between us and the object at a series of times <span class="math inline">\(t_1, t_2, \ldots, t_n\)</span>, then since “distance equals rate times time” we have a theoretical foundation for the assumption that <span class="math inline">\(d=rt+b\)</span> for some constants <span class="math inline">\(r\)</span> and <span class="math inline">\(b\)</span>. On the other hand, because of unavoidable experimental errors, we can’t expect that this relationship will hold exactly for the observed data; instead, we likely get a graph like that shown in fig. <a href="#fig:dvt">1</a>. We’ve drawn a line on the plot that seems to capture the true slope (and hence velocity) of the object.</p>
 <div id="fig:dvt" class="fignos">
 <figure>
-<img src="../img/distance-vs-time.png" alt="Figure 1: Physics Experiment" style="width:50.0%" /><figcaption><span>Figure 1:</span> Physics Experiment</figcaption>
+<img src="../img/distance-vs-time.png" style="width:50.0%" alt="Figure 1: Physics Experiment" /><figcaption aria-hidden="true"><span>Figure 1:</span> Physics Experiment</figcaption>
 </figure>
 </div>
-<p>On the other hand, we might look at a graph such as fig. <a href="#fig:mpg-vs-displacement">2</a>, which plots the gas mileage of various car models against their engine size (displacement), and observe a general trend in which bigger engines get lower mileage. In this situation we could ask for the best line of the form <span class="math inline">\(y=mx+b\)</span> that captures this relationship and use that to make general conclusions without necessarily having an underlying theory.</p>
+<p>On the other hand, we might look at a graph such as fig. <a href="#fig:mpg-vs-displacement">2</a>, which plots the gas mileage of various car models against their engine size (displacement), and observe a general trend in which bigger engines get lower mileage. In this situation we could ask for the best line of the form <span class="math inline">\(y=mx+b\)</span> that captures this relationship and use that to make general conclusions without necessarily having an underlying theory.</p>
 <div id="fig:mpg-vs-displacement" class="fignos">
 <figure>
-<img src="../img/mpg-vs-displacement.png" alt="Figure 2: MPG vs Displacement ( [1] )" style="width:50.0%" /><figcaption><span>Figure 2:</span> MPG vs Displacement ( <span class="citation" data-cites="irvine">[<a href="#ref-irvine">1</a>]</span> )</figcaption>
+<img src="../img/mpg-vs-displacement.png" style="width:50.0%" alt="Figure 2: MPG vs Displacement ( [1] )" /><figcaption aria-hidden="true"><span>Figure 2:</span> MPG vs Displacement ( <span class="citation" data-cites="irvine">[<a href="#ref-irvine" role="doc-biblioref">1</a>]</span> )</figcaption>
 </figure>
 </div>
-<h2 id="sec:Calculus"><span class="header-section-number">1.2</span> Least Squares (via Calculus)</h2>
+<h2 data-number="1.2" id="sec:Calculus"><span class="header-section-number">1.2</span> Least Squares (via Calculus)</h2>
 <p>In either of the two cases above, the question we face is to determine the line <span class="math inline">\(y=mx+b\)</span> that “best fits” the data <span class="math inline">\(\{(x_i,y_i)_{i=1}^{N}\}\)</span>. The classic approach is to determine the equation of a line <span class="math inline">\(y=mx+b\)</span> that minimizes the “mean squared error”:</p>
 <p><span class="math display">\[ MSE(m,b) = \frac{1}{N}\sum_{i=1}^{n} (y_i-mx_i-b)^2 \]</span></p>
 <p>It’s worth emphasizing that the <span class="math inline">\(MSE\)</span> is a function of two variables – the slope <span class="math inline">\(m\)</span> and the intercept <span class="math inline">\(b\)</span> – and that the data points <span class="math inline">\(\{(x_i,y_i)\}\)</span> are constants for these purposes. Furthermore, it’s a quadratic function in those two variables. Since our goal is to find <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> that minimize the <span class="math inline">\(MSE\)</span>, we have a Calculus problem that we can solve by taking partial derivatives and setting them to zero.</p>
@@ -59,23 +185,23 @@ b} &amp;= \frac{1}{N}\sum_{1}^{N}-2(y_i-mx_i-b) \\ \end{aligned} \]</span></p>
 \frac{S_{xx}\overline{y}-S_{xy}\overline{x}}{S_{xx}-\overline{x}^2} \\
 \end{aligned} \]</span><span class="eqnos-number">(2)</span></span></p>
 <p>where we must have <span class="math inline">\(S_{xx}-\overline{x}^2\not=0\)</span>.</p>
-<h3 id="sec:CalcExercises"><span class="header-section-number">1.2.1</span> Exercises</h3>
+<h3 data-number="1.2.1" id="sec:CalcExercises"><span class="header-section-number">1.2.1</span> Exercises</h3>
 <ol type="1">
-<li><p>Verify that eq. <a href="#eq:LSAnswer">2</a> is in fact the solution to the system in eq. <a href="#eq:LS">1</a>.</p></li>
+<li><p>Verify that eq. <a href="#eq:LSAnswer">2</a> is in fact the solution to the system in eq. <a href="#eq:LS">1</a>.</p></li>
 <li><p>Suppose that <span class="math inline">\(S_{xx}-\overline{x}^2=0\)</span>. What does that mean about the <span class="math inline">\(x_i\)</span>? Does it make sense that the problem of finding the “line of best fit” fails in this case?</p></li>
 </ol>
-<h2 id="sec:LinAlg"><span class="header-section-number">1.3</span> Least Squares (via Geometry)</h2>
-<p>In our discussion above, we thought about our data as consisting of <span class="math inline">\(N\)</span> pairs <span class="math inline">\((x_i,y_i)\)</span> corresponding to <span class="math inline">\(n\)</span> points in the <span class="math inline">\(xy\)</span>-plane <span class="math inline">\(\mathbf{R}^2\)</span>. Now let’s turn that picture “on its side”, and instead think of our data as consisting of <em>two</em> points in <span class="math inline">\(\mathbf{R}^{n}\)</span>:</p>
+<h2 data-number="1.3" id="sec:LinAlg"><span class="header-section-number">1.3</span> Least Squares (via Geometry)</h2>
+<p>In our discussion above, we thought about our data as consisting of <span class="math inline">\(N\)</span> pairs <span class="math inline">\((x_i,y_i)\)</span> corresponding to <span class="math inline">\(n\)</span> points in the <span class="math inline">\(xy\)</span>-plane <span class="math inline">\(\mathbf{R}^2\)</span>. Now let’s turn that picture “on its side,” and instead think of our data as consisting of <em>two</em> points in <span class="math inline">\(\mathbf{R}^{n}\)</span>:</p>
 <p><span class="math display">\[ X=\left[\begin{matrix} x_1\cr x_2\cr \vdots\cr
 x_n\end{matrix}\right] \mathrm{\ and\ } Y = \left[\begin{matrix}
 y_1\cr y_2\cr \vdots\cr y_n\end{matrix}\right] \]</span></p>
 <p>Let’s also introduce one other vector</p>
 <p><span class="math display">\[ E = \left[\begin{matrix} 1 \cr 1 \cr \vdots \cr
 1\end{matrix}\right].  \]</span></p>
-<p>First, let’s assume that <span class="math inline">\(E\)</span> and <span class="math inline">\(X\)</span> are linearly independent. If not, then <span class="math inline">\(X\)</span> is a constant vector (why?) which we already know is a problem from section <a href="#sec:Calculus">1.2</a>, Exercise 2. Therefore <span class="math inline">\(E\)</span> and <span class="math inline">\(X\)</span> span a plane in <span class="math inline">\(\mathbf{R}^{n}\)</span>.</p>
+<p>First, let’s assume that <span class="math inline">\(E\)</span> and <span class="math inline">\(X\)</span> are linearly independent. If not, then <span class="math inline">\(X\)</span> is a constant vector (why?) which we already know is a problem from section <a href="#sec:Calculus">1.2</a>, Exercise 2. Therefore <span class="math inline">\(E\)</span> and <span class="math inline">\(X\)</span> span a plane in <span class="math inline">\(\mathbf{R}^{n}\)</span>.</p>
 <div id="fig:perp" class="fignos">
 <figure>
-<img src="../img/distance-to-plane.png" alt="Figure 3: Distance to A Plane" style="width:50.0%" /><figcaption><span>Figure 3:</span> Distance to A Plane</figcaption>
+<img src="../img/distance-to-plane.png" style="width:50.0%" alt="Figure 3: Distance to A Plane" /><figcaption aria-hidden="true"><span>Figure 3:</span> Distance to A Plane</figcaption>
 </figure>
 </div>
 <p>Now if our data points <span class="math inline">\((x_i,y_i)\)</span> all <em>did</em> lie on a line <span class="math inline">\(y=mx+b\)</span>, then the three vectors <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, and <span class="math inline">\(E\)</span> would be linearly dependent:</p>
@@ -84,7 +210,7 @@ y_1\cr y_2\cr \vdots\cr y_n\end{matrix}\right] \]</span></p>
 <p><em>What is the point <span class="math inline">\(\hat{Y}\)</span> in the plane <span class="math inline">\(H\)</span> spanned by <span class="math inline">\(X\)</span> and <span class="math inline">\(E\)</span> in <span class="math inline">\(\mathbf{R}^{n}\)</span> which is closest to <span class="math inline">\(Y\)</span>?</em></p>
 <p>If we knew this point <span class="math inline">\(\hat{Y}\)</span>, then since it lies in <span class="math inline">\(H\)</span> we would have <span class="math inline">\(\hat{Y}=mX+bE\)</span> and the coefficients <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> would be a candidate for defining a line of best fit <span class="math inline">\(y=mx+b\)</span>. Finding the point in a plane closest to another point in <span class="math inline">\(\mathbf{R}^{n}\)</span> is a geometry problem that we can solve.</p>
 <p><strong>Proposition:</strong> The point <span class="math inline">\(\hat{Y}\)</span> in the plane spanned by <span class="math inline">\(X\)</span> and <span class="math inline">\(E\)</span> is the point such that the vector <span class="math inline">\(Y-\hat{Y}\)</span> is perpendicular to <span class="math inline">\(H\)</span>.</p>
-<p><strong>Proof:</strong> See fig. <a href="#fig:perp">3</a> for an illustration – perhaps you are already convinced by this, but let’s be careful. <span class="math inline">\(\hat{Y}=mX+bE\)</span> such that <span class="math display">\[ D = \|Y-\hat{Y}\|^2 = \|Y-mX-bE\|^2 \]</span> is minimal. Using some vector calculus, we have <span class="math display">\[ \frac{\partial D}{\partial m} =
+<p><strong>Proof:</strong> See fig. <a href="#fig:perp">3</a> for an illustration – perhaps you are already convinced by this, but let’s be careful. <span class="math inline">\(\hat{Y}=mX+bE\)</span> such that <span class="math display">\[ D = \|Y-\hat{Y}\|^2 = \|Y-mX-bE\|^2 \]</span> is minimal. Using some vector calculus, we have <span class="math display">\[ \frac{\partial D}{\partial m} =
 \frac{\partial}{\partial m} (Y-mX-bE)\cdot (Y-mX-bE) =
 -2(Y-mX-bE)\cdot X \]</span> and <span class="math display">\[ \frac{\partial D}{\partial b} =
 \frac{\partial}{\partial b} (Y-mX-bE)\cdot (Y-mX-bE) =
@@ -94,12 +220,12 @@ y_1\cr y_2\cr \vdots\cr y_n\end{matrix}\right] \]</span></p>
 <p><span id="eq:LSAnswer2" class="eqnos"><span class="math display">\[ \begin{aligned} m(X\cdot E) &amp;+ b(E\cdot E) &amp;= (Y\cdot E) \cr
 m(X\cdot X) &amp;+ b(E\cdot X) &amp;= (Y\cdot X) \cr \end{aligned}
 \]</span><span class="eqnos-number">(3)</span></span></p>
-<p>We leave it is an exercise below to check that these are the same equations that we obtained in eq. <a href="#eq:LSAnswer">2</a>.</p>
-<h3 id="exercises"><span class="header-section-number">1.3.1</span> Exercises</h3>
+<p>We leave it is an exercise below to check that these are the same equations that we obtained in eq. <a href="#eq:LSAnswer">2</a>.</p>
+<h3 data-number="1.3.1" id="exercises"><span class="header-section-number">1.3.1</span> Exercises</h3>
 <ol type="1">
-<li>Verify that eq. <a href="#eq:LSAnswer">2</a> and eq. <a href="#eq:LSAnswer2">3</a> are equivalent.</li>
+<li>Verify that eq. <a href="#eq:LSAnswer">2</a> and eq. <a href="#eq:LSAnswer2">3</a> are equivalent.</li>
 </ol>
-<h2 id="sec:Multivariate-calculus"><span class="header-section-number">1.4</span> The Multivariate Case (Calculus)</h2>
+<h2 data-number="1.4" id="sec:Multivariate-calculus"><span class="header-section-number">1.4</span> The Multivariate Case (Calculus)</h2>
 <p>Having worked through the problem of finding a “line of best fit” from two points of view, let’s look at a more general problem. We looked above at a scatterplot showing the relationship between gas mileage and engine size (displacement). There are other factors that might contribute to gas mileage that we want to consider as well – for example: - a car that is heavy compared to its engine size may get worse mileage - a sports car with a drive train that gives fast acceleration as compared to a car with a transmission designed for long trips may have different mileage for the same engine size.</p>
 <p>Suppose we wish to use engine displacement, vehicle weight, and acceleration all together to predict mileage. Instead of looking points <span class="math inline">\((x_i,y_i)\)</span> where <span class="math inline">\(x_i\)</span> is the displacement of the <span class="math inline">\(i^{th}\)</span> car model and we try to predict a value <span class="math inline">\(y\)</span> from a corresponding <span class="math inline">\(x\)</span> as <span class="math inline">\(y=mx+b\)</span> – let’s look at a situation in which our measured value <span class="math inline">\(y\)</span> depends on multiple variables – say displacement <span class="math inline">\(d\)</span>, weight <span class="math inline">\(w\)</span>, and acceleration <span class="math inline">\(a\)</span> with <span class="math inline">\(k=3\)</span> – and we are trying to find the best linear equation</p>
 <p><span id="eq:multivariate" class="eqnos"><span class="math display">\[ y=m_1 d + m_2 w + m_3 a +b \]</span><span class="eqnos-number">(4)</span></span></p>
@@ -122,7 +248,7 @@ x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2k} \\ \vdots &amp; \vdots &amp; \ddot
 <p>and the measured dependent variables <span class="math inline">\(Y\)</span> are a column vector <span class="math display">\[ Y =
 \left[\begin{matrix} y_1 \\ y_2 \\ \vdots \\ y_N\end{matrix}\right].
 \]</span></p>
-<p>If <span class="math inline">\(m_1,\ldots, m_k\)</span> are “slopes” associated with these properties in eq. <a href="#eq:multivariate">4</a>, and <span class="math inline">\(b\)</span> is the “intercept”, then the predicted value <span class="math inline">\(\hat{Y}\)</span> is given by a matrix equation</p>
+<p>If <span class="math inline">\(m_1,\ldots, m_k\)</span> are “slopes” associated with these properties in eq. <a href="#eq:multivariate">4</a>, and <span class="math inline">\(b\)</span> is the “intercept,” then the predicted value <span class="math inline">\(\hat{Y}\)</span> is given by a matrix equation</p>
 <p><span class="math display">\[ \hat{Y} = X\left[\begin{matrix} m_1 \\ m_2 \\ \cdots \\
 m_k\end{matrix}\right]+\left[\begin{matrix} 1 \\ 1 \\ \cdots \\
 1\end{matrix}\right]b \]</span></p>
@@ -143,15 +269,15 @@ m_{k+1}\end{matrix}\right].  \]</span></p>
 <p>where</p>
 <p><span class="math display">\[ M=\left[\begin{matrix} m_1 \\ m_2 \\ \cdots \\ m_k \\
 m_{k+1}\end{matrix}\right].  \]</span></p>
-<p><strong>Remark:</strong> Later on (see section <a href="#sec:centered">1.6</a>) we will see that if we “center” our features about their mean, by subtracting the average value of each column of <span class="math inline">\(X\)</span> from that column; and we also subtract the average value of <span class="math inline">\(Y\)</span> from the entries of <span class="math inline">\(Y\)</span>, then the <span class="math inline">\(b\)</span> that emerges from the least squares fit is zero. As a result, instead of adding a column of <span class="math inline">\(1\)</span>’s, you can change coordinates to center each feature about its mean, and keep your <span class="math inline">\(X\)</span> matrix <span class="math inline">\(N\times k\)</span>.</p>
+<p><strong>Remark:</strong> Later on (see section <a href="#sec:centered">1.6</a>) we will see that if we “center” our features about their mean, by subtracting the average value of each column of <span class="math inline">\(X\)</span> from that column; and we also subtract the average value of <span class="math inline">\(Y\)</span> from the entries of <span class="math inline">\(Y\)</span>, then the <span class="math inline">\(b\)</span> that emerges from the least squares fit is zero. As a result, instead of adding a column of <span class="math inline">\(1\)</span>’s, you can change coordinates to center each feature about its mean, and keep your <span class="math inline">\(X\)</span> matrix <span class="math inline">\(N\times k\)</span>.</p>
 <p>The Calculus approach to minimizing the <span class="math inline">\(MSE\)</span> is to take its partial derivatives with respect to the <span class="math inline">\(m_{i}\)</span> and set them to zero. Let’s first work out the derivatives in a nice form for later.</p>
 <p><strong>Proposition:</strong> The gradient of <span class="math inline">\(MSE(M)=E\)</span> is given by</p>
-<p><span id="eq:gradient" class="eqnos"><span class="math display">\[ \nabla E = \left[\begin{matrix} \frac{\partial}{\partial m_1}E \\ \frac{\partial}{\partial m_2}E \\ \vdots \\
-\frac{\partial}{\partial m_{k+1}}E\end{matrix}\right] = -2 X^{\intercal}Y + 2
+<p><span id="eq:gradient" class="eqnos"><span class="math display">\[ \nabla E = \left[\begin{matrix} \frac{\partial}{\partial M_1}E \\ \frac{\partial}{\partial M_2}E \\ \vdots \\
+\frac{\partial}{\partial m_{M+1}}E\end{matrix}\right] = -2 X^{\intercal}Y + 2
 X^{\intercal}XM \]</span><span class="eqnos-number">(5)</span></span></p>
 <p>where <span class="math inline">\(X^{\intercal}\)</span> is the transpose of <span class="math inline">\(X\)</span>.</p>
 <p><strong>Proof:</strong> First, remember that the <span class="math inline">\(ij\)</span> entry of <span class="math inline">\(X^{\intercal}\)</span> is the <span class="math inline">\(ji\)</span> entry of <span class="math inline">\(X\)</span>. Also, we will use the notation <span class="math inline">\(X[j,:]\)</span> to mean the <span class="math inline">\(j^{th}\)</span> row of <span class="math inline">\(X\)</span> and <span class="math inline">\(X[:,i]\)</span> to mean the <span class="math inline">\(i^{th}\)</span> column of <span class="math inline">\(X\)</span>. (This is copied from the Python programming language; the ‘:’ means that index runs over all possibilities).</p>
-<p>Since <span class="math display">\[ E = \sum_{j=1}^{N} (Y_j-\sum_{s=1}^{k+1} X_{js}M_{s})^2 \]</span> we compute: <span id="eq:gradient2" class="eqnos"><span class="math display">\[\begin{aligned} \frac{\partial}{\partial m_t}E &amp;= -2\sum_{j=1}^{N}
+<p>Since <span class="math display">\[ E = \sum_{j=1}^{N} (Y_j-\sum_{s=1}^{k+1} X_{js}M_{s})^2 \]</span> we compute: <span id="eq:gradient2" class="eqnos"><span class="math display">\[\begin{aligned} \frac{\partial}{\partial M_t}E &amp;= -2\sum_{j=1}^{N}
 X_{jt}(Y_{j}-\sum_{s=1}^{k+1} X_{js}M_{s}) \\ &amp;= -2(\sum_{j=1}^{N}
 Y_{j}X_{jt} - \sum_{j=1}^{N}\sum_{s=1}^{k+1} X_{jt}X_{js}M_{s}) \\ &amp;=
 -2(\sum_{j=1}^{N} X^{\intercal}_{tj}Y_{j}
@@ -165,8 +291,8 @@ X^{\intercal}_{tj}X_{js}M_{s}) \\ &amp;= -2(X^{\intercal}[t,:]Y -
 <p><strong>Proposition:</strong> Assume that <span class="math inline">\(D=X^{\intercal}X\)</span> is invertible (notice that it is a <span class="math inline">\((k+1)\times(k+1)\)</span> square matrix so this makes sense). The solution <span class="math inline">\(M\)</span> to the multivariate least squares problem is <span id="eq:Msolution" class="eqnos"><span class="math display">\[ M =
 D^{-1}X^{\intercal}Y \]</span><span class="eqnos-number">(7)</span></span> and the “predicted value” <span class="math inline">\(\hat{Y}\)</span> for <span class="math inline">\(Y\)</span> is <span id="eq:projection" class="eqnos"><span class="math display">\[ \hat{Y} = XD^{-1}X^{\intercal}Y.
 \]</span><span class="eqnos-number">(8)</span></span></p>
-<h2 id="the-multivariate-case-geometry"><span class="header-section-number">1.5</span> The Multivariate Case (Geometry)</h2>
-<p>Let’s look more closely at the equation obtained by setting the gradient of the error, eq. <a href="#eq:gradient">5</a>, to zero. Remember that <span class="math inline">\(M\)</span> is the unknown vector in this equation, everything else is known:</p>
+<h2 data-number="1.5" id="the-multivariate-case-geometry"><span class="header-section-number">1.5</span> The Multivariate Case (Geometry)</h2>
+<p>Let’s look more closely at the equation obtained by setting the gradient of the error, eq. <a href="#eq:gradient">5</a>, to zero. Remember that <span class="math inline">\(M\)</span> is the unknown vector in this equation, everything else is known:</p>
 <p><span class="math display">\[ X^{\intercal}Y = X^{\intercal}XM \]</span></p>
 <p>Here is how to think about this:</p>
 <ol type="1">
@@ -178,8 +304,8 @@ D^{-1}X^{\intercal}Y \]</span><span class="eqnos-number">(7)</span></span> and t
 <p><span class="math display">\[ X^{\intercal}\cdot (Y-XM)=0 \]</span></p>
 <p>says that <span class="math inline">\(Y-XM\)</span> is orthogonal to <span class="math inline">\(H\)</span>. This argument establishes the following proposition.</p>
 <p><strong>Proposition:</strong> Just as in the simple one-dimensional case, the predicted value <span class="math inline">\(\hat{Y}\)</span> of the least squares problem is the point in <span class="math inline">\(H\)</span> closest to <span class="math inline">\(Y\)</span> – or in other words the point <span class="math inline">\(\hat{Y}\)</span> in <span class="math inline">\(H\)</span> such that <span class="math inline">\(Y-\hat{Y}\)</span> is perpendicular to <span class="math inline">\(H\)</span>.</p>
-<h3 id="orthogonal-projection"><span class="header-section-number">1.5.1</span> Orthogonal Projection</h3>
-<p>Recall that we introduced the notation <span class="math inline">\(D=X^{\intercal}X\)</span>, and let’s assume, for now, that <span class="math inline">\(D\)</span> is an invertible matrix. We have the formula (see eq. <a href="#eq:projection">8</a>): <span class="math display">\[ \hat{Y} = XD^{-1}X^{\intercal}Y.  \]</span> <strong>Proposition:</strong> The matrix <span class="math inline">\(P=XD^{-1}X^{\intercal}\)</span> is an <span class="math inline">\(N\times N\)</span> matrix called the orthogonal projection operator onto the subspace <span class="math inline">\(H\)</span> spanned by the columns of <span class="math inline">\(X\)</span>. It has the following properties:</p>
+<h3 data-number="1.5.1" id="orthogonal-projection"><span class="header-section-number">1.5.1</span> Orthogonal Projection</h3>
+<p>Recall that we introduced the notation <span class="math inline">\(D=X^{\intercal}X\)</span>, and let’s assume, for now, that <span class="math inline">\(D\)</span> is an invertible matrix. We have the formula (see eq. <a href="#eq:projection">8</a>): <span class="math display">\[ \hat{Y} = XD^{-1}X^{\intercal}Y.  \]</span> <strong>Proposition:</strong> The matrix <span class="math inline">\(P=XD^{-1}X^{\intercal}\)</span> is an <span class="math inline">\(N\times N\)</span> matrix called the orthogonal projection operator onto the subspace <span class="math inline">\(H\)</span> spanned by the columns of <span class="math inline">\(X\)</span>. It has the following properties:</p>
 <ul>
 <li><span class="math inline">\(PY\)</span> belongs to the subspace <span class="math inline">\(H\)</span> for any <span class="math inline">\(Y\in\mathbf{R}^{N}\)</span>.</li>
 <li><span class="math inline">\((Y-PY)\)</span> is orthogonal to <span class="math inline">\(H\)</span>.</li>
@@ -192,7 +318,7 @@ X^{\intercal}Y \]</span></p>
 <p><span class="math display">\[ PP = XD^{-1}X^{\intercal}XD^{-1}X^{\intercal} =
 XD^{-1}X^{\intercal}=P.  \]</span></p>
 <p>It should be clear from the above discussion that the matrix <span class="math inline">\(D=X^{\intercal}X\)</span> plays an important role in the study of this problem. In particular it must be invertible or our analysis above breaks down. In the next section we will look more closely at this matrix and what information it encodes about our data.</p>
-<h2 id="sec:centered"><span class="header-section-number">1.6</span> Centered coordinates</h2>
+<h2 data-number="1.6" id="sec:centered"><span class="header-section-number">1.6</span> Centered coordinates</h2>
 <p>Recall from last section that the matrix <span class="math inline">\(D=X^{\intercal}X\)</span> is of central importance to the study of the multivariate least squares problem. Let’s look at it more closely.</p>
 <p><strong>Lemma:</strong> The <span class="math inline">\(i,j\)</span> entry of <span class="math inline">\(D\)</span> is the dot product <span class="math display">\[
 D_{ij}=X[:,i]\cdot X[:,j] \]</span> of the <span class="math inline">\(i^{th}\)</span> and <span class="math inline">\(j^{th}\)</span> columns of <span class="math inline">\(X\)</span>.</p>
@@ -216,37 +342,37 @@ X[:,i]-\mu_{i}X[:,k+1] \]</span> for <span class="math inline">\(i=1,\ldots, k\)
 X[:,k+1] = (X[:,i]\cdot X[:,k+1])-N\mu_{i} = 0 \]</span> and for <span class="math inline">\(i=k+1\)</span> we have <span class="math inline">\(X[:,k+1]\cdot X[:,k+1]=N\)</span> since that column is just <span class="math inline">\(N\)</span> <span class="math inline">\(1\)</span>’s.</p>
 <p><strong>Proposition:</strong> If the <span class="math inline">\(x\)</span> coordinates (the features) are centered so that they have mean zero, then the intercept <span class="math inline">\(b\)</span> is <span class="math display">\[ \overline{Y} =
 \frac{1}{N}\sum y_{i}.  \]</span></p>
-<p><strong>Proof:</strong> By centering the coordinates, we replace the matrix <span class="math inline">\(X\)</span> by <span class="math inline">\(X_{0}\)</span> and <span class="math inline">\(D\)</span> by <span class="math inline">\(D_{0}\)</span>. and we are trying to minimize <span class="math inline">\(\|Y-X_{0}M_{0}\|^2\)</span>. Use the formula from eq. <a href="#eq:Msolution">7</a> to see that <span class="math display">\[ M_{0} = D_{0}^{-1}X_{0}^{\intercal}Y.  \]</span> The <span class="math inline">\(b\)</span> value we are interested in is the last entry <span class="math inline">\(m_{k+1}\)</span> in <span class="math inline">\(M_{0}\)</span>. From the block form of <span class="math inline">\(D_{0}\)</span>, we know that <span class="math inline">\(D_{0}^{-1}\)</span> has bottom row and last column zero except for <span class="math inline">\(1/N\)</span> in position <span class="math inline">\((k+1)\times(k+1)\)</span>. Also <span class="math inline">\(X_{0}^{\intercal}\)</span> has last row consisting entirely of <span class="math inline">\(1\)</span>. So the bottom entry of <span class="math inline">\(X_{0}^{\intercal}Y\)</span> is <span class="math inline">\(\sum_{i=1}^{N} y_{i}\)</span>, and the bottom entry <span class="math inline">\(b\)</span> of <span class="math inline">\(D_{0}^{-1}X_{0}^{\intercal}Y\)</span> is <span class="math display">\[ \mu_{Y} =
+<p><strong>Proof:</strong> By centering the coordinates, we replace the matrix <span class="math inline">\(X\)</span> by <span class="math inline">\(X_{0}\)</span> and <span class="math inline">\(D\)</span> by <span class="math inline">\(D_{0}\)</span>. and we are trying to minimize <span class="math inline">\(\|Y-X_{0}M_{0}\|^2\)</span>. Use the formula from eq. <a href="#eq:Msolution">7</a> to see that <span class="math display">\[ M_{0} = D_{0}^{-1}X_{0}^{\intercal}Y.  \]</span> The <span class="math inline">\(b\)</span> value we are interested in is the last entry <span class="math inline">\(m_{k+1}\)</span> in <span class="math inline">\(M_{0}\)</span>. From the block form of <span class="math inline">\(D_{0}\)</span>, we know that <span class="math inline">\(D_{0}^{-1}\)</span> has bottom row and last column zero except for <span class="math inline">\(1/N\)</span> in position <span class="math inline">\((k+1)\times(k+1)\)</span>. Also <span class="math inline">\(X_{0}^{\intercal}\)</span> has last row consisting entirely of <span class="math inline">\(1\)</span>. So the bottom entry of <span class="math inline">\(X_{0}^{\intercal}Y\)</span> is <span class="math inline">\(\sum_{i=1}^{N} y_{i}\)</span>, and the bottom entry <span class="math inline">\(b\)</span> of <span class="math inline">\(D_{0}^{-1}X_{0}^{\intercal}Y\)</span> is <span class="math display">\[ \mu_{Y} =
 \frac{1}{N}\sum_{i=1}^{N} y_{i}.  \]</span> as claimed.</p>
 <p><strong>Corollary:</strong> If we make a further change of coordinates to define <span class="math display">\[
 Y_{0} = Y - \mu_{Y}\left[\begin{matrix} 1 \\ 1 \\ \vdots \\
 1\end{matrix}\right] \]</span> then the associated <span class="math inline">\(b\)</span> is zero. As a result we can forget about the extra column of <span class="math inline">\(1&#39;s\)</span> that we added to <span class="math inline">\(X\)</span> to account for it and reduce the dimension of our entire problem by <span class="math inline">\(1\)</span>.</p>
-<p>Just to recap, if we center our data so that <span class="math inline">\(\mu_{Y}=0\)</span> and <span class="math inline">\(\mu_{i}=0\)</span> for <span class="math inline">\(i=1,\ldots, k\)</span>, then the least squares problem reduces to minimizing <span class="math display">\[ E(M) = \|Y-XM\|^2 \]</span> where <span class="math inline">\(X\)</span> is the <span class="math inline">\(N\times k\)</span> matrix with <span class="math inline">\(j^{th}\)</span> row <span class="math inline">\((x_{j1},x_{j2},\ldots, x_{jk})\)</span> for <span class="math inline">\(j=1,\ldots, N\)</span> and the solutions are as given in eq. <a href="#eq:Msolution">7</a> and eq. <a href="#eq:projection">8</a>.</p>
-<h2 id="caveats-about-linear-regression"><span class="header-section-number">1.7</span> Caveats about Linear Regression</h2>
-<h3 id="basic-considerations"><span class="header-section-number">1.7.1</span> Basic considerations</h3>
+<p>Just to recap, if we center our data so that <span class="math inline">\(\mu_{Y}=0\)</span> and <span class="math inline">\(\mu_{i}=0\)</span> for <span class="math inline">\(i=1,\ldots, k\)</span>, then the least squares problem reduces to minimizing <span class="math display">\[ E(M) = \|Y-XM\|^2 \]</span> where <span class="math inline">\(X\)</span> is the <span class="math inline">\(N\times k\)</span> matrix with <span class="math inline">\(j^{th}\)</span> row <span class="math inline">\((x_{j1},x_{j2},\ldots, x_{jk})\)</span> for <span class="math inline">\(j=1,\ldots, N\)</span> and the solutions are as given in eq. <a href="#eq:Msolution">7</a> and eq. <a href="#eq:projection">8</a>.</p>
+<h2 data-number="1.7" id="caveats-about-linear-regression"><span class="header-section-number">1.7</span> Caveats about Linear Regression</h2>
+<h3 data-number="1.7.1" id="basic-considerations"><span class="header-section-number">1.7.1</span> Basic considerations</h3>
 <p>Reflecting on our long discussion up to this point, we should take note of some of the potential pitfalls that lurk in the use of linear regression.</p>
 <ol type="1">
 <li><p>When we apply linear regression, we are explicitly assuming that the variable <span class="math inline">\(Y\)</span> is associated to <span class="math inline">\(X\)</span> via linear equations. This is a big assumption!</p></li>
 <li><p>When we use multilinear regression, we are assuming that changes in the different features have independent effects on the target variable <span class="math inline">\(y\)</span>. In other words, suppose that <span class="math inline">\(y=ax_1+bx_2\)</span>. Then an increase of <span class="math inline">\(x_1\)</span> by <span class="math inline">\(1\)</span> increases <span class="math inline">\(y\)</span> by <span class="math inline">\(a\)</span>, and an increase of <span class="math inline">\(x_2\)</span> by <span class="math inline">\(1\)</span> increases <span class="math inline">\(y\)</span> by <span class="math inline">\(b\)</span>. These effects are independent of one another and combine to yield an increase of <span class="math inline">\(a+b\)</span>.</p></li>
 <li><p>We showed in our discussion above that linear regression problem has a solution when the matrix <span class="math inline">\(D=X^{\intercal}X\)</span> is invertible, and this happens when the columns of <span class="math inline">\(D\)</span> are linearly independent. When working with real data, which is messy, we could have a situation in which the features we are studying are, in fact, dependent – but because of measurement error, the samples that we collected aren’t. In this case, the matrix <span class="math inline">\(D\)</span> will be “close” to being non-invertible, although formally still invertible. In this case, computing <span class="math inline">\(D^{-1}\)</span> leads to numerical instability and the solution we obtain is very unreliable.</p></li>
 </ol>
-<h3 id="simpsons-effect"><span class="header-section-number">1.7.2</span> Simpson’s Effect</h3>
+<h3 data-number="1.7.2" id="simpsons-effect"><span class="header-section-number">1.7.2</span> Simpson’s Effect</h3>
 <p>Simpson’s effect is a famous phenomenon that illustrates that linear regression can be very misleading in some circumstances. It is often a product of “pooling” results from multiple experiments. Suppose, for example, that we are studying the relationship between a certain measure of blood chemistry and an individual’s weight gain or less on a particular diet. We do our experiments in three labs, the blue, green, and red labs. Each lab obtains similar results – higher levels of the blood marker correspond to greater weight gain, with a regression line of slope around 1. However, because of differences in the population that each lab is studying, some populations are more susceptible to weight gain and so the red lab sees a mean increase of almost 9 lbs while the blue lab sees a weight gain of only 3 lbs on average.</p>
 <p>The three groups of scientists pool their results to get a larger sample size and do a new regression. Surprise! Now the regression line has slope <span class="math inline">\(-1.6\)</span> and increasing amounts of the marker seem to lead to <em>less</em> weight gain!</p>
-<p>This is called Simpson’s effect, or Simpson’s paradox, and it shows that unknown factors (confounding factors) may cause linear regression to yield misleading results. This is particularly true when data from experiments conducted under different conditions is combined; in this case, the differences in experimental setting, called <em>batch effects</em>, can throw off the analysis very dramatically. See fig. <a href="#fig:simpsons">4</a> .</p>
+<p>This is called Simpson’s effect, or Simpson’s paradox, and it shows that unknown factors (confounding factors) may cause linear regression to yield misleading results. This is particularly true when data from experiments conducted under different conditions is combined; in this case, the differences in experimental setting, called <em>batch effects</em>, can throw off the analysis very dramatically. See fig. <a href="#fig:simpsons">4</a> .</p>
 <div id="fig:simpsons" class="fignos">
 <figure>
-<img src="../img/SimpsonsEffect.png" alt="Figure 4: Simpson’s Effect" style="width:50.0%" /><figcaption><span>Figure 4:</span> Simpson’s Effect</figcaption>
+<img src="../img/SimpsonsEffect.png" style="width:50.0%" alt="Figure 4: Simpson’s Effect" /><figcaption aria-hidden="true"><span>Figure 4:</span> Simpson’s Effect</figcaption>
 </figure>
 </div>
-<h3 id="exercises-1"><span class="header-section-number">1.7.3</span> Exercises</h3>
+<h3 data-number="1.7.3" id="exercises-1"><span class="header-section-number">1.7.3</span> Exercises</h3>
 <ol type="1">
 <li>When proving that <span class="math inline">\(D\)</span> is invertible if and only if the columns of <span class="math inline">\(X\)</span> are linearly independent, we argued that if <span class="math inline">\(X^{\intercal}Xm=0\)</span> for a nonzero vector <span class="math inline">\(m\)</span>, then <span class="math inline">\(Xm\)</span> is orthogonal to the span of the columns of <span class="math inline">\(X\)</span>, and is also an element of that span, and is therefore zero. Provide the details: show that if <span class="math inline">\(H\)</span> is a subspace of <span class="math inline">\(\mathbf{R}^{N}\)</span>, and <span class="math inline">\(x\)</span> is a vector in <span class="math inline">\(H\)</span> such that <span class="math inline">\(x\cdot h=0\)</span> for all <span class="math inline">\(h\in H\)</span>, then <span class="math inline">\(x=0\)</span>.</li>
 </ol>
-<h1 id="bibliography" class="unnumbered">References</h1>
-<div id="refs" class="references">
-<div id="ref-irvine">
-<p>[1] <span class="smallcaps">U.C. Irvine ML Repository</span>. Auto MPG Dataset.Available at <a href="http://https://archive.ics.uci.edu/ml/datasets/Auto+MPG" class="uri">http://https://archive.ics.uci.edu/ml/datasets/Auto+MPG</a>.</p>
+<h1 class="unnumbered" id="bibliography">References</h1>
+<div id="refs" class="references csl-bib-body" role="doc-bibliography">
+<div id="ref-irvine" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span class="smallcaps">U.C. Irvine ML Repository</span>. <span>Auto MPG Dataset</span>.Available at <a href="http://https://archive.ics.uci.edu/ml/datasets/Auto+MPG">http://https://archive.ics.uci.edu/ml/datasets/Auto+MPG</a>.</div>
 </div>
 </div>
 </body>
