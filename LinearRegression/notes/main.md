@@ -300,8 +300,8 @@ first work out the derivatives in a nice form for later.
 
 **Proposition:** The gradient of $MSE(M)=E$ is given by
 
-$$ \nabla E = \left[\begin{matrix} \df{m_1}E \\ \df{m_2}E \\ \vdots \\
-\df{m_{k+1}}E\end{matrix}\right] = -2 X^{\intercal}Y + 2
+$$ \nabla E = \left[\begin{matrix} \df{M_1}E \\ \df{M_2}E \\ \vdots \\
+\df{m_{M+1}}E\end{matrix}\right] = -2 X^{\intercal}Y + 2
 X^{\intercal}XM $${#eq:gradient}
 
 where $X^{\intercal}$ is the transpose of $X$.
@@ -314,7 +314,7 @@ means that index runs over all possibilities).
 
 
 Since $$ E = \sum_{j=1}^{N} (Y_j-\sum_{s=1}^{k+1} X_{js}M_{s})^2 $$ we
-compute: $$\begin{aligned} \df{m_t}E &= -2\sum_{j=1}^{N}
+compute: $$\begin{aligned} \df{M_t}E &= -2\sum_{j=1}^{N}
 X_{jt}(Y_{j}-\sum_{s=1}^{k+1} X_{js}M_{s}) \\ &= -2(\sum_{j=1}^{N}
 Y_{j}X_{jt} - \sum_{j=1}^{N}\sum_{s=1}^{k+1} X_{jt}X_{js}M_{s}) \\ &=
 -2(\sum_{j=1}^{N} X^{\intercal}_{tj}Y_{j}
