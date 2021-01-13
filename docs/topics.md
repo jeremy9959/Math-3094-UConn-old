@@ -24,7 +24,8 @@ example notebooks in your "Math 3094" directory.
 - Linear Regression [html](published_notes/notes/LR.html)  [pdf](published_notes/notes/LR.pdf)
 - [Installing Anaconda](installing.md)
 - [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the example notebook created there. [ipynb](notebooks/TestNotebook.ipynb).
-- Linear Regression lab [ipynb](published_notes/notes/RegressionLab.ipynb). 
+- Linear Regression lab [ipynb](published_notes/notes/RegressionLab.ipynb). You will also need
+to [download the auto mileage dataset](https://raw.githubusercontent.com/jeremy9959/Math-3094-Spring-2021/master/data/auto-mpg/auto-mpg.csv).
 
 
 ### Gradient Descent
