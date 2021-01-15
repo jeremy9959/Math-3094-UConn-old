@@ -26,12 +26,17 @@ example notebooks in your "Math 3094" directory.
 - [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the example notebook created there. [ipynb](notebooks/TestNotebook.ipynb).
 - Linear Regression lab - includes datafiles and ipynb file. [zip](published_notes/notes/RegressionLab.zip) [tgz](published_notes/notes/RegressionLab.tgz)
 
-### Gradient Descent
+### Gradient Descent (2/2/21 - 2/12/21)
 
 Goals:
 
 - Learn the basic theory of gradient descent and how it is applied to find maxima and minima of functions
 - Apply Gradient Descent to some specific examples.
+
+*References*
+
+- Gradient Descent [html](published_notes/notse/GD.html) [pdf](published_notes/notes/GD.pdf)
+- Gradient Descent lab - includes datafiles and ipynb file. [zip](published_notes/notes/GradientDescentLab.zip) [tgz] 
 
 ### Probability
 
