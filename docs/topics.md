@@ -36,7 +36,7 @@ Goals:
 *References*
 
 - Gradient Descent [html](published_notes/notse/GD.html) [pdf](published_notes/notes/GD.pdf)
-- Gradient Descent lab - includes datafiles and ipynb file. [zip](published_notes/notes/GradientDescentLab.zip) [tgz] 
+- Gradient Descent lab - includes datafiles and ipynb file. [zip](published_notes/notes/GradientDescentLab.zip) [tgz](published_notes/notes/GradientDescentLab.tgz) 
 
 ### Probability
 
