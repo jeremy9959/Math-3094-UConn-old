@@ -19,18 +19,24 @@ xnos-cleveref: True
 \newcommand{\bt}{\mathbf{t}}
 
 \newcommand{\bw}{{\boldsymbol{w}}}
+\newcommand{\bu}{{\boldsymbol{u}}}
 \newcommand{\bv}{{\boldsymbol{v}}}
 \newcommand{\bx}{{\boldsymbol{x}}}
 \newcommand{\by}{{\boldsymbol{y}}}
 \newcommand{\bb}{{\boldsymbol{b}}}
 \newcommand{\bz}{{\boldsymbol{z}}}
-\newcommand{\bu}{{\boldsymbol{u}}}
 \newcommand{\bX}{{\boldsymbol{X}}}
 \newcommand{\bY}{{\boldsymbol{Y}}}
 \newcommand{\bZ}{{\boldsymbol{Z}}}
 
 # Gradient Descent
 
+## Motivation
+
+In Linear Regression, we studied how to minimize the error function
+$$ E = \sum_{j=1}^{N} (y_j-\sum_{s=1}^{k+1} x_{js}m_{s})^2 $$ and obtained an exact solution. In other cases we will encounter later, such an exact solution is not feasible 
+and we will have to use a method to approximate an exact solution. One of the most common methods for this purpose is *gradient descent*.
+ 
 ## Basic Algorithm
 
 Consider a function $E: \mathbb R^n \rightarrow \mathbb R$, $\bw=(w_1, w_2, \dots , w_n) \rightarrow E(\bw)$. The *gradient* $\nabla E$  of $E$ is defined by
@@ -40,10 +46,13 @@ $$  \nabla E := \left ( \frac {\partial E}{\partial w_1}, \frac {\partial E}{\pa
 *Assume that $E(\bw)$ is differentiable in a neighborhood of $\bw$. Then 
 the function $E(\bw)$ decreases fastest in the direction of $-\nabla E (\bw)$.*
 
+**Proof:** For a unit vector $\bu$, the directional derivative $D_\bu E$ is given by
+$$ D_\bu E= \nabla E \cdot \bu = | \nabla E | |\bu| \cos \theta = | \nabla E | \cos \theta ,$$ where $\theta$ is the angle between $\nabla E$ and $\bu$. The minimum value of $D_\bu E$ occurs when $\cos \theta$ is $-1$. &nbsp; &nbsp; $\square$
+
 Set $$ \bw_{k+1}=\bw_k - \eta \nabla E(\bw_k) $$
 where $\eta >0$ is the step size or *learning rate*.
- Then $$ E(\bw_k) \le E(\bw_{k+1}).$$ Under some moderate conditions,
-$$ E(\bw_k) \rightarrow \text{local minimum} \qquad \text{ as }\ k \rightarrow \infty .$$  
+ Then $$ E(\bw_{k+1}) \le E(\bw_{k}).$$ Under some moderate conditions,
+$$ E(\bw_k) \rightarrow \text{local minimum} \qquad \text{ as }\ k \rightarrow \infty .$$In particular, this is true when $E$ is convex or when $\nabla E$ is Lipschitz continuous.  
 
 ### Example
 
@@ -59,17 +68,33 @@ We see that $\bw_k \rightarrow (2,2)$ and
 $E(2,2)=-32$.
 Indeed, using multi-variable calculus, one can verify that  when $\bw=(2,2)$, a local minimum of $E(\bw)$ is $-32$.
 
-**Exercise**: Find all the local minima of $E(\bw)$.
+**Exercise**: Using multi-variable calculus, find all the local minima of $E(\bw)$.
 
 ![Graph of $E(\bw)$](descent.png){#fig:des width=30\%} 
 
 ![Values of $E(\bw_k)$](table.png){#fig:tab width=50\%}
 
 
+### Example: Linear Regression revisited
+
+We will apply gradient descent to linear regression in the lab session.
+
+
+**Exercise**: Define
+$\sigma(x) = \dfrac {e^x}{e^x+1}= \dfrac 1 {1+e^{-x}}$.
+In Logistic Regression we will minimize the following error function 
+$$ E (\bw) = - \sum_{n=1}^N \{ t_n \ln y_n + (1-t_n) \ln (1-y_n)\},  $$
+where we write $\bw =(w_1, w_2, \dots , w_{k+1})$ and $y_n=\sigma(w_1 x_{n1}+ w_2 x_{n2} + \cdots + w_k x_{nk}+w_{k+1} )$. Compute the gradient $\nabla E(\bw)$. 
+
+
+
 ## Newton's Method
 
-- $f(x)$: single-variable (convex, differentiable) function  
-To find a local minimum 
+Let us first consider the single-variable case.
+
+- Let $f: \mathbb R \longrightarrow \mathbb R$ be a single-variable (convex, differentiable) function.
+
+- To find a local minimum 
  $\Longleftrightarrow$  \qquad To find $x^*$ such that $f'(x^*)=0$  
 Make a guess $x_0$ for $x^*$ and set $x=x_0+h$.
 
@@ -84,11 +109,11 @@ Make a guess $x_0$ for $x^*$ and set $x=x_0+h$.
 $$ \boxed{x_{k+1}=x_k- f'(x_k)/f''(x_k)},  $$
 and $x_k \rightarrow x^*$ as $k \rightarrow \infty$.
 
-- $E(\bw)$: multi-variable function  
- The *Hessian matrix* of $E$ is defined by
-$$ \mathbf H E= \begin{bmatrix} \tfrac {\partial^2 E}{\partial w_1^2} &  \tfrac {\partial^2 E}{\partial w_1 \partial w_2} & \cdots &  \tfrac {\partial^2 E}{\partial w_1 \partial w_m} \\ \tfrac {\partial^2 E}{\partial w_2 \partial w_1} & \tfrac {\partial^2 E}{\partial w_2^2} & \cdots & \tfrac {\partial^2 E}{\partial w_2 \partial w_m} \\ \vdots & \vdots & \ddots & \vdots \\ \tfrac {\partial^2 E}{\partial w_m \partial w_1} & \tfrac {\partial^2 E}{\partial w_m \partial w_2} & \cdots & \tfrac {\partial^2 E}{\partial w_m^2}  \end{bmatrix}. $$
+Now we consider the multi-variable case.
 
- That is, $\mathbf H E= [ \tfrac {\partial^2 E}{\partial w_i \partial w_j}]$.
+- Let $E(\bw)$ be a multi-variable function. 
+ The *Hessian matrix* of $E$ is defined by
+$$ \mathbf H E= \begin{bmatrix} \tfrac {\partial^2 E}{\partial w_1^2} &  \tfrac {\partial^2 E}{\partial w_1 \partial w_2} & \cdots &  \tfrac {\partial^2 E}{\partial w_1 \partial w_n} \\ \tfrac {\partial^2 E}{\partial w_2 \partial w_1} & \tfrac {\partial^2 E}{\partial w_2^2} & \cdots & \tfrac {\partial^2 E}{\partial w_2 \partial w_n} \\ \vdots & \vdots & \ddots & \vdots \\ \tfrac {\partial^2 E}{\partial w_n \partial w_1} & \tfrac {\partial^2 E}{\partial w_n \partial w_2} & \cdots & \tfrac {\partial^2 E}{\partial w_n^2}  \end{bmatrix}. $$ That is, $\mathbf H E= [ \tfrac {\partial^2 E}{\partial w_i \partial w_j}]$.
 
 - Generalizing the single-variable case, we obtain  
 $$ \boxed{ \bw_{k+1}= \bw_k - \mathbf H E (\bw_{k})^{-1} \nabla E(\bw_k)} . $$
@@ -132,7 +157,7 @@ $$ E(\bw) = \frac 1 N \sum_{n=1}^N E_n(\bw), $$
 where $N$ is the number of elements in the training set.
 When $N$ is large, computation of the gradient $\nabla E$ may be expensive.
 
-The SGD selects a sample from the training set in each iteration step instead of using the whole batch of the training set, and use $$ \frac 1 M \sum_{i=1}^M \nabla E_{n_i}(\bw_k) ,$$ where $M$ is the size of the sample. The SGD is commonly used in many Machine Learning algorithms.
+The SGD selects a sample from the training set in each iteration step instead of using the whole batch of the training set, and use $$ \frac 1 M \sum_{i=1}^M \nabla E_{n_i}(\bw) ,$$ where $M$ is the size of the sample and $\{ n_1, n_2 , \dots , n_M \} \subset \{ 1,2, \dots , N \}$. The SGD is commonly used in many Machine Learning algorithms.
 
 <br><br><br>
 
