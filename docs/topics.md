@@ -1,6 +1,6 @@
 # Course outline
 
-See [this page](LabResources.md) for help on Anaconda, Jupyter, and Python.
+See [this page](LabResources.html) for help on Anaconda, Jupyter, and Python.
 
 ## Part One
 
