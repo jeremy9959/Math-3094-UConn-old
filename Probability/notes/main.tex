@@ -262,7 +262,7 @@ P(X)=\int_{X} f(x)dX = 1.
 For example, in our temperature measurement example, suppose the
 ``true'' outside temperature is \(t_0\), and our thermometer gives a
 reading \(t\). Then a good model for the random error is to assume that
-the error \(t-t_0\) is governed by the density function \[
+the error \(x=t-t_0\) is governed by the density function \[
 f_\sigma(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2}
 \] where \(\sigma\) is a parameter. In a continuous situation such as
 this one, the probability of any particular outcome in \(X\) is zero
@@ -272,8 +272,8 @@ P(\{t\})=\int_{t}^{t}f_{\sigma}(x)dx = 0
 values are concentrated -- values where the density function is larger
 are more likely than those where it is smaller.
 
-With this density function, the error in our measurement is given by
-\begin{equation}
+With this density function, and x=\(t-t_0\), the error in our
+measurement is given by \begin{equation}
 P(|t-t_0|<\delta)=\int_{-\delta}^{\delta} \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2} dx
 \label{eq:normal}\end{equation}
 
