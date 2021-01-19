@@ -4,7 +4,7 @@ header-includes: |
 ---
 # Probability Basics
 
-\newpage
+
 ## Outcomes and Sample Space
 
 Probability begins with a set $X$ of  "outcomes".  This set may be continuous or discrete.
@@ -20,7 +20,7 @@ The set $X$ of possible outcomes is called the *sample space.*
 
 
 
-\newpage
+
 ## Event
 
 An "event" is a subset of the sample space -- a collection of outcomes.
@@ -37,12 +37,12 @@ $$
 
 
 
-\newpage
+
 ## Events - discrete examples
 
 - $P(\{H\})=1/2$
 
-- $P(\{(\epsdice{1},\epsdice{5})\}) = 1/36
+- $P(\{(\epsdice{1},\epsdice{5})\}) = 1/36$
 
 - the probability of the event $E$ consisting of throwing two dice that sum to 5:
 $$
@@ -51,7 +51,7 @@ $$
 is $(4)(1/36)=1/9$
 
 
-\newpage
+
 ## Events - continuous example
 
 - $X=\mathbf{R}$.
@@ -63,7 +63,7 @@ is $(4)(1/36)=1/9$
 - $\int_{-\infty}^{\infty}p(x)dx=1$.
 
 
-\newpage
+
 ## Normal distribution
 
 - Measure temperature $t$ using a thermometer.  
@@ -82,7 +82,7 @@ $$
 $\sigma$ is called the "standard deviation".
 
 
-\newpage
+
 ## Normal distribution cont'd
 
 ![Normal Distributions](../img/density.png){width=70%}
