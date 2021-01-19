@@ -1,5 +1,6 @@
 # Conditional Probability and Bayes Theorem
 
+\newpage
 ## Conditional Probability
 
 - Draw a card from a deck.  $P(\mathrm{king})=4/52=1/13$.
@@ -15,6 +16,7 @@ $$
 
 Meaning the chance of getting $A$ among conditions where $B$ is known to hold.
 
+\newpage
 ## Bayes Theorem
 
 **Theorem:** Given events $A$ and $B$ in a sample space $X$, we have
@@ -25,6 +27,7 @@ $$
 
 **Proof:** Substitute $P(B\cap A)/P(A)$ for $P(B|A)$.
 
+\newpage
 ## An example: COVID testing
 
 - A person can be *sick* (S) or *well* (W).
@@ -41,6 +44,7 @@ There are four possibilities:
 An early  CDC report estimated  that $P(+|W)=1/200$ and $P(-|S)=1/4$.
 
 
+\newpage
 ## COVID testing continued
 
 - Suppose I get a covid test and it's positive.  How likely am I to have the disease?
@@ -51,6 +55,7 @@ The answer depends on the prevalence $p=P(S)$, the chance that I have COVID in t
 
 
 
+\newpage
 ## COVID testing continued
 
 ![Chance I have COVID if I get a positive test vs prevalence](../img/covidfn.png){width=70%}
