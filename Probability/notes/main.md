@@ -118,7 +118,7 @@ $$
 
 For example, in our temperature measurement example, suppose the "true" outside temperature is $t_0$,
 and our thermometer gives a reading $t$. Then a good model for the random error is to assume
-that the error $t-t_0$ is governed by the density function
+that the error $x=t-t_0$ is governed by the density function
 $$
 f_\sigma(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2}
 $$
@@ -131,7 +131,7 @@ Still, the shape of the density function does tell you where the values are conc
 where the density function is larger are more likely than those where it is smaller. 
 
 
-With this density function, the error in our measurement is given by
+With this density function, and x=$t-t_0$, the error in our measurement is given by
 $$
 P(|t-t_0|<\delta)=\int_{-\delta}^{\delta} \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2} dx
 $${#eq:normal}

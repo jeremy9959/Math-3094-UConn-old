@@ -217,12 +217,12 @@ P(U) = \int_{U}f(x) dX.
 \]</span> Notice that our function <span class="math inline">\(f(x)\)</span> has to satisfy the condition <span class="math display">\[
 P(X)=\int_{X} f(x)dX = 1.
 \]</span></p>
-<p>For example, in our temperature measurement example, suppose the “true” outside temperature is <span class="math inline">\(t_0\)</span>, and our thermometer gives a reading <span class="math inline">\(t\)</span>. Then a good model for the random error is to assume that the error <span class="math inline">\(t-t_0\)</span> is governed by the density function <span class="math display">\[
+<p>For example, in our temperature measurement example, suppose the “true” outside temperature is <span class="math inline">\(t_0\)</span>, and our thermometer gives a reading <span class="math inline">\(t\)</span>. Then a good model for the random error is to assume that the error <span class="math inline">\(x=t-t_0\)</span> is governed by the density function <span class="math display">\[
 f_\sigma(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2}
 \]</span> where <span class="math inline">\(\sigma\)</span> is a parameter. In a continuous situation such as this one, the probability of any particular outcome in <span class="math inline">\(X\)</span> is zero since <span class="math display">\[
 P(\{t\})=\int_{t}^{t}f_{\sigma}(x)dx = 0
 \]</span> Still, the shape of the density function does tell you where the values are concentrated – values where the density function is larger are more likely than those where it is smaller.</p>
-<p>With this density function, the error in our measurement is given by <span id="eq:normal" class="eqnos"><span class="math display">\[
+<p>With this density function, and x=<span class="math inline">\(t-t_0\)</span>, the error in our measurement is given by <span id="eq:normal" class="eqnos"><span class="math display">\[
 P(|t-t_0|&lt;\delta)=\int_{-\delta}^{\delta} \frac{1}{\sigma\sqrt{2\pi}}e^{-x^2/2\sigma^2} dx
 \]</span><span class="eqnos-number">(1)</span></span></p>
 <p>The parameter <span class="math inline">\(\sigma\)</span> (called the <em>standard deviation</em>) controls how tightly the thermometer’s measurement is clustered around the true value <span class="math inline">\(t_0\)</span>; when <span class="math inline">\(\sigma\)</span> is large, the measurements are scattered widely, when small, they are clustered tightly. See fig. <a href="#fig:density">1</a>.</p>
@@ -435,8 +435,7 @@ E[f^2]=p(1)^2+(1-p)0^2=p.
 \]</span></p>
 <p>If <span class="math inline">\(f\)</span> is the binomial random variable with parameters <span class="math inline">\(N\)</span> and <span class="math inline">\(p\)</span>, we can again use the fact that <span class="math inline">\(f\)</span> is the sum of <span class="math inline">\(N\)</span> Bernoulli random variables <span class="math inline">\(X_1+\cdots+X_n\)</span> and compute</p>
 <p><span class="math display">\[\begin{align*}
-E[(\sum_{i}X_i)^2]-E[\sum_{i} X_{i}]^2 &amp;= \\
-&amp;=E[\sum_{i} X_i^2+\sum_{i,j}X_{i}X_{j}]-N^2p^2\\
+E[(\sum_{i}X_i)^2]-E[\sum_{i} X_{i}]^2 &amp;=E[\sum_{i} X_i^2+\sum_{i,j}X_{i}X_{j}]-N^2p^2\\
 &amp;=Np+N(N-1)p^2-N^2p^2 \\
 &amp;=Np(1-p)
 \end{align*}\]</span></p>

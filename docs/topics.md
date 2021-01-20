@@ -1,5 +1,7 @@
 # Course outline
 
+See [this page](LabResources.html) for help on Anaconda, Jupyter, and Python.
+
 ## Part One
 
 ### Linear Regression (1/18/21-1/29/21)
@@ -16,15 +18,10 @@ Goals
 
 *References*
 
-Note: When you download a jupyter notebook (a `.ipynb` file), it is likely your system will
-treat it as a text file and it may even append a `.txt` or `text` extension.  To open it in Jupyter
-Lab, you will need to rename it to have just the `.ipynb` extension.  I recommend  keeping these
-example notebooks in your "Math 3094" directory.
 
 - Linear Regression [html](published_notes/notes/LR.html)  [pdf](published_notes/notes/LR.pdf)
-- [Installing Anaconda](installing.md)
-- [Jupyter Notebook Walkthrough (Markdown Cells)](https://youtu.be/21LkohfneyA) and the example notebook created there. [ipynb](notebooks/TestNotebook.ipynb).
 - Linear Regression lab - includes datafiles and ipynb file. [zip](published_notes/notes/RegressionLab.zip) [tgz](published_notes/notes/RegressionLab.tgz)
+- See also [the Lab Resources page](LabResources.md) for help.
 
 ### Gradient Descent (2/2/21 - 2/12/21)
 
