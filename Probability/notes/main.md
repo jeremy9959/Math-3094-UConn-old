@@ -459,14 +459,14 @@ the subset of strings of $H$ and $T$ of length $N$ containing exactly $k$ $H$'s.
 For an example with a continuous random variable, suppose our sample space is $\mathbf{R}^{2}$
 and the probability density is the simple multivariate normal
 $$
-P(\mathbf{e}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf{x}.
+P(\mathbf{x}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
 $$
-Let $f$ be the random variable $f(\mathbf{x})=\|x\|$.  The function $f$ measures the Euclidean distance
+Let $f$ be the random variable $f(\mathbf{x})=\|\mathbf{x}\|$.  The function $f$ measures the Euclidean distance
 of a randomly drawn point from the origin.    The set $$U=f^{-1}([0,r))\subseteq\mathbf{R}^{2}$$ is the circle
 of radius $r$ in $\mathbf{R}^{2}$.  The probability that a randomly drawn point lies in this circle
 is
 $$
-P(f<r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf{x}.
+P(f<r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
 $$
 
 We can actually evaluate this integral in closed form by using polar coordinates.  We obtain
