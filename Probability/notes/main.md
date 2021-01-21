@@ -444,17 +444,24 @@ P(S)=p^{k}(1-p)^{N-k}
 $$
 for some $0\le p\le 1$.  In other words, $X$ is the sample space consisting of $N$ independent flips
 of a coin with probability of heads given by $p$.  
+
 Let $f:X\to \mathbb{R}$ be the function which counts the number of $H$
-in the string.  Then $f$ is a random variable called a *binomial random variable* with parameters $p$ and $N$.
-Clearly, a binomial random variable with $N=1$ is just a Bernoulli variable with parameter $p$.
+in the string.  We can express $f$ in terms of Bernoulli random variables;
+indeed,
+$$
+f=X_1+\ldots+X_N
+$$
+where each $X_i$ is a Bernoulli random variable with parameter $p$.  
 
-
-If $f$ is a binomial random variable with parameters $p$ and $N$, then 
+Now
 $$
 P(f=k) = \binom{N}{k}p^{k}(1-p)^{N-k}
 $$
 since $f^{-1}(\{k\})$ is the number of elements in
 the subset of strings of $H$ and $T$ of length $N$ containing exactly $k$ $H$'s.
+This is our old friend the binomial distribution.  So *a binomial distribution is the distribution
+of the sum of $N$ independent Bernoulli random variables.*
+
 
 For an example with a continuous random variable, suppose our sample space is $\mathbf{R}^{2}$
 and the probability density is the simple multivariate normal
