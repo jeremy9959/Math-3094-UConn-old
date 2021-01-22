@@ -48,7 +48,7 @@ $$
 
 ![](RadialHistDensity.png){width=70%}
 
-
+<!--
 ## Expected Value
 
 - For the same of completeness, what is the expected value of the distance from the origin?
@@ -66,3 +66,4 @@ E[\|x\|] &= \frac{1}{2\pi}\int_{\theta=0}^{2\pi}\int_{\rho=0}^{\infty} \rho^2 e^
 \end{align*}
 
 - This is a difficult integral but is in fact equal to $\sqrt{\pi/2}$, so this is the mean distance to the origin.
+-->
