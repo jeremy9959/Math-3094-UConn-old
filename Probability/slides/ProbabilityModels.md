@@ -9,6 +9,7 @@
 	- Parameters
 	- Likelihood
 
+\newpage
 ## First example: coin flipping
 
 - Model a coin flipping experiment as a Bernoulli random variable with parameter $p$.
