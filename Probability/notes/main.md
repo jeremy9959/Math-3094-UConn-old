@@ -846,7 +846,7 @@ $$
 
 Now we make a bunch of measurements to obtain $\mathbf{t}_0=(t_1,\ldots, t_n)$. We have
 $$
-P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-(\mathbf{t}-t_*\mathbf{e})^2/2}.
+P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-\|\mathbf{t}-t_*\mathbf{e}\|^2/2}.
 $$
 
 The total probability $T=P(\mathbf{t}=\mathbf{t_0})$ is hard to calculate, so let's table that for a while.
@@ -864,7 +864,7 @@ $$
 Since $\mathbf{t}$ is a vector of constants -- it is a vector of our particular measurements --
 the exponent
 $$
-\|\mathbf{t}-t_{*}\mathbf{e}\|^2+(t_{*}-30)^2 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
+\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2/30 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
 $$
 is a quadratic polynomial in $t_{*}$ that simplifies:
 $$
