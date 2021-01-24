@@ -9,6 +9,10 @@
 	- data arising from an experiment
 	- an update to your prior distribution based on the experiment, leading to a "posterior distribution"
 	
+
+\newpage
+## Example
+
 - Rough example
 
 	- you have a thermometer that reports the true temperature up to a normally distributed error. This is
@@ -54,9 +58,9 @@ We don't know either the true temperature $t_{*}$ or the variance $\sigma^2$.
 
 We conduct an experiment and obtain temperature values $\mathbf{t}_0=(t_{1},\ldots, t_{n})$.
 
-\vskip 1in
+\newpage
+## Bayes Theorem in the temperature case
 
-In this situation Bayes Theorem takes the following form
 
 $$
 P(t_{*},\sigma^2|\mathbf{t}=\mathbf{t}_{0}) 
@@ -76,6 +80,8 @@ $$
 P(\mathbf{t}=\mathbf{t}_{0}) = \int_{t_{*},\sigma^2} P(\mathbf{t}=\mathbf{t}_{0}|t_{*},\sigma^2)P(t_{*},\sigma^2)
 $$
 It functions as a normalizing constant and often we can get by without computing it at all.
+
+
 
 Now we will do a worked example.
 We simplify the situation so that the variance in our thermometer $\sigma_{*}^2=1$.  
