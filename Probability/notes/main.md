@@ -444,29 +444,36 @@ P(S)=p^{k}(1-p)^{N-k}
 $$
 for some $0\le p\le 1$.  In other words, $X$ is the sample space consisting of $N$ independent flips
 of a coin with probability of heads given by $p$.  
+
 Let $f:X\to \mathbb{R}$ be the function which counts the number of $H$
-in the string.  Then $f$ is a random variable called a *binomial random variable* with parameters $p$ and $N$.
-Clearly, a binomial random variable with $N=1$ is just a Bernoulli variable with parameter $p$.
+in the string.  We can express $f$ in terms of Bernoulli random variables;
+indeed,
+$$
+f=X_1+\ldots+X_N
+$$
+where each $X_i$ is a Bernoulli random variable with parameter $p$.  
 
-
-If $f$ is a binomial random variable with parameters $p$ and $N$, then 
+Now
 $$
 P(f=k) = \binom{N}{k}p^{k}(1-p)^{N-k}
 $$
 since $f^{-1}(\{k\})$ is the number of elements in
 the subset of strings of $H$ and $T$ of length $N$ containing exactly $k$ $H$'s.
+This is our old friend the binomial distribution.  So *a binomial distribution is the distribution
+of the sum of $N$ independent Bernoulli random variables.*
+
 
 For an example with a continuous random variable, suppose our sample space is $\mathbf{R}^{2}$
 and the probability density is the simple multivariate normal
 $$
-P(\mathbf{e}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf{x}.
+P(\mathbf{x}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
 $$
-Let $f$ be the random variable $f(\mathbf{x})=\|x\|$.  The function $f$ measures the Euclidean distance
+Let $f$ be the random variable $f(\mathbf{x})=\|\mathbf{x}\|$.  The function $f$ measures the Euclidean distance
 of a randomly drawn point from the origin.    The set $$U=f^{-1}([0,r))\subseteq\mathbf{R}^{2}$$ is the circle
 of radius $r$ in $\mathbf{R}^{2}$.  The probability that a randomly drawn point lies in this circle
 is
 $$
-P(f<r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf{x}.
+P(f<r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
 $$
 
 We can actually evaluate this integral in closed form by using polar coordinates.  We obtain
@@ -839,7 +846,7 @@ $$
 
 Now we make a bunch of measurements to obtain $\mathbf{t}_0=(t_1,\ldots, t_n)$. We have
 $$
-P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-(\mathbf{t}-t_*\mathbf{e})^2/2}.
+P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-\|\mathbf{t}-t_*\mathbf{e}\|^2/2}.
 $$
 
 The total probability $T=P(\mathbf{t}=\mathbf{t_0})$ is hard to calculate, so let's table that for a while.
@@ -857,7 +864,7 @@ $$
 Since $\mathbf{t}$ is a vector of constants -- it is a vector of our particular measurements --
 the exponent
 $$
-\|\mathbf{t}-t_{*}\mathbf{e}\|^2+(t_{*}-30)^2 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
+\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2/30 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
 $$
 is a quadratic polynomial in $t_{*}$ that simplifies:
 $$

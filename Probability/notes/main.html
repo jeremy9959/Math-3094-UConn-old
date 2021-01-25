@@ -360,9 +360,9 @@ Let <span class="math inline">\(f:X\to \mathbb{R}\)</span> be the function which
 P(f=k) = \binom{N}{k}p^{k}(1-p)^{N-k}
 \]</span> since <span class="math inline">\(f^{-1}(\{k\})\)</span> is the number of elements in the subset of strings of <span class="math inline">\(H\)</span> and <span class="math inline">\(T\)</span> of length <span class="math inline">\(N\)</span> containing exactly <span class="math inline">\(k\)</span> <span class="math inline">\(H\)</span>’s.</p>
 <p>For an example with a continuous random variable, suppose our sample space is <span class="math inline">\(\mathbf{R}^{2}\)</span> and the probability density is the simple multivariate normal <span class="math display">\[
-P(\mathbf{e}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf{x}.
-\]</span> Let <span class="math inline">\(f\)</span> be the random variable <span class="math inline">\(f(\mathbf{x})=\|x\|\)</span>. The function <span class="math inline">\(f\)</span> measures the Euclidean distance of a randomly drawn point from the origin. The set <span class="math display">\[U=f^{-1}([0,r))\subseteq\mathbf{R}^{2}\]</span> is the circle of radius <span class="math inline">\(r\)</span> in <span class="math inline">\(\mathbf{R}^{2}\)</span>. The probability that a randomly drawn point lies in this circle is <span class="math display">\[
-P(f&lt;r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|x\|^2/2} d\mathbf{x}.
+P(\mathbf{x}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
+\]</span> Let <span class="math inline">\(f\)</span> be the random variable <span class="math inline">\(f(\mathbf{x})=\|\mathbf{x}\|\)</span>. The function <span class="math inline">\(f\)</span> measures the Euclidean distance of a randomly drawn point from the origin. The set <span class="math display">\[U=f^{-1}([0,r))\subseteq\mathbf{R}^{2}\]</span> is the circle of radius <span class="math inline">\(r\)</span> in <span class="math inline">\(\mathbf{R}^{2}\)</span>. The probability that a randomly drawn point lies in this circle is <span class="math display">\[
+P(f&lt;r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
 \]</span></p>
 <p>We can actually evaluate this integral in closed form by using polar coordinates. We obtain <span class="math display">\[
 P(f&lt;r) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{\theta=0}^{2\pi}\int_{\rho=0}^{r} e^{-\rho^2/2}\rho d\rho d\theta.

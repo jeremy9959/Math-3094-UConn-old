@@ -81,7 +81,7 @@ Given measurements $(x_1,\ldots, x_n)$ and $(y_1,\ldots, y_n)$ of two features $
 of $X$ and $Y$ is
 
 $$
-\sigma_{XY} = \frac{1}{N}\sum_{i=1}^{N} x_iy_i
+\sigma_{XY} = \frac{1}{N}\sum_{i=1}^{N} (x_i-\mu_{X})(y_i-\mu_{Y})
 $${#eq:covariancedot}
 
 There is a nice geometric interpretation of this, as well, in terms of the dot product.  If
