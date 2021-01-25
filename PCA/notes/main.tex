@@ -5,8 +5,8 @@
 %
 \documentclass[
 ]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
@@ -44,7 +44,8 @@
   urlcolor=Blue,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -175,7 +176,7 @@ the other one decreases.
 \(X\) and \(Y\) is
 
 \begin{equation}
-\sigma_{XY} = \frac{1}{N}\sum_{i=1}^{N} x_iy_i
+\sigma_{XY} = \frac{1}{N}\sum_{i=1}^{N} (x_i-\mu_{X})(y_i-\mu_{Y})
 \label{eq:covariancedot}\end{equation}
 
 There is a nice geometric interpretation of this, as well, in terms of
@@ -258,17 +259,17 @@ years):
 \begin{longtable}[]{@{}lrrrr@{}}
 \caption{A sample data matrix \(X\) \label{tbl:data}}\tabularnewline
 \toprule
-sample & Ht & Wgt & Bp & Age\tabularnewline
+sample & Ht & Wgt & Bp & Age \\ \addlinespace
 \midrule
 \endfirsthead
 \toprule
-sample & Ht & Wgt & Bp & Age\tabularnewline
+sample & Ht & Wgt & Bp & Age \\ \addlinespace
 \midrule
 \endhead
-A & 180 & 75 & 110 & 35\tabularnewline
-B & 193 & 80 & 130 & 40\tabularnewline
-\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{}\tabularnewline
-U & 150 & 92 & 105 & 55\tabularnewline
+A & 180 & 75 & 110 & 35 \\ \addlinespace
+B & 193 & 80 & 130 & 40 \\ \addlinespace
+\ldots{} & \ldots{} & \ldots{} & \ldots{} & \ldots{} \\ \addlinespace
+U & 150 & 92 & 105 & 55 \\ \addlinespace
 \bottomrule
 \end{longtable}
 
@@ -745,43 +746,33 @@ in \cref{sec:spectraltheorem}.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\begin{longtable}[]{@{}l@{}}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 0\tabcolsep) * \real{1.00}}@{}}
 \caption{Properties of Eigenvalues of Real Symmetric Matrices
 \label{tbl:symmmat}}\tabularnewline
 \toprule
-\begin{minipage}[b]{0.97\columnwidth}\raggedright
-Summary\strut
-\end{minipage}\tabularnewline
+Summary \\ \addlinespace
 \midrule
 \endfirsthead
 \toprule
-\begin{minipage}[b]{0.97\columnwidth}\raggedright
-Summary\strut
-\end{minipage}\tabularnewline
+Summary \\ \addlinespace
 \midrule
 \endhead
-\begin{minipage}[t]{0.97\columnwidth}\raggedright
 1. All of the eigenvalues \(\lambda_{1},\ldots, \lambda_{N}\) of \(D\)
 are real. If \(u^{\intercal}Du\ge 0\) for all \(u\in\mathbf{R}^{N}\),
 then all eigenvalues \(\lambda_{i}\) are non-negative. In the latter
-case we say that \(D\) is \emph{positive semi-definite.}\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.97\columnwidth}\raggedright
+case we say that \(D\) is \emph{positive
+semi-definite.} \\ \addlinespace
 2. If \(v\) is an eigenvector for \(D\) with eigenvalue \(\lambda\), and
 \(w\) is an eigenvector with a different eigenvalue \(\lambda'\), then
-\(v\) and \(w\) are orthogonal: \(v\cdot w = 0\).\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.97\columnwidth}\raggedright
+\(v\) and \(w\) are orthogonal: \(v\cdot w = 0\). \\ \addlinespace
 3. There is an orthonormal basis \(u_{1},\ldots, u_{N}\) of
 \(\mathbf{R}^{N}\) made up of eigenvectors of \(D\) corresponding to the
-eigenvalues \(\lambda_{i}\).\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.97\columnwidth}\raggedright
+eigenvalues \(\lambda_{i}\). \\ \addlinespace
 4. Let \(\Lambda\) be the diagonal matrix with entries
 \(\lambda_{1},\ldots, \lambda_{N}\) and let \(P\) be the matrix whose
 columns are made up of the vectors \(u_{i}\). Then
-\(D = P\Lambda P^{\intercal}.\)\strut
-\end{minipage}\tabularnewline
+\(D = P\Lambda P^{\intercal}.\) \\ \addlinespace
 \bottomrule
 \end{longtable}
 
@@ -987,24 +978,24 @@ data (some of it) for some of the samples is shown in
 \label{tbl:rawdata}}\tabularnewline
 \toprule
 & f-0 & f-1 & f-2 & f-3 & f-4 & ... & f-10 & f-11 & f-12 & f-13 &
-f-14\tabularnewline
+f-14 \\ \addlinespace
 \midrule
 \endfirsthead
 \toprule
 & f-0 & f-1 & f-2 & f-3 & f-4 & ... & f-10 & f-11 & f-12 & f-13 &
-f-14\tabularnewline
+f-14 \\ \addlinespace
 \midrule
 \endhead
 s-0 & 1.18 & -0.41 & 2.02 & 0.44 & 2.24 & ... & 0.32 & 0.95 & 0.88 &
-1.10 & 0.89\tabularnewline
+1.10 & 0.89 \\ \addlinespace
 s-1 & 0.74 & 0.58 & 1.54 & 0.23 & 2.05 & ... & 0.99 & 1.14 & 1.56 & 0.99
-& 0.59\tabularnewline
+& 0.59 \\ \addlinespace
 ... & ... & ... & ... & ... & ... & ... & ... & ... & ... & ... &
-...\tabularnewline
+... \\ \addlinespace
 s-198 & 1.04 & 2.02 & 1.44 & 0.40 & 1.33 & ... & 0.62 & 0.62 & 0.54 &
-1.96 & 0.04\tabularnewline
+1.96 & 0.04 \\ \addlinespace
 s-199 & 0.92 & 2.09 & 1.58 & 1.19 & 1.17 & ... & 0.42 & 0.85 & 0.83 &
-2.22 & 0.90\tabularnewline
+2.22 & 0.90 \\ \addlinespace
 \bottomrule
 \end{longtable}
 
