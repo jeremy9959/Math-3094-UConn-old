@@ -10,6 +10,10 @@ Goals
 
 - Learn the mathematics of Linear Regression (ordinary least squares) using Linear Algebra
 
+	- [Simple Linear Regression](https://www.youtube.com/watch?v=81pbJqQQa5M&list=PLHmPFY5Rz0RCWU4ra8aqBM7AvrGdPDOhR&index=1)
+	- [Linear Regression - Geometry](https://www.youtube.com/watch?v=55FFmKh4CXg&list=PLHmPFY5Rz0RCWU4ra8aqBM7AvrGdPDOhR&index=2)
+	- [Multivariate Regression - Introduction](https://www.youtube.com/watch?v=55FFmKh4CXg&list=PLHmPFY5Rz0RCWU4ra8aqBM7AvrGdPDOhR&index=3)
+
 - Lab: 
 	- get a working installation of anaconda, python, and jupyter on your computer.
 	- a basic introduction to working with  the Jupyter notebook
