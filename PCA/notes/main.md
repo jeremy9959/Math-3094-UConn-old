@@ -204,7 +204,7 @@ in a $50\times 2$ data matrix $X_{0}$.  The upper left and lower right graphs ar
 of the two columns, while the lower left and upper right are the histograms of the columns.
 
 
-![Density Matrix Plot](../img/density.png){#fig:density0 width=50%}
+![Density Matrix Plot](../img/density2x2.png){#fig:density0 width=50%}
 
 
 ### Linear Combinations of Features (Scores)

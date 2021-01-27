@@ -277,12 +277,12 @@ in the variance of each feature and all of their mutual covariances.
 This ``package'' of information can be obtained ``all at once'' by
 taking advantage of some matrix algebra.
 
-\textbf{Definition:} Let \(X\) be a \(k\times N\) data matrix, where the
-\(N\) columns of \(X\) correspond to different features and the \(k\)
+\textbf{Definition:} Let \(X\) be a \(N\times k\) data matrix, where the
+\(k\) columns of \(X\) correspond to different features and the \(N\)
 rows to different samples. Let \(X_{0}\) be the centered version of this
 data matrix, obtained by subtracting the mean \(\mu_{i}\) of column
 \(i\) from all the entries \(x_{si}\) in that column. Then the
-\(N\times N\) symmetric matrix
+\(k\times k\) symmetric matrix
 
 \[
 D_{0} = \frac{1}{N}X_{0}^{\intercal}X_{0}
@@ -294,14 +294,14 @@ is called the (sample) covariance matrix for the data.
 the variances of the columns of \(X\):
 
 \[
-d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_i)^2
+d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{N}(x_{si}-\mu_i)^2
 \]
 
 and the off-diagonal entries \(d_{ij} = d_{ji}\) are the covariances of
 the \(i^{th}\) and \(j^{th}\) columns of \(X\):
 
 \[
-d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
+d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{N}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 \]
 
 The sum of the diagonal entries, the trace of \(D_{0}\) is the
@@ -316,7 +316,7 @@ matrix}\label{sec:visualizecovar}}
 
 If the number of features in the data is not too large, a density matrix
 plot provides a tool for visualizing the covariance matrix of the data.
-A density matrix plot is an \(N\times N\) grid of plots (where \(N\) is
+A density matrix plot is an \(k\times k\) grid of plots (where \(k\) is
 the number of features). The entry with \((i,j)\) coordinates in the
 grid is a scatter plot of the \(i^{th}\) feature against the \(j^{th}\)
 one if \(i\not=j\), and is a histogram of the \(i^{th}\) variable if
@@ -359,25 +359,25 @@ gain of participants eating this particular food; maybe there is some
 kind of combined ``calorie/fiber'' score we could introduce that
 captures the impact of that food better.
 
-\textbf{Definition:} Let \(X_{0}\) be a (centered) \(k\times N\) data
-matrix giving information about \(N\) features for each of \(k\)
+\textbf{Definition:} Let \(X_{0}\) be a (centered) \(N\times k\) data
+matrix giving information about \(k\) features for each of \(N\)
 samples. A linear synthetic feature, or a linear score, is a linear
-combination of the \(N\) features. The linear score is defined by
-constants \(a_{1},\ldots, a_{n}\) so that If \(y_{1},\ldots, y_{N}\) are
+combination of the \(k\) features. The linear score is defined by
+constants \(a_{1},\ldots, a_{k}\) so that If \(y_{1},\ldots, y_{k}\) are
 the values of the features for a particular sample, then the linear
 score for that sample is
 
 \[
-S = a_{1}y_{1}+a_{2}y_{2}+\cdots+a_{N}y_{N}
+S = a_{1}y_{1}+a_{2}y_{2}+\cdots+a_{k}y_{k}
 \]
 
-\textbf{Lemma:} The values of the linear score for each of the \(k\)
+\textbf{Lemma:} The values of the linear score for each of the \(N\)
 samples can be calculated as
 
 \begin{equation}
-\left[\begin{matrix} S_{1} \\ \vdots \\ S_{k}\\ \end{matrix}\right] =
+\left[\begin{matrix} S_{1} \\ \vdots \\ S_{N}\\ \end{matrix}\right] =
 X_{0}\left[
-\begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right].
+\begin{matrix} a_{1} \\ \vdots \\ a_{k}\end{matrix}\right].
 \label{eq:linearscore}\end{equation}
 
 \textbf{Proof:} Multiplying a matrix by a column vector computes a
@@ -398,40 +398,41 @@ has mean zero.
 
 \textbf{Proof:} Let \(S_{i}\) be the score for the \(i^{th}\) sample, so
 \[
-S_{i} = \sum_{j=1}^{N} x_{ij}a_{j}.
+S_{i} = \sum_{j=1}^{k} x_{ij}a_{j}.
 \] where \(X_{0}\) has entries \(x_{ij}\). Then the mean value of the
 score is \[
-\mu_{S} = \frac{1}{k}\sum_{i=1}^{k} S_{i} = \frac{1}{k}\sum_{i=1}^{k}\sum_{j=1}^{N} x_{ij}a_{j}.
+\mu_{S} = \frac{1}{k}\sum_{i=1}^{N} S_{i} = \frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{k} x_{ij}a_{j}.
 \] Reversing the order of the sum yields \[
-\mu_{S} = \frac{1}{k}\sum_{j=1}^{N}\sum_{i=1}^{k} x_{ij}a_{j} = \sum_{j=1}^{N} a_{j}\frac{1}{k}(\sum_{i=1}^{k} x_{ij})=
-\sum_{j=1}^{N}a_{j}\mu_{j}=0
+\mu_{S} = \frac{1}{N}\sum_{j=1}^{k}\sum_{i=1}^{N} x_{ij}a_{j} = \sum_{j=1}^{k} a_{j}\frac{1}{N}(\sum_{i=1}^{N} x_{ij})=
+\sum_{j=1}^{k}a_{j}\mu_{j}=0
 \] where \(\mu_{j}=0\) is the mean of the \(j^{th}\) feature (column) of
 \(X_{0}\).
 
 The variance is more interesting, and gives us an opportunity to put the
 covariance matrix to work. Remember from \ref{eq:variancedot} that,
 since a score \(S\) has mean zero, it's variance is
-\(\sigma_{S}^2=S\cdot S\) -- where here the score \(S\) is represented
-by the column vector with entries \(S_{1},\ldots S_{k}\) as in
-\cref{eq:linearscore}.
+\(\sigma_{S}^2=\frac{1}{N}S\cdot S\) -- where here the score \(S\) is
+represented by the column vector with entries \(S_{1},\ldots S_{k}\) as
+in \cref{eq:linearscore}.
 
 \textbf{Lemma:} The variance of the score \(S\) with weights
-\(a_1,\ldots a_N\) is \begin{equation}
-\sigma_{S}^2 = a^{\intercal}D_{0}a = \left[\begin{matrix}a_{1} & \cdots & a_{N}\end{matrix}\right]D_{0}
-\left[\begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right]
+\(a_1,\ldots a_k\) is \begin{equation}
+\sigma_{S}^2 = a^{\intercal}D_{0}a = \left[\begin{matrix}a_{1} & \cdots & a_{k}\end{matrix}\right]D_{0}
+\left[\begin{matrix} a_{1} \\ \vdots \\ a_{k}\end{matrix}\right]
 \label{eq:ada}\end{equation} More generally, if \(S_{1}\) and \(S_{2}\)
-are scores with weights \(a_1,\ldots, a_N\) and \(b_1,\ldots, b_N\)
+are scores with weights \(a_1,\ldots, a_k\) and \(b_1,\ldots, b_k\)
 respectively, then the covariance \(\sigma_{S_{1}S_{2}}\) is \[
 \sigma_{S_{1}S_{2}} = a^{\intercal}D_{0}b.
 \]
 
 \textbf{Proof:} From \cref{eq:variancedot} and \ref{eq:linearscore} we
 know that \[
-\sigma_{S}^2 = S\cdot S
+\sigma_{S}^2 = \frac{1}{N}S\cdot S
 \] and \[
 S = X_{0}a.
-\] Since \(S\cdot S = \frac{1}{N}S^{\intercal}S\), this gives us \[
-\sigma_{S}^2 = \frac{1}{N}(X_{0}a)^{\intercal}(X_{0}a) = \frac{1}{N}a^{\intercal}X_{0}^{\intercal}X_{0}a = a^{\intercal}D_{0}a
+\] Since \(\frac{1}{N}S\cdot S = \frac{1}{N}S^{\intercal}S\), this gives
+us \[
+\frac{1}{N}\sigma_{S}^2 = \frac{1}{N}(X_{0}a)^{\intercal}(X_{0}a) = \frac{1}{N}a^{\intercal}X_{0}^{\intercal}X_{0}a = a^{\intercal}D_{0}a
 \] as claimed.
 
 For the covariance, use a similar argument with \cref{eq:covariancedot}
@@ -525,13 +526,13 @@ variance of \(Z\) is given by \[
 \sigma_{Z}^2 = \frac{1}{50}u^{\intercal}X_{0}^{\intercal}X_{0}u = u^{\intercal}D_{0}u
 \] where \(D_{0}\) is the covariance matrix of the data \(X_{0}\).
 
-\textbf{Lemma:} Let \(X_{0}\) be a \(k\times N\) centered data matrix,
+\textbf{Lemma:} Let \(X_{0}\) be a \(N\times k\) centered data matrix,
 and let \(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\) be the associated
 covariance matrix. Let \(u\) be a unit vector in ``feature space''
-\(\mathbf{R}^{N}\). Then the score \(S=X_{0}u\) can be interpreted as
+\(\mathbf{R}^{k}\). Then the score \(S=X_{0}u\) can be interpreted as
 the coordinates of the points of \(X_{0}\) projected onto the line
-generated by \(u\). The variance is \[
-\sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{k} s_{i}^2
+generated by \(u\). The variance of this score is \[
+\sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{N} s_{i}^2
 \] where \(s_{i} = X_{0}[i,:]u\) is the dot product of the \(i^{th}\)
 row \(X_{0}[i,:]\) with \(u\). It measures the variability in the data
 ``in the direction of the unit vector \(u\).''
@@ -592,17 +593,17 @@ Let's try to understand why this is happening.
 \subsubsection{Directions of extremal
 variance}\label{sec:extremalvariance}}
 
-Given our centered, \(k\times N\) data matrix \(X_{0}\), with its
+Given our centered, \(N\times i\) data matrix \(X_{0}\), with its
 associated covariance matrix
 \(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\), we would like to find unit
-vectors \(u\) in \(\mathbf{R}^{N}\) so that \[
+vectors \(u\) in \(\mathbf{R}^{k}\) so that \[
 \sigma_{u}^{2} = u^{\intercal}D_{0}u
 \] reaches its maximum and its minimum. Here \(\sigma_{u}^2\) is the
 variance of the ``linear score'' \(X_{0}u\) and it represents how
-dispersed the data is in the ``u direction'' in \(\mathbf{R}^{N}\).
+dispersed the data is in the ``u direction'' in \(\mathbf{R}^{k}\).
 
 In this problem, remember that the coordinates of
-\(u=(u_1,\ldots, u_{N})\) are the variables and the symmetric matrix
+\(u=(u_1,\ldots, u_{k})\) are the variables and the symmetric matrix
 \(D_{0}\) is given. As usual, we to find the maximum and minimum values
 of \(\sigma_{u}^{2}\), we should look at the partial derivatives of
 \(\sigma_{u}^{2}\) with respect to the variables \(u_{i}\) and set them
@@ -634,7 +635,7 @@ S(u, \lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u -1)
 Then we compute the gradient
 
 \begin{equation}
-\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{N}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
+\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{k}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
 \label{eq:lagrangegradient}\end{equation}
 
 and solve the system of equations \(\nabla S=0\). Here we have written
@@ -645,25 +646,25 @@ Computing all of these partial derivatives looks messy, but actually if
 we take advantage of matrix algebra it's not too bad. The following two
 lemmas explain how to do this.
 
-\textbf{Lemma}: Let \(M\) be a \(k\times N\) matrix with constant
-coefficients and let \(u\) be a \(N\times 1\) column vector whose
-entries are \(u_1,\ldots u_{N}\). The function \(F(u) = Mu\) is a linear
-map from \(\mathbf{R}^{N}\to\mathbf{R}^{k}\). Its (total) derivative is
+\textbf{Lemma}: Let \(M\) be a \(N\times k\) matrix with constant
+coefficients and let \(u\) be a \(k\times 1\) column vector whose
+entries are \(u_1,\ldots u_{k}\). The function \(F(u) = Mu\) is a linear
+map from \(\mathbf{R}^{k}\to\mathbf{R}^{N}\). Its (total) derivative is
 a linear map between the same vector spaces, and satisfies \[
 D(F)(v) = Mv
-\] for any \(N\times 1\) vector \(v\). If \(u\) is a \(1\times k\)
+\] for any \(k\times 1\) vector \(v\). If \(u\) is a \(1\times N\)
 matrix, and \(G(u) = uM\), then \[
 D(G)(v) = vM
 \]
 
-for any \(1\times k\) vector \(v\). (This is the matrix version of the
+for any \(1\times N\) vector \(v\). (This is the matrix version of the
 derivative rule that \(\frac{d}{dx}(ax)=a\) for a constant \(a\).)
 
-\textbf{Proof:} Since \(F:\mathbf{R}^{N}\to\mathbf{R}^{k}\), we can
+\textbf{Proof:} Since \(F:\mathbf{R}^{k}\to\mathbf{R}^{N}\), we can
 write out \(F\) in more traditional function notation as \[
-F(u) = (F_{1}(u_1,\ldots, u_N), \ldots, F_{k}(u_1,\ldots, u_{N})
+F(u) = (F_{1}(u_1,\ldots, u_k), \ldots, F_{N}(u_1,\ldots, u_{k})
 \] where \[
-F_{i}(u_1,\ldots u_N) = \sum_{j=1}^{N} m_{ij}u_{j}.
+F_{i}(u_1,\ldots u_k) = \sum_{j=1}^{k} m_{ij}u_{j}.
 \] Thus \(\frac{\partial F_{i}}{\partial u_{j}} = m_{ij}\). The total
 derivative \(D(F)\) is the linear map with matrix \[
 D(F)_{ij} = \frac{\partial F_{i}}{\partial u_{j}} = m_{ij}
@@ -671,33 +672,33 @@ D(F)_{ij} = \frac{\partial F_{i}}{\partial u_{j}} = m_{ij}
 
 The other result is proved the same way.
 
-\textbf{Lemma}: Let \(D\) be a symmetric \(N\times N\) matrix with
-constant entries and let \(u\) be an \(N\times 1\) column vector of
-variables \(u_{1},\ldots, u_{N}\). Let \(F:\mathbf{R}^{N}\to R\) be the
-function \(F(u) = u^{\intercal}Du\). Then the derivative gradient
-\(\nabla_{u} F\) is a vector field -- that is, a vector-valued function
-of \(u\), and is given by the formula \[
+\textbf{Lemma}: Let \(D\) be a symmetric \(k\times k\) matrix with
+constant entries and let \(u\) be an \(k\times 1\) column vector of
+variables \(u_{1},\ldots, u_{k}\). Let \(F:\mathbf{R}^{k}\to R\) be the
+function \(F(u) = u^{\intercal}Du\). Then the gradient \(\nabla_{u} F\)
+is a vector field -- that is, a vector-valued function of \(u\), and is
+given by the formula \[
 \nabla_{u} F = 2Du
 \]
 
 \textbf{Proof:} Let \(d_{ij}\) be the \(i,j\) entry of \(D\). We can
 write out the function \(F\) to obtain \[
-F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
+F(u_1,\ldots, u_{k}) = \sum_{i=1}^{k} \sum_{j=1}^{k} u_i d_{ij} u_j.
 \] Now \(\frac{\partial F}{\partial u_{i}}\) is going to pick out only
 terms where \(u_{i}\) appears, yielding: \[
-\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{N} d_{ij}u_{j} + \sum_{j=1}^{N} u_{j}d_{ji}
+\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{k} d_{ij}u_{j} + \sum_{j=1}^{k} u_{j}d_{ji}
 \] Here the first sum catches all of the terms where the first ``u'' is
 \(u_{i}\); and the second sum catches all the terms where the second
 ``u'' is \(u_{i}\). The diagonal terms \(u_{i}^2d_{ii}\) contribute once
 to each sum, which is consistent with the rule that the derivative of
 \(u_{i}^2d_{ii} = 2u_{i}d_{ii}\). To finish the proof, notice that \[
-\sum_{j=1}^{N} u_{j}d_{ji} = \sum_{j=1}^{N} d_{ij}u_{j} 
+\sum_{j=1}^{k} u_{j}d_{ji} = \sum_{j=1}^{k} d_{ij}u_{j} 
 \] since \(D\) is symmetric, so in fact the two terms are the same Thus
 \[
-\frac{\partial}{\partial u_{i}}F = 2\sum_{j=1}^{N} d_{ij}u_{j}
-\] But the right hand side of this equation is twice the \(i^{th}\) of
-\(Du\), so putting the results together we get \[
-\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
+\frac{\partial}{\partial u_{i}}F = 2\sum_{j=1}^{k} d_{ij}u_{j}
+\] But the right hand side of this equation is twice the \(i^{th}\)
+entry of \(Du\), so putting the results together we get \[
+\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{k}}\end{matrix}\right] = 2Du.
 \]
 
 The following theorem puts all of this work together to reduce our
@@ -708,7 +709,7 @@ questions about how variance changes with direction.
 
 \textbf{Theorem:} The critical values of the variance \(\sigma_{u}^2\),
 as \(u\) varies over unit vectors in \(\mathbf{R}^{N}\), are the
-eigenvalues \(\lambda_{1},\ldots,\lambda_{N}\) of the covariance matrix
+eigenvalues \(\lambda_{1},\ldots,\lambda_{k}\) of the covariance matrix
 \(D\), and if \(e_{i}\) is a unit eigenvector corresponding to
 \(\lambda_{i}\), then \(\sigma_{e_{i}}^2 = \lambda_{i}\).
 
@@ -734,7 +735,7 @@ D_{0}u = \lambda u
 \(u\cdot u=\|u\|^2=1\). The second part of the result follows from the
 fact that if \(e_{i}\) is a unit eigenvector with eigenvalue
 \(\lambda_{i}\) then \[
-\sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
+\sigma_{e_{i}}^2 = e_{i}^{\intercal}D_{0}e_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
 \]
 
 To really make this result pay off, we need to recall some key facts
@@ -761,8 +762,8 @@ Summary\strut
 \midrule
 \endhead
 \begin{minipage}[t]{0.97\columnwidth}\raggedright
-1. All of the eigenvalues \(\lambda_{1},\ldots, \lambda_{N}\) of \(D\)
-are real. If \(u^{\intercal}Du\ge 0\) for all \(u\in\mathbf{R}^{N}\),
+1. All of the eigenvalues \(\lambda_{1},\ldots, \lambda_{l}\) of \(D\)
+are real. If \(u^{\intercal}Du\ge 0\) for all \(u\in\mathbf{R}^{k}\),
 then all eigenvalues \(\lambda_{i}\) are non-negative. In the latter
 case we say that \(D\) is \emph{positive semi-definite.}\strut
 \end{minipage}\tabularnewline
@@ -772,8 +773,8 @@ case we say that \(D\) is \emph{positive semi-definite.}\strut
 \(v\) and \(w\) are orthogonal: \(v\cdot w = 0\).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.97\columnwidth}\raggedright
-3. There is an orthonormal basis \(u_{1},\ldots, u_{N}\) of
-\(\mathbf{R}^{N}\) made up of eigenvectors of \(D\) corresponding to the
+3. There is an orthonormal basis \(u_{1},\ldots, u_{k}\) of
+\(\mathbf{R}^{k}\) made up of eigenvectors of \(D\) corresponding to the
 eigenvalues \(\lambda_{i}\).\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.97\columnwidth}\raggedright
@@ -792,18 +793,18 @@ If we combine this theorem with the facts summarized in
 covariance matrix of our data. Since \[
 \sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \hbox{(it's a sum of squares)}
 \] we know that the eigenvalues
-\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0\) are all
-nonnegative. Choose a corresponding sequence \(u_{1},\ldots u_{N}\) of
+\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{k}\ge 0\) are all
+nonnegative. Choose a corresponding sequence \(u_{1},\ldots u_{k}\) of
 orthogonal eigenvectors where all \(\|u_{i}\|^2=1\). Since the \(u_{i}\)
 form a basis of \(\mathbf{R}^{N}\), any score is a linear combination of
 the \(u_{i}\): \[
-S = \sum a_{i}u_{i}.
+S = \sum_{i=1}^{k} a_{i}u_{i}.
 \] Since
-\(u_{i}^{\intercal}Du_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)
+\(u_{i}^{\intercal}D_{0}u_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)
 unless \(i=j\), in which case it is \(\lambda_{i}\), we can compute \[
-\sigma_{S}^2 = \sum_{i=1}^{N} \lambda_{i}a_{i}^2,
-\] and \(\|S\|^2=\sum a_{i}^2\) since the \(u_{i}\) are an orthonormal
-set. So in these coordinates, are optimization problem is:
+\sigma_{S}^2 = \sum_{i=1}^{k} \lambda_{i}a_{i}^2,
+\] and \(\|S\|^2=\sum_{i=1}^{k} a_{i}^2\) since the \(u_{i}\) are an
+orthonormal set. So in these coordinates, our optimization problem is:
 
 \begin{itemize}
 \tightlist
@@ -817,8 +818,8 @@ We don't need any fancy math to see that the maximum happens when
 \(a_{1}=1\) and the other \(a_{j}=0\), and in that case, the maximum is
 \(\lambda_{1}\). (If \(\lambda_{1}\) occurs more than once, there may be
 a whole subspace of directions where the variance is maximal).
-Similarly, the minimum value is \(\lambda_{N}\) and occurs when
-\(a_{N}=1\) and the others are zero.
+Similarly, the minimum value is \(\lambda_{k}\) and occurs when
+\(a_{k}=1\) and the others are zero.
 
 \hypertarget{sec:subspaces}{%
 \subsubsection{Subspaces of extremal variance}\label{sec:subspaces}}
@@ -831,55 +832,55 @@ projection of the data into \(U_{s}\) is maximal compared to its
 projection into other subspaces of that dimension.
 
 To make this concrete, suppose we consider a subspace \(E\) of
-\(\mathbf{R}^{N}\) of dimension \(k\) with basis
-\(w_{1},\ldots, w_{k}\). Complete this to a basis
-\(w_{1},\ldots, w_{s},w_{s+1},\ldots, w_{N}\) of \(\mathbf{R}^{N}\) and
+\(\mathbf{R}^{k}\) of dimension \(t\) with basis
+\(w_{1},\ldots, w_{t}\). Complete this to a basis
+\(w_{1},\ldots, w_{t},w_{t+1},\ldots, w_{k}\) of \(\mathbf{R}^{k}\) and
 then apply the Gram Schmidt Process (see \cref{sec:gsprocess}) to find
-an orthonormal basis \(w'_{1},\ldots,w'_{s},w'_{s+1},\ldots, w'_{N}\)
-where the \(w'_{1},\ldots, w'_{s}\) are an orthonormal basis for \(E\).
-Let \(W\) be the \(k\times s\) matrix whose columns are the \(w'_{i}\)
-for \(i=1,\ldots,s\). The rows of the matrix \(X_{0}s\) given the
+an orthonormal basis \(w'_{1},\ldots,w'_{s},w'_{s+1},\ldots, w'_{k}\)
+where the \(w'_{1},\ldots, w'_{t}\) are an orthonormal basis for \(E\).
+Let \(W\) be the \(k\times t\) matrix whose columns are the \(w'_{i}\)
+for \(i=1,\ldots,t\). The rows of the matrix \(X_{0}s\) given the
 coordinates of the projection of each sample into the subspace \(E\)
 expressed in terms of the scores corresponding to these vectors
 \(w'_{i}\). The total variance of these projections is
 
 \[
-\sigma_{E}^2 = \sum_{i=1}^{s} \|X_{0}w'_{i}\|^2 = \sum_{i=1}^{s} (w'_{i})^{\intercal}X_{0}^{\intercal}X_{0}w'_{i}  = \sum_{i=1}^{s} (w'_{i})^{\intercal}D_{0}w'_{i}
+\sigma_{E}^2 = \sum_{i=1}^{t} \|X_{0}w'_{i}\|^2 = \sum_{i=1}^{t} (w'_{i})^{\intercal}X_{0}^{\intercal}X_{0}w'_{i}  = \sum_{i=1}^{t} (w'_{i})^{\intercal}D_{0}w'_{i}
 \]
 
 If we want to maximize this, we have the constrained optimization
-problem of finding \(w_{1},\ldots, w_{s}\) so that
+problem of finding \(w_{1},\ldots, w_{t}\) so that
 
 \begin{itemize}
 \tightlist
 \item
-  \(\sum_{i=1}^{s} w_{i}^{\intercal}D_{0}w_{i}\) is maximal
+  \(\sum_{i=1}^{t} w_{i}^{\intercal}D_{0}w_{i}\) is maximal
 \item
   subject to the constraint that each \(w_{i}\) has \(\|w_{i}\|^2=1\).
 \item
   and that the \(w_{i}\) are linearly independent.
 \end{itemize}
 
-\textbf{Theorem:} The solution \(w_{1},\ldots, w_{s}\) to this
-constrained optimization problem is \(u_{1},\ldots, u_{s}\) where
+\textbf{Theorem:} The solution \(w_{1},\ldots, w_{t}\) to this
+constrained optimization problem is \(u_{1},\ldots, u_{t}\) where
 \(u_{i}\) is the \(i^{th}\) principal direction for \(D_{0}\), that is,
 a unit eigenvector for \(D_{0}\) corresponding to its \(i^{th}\) largest
 eigenvalue.
 
 \textbf{Proof:} The Lagrange multiplier for this problem is \[
-S(w,\lambda_{1},\lambda_{2},\ldots, \lambda_{s}) = \sum_{i=1}^{s} (w_{i}^{\intercal}D_{0}w_{i} -\lambda_{i}(w_{i}^{\intercal}w_{i}-1)).
+S(w,\lambda_{1},\lambda_{2},\ldots, \lambda_{t}) = \sum_{i=1}^{t} (w_{i}^{\intercal}D_{0}w_{i} -\lambda_{i}(w_{i}^{\intercal}w_{i}-1)).
 \] Each \(\frac{\partial}{\partial w_{i}} S\) is exactly as in our
 computation in the case of a single vector and yields the equations \[
 D_{0}w_{i}-\lambda_{i}w_{i}=0.
 \] and the \(\frac{\partial}{\partial \lambda_{i}} S=0\) conditions mean
 that \(w_{i}\) is of unit length. In other words, the critical points
 occur at unit eigenvectors of \(D_{0}\). To satisfy linear independence,
-we need \(s\) independent eigenvalues. And, finally, if we choose any
-\(s\) of the eigenvectors of \(D_{0}\) corresponding to eigenvalues
+we need \(t\) independent eigenvalues. And, finally, if we choose any
+\(t\) of the eigenvectors of \(D_{0}\) corresponding to eigenvalues
 \(\mu_{1},\ldots,\mu_{s}\), then the value
 
 \[
-\sigma_{E}^2 = \sum_{i=1}^{s} \mu_{i}^2.
+\sigma_{E}^2 = \sum_{i=t}^{s} \mu_{i}^2.
 \]
 
 To maximize this it's clear that we should choose the \(\mu_{i}\) to be
@@ -958,19 +959,19 @@ dimensional space -- and, by focusing our attention on the scores
 corresponding to the principal directions, capture most of the
 information in the data in a much lower dimensional setting.
 
-To illustrate how this is done, let \(X\) be a \(k\times N\) data
+To illustrate how this is done, let \(X\) be a \(N\times k\) data
 matrix, let \(X_{0}\) be its centered version, and let
 \(D_{0} = \frac{1}{N}X_{0}^{\intercal}X\) be the associated covariance
 matrix.
 
 Apply the spectral theorem (described in \cref{tbl:symmmat}) and proved
 in \cref{sec:spectraltheorem} to the covariance matrix to obtain
-eigenvalues \(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0\) and
-associated eigenvectors \(u_{1},\ldots, u_{N}\). The scores
+eigenvalues \(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{k}\ge 0\) and
+associated eigenvectors \(u_{1},\ldots, u_{k}\). The scores
 \(S_{i}=X_{0}u_{i}\) give the values of the data in the principal
 directions. The variance of \(S_{i}\) is \(\lambda_{i}\).
 
-Now choose a number \(t<N\) and consider the vectors
+Now choose a number \(t<k\) and consider the vectors
 \(S_{1},\ldots, S_{t}\). The \(j^{th}\) entry in \(S_{i}\) is the value
 of the score \(S_{i}\) for the \(j^{th}\) data point. Because
 \(S_{1},\ldots, S_{t}\) capture the most significant variability in the
@@ -1108,7 +1109,7 @@ More generally, suppose we take our dataset \(X_{0}\) and consider the
 first \(t\) principal components corresponding to the eigenvectors
 \(u_{1},\ldots, u_{t}\). The projection of the data into the space
 spanned by these eigenvectors is the represented by the
-\(S = k\times t\) matrix \(X_{0}U\) where \(U\) is the \(N\times t\)
+\(S = k\times t\) matrix \(X_{0}U\) where \(U\) is the \(k\times t\)
 matrix whose columns are the eigenvectors \(u_{i}\). Each row of \(S\)
 gives the values of the score arising from \(u_{i}\) in the \(i^{th}\)
 column for \(i=1,\ldots, t\).
@@ -1118,7 +1119,7 @@ evidence of the original features in subspace? We can answer this by
 imagining that we had an artificial sample \(x\) that has a measurement
 of \(1\) for the \(i^{th}\) feature and a measurement of zero for all
 the other features. The corresponding point is represented by a
-\(1\times N\) row vector with a \(1\) in position \(i\). The projection
+\(1\times k\) row vector with a \(1\) in position \(i\). The projection
 of this synthetic sample into the span of the first \(t\) principal
 components is the \(1\times t\) vector \(xU\). Notice, however, that
 \(xU\) is just the \(i^{th}\) row of the matrix \(U\). This vector in
