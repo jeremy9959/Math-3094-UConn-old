@@ -630,41 +630,68 @@ To make this concrete, suppose we consider a subspace $E$ of $\mathbf{R}^{k}$ of
 Complete this to a basis $w_{1},\ldots, w_{t},w_{t+1},\ldots, w_{k}$ of $\mathbf{R}^{k}$ and then apply the Gram Schmidt Process
 (see +@sec:gsprocess) to find an orthonormal basis $w'_{1},\ldots,w'_{s},w'_{s+1},\ldots, w'_{k}$ where the $w'_{1},\ldots, w'_{t}$
 are an orthonormal basis for $E$.  Let $W$ be the $k\times t$ matrix whose columns are the $w'_{i}$ for $i=1,\ldots,t$.  The
-rows of the matrix $X_{0}s$ given the coordinates of the projection of each sample into the subspace $E$ expressed in terms
+rows of the matrix $X_{0}W$ given the coordinates of the projection of each sample into the subspace $E$ expressed in terms
 of the scores corresponding to these vectors $w'_{i}$.  The total variance of these projections is 
 
 $$
 \sigma_{E}^2 = \sum_{i=1}^{t} \|X_{0}w'_{i}\|^2 = \sum_{i=1}^{t} (w'_{i})^{\intercal}X_{0}^{\intercal}X_{0}w'_{i}  = \sum_{i=1}^{t} (w'_{i})^{\intercal}D_{0}w'_{i}
 $$
 
-If we want to maximize this, we have the constrained optimization problem of finding $w_{1},\ldots, w_{t}$ so that
+If we want to maximize this, we have the constrained optimization problem of finding $w'_{1},\ldots, w'_{t}$ so that
 
-- $\sum_{i=1}^{t} w_{i}^{\intercal}D_{0}w_{i}$ is maximal
-- subject to the constraint that each $w_{i}$ has $\|w_{i}\|^2=1$.
-- and that the $w_{i}$ are linearly independent.
+- $\sum_{i=1}^{t} (w'_{i})^{\intercal}D_{0}w'_{i}$ is maximal
+- subject to the constraint that each $w_{i}$ has $\|w'_{i}\|^2=1$,
+- and that the $w'_{i}$ are orthogonal, meaning $w'_{i}\cdot w'_{j}=0$ for $i\not=j$,
+- and that the $w'_{i}$ are linearly independent.
 
-**Theorem:** The solution $w_{1},\ldots, w_{t}$ to this constrained optimization problem  is $u_{1},\ldots, u_{t}$ where $u_{i}$ is the $i^{th}$
-principal direction for $D_{0}$, that is, a unit eigenvector for $D_{0}$ corresponding to its $i^{th}$ largest eigenvalue.
+Then the span $E$ of these $w'_{i}$ is subspace of extremal variance.
 
-**Proof:** The Lagrange multiplier for this problem is 
-$$
-S(w,\lambda_{1},\lambda_{2},\ldots, \lambda_{t}) = \sum_{i=1}^{t} (w_{i}^{\intercal}D_{0}w_{i} -\lambda_{i}(w_{i}^{\intercal}w_{i}-1)).
-$$
-Each $\df{w_{i}} S$ is exactly as in our computation in the case of a single vector and yields the equations
-$$
-D_{0}w_{i}-\lambda_{i}w_{i}=0.
-$$
-and the $\df{\lambda_{i}} S=0$ conditions mean that $w_{i}$ is of unit length. 
-In other words, the critical points occur at unit eigenvectors of $D_{0}$.  To satisfy linear independence, we need $t$
-independent eigenvalues.  And, finally, if we choose any $t$ of the eigenvectors of $D_{0}$ corresponding to eigenvalues $\mu_{1},\ldots,\mu_{s}$, then the value
+**Theorem:** A $t$-dimensional subspace $E$ is a subspace of extremal variance if and only if it is spanned by $t$ orthonormal eigenvectors of the matrix $D_{0}$ corresponding
+to the $t$ largest eigenvalues for $D_{0}$.
 
+**Proof:** We can approach this problem using Lagrange multipliers and matrix calculus if we are careful.  Our unknown is  $k\times t$ matrix $W$ whose columns
+are the  $t$ (unknown) vectors $w'_{i}$.  The objective function that we are seeking to maximize is
 $$
-\sigma_{E}^2 = \sum_{i=t}^{s} \mu_{i}^2.
+F = \mathop{trace}(W^{\intercal}D_{0}W) = \sum_{i=1}^{t} (w'_{i})^{\intercal}D_{0}w_{i}.
 $$
+The constraints are the requirements that $\|w'_{i}\|^2=1$ and $w'_{i}\cdot w'_{j}=0$ if $i\not=j$.  If we introduction a matrix of lagrange multipliers
+$\Lambda=(\lambda_{ij})$, where $\lambda_{ij}$ is the multiplier that goes with the the first of these constraints when $i=j$, and the second when $i\not=j$,
+we can express our Lagrange function as:
+$$
+S(W,\Lambda) = \mathop{trace}(W^{\intercal}D_{0}W) - (W^{\intercal}W-I)\Lambda
+$$
+where $I$ is the $t\times t$ identity matrix.
 
-To maximize this it's clear that we should choose the $\mu_{i}$ to be the $s$ largest eigenvalues and $w_{i}$ to be the corresponding
-eigenvectors.
+Taking the derivatives with respect to the entries of $W$ and of $\Lambda$ yields the following two equations:
+\begin{align*}
+D_{0}W &= W\Lambda \\
+W^{\intercal}W &= I \\
+\end{align*}
 
+The first of these equations says that the space $E$ spanned by the columns of $W$ is *invariant* under $D_{0}$, while the second says that the 
+columns of $W$ form an orthonormal basis.  
+
+Now observe that $\Lambda$ is a symmetric, real valued $t\times t$ matrix, since
+$$
+W^{\intercal}D_{0}W = W^{\intercal}W\Lambda = \Lambda.
+$$
+By the spectral theorem, $\Lambda$ has a basis $q_{1},\ldots, q_{t}$ of orthonormal eigenvectors corresponding to eigenvalues $\tau_{1},\ldots, \tau_{t}$.
+Let $Q$ be the matrix whose columns are the vectors $Q$ and let $T$ be the diagonal $t\times t$ matrix whose entries are the $\tau_{i}$. 
+Then 
+$$
+\Lambda Q = QT.
+$$
+From our original equations, we have
+$$
+D_{0}WQ = W\Lambda Q = W Q T.
+$$
+This equation tells us that $WQ$ is a matrix whose columns are eigenvectors of $D_{0}$ with eigenvalues $\tau_{i}$ for $i=1,\ldots, t$.
+
+From this we conclude that the space $E$ is also spanned by the columns of $WQ$, and those vectors are eigenvalues for $D_{0}$; and the $\tau_{i}$
+are also eigenvalues of $D_{0}$.  In other words, any invariant subspace $E$ is spanned by eigenvectors of $D_{0}$.  
+
+The total variance associated to $E$ is the sum of the eigenvalues $\tau_{i}$; to make this as large as possible, we should choose our eigenvectors
+to correspond to $t$ of the largest eigenvalues of $D_{0}$. This concludes the proof. 
 
 ### Definition of Principal Components
 
