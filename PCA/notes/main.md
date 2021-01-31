@@ -671,27 +671,37 @@ W^{\intercal}W &= I \\
 The first of these equations says that the space $E$ spanned by the columns of $W$ is *invariant* under $D_{0}$, while the second says that the 
 columns of $W$ form an orthonormal basis.  
 
-Now observe that $\Lambda$ is a symmetric, real valued $t\times t$ matrix, since
+Let's assume for the moment that we have a matrix $W$ whose columns span an invariant subspace $E$,
+so that
+$$
+DW=W\Lambda
+$$
+for some matrix $\Lambda$.
+
+If this holds, we must have that $\Lambda$ is a symmetric, real valued $t\times t$ matrix, since
 $$
 W^{\intercal}D_{0}W = W^{\intercal}W\Lambda = \Lambda.
 $$
-By the spectral theorem, $\Lambda$ has a basis $q_{1},\ldots, q_{t}$ of orthonormal eigenvectors corresponding to eigenvalues $\tau_{1},\ldots, \tau_{t}$.
-Let $Q$ be the matrix whose columns are the vectors $Q$ and let $T$ be the diagonal $t\times t$ matrix whose entries are the $\tau_{i}$. 
-Then 
+But then by the properties of real symmetric matrices (the spectral theorem), there are orthonormal
+vectors $q_{1},\ldots q_{t}$ that are eigenvectors of $\Lambda$ with corresponding eigenvalues $\tau_{i}$.
+If we let $Q$ be the matrix whose columns are the vectors $q_{i}$ and let $T$ be the diagonal $t\times t$ matrix whose entries are the $\tau_{i}$, we have 
 $$
 \Lambda Q = QT.
 $$
-From our original equations, we have
+
+If we go back to our original equations, we see that if $W$ exists such that $DW=W\Lambda$,
+then there is a matrix $Q$ with orthonormal columns and a diagonal matrix $T$ such that
 $$
 D_{0}WQ = W\Lambda Q = W Q T.
 $$
-This equation tells us that $WQ$ is a matrix whose columns are eigenvectors of $D_{0}$ with eigenvalues $\tau_{i}$ for $i=1,\ldots, t$.
+In other words,
+$WQ$ is a matrix whose columns are eigenvectors of $D_{0}$ with eigenvalues $\tau_{i}$ for $i=1,\ldots, t$.
 
-From this we conclude that the space $E$ is also spanned by the columns of $WQ$, and those vectors are eigenvalues for $D_{0}$; and the $\tau_{i}$
-are also eigenvalues of $D_{0}$.  In other words, any invariant subspace $E$ is spanned by eigenvectors of $D_{0}$.  
-
-The total variance associated to $E$ is the sum of the eigenvalues $\tau_{i}$; to make this as large as possible, we should choose our eigenvectors
-to correspond to $t$ of the largest eigenvalues of $D_{0}$. This concludes the proof. 
+Thus we see how to construct an invariant subspace $E$. Such an  $E$ is spanned by $t$ orthonormal eigenvectors
+with eigenvalues $\tau_{i}$
+of $D_{0}$.  Further, in that case, 
+the total variance associated to $E$ is the sum of the eigenvalues $\tau_{i}$; to make this as large as possible, we should choose our eigenvectors
+to correspond to $t$ of the largest eigenvalues of $D_{0}$. This concludes the proof.
 
 ### Definition of Principal Components
 
