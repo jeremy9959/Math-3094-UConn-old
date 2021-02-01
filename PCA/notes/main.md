@@ -621,10 +621,26 @@ occurs more than once, there may be a whole subspace of directions where the var
 
 ### Subspaces of extremal variance {#sec:subspaces}
 
-We can generalize the question asked in +@sec:extremalvariance by seeking, not just a vector $u$ pointing in the direction
+
+We can generalize the idea of the variance of our data in a particular direction to a higher dimensional version of *total variance* in a subspace.
+Suppose that  $E$ is a subspace of $\mathbf{R}^{k}$ and $U$ is a matrix whose columns span $E$ -- the columns of $U$ are
+the weights of a family of scores that span $E$.  The values of these scores are $XU$ and the covariance matrix of this projected data
+is 
+$$\frac{1}{N}U^{\intercal}X^{\intercal}XU=U^{\intercal}D_{0}U.$$.
+
+Finally, the *total variance* $\sigma_{E}^2$ of the data projected into $E$ is the sum of the diagonal entries of the matrix
+
+$$
+\sigma^2_{E} = \mathop{trace}(U^{\intercal}D_{0}U)
+$$
+
+Just as the variance in a given direction $u$ depends on the scaling of $u$, the variance in a subspace depends on the scaling of the columns
+of $U$.  To normalize this scaling, we assume that the columns of $U$ are an orthonormal basis of the subspace $E$.  
+
+Now we can generalize the question asked in +@sec:extremalvariance by seeking, not just a vector $u$ pointing in the direction
 of the extremal variance, but instead the *subspace* $U_{s}$ of dimension $s$ with the property that the total variance of
 the projection of the data into $U_{s}$ is maximal compared to its projection into other subspaces of that dimension.
-
+This is called a *subspace of extremal variance.*
 
 To make this concrete, suppose we consider a subspace $E$ of $\mathbf{R}^{k}$ of dimension $t$ with basis $w_{1},\ldots, w_{t}$.
 Complete this to a basis $w_{1},\ldots, w_{t},w_{t+1},\ldots, w_{k}$ of $\mathbf{R}^{k}$ and then apply the Gram Schmidt Process
