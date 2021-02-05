@@ -37,6 +37,10 @@ Goals:
 - Learn the basic theory of gradient descent and how it is applied to find maxima and minima of functions
 - Apply Gradient Descent to some specific examples.
 
+	- [Introduction to Binary Classification](../GradientDescent/slides/intro-bin-class.pdf)
+
+	- [Gradient Descent](../GradientDescent/slides/grad-descent.pdf)
+
 *References*
 
 - Gradient Descent [html](published_notes/notes/GD.html) [pdf](published_notes/notes/GD.pdf)
