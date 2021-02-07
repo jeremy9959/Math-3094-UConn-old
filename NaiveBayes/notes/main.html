@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Naive Bayes</title>
+  <style>
+    html {
+      line-height: 1.7;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 40em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin-top: 1.7em;
+    }
+    a {
+      color: blue;
+    }
+    a:visited {
+      color: blue;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.7em;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1.7em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1.7em 0 1.7em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      font-style: italic;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      background-color: #f0f0f0;
+      font-size: 85%;
+      margin: 0;
+      padding: .2em .4em;
+    }
+    pre {
+      line-height: 1.5em;
+      padding: 1em;
+      background-color: #f0f0f0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin-top: 1.7em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+    }
+    th, td {
+      border-bottom: 1px solid lightgray;
+      padding: 1em 3em 1em 0;
+    }
+    header {
+      margin-bottom: 6em;
+      text-align: center;
+    }
+    nav a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 data-number="1" id="the-naive-bayes-classification-method"><span class="header-section-number">1</span> The Naive Bayes classification method</h1>
+<h2 data-number="1.1" id="introduction"><span class="header-section-number">1.1</span> Introduction</h2>
+<p>In our discussion of Bayes Theorem, we looked at a situation in which we had a population consisting of people infected with COVID-19 and people not infected, and we had a test that we could apply to determine which class an individual belonged to. Because our test was not 100 percent reliable, a positive test result didn’t guarantee that a person was infected, and we used Bayes Theorem to evaluate how to interpret the positive test result. More specifically, our information about the test performance gave us the the conditional probabilities of positive and negative test results given infection status – so for example we were given <span class="math inline">\(P(+|\mathrm{infected})\)</span>, the chance of getting a positive test assuming the person is infected – and we used Bayes Theorem to determine <span class="math inline">\(P(\mathrm{infected}|+)\)</span>, the chance that a person was infected given a positive test result.</p>
+<p>The Naive Bayes classification method is a generalization of this idea. We have data that belongs to one of two classes, and based on the results of a series of tests, we wish to decide which class a particular data point belongs to. For one example, we are given a collection of product reviews from a website and we wish to classify those reviews as either “positive” or “negative.” This type of problem is called “sentiment analysis.” For another, related example, we have a collection of emails or text messages and we wish to label those that are likely “spam” emails. In both of these examples, the “test” that we will apply is to look for the appearance or absence of certain key words that make the text more or less likely to belong to a certain class. For example, we might find that a movie review that contains the word “great” is more likely to be positive than negative, while a review that contains the word “boring” is more likely to be negative.</p>
+<p>The reason for the word “naive” in the name of this method is that we will derive our probabilities from empirical data, rather than from any deeper theory. For example, to find the probability that a negative movie review contains the word “boring,” we will look at a bunch of reviews that our experts have said are negative, and compute the proportion of those that contain the word boring. Indeed, to develop our family of tests, we will rely on a training set of already classified data from which we can determine estimates of probabilities that we need.</p>
+<h2 data-number="1.2" id="an-example-dataset"><span class="header-section-number">1.2</span> An example dataset</h2>
+<p>To illustrate the Naive Bayes algorithm, we will work with the “Sentiment Labelled Sentences Data Set” (<span class="citation" data-cites="sentences">[<a href="#ref-sentences" role="doc-biblioref">1</a>]</span>). This dataset contains 3 files, each containing 1000 documents labelled <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> for “negative” or “positive” sentiment. There are 500 of each type of document in each file. One file contains reviews of products from amazon.com; one contains yelp restaurant reviews, and one contains movie reviews from imdb.com.</p>
+<p>Let’s focus on the amazon reviews data. Here are some samples:</p>
+<pre><code>So there is no way for me to plug it in here in the US unless I go by a converter.  0
+Good case, Excellent value. 1
+Great for the jawbone.  1
+Tied to charger for conversations lasting more than 45 minutes.MAJOR PROBLEMS!! 0
+The mic is great.   1
+I have to jiggle the plug to get it to line up right to get decent volume.  0
+If you have several dozen or several hundred contacts, then imagine the fun of sending each of them one by one. 0
+If you are Razr owner...you must have this! 1
+Needless to say, I wasted my money. 0
+What a waste of money and time!.    0</code></pre>
+<p>As you can see, each line consists of a product review followed by a <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>; in this file the review is separated from the text by a tab character.</p>
+<h2 data-number="1.3" id="bernoulli-tests"><span class="header-section-number">1.3</span> Bernoulli tests</h2>
+<p>We will describe the “Bernoulli” version of a Naive Bayes classifier for this data. The building block of this method is a test based on a single word. For example, let’s consider the word <strong>great</strong> among all of our amazon reviews. It turns out that <strong>great</strong> occurs <span class="math inline">\(5\)</span> times in negative reviews and <span class="math inline">\(92\)</span> times in positive reviews among our <span class="math inline">\(1000\)</span> examples. So it seems that seeing the word <strong>great</strong> in a review makes it more likely to be positive. The appearances of great are summarized in table <a href="#tbl:great">1</a> . We write <strong>~great</strong> for the case where <strong>great</strong> does <em>not</em> appear.</p>
+<div id="tbl:great" class="tablenos">
+<table id="tbl:great">
+<caption><span>Table 1:</span> Ocurrences of <strong>great</strong> by type of review .</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th>+</th>
+<th>-</th>
+<th>total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>great</strong></td>
+<td>92</td>
+<td>5</td>
+<td>97</td>
+</tr>
+<tr class="even">
+<td>~<strong>great</strong></td>
+<td>408</td>
+<td>495</td>
+<td>903</td>
+</tr>
+<tr class="odd">
+<td>total</td>
+<td>500</td>
+<td>500</td>
+<td>1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In this data, positive and negative reviews are equally likely so <span class="math inline">\(P(+)=P(-)=.5\)</span> From this table, and Bayes Theorem, we obtain the empirical probabilities (or “naive” probabilities).</p>
+<p><span class="math display">\[
+P(\mathbf{great} | +) = \frac{92}{500} = .184
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+P(\mathbf{great}) = \frac{97}{1000} = .097
+\]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[
+P(+|\mathbf{great}) = \frac{.184}{.097}(.5) = 0.948.
+\]</span></p>
+<p>In other words, <em>if</em> you see the word <strong>great</strong> in a review, there’s a 95% chance that the review is positive.</p>
+<p>What if you <em>do not</em> see the word <strong>great</strong>? A similar calculation from the table yields</p>
+<p><span class="math display">\[
+P(+|\mathbf{~great}) = \frac{408}{903} = .452
+\]</span></p>
+<p>In other words, <em>not</em> seeing the word great gives a little evidence that the review is negative (there’s a 55% chance it’s negative) but it’s not that conclusive.</p>
+<p>The word <strong>waste</strong> is associated with negative reviews. It’s statistics are summarized in table <a href="#tbl:waste">2</a>.</p>
+<div id="tbl:waste" class="tablenos">
+<table id="tbl:waste">
+<caption><span>Table 2:</span> Ocurrences of <strong>waste</strong> by type of review .</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th>+</th>
+<th>-</th>
+<th>total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>waste</strong></td>
+<td>0</td>
+<td>14</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>~<strong>waste</strong></td>
+<td>500</td>
+<td>486</td>
+<td>986</td>
+</tr>
+<tr class="odd">
+<td>total</td>
+<td>500</td>
+<td>500</td>
+<td>1000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Based on this data, the “naive” probabilities we are interested in are:</p>
+<p><span class="math display">\[\begin{align*}
+P(+|\mathbf{waste}) &amp;= 0\\
+P(+|\mathbf{~waste}) &amp;= .51
+\end{align*}\]</span></p>
+<p>In other words, if you see <strong>waste</strong> you definitely have a negative review, but if you don’t, you’re only slightly more likely to have a positive one.</p>
+<p>What about combining these two tests? Or using even more words? We could analyze our data to count cases in which both <strong>great</strong> and <strong>waste</strong> occur, in which only one occurs, or in which neither occurs, within the two different categories of reviews, and then use those counts to estimate empirical probabilities of the joint events. But while this might be feasible with two words, if we want to use many words, the number of combinations quickly becomes huge. So instead, we make a basic, and probably false, assumption, but one that makes a simple analysis possible.</p>
+<p><strong>Assumption:</strong> We assume that the presence or absence of the words <strong>great</strong> and <strong>waste</strong> in a particular review (positive or negative) are independent events. More generally, given a collection of words <span class="math inline">\(w_1,\ldots, w_k\)</span>, we assume that their occurences in a given review are independent events.</p>
+<p>Independence means that we have <span class="math display">\[\begin{align*}
+P(\mathbf{great},\mathbf{waste}|\pm) &amp;= P(\mathbf{great}|\pm)P(\mathbf{waste}|\pm)\\
+P(\mathbf{great},\mathbf{~waste}|\pm) &amp;= P(\mathbf{great}|\pm)P(\mathbf{~waste}|\pm)\\
+ &amp;\vdots \\
+\end{align*}\]</span></p>
+<p>To generalize this, suppose that we have extracted keywords <span class="math inline">\(w_1,\ldots, w_k\)</span> from our data and we have computed the empirical values <span class="math inline">\(P(w_{i}|+)\)</span> and <span class="math inline">\(P(w_{i}|-)\)</span> by counting the fraction of positive and negative reviews that contain the word <span class="math inline">\(w_{i}\)</span>:</p>
+<p><span class="math display">\[
+P(w_{i}|\pm) = \frac{\hbox{\rm number of $\pm$ reviews that mention $w_{i}$}}{\hbox{\rm number of $\pm$ reviews total}}
+\]</span></p>
+<p>Notice that we only count <em>reviews</em>, not <em>ocurrences</em>, so that if a word occurs multiple times in a review it only contributes 1 to the count. That’s why this is called the <em>Bernoulli</em> Naive Bayes – we are thinking of each keyword as yielding a yes/no test on each review.</p>
+<p>Given a review, we look to see whether each of our <span class="math inline">\(k\)</span> keywords appears or does not. We encode this information as a vector of length <span class="math inline">\(k\)</span> containing <span class="math inline">\(0\)</span>’s and <span class="math inline">\(1\)</span>’s indicating the absence or presence of the <span class="math inline">\(k\)</span>th keyword. Let’s call this vector the <em>feature vector</em> for the review.</p>
+For example, if our keywords are <span class="math inline">\(w_1=\mathbf{waste}\)</span>, <span class="math inline">\(w_2=\mathbf{great}\)</span>, and <span class="math inline">\(w_3=\mathbf{useless}\)</span>, and our review says
+<p>then the associated feature vector is <span class="math inline">\(f=(1,0,1)\)</span>.</p>
+<p>If a review has an associated feature vector <span class="math inline">\(f=(f_1,\ldots, f_k)\)</span>, then by independence the probability of that feature vector ocurring within one of the <span class="math inline">\(\pm\)</span> classes is <span class="math display">\[
+P(f|\pm) = \prod_{i: f_{i}=1} P(w_{i}|\pm)\prod_{i: f_{i}=0}(1-P(w_{i}|\pm))
+\]</span></p>
+<h1 class="unnumbered" id="bibliography">References</h1>
+<div id="refs" class="references csl-bib-body" role="doc-bibliography">
+<div id="ref-sentences" class="csl-entry" role="doc-biblioentry">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline"><span class="smallcaps">U.C. Irvine ML Repository</span>. <span>Sentiment Labelled Sentences Data Set</span>.Available at <a href="https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences">https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences</a>.</div>
+</div>
+</div>
+</body>
+</html>
