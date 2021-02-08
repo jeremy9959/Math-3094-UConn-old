@@ -354,11 +354,13 @@ P(S=k) = P(S^{-1}(\{k\}))=P(\{(x,y): x+y=k\})
 <p>Now let’s look at what we earlier called the binomial distribution.</p>
 <p><strong>Definition:</strong> Let <span class="math inline">\(X\)</span> be a sample space consisting of strings of <span class="math inline">\(H\)</span> and <span class="math inline">\(T\)</span> of length <span class="math inline">\(N\)</span>, with the probability of a <em>particular string</em> <span class="math inline">\(S\)</span> with <span class="math inline">\(k\)</span> heads and <span class="math inline">\(N-k\)</span> tails given by <span class="math display">\[
 P(S)=p^{k}(1-p)^{N-k}
-\]</span> for some <span class="math inline">\(0\le p\le 1\)</span>. In other words, <span class="math inline">\(X\)</span> is the sample space consisting of <span class="math inline">\(N\)</span> independent flips of a coin with probability of heads given by <span class="math inline">\(p\)</span>.<br />
-Let <span class="math inline">\(f:X\to \mathbb{R}\)</span> be the function which counts the number of <span class="math inline">\(H\)</span> in the string. Then <span class="math inline">\(f\)</span> is a random variable called a <em>binomial random variable</em> with parameters <span class="math inline">\(p\)</span> and <span class="math inline">\(N\)</span>. Clearly, a binomial random variable with <span class="math inline">\(N=1\)</span> is just a Bernoulli variable with parameter <span class="math inline">\(p\)</span>.</p>
-<p>If <span class="math inline">\(f\)</span> is a binomial random variable with parameters <span class="math inline">\(p\)</span> and <span class="math inline">\(N\)</span>, then <span class="math display">\[
+\]</span> for some <span class="math inline">\(0\le p\le 1\)</span>. In other words, <span class="math inline">\(X\)</span> is the sample space consisting of <span class="math inline">\(N\)</span> independent flips of a coin with probability of heads given by <span class="math inline">\(p\)</span>.</p>
+<p>Let <span class="math inline">\(f:X\to \mathbb{R}\)</span> be the function which counts the number of <span class="math inline">\(H\)</span> in the string. We can express <span class="math inline">\(f\)</span> in terms of Bernoulli random variables; indeed, <span class="math display">\[
+f=X_1+\ldots+X_N
+\]</span> where each <span class="math inline">\(X_i\)</span> is a Bernoulli random variable with parameter <span class="math inline">\(p\)</span>.</p>
+<p>Now <span class="math display">\[
 P(f=k) = \binom{N}{k}p^{k}(1-p)^{N-k}
-\]</span> since <span class="math inline">\(f^{-1}(\{k\})\)</span> is the number of elements in the subset of strings of <span class="math inline">\(H\)</span> and <span class="math inline">\(T\)</span> of length <span class="math inline">\(N\)</span> containing exactly <span class="math inline">\(k\)</span> <span class="math inline">\(H\)</span>’s.</p>
+\]</span> since <span class="math inline">\(f^{-1}(\{k\})\)</span> is the number of elements in the subset of strings of <span class="math inline">\(H\)</span> and <span class="math inline">\(T\)</span> of length <span class="math inline">\(N\)</span> containing exactly <span class="math inline">\(k\)</span> <span class="math inline">\(H\)</span>’s. This is our old friend the binomial distribution. So <em>a binomial distribution is the distribution of the sum of <span class="math inline">\(N\)</span> independent Bernoulli random variables.</em></p>
 <p>For an example with a continuous random variable, suppose our sample space is <span class="math inline">\(\mathbf{R}^{2}\)</span> and the probability density is the simple multivariate normal <span class="math display">\[
 P(\mathbf{x}\in U) = \left(\frac{1}{\sqrt{2\pi}}\right)^2\int_{U} e^{-\|\mathbf{x}\|^2/2} d\mathbf{x}.
 \]</span> Let <span class="math inline">\(f\)</span> be the random variable <span class="math inline">\(f(\mathbf{x})=\|\mathbf{x}\|\)</span>. The function <span class="math inline">\(f\)</span> measures the Euclidean distance of a randomly drawn point from the origin. The set <span class="math display">\[U=f^{-1}([0,r))\subseteq\mathbf{R}^{2}\]</span> is the circle of radius <span class="math inline">\(r\)</span> in <span class="math inline">\(\mathbf{R}^{2}\)</span>. The probability that a randomly drawn point lies in this circle is <span class="math display">\[
@@ -546,7 +548,7 @@ P(t-t_{*})=\left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t-t_{*})^2/2}
 P(t,t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t-t_*)^2/2}.
 \]</span></p>
 <p>Now we make a bunch of measurements to obtain <span class="math inline">\(\mathbf{t}_0=(t_1,\ldots, t_n)\)</span>. We have <span class="math display">\[
-P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-(\mathbf{t}-t_*\mathbf{e})^2/2}.
+P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-\|\mathbf{t}-t_*\mathbf{e}\|^2/2}.
 \]</span></p>
 <p>The total probability <span class="math inline">\(T=P(\mathbf{t}=\mathbf{t_0})\)</span> is hard to calculate, so let’s table that for a while. The posterior probability is <span class="math display">\[
 P(t_{*}|\mathbf{t}=\mathbf{t}_{0}) = \frac{1}{T} 
@@ -556,7 +558,7 @@ P(t_{*}|\mathbf{t}=\mathbf{t}_{0}) = \frac{1}{T}
 <p>Leaving aside the multiplicative constants for the moment, consider the exponential <span class="math display">\[
 e^{-(\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2)/30}.
 \]</span> Since <span class="math inline">\(\mathbf{t}\)</span> is a vector of constants – it is a vector of our particular measurements – the exponent <span class="math display">\[
-\|\mathbf{t}-t_{*}\mathbf{e}\|^2+(t_{*}-30)^2 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
+\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2/30 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
 \]</span> is a quadratic polynomial in <span class="math inline">\(t_{*}\)</span> that simplifies: <span class="math display">\[
 (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2 = At_{*}^2+Bt_{*}+C.
 \]</span> Here <span class="math display">\[
