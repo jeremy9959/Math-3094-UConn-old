@@ -134,7 +134,7 @@ Based on this data, the "naive" probabilities we are interested in are:
 
 \begin{align*}
 P(+|\mathbf{waste}) &= 0\\
-P(+|\mathbf{~waste}) &= .51
+P(+|~\mathbf{waste}) &= .51
 \end{align*}
 
 In other words, if you see **waste** you definitely have a negative review,

@@ -64,6 +64,9 @@
 
 %% pandoc-tablenos: required package
 \usepackage{cleveref}
+
+%% pandoc-eqnos: disable brackets around cleveref numbers
+\creflabelformat{equation}{#2#1#3}
 \ifluatex
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -262,7 +265,7 @@ are:
 
 \begin{align*}
 P(+|\mathbf{waste}) &= 0\\
-P(+|\mathbf{~waste}) &= .51
+P(+|~\mathbf{waste}) &= .51
 \end{align*}
 
 In other words, if you see \textbf{waste} you definitely have a negative
@@ -322,10 +325,27 @@ This phone is useless, useless, useless!  What a waste!
 then the associated feature vector is \(f=(1,0,1)\).
 
 If a review has an associated feature vector \(f=(f_1,\ldots, f_k)\),
-the probability of that feature vector ocurring within one of the
-\(\pm\) classes is \[
+then by independence the probability of that feature vector ocurring
+within one of the \(\pm\) classes is \[
 P(f|\pm) = \prod_{i: f_{i}=1} P(w_{i}|\pm)\prod_{i: f_{i}=0}(1-P(w_{i}|\pm))
-\]
+\] which we can also write \begin{equation}
+P(f|\pm) = \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}(1-P(w_{i}|\pm))^(1-f_{i}).
+\label{eq:likelihood}\end{equation}
+
+By Bayes Theorem, we can express the chance that our review with feature
+vector \(f\) is positive or negative by the formula: \[
+P(\pm|f) = \frac{P(f|\pm)P(\pm)}{P(f)}
+\] where \[
+P(\pm) = \frac{\hbox{\rm the number of $\pm$ reviews}}{\hbox{\rm total number of reviews}}
+\] and \(P(f)\) is the fraction of reviews with the given feature
+vector.
+
+A natural classification rule would be to say that a review is positive
+if \(P(+|f)>P(-|f)\), and negative otherwise. In applying this, we can
+avoid computing \(P(f)\) by just comparing the numerators \(P(f|+)P(+)\)
+and \(P(f|-)P(-)\) computed using \cref{eq:likelihood}, and deciding
+that a review is positive if \(P(f|+)P(+)>P(f|-)P(-)\) and negative
+otherwise.
 
 \hypertarget{bibliography}{%
 \section*{References}\label{bibliography}}
