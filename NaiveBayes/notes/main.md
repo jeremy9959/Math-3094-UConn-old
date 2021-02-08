@@ -7,6 +7,12 @@ csl: [../../resources/stat.csl]
 bibliography: [../../references/references.bib]
 reference-section-title: References 
 xnos-cleveref: True 
+header-includes: |
+ <style>
+ body {
+  max-width: 60em ; 
+ }
+ </style>
 ---
 \lstset{columns=fullflexible,breaklines=true,basicstyle=\small\ttfamily,backgroundcolor=\color{gray!10}}
 
@@ -176,6 +182,8 @@ so that if a word occurs multiple times in a review it only contributes 1 to the
 is called the *Bernoulli* Naive Bayes -- we are thinking of each keyword as yielding a yes/no test 
 on each review.  
 
+## Feature vectors
+
 Given a review, we look to see whether each of our $k$ keywords appears or does not.  We encode
 this information as a vector of length $k$ containing $0$'s and $1$'s indicating the absence
 or presence of the $k$th keyword.  Let's call this vector the *feature vector* for the review.
@@ -187,6 +195,30 @@ This phone is useless, useless, useless!  What a waste!
 ```
 then the associated feature vector is $f=(1,0,1)$. 
 
+For the purposes of classification of our reviews, we are going to forget entirely about the text
+of our reviews and work only with the feature vectors.  From an abstract perspective, then, by choosing our $k$ keywords,
+our "training set" of $N$ labelled reviews can be replaced by an $N\times k$ matrix $X=(x_{ij})$ with entries $0$ or $1$,
+where $x_{ij}=1$ if and only if the $j^{th}$ keyword appears in the $i^{th}$ review.
+
+The labels of $0$ or $1$ for unfavorable or favorable reviews can also be packaged up into a $N\times 1$ vector $Y$
+that serves as our "target" variable. 
+
+Setting things up this way lets us express the computations of our probabilities $P(w_{i}|\pm)$ in vector form.
+In fact, $X^{\intercal}Y$ is the sum of the rows of $X$ corresponding to positive reviews (expressed as a column vector), and therefore
+$$
+P_{+} = \frac{1}{N}X^{\intercal}Y = \left[\begin{array} PP(w_{1}|+)\\ P(w_{2}|+) \\ \vdots \\P(w_{k}|+)\end{array}\right].
+$$
+Similarly, since $Y$ and $X$ have zero and one entries only, if we write $1-Y$ and $1-X$ for the matrices obtained
+by replacing every entry $z$ by $1-z$ in each matrix, we have:
+$$
+P_{-} = \frac{1}{N}(1-X)^{\intercal}(1-Y) =  \left[\begin{array} PP(w_{1}|-)\\ P(w_{2}|-) \\ \vdots \\P(w_{k}|-)\end{array}\right].
+$$
+
+Since  $P(+)$ is the fraction of positive reviews among all reviews, we can compute it as  $P(+)=\frac{1}{N}Y^{T}Y$,
+and $P(-)=1-P(+)$.
+
+## Likelihood
+
 If a review has an associated feature vector $f=(f_1,\ldots, f_k)$, then by independence
 the probability of that
 feature vector ocurring within one of the $\pm$ classes is
@@ -195,13 +227,27 @@ P(f|\pm) = \prod_{i: f_{i}=1} P(w_{i}|\pm)\prod_{i: f_{i}=0}(1-P(w_{i}|\pm))
 $$
 which we can also write
 $$
-P(f|\pm) = \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}(1-P(w_{i}|\pm))^(1-f_{i}).
+P(f|\pm) = \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}(1-P(w_{i}|\pm))^{(1-f_{i})}.
 $${#eq:likelihood}
+
+These products aren't practical to work with -- they are often the product of many, many small
+numbers and are therefore really tiny. Therefore it's much more practical to work with their logarithms.
+$$
+\log P(f|\pm) = \sum_{i=1}^{k} f_{i}\log P(w_{i}|\pm) + (1-f_{i})\log(1-P(w_{i}|\pm))
+$${#eq:loglikelihood}
+
+If we have a group of reviews $N$ organized in a matrix $X$, where each row is the feature vector associated
+to the corresponding review, then we can compute all of this at once.  We'll write $\log P(X|\pm)$ as the
+column vector whose $i^{th}$ entry is $\log P(f_{i}|\pm)$:
+$$
+\log P(X|\pm) = XP_{\pm}+(1-X)(1-P_{\pm}).
+$${#eq:matrixlikelihood}
+
 
 By Bayes Theorem, we can express the chance that our review with feature vector $f$ is positive or negative
 by the formula:
 $$
-P(\pm|f) = \frac{P(f|\pm)P(\pm)}{P(f)}
+\log P(\pm|f) = \log P(f|\pm)+\log P(\pm) - \log P(f)
 $$
 where 
 $$
@@ -209,14 +255,64 @@ P(\pm) = \frac{\hbox{\rm the number of $\pm$ reviews}}{\hbox{\rm total number of
 $$
 and $P(f)$ is the fraction of reviews with the given feature vector.  
 
-A natural classification rule would be to say that a review is positive if $P(+|f)>P(-|f)$,
-and negative otherwise.  In applying this, we can avoid computing $P(f)$ by just comparing the numerators
-$P(f|+)P(+)$ and $P(f|-)P(-)$ computed using +@eq:likelihood, and deciding that a review
-is positive if $P(f|+)P(+)>P(f|-)P(-)$ and negative otherwise.
+A natural classification rule would be to say that a review is positive if $\log P(+|f)>\log P(-|f)$,
+and negative otherwise.  In applying this, we can avoid computing $P(f)$ by just comparing 
+$\log P(f|+)+\log P(+)$ and $\log P(f|-)+\log P(-)$ computed using +@eq:loglikelihood.  Then we say:
 
+- a review is positive if $\log P(f|+)+\log P(+)>\log P(f|-)+\log P(-)$ and negative otherwise.
 
+Again we can exploit the matrix structure to do this for a bunch of reviews at once.   Using +@eq:matrixlikelihood
+and the vectors $P_{\pm}$ we can compute column vectors corresponding to both sides of our decision
+inequality and subtract them.  The positive entries indicate positive reviews, and the negative ones, negative reviews.
 
+## Other applications
 
+We developed the Naive Bayes method for sentiment analysis, but once
+we chose a set of keywords our training data was reduced to an
+$N\times k$ matrix $X$ of $0/1$ entries, together with an $N\times 1$
+target column vector $Y$.  Then our classification problem is to
+decide whether a given vector of $k$ entries, all $0$ or $1$, is more
+likely to carry a $0$ or $1$ label. All of the parameters we needed
+for Naive Bayes -- the various probabilities -- can be extracted from
+the matrix $X$.
+
+For example, suppose
+we have a collection of images represented as black/white pixels in a grid that belong to one of two classes.
+For example, we might have $28x28$ bitmaps of handwritten zeros and ones that are labelled, and we wish to construct
+a classifier that can decide whether a new $28x28$ bitmap is a zero or one.  An example of such a bitmap
+is given in +@fig:mnist0.   We can view each $28x28$ bitmap as
+a vector of length $784$ with $0/1$ entries and apply the same approach outlined above. 
+
+![Handwritten 0](../img/mnist_data_10_0.png){#fig:mnist0 width=2in}
+
+## Other models:  the binomial and gaussian models.
+
+We have discussed a version of Naive Bayes based on the Bernoulli model, in which we imagine applying a 
+set of independent yes/no tests to some data to determine its most likely class.  Concretely, in our
+sentiment analysis problem, we looked for the presence or absence of certain words, but paid no attention
+to whether a word occurred more than once.  
+
+The binomial model is an alternative approach to the Bernoulli model and takes a different point of view
+on the text data.  It is sometimes called the "bag of words" model.  Suppose have a vocabulary of words $w$,
+and two types of documents $\pm$. For each word we have probabilities $P_{+}(w)$ and $P_{-}(w)$ that measure
+the chance that a particular word in each class is the given word. These probabilities can be derived in a naive
+sense by looking at the frequency with which they occur in documents of the two classes.
+In this statistical model a document in class $+$ is constructed by successively choosing words from the vocabulary according to the probabilities
+$P_{+}(w)$.  
+
+Given a document to classify, one looks at the frequencies of the vocabulary words and computes the likelihood 
+of that distribution in each of the two classes, and chooses the more likely class.
+
+This approach is better suited to longer documents, and it requires working with large vocabularies, but it does take account
+of how often the vocabulary words appear in the document.
+
+The Gaussian model takes a different approach and is useful for classifying numerical data.  Given a set of labelled training data,
+one assumes that each feature comes from a normal distribution, with the mean and variance depending on the associated class. 
+One uses the training data to estimate these means and variances.  Then, given a piece of data to classify, one computes the likelihood
+of the data arising from the two different classes, and chooses the more likely one.
+
+What unites all of these methods under the heading of Naive Bayes is that the parameters are estimated simply from empirical data -- that's the 
+naive part -- and Bayes theorem is used to compute the likelihood of membership in each of the two classes.
 
 
 
