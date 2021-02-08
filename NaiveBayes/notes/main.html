@@ -176,7 +176,7 @@ Needless to say, I wasted my money. 0
 What a waste of money and time!.    0</code></pre>
 <p>As you can see, each line consists of a product review followed by a <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>; in this file the review is separated from the text by a tab character.</p>
 <h2 data-number="1.3" id="bernoulli-tests"><span class="header-section-number">1.3</span> Bernoulli tests</h2>
-<p>We will describe the “Bernoulli” version of a Naive Bayes classifier for this data. The building block of this method is a test based on a single word. For example, let’s consider the word <strong>great</strong> among all of our amazon reviews. It turns out that <strong>great</strong> occurs <span class="math inline">\(5\)</span> times in negative reviews and <span class="math inline">\(92\)</span> times in positive reviews among our <span class="math inline">\(1000\)</span> examples. So it seems that seeing the word <strong>great</strong> in a review makes it more likely to be positive. The appearances of great are summarized in table <a href="#tbl:great">1</a> . We write <strong>~great</strong> for the case where <strong>great</strong> does <em>not</em> appear.</p>
+<p>We will describe the “Bernoulli” version of a Naive Bayes classifier for this data. The building block of this method is a test based on a single word. For example, let’s consider the word <strong>great</strong> among all of our amazon reviews. It turns out that <strong>great</strong> occurs <span class="math inline">\(5\)</span> times in negative reviews and <span class="math inline">\(92\)</span> times in positive reviews among our <span class="math inline">\(1000\)</span> examples. So it seems that seeing the word <strong>great</strong> in a review makes it more likely to be positive. The appearances of great are summarized in table <a href="#tbl:great">1</a> . We write ~<strong>great</strong> for the case where <strong>great</strong> does <em>not</em> appear.</p>
 <div id="tbl:great" class="tablenos">
 <table id="tbl:great">
 <caption><span>Table 1:</span> Ocurrences of <strong>great</strong> by type of review .</caption>
@@ -225,7 +225,7 @@ P(+|\mathbf{great}) = \frac{.184}{.097}(.5) = 0.948.
 <p>In other words, <em>if</em> you see the word <strong>great</strong> in a review, there’s a 95% chance that the review is positive.</p>
 <p>What if you <em>do not</em> see the word <strong>great</strong>? A similar calculation from the table yields</p>
 <p><span class="math display">\[
-P(+|\mathbf{~great}) = \frac{408}{903} = .452
+P(+|\sim\mathbf{great}) = \frac{408}{903} = .452
 \]</span></p>
 <p>In other words, <em>not</em> seeing the word great gives a little evidence that the review is negative (there’s a 55% chance it’s negative) but it’s not that conclusive.</p>
 <p>The word <strong>waste</strong> is associated with negative reviews. It’s statistics are summarized in table <a href="#tbl:waste">2</a>.</p>
@@ -265,34 +265,43 @@ P(+|\mathbf{~great}) = \frac{408}{903} = .452
 <p>Based on this data, the “naive” probabilities we are interested in are:</p>
 <p><span class="math display">\[\begin{align*}
 P(+|\mathbf{waste}) &amp;= 0\\
-P(+|\mathbf{~waste}) &amp;= .51
+P(+|\sim\mathbf{waste}) &amp;= .51
 \end{align*}\]</span></p>
 <p>In other words, if you see <strong>waste</strong> you definitely have a negative review, but if you don’t, you’re only slightly more likely to have a positive one.</p>
 <p>What about combining these two tests? Or using even more words? We could analyze our data to count cases in which both <strong>great</strong> and <strong>waste</strong> occur, in which only one occurs, or in which neither occurs, within the two different categories of reviews, and then use those counts to estimate empirical probabilities of the joint events. But while this might be feasible with two words, if we want to use many words, the number of combinations quickly becomes huge. So instead, we make a basic, and probably false, assumption, but one that makes a simple analysis possible.</p>
 <p><strong>Assumption:</strong> We assume that the presence or absence of the words <strong>great</strong> and <strong>waste</strong> in a particular review (positive or negative) are independent events. More generally, given a collection of words <span class="math inline">\(w_1,\ldots, w_k\)</span>, we assume that their occurences in a given review are independent events.</p>
 <p>Independence means that we have <span class="math display">\[\begin{align*}
 P(\mathbf{great},\mathbf{waste}|\pm) &amp;= P(\mathbf{great}|\pm)P(\mathbf{waste}|\pm)\\
-P(\mathbf{great},\mathbf{~waste}|\pm) &amp;= P(\mathbf{great}|\pm)P(\mathbf{~waste}|\pm)\\
+P(\mathbf{great},\sim\mathbf{waste}|\pm) &amp;= P(\mathbf{great}|\pm)P(\sim\mathbf{waste}|\pm)\\
  &amp;\vdots \\
 \end{align*}\]</span></p>
+<p>So for example, if a document contains the word <strong>great</strong> and does <em>not</em> contain the word <strong>waste</strong>, then the probability of it being a positive review is: <span class="math display">\[
+P(+|\mathbf{great},\sim\mathbf{waste}) = \frac{P(\mathbf{great}|+)P(\sim\mathbf{waste}|+)P(+)}{P(\mathbf{great},\sim\mathbf{waste})}
+\]</span> while the probability of it being a negative review is <span class="math display">\[
+P(-|\mathbf{great},\sim\mathbf{waste}) = \frac{P(\mathbf{great}|-)P(\sim\mathbf{waste}|-)P(-)}{P(\mathbf{great},\sim\mathbf{waste})}
+\]</span> Rather than compute these probabilities (which involves working out the denominators), let’s just compare them. Since they have the same denominators, we just need to compare numerators, which we call <span class="math inline">\(L\)</span> for likelihood: Using the data from table <a href="#tbl:great">1</a> and table <a href="#tbl:waste">2</a>, we obtain: <span class="math display">\[
+L(+|\mathbf{great},\sim\mathbf{waste}) = (.184)(1)(.5) = .092
+\]</span> and <span class="math display">\[
+L(-|\mathbf{great},\sim\mathbf{waste}) = (.01)(.028)(.5) = .00014
+\]</span> so our data suggests strongly that this is a positive review.</p>
+<h2 data-number="1.4" id="feature-vectors"><span class="header-section-number">1.4</span> Feature vectors</h2>
 <p>To generalize this, suppose that we have extracted keywords <span class="math inline">\(w_1,\ldots, w_k\)</span> from our data and we have computed the empirical values <span class="math inline">\(P(w_{i}|+)\)</span> and <span class="math inline">\(P(w_{i}|-)\)</span> by counting the fraction of positive and negative reviews that contain the word <span class="math inline">\(w_{i}\)</span>:</p>
 <p><span class="math display">\[
 P(w_{i}|\pm) = \frac{\hbox{\rm number of $\pm$ reviews that mention $w_{i}$}}{\hbox{\rm number of $\pm$ reviews total}}
 \]</span></p>
 <p>Notice that we only count <em>reviews</em>, not <em>ocurrences</em>, so that if a word occurs multiple times in a review it only contributes 1 to the count. That’s why this is called the <em>Bernoulli</em> Naive Bayes – we are thinking of each keyword as yielding a yes/no test on each review.</p>
-<h2 data-number="1.4" id="feature-vectors"><span class="header-section-number">1.4</span> Feature vectors</h2>
 <p>Given a review, we look to see whether each of our <span class="math inline">\(k\)</span> keywords appears or does not. We encode this information as a vector of length <span class="math inline">\(k\)</span> containing <span class="math inline">\(0\)</span>’s and <span class="math inline">\(1\)</span>’s indicating the absence or presence of the <span class="math inline">\(k\)</span>th keyword. Let’s call this vector the <em>feature vector</em> for the review.</p>
 <p>For example, if our keywords are <span class="math inline">\(w_1=\mathbf{waste}\)</span>, <span class="math inline">\(w_2=\mathbf{great}\)</span>, and <span class="math inline">\(w_3=\mathbf{useless}\)</span>, and our review says</p>
 <pre><code>This phone is useless, useless, useless!  What a waste!</code></pre>
 <p>then the associated feature vector is <span class="math inline">\(f=(1,0,1)\)</span>.</p>
 <p>For the purposes of classification of our reviews, we are going to forget entirely about the text of our reviews and work only with the feature vectors. From an abstract perspective, then, by choosing our <span class="math inline">\(k\)</span> keywords, our “training set” of <span class="math inline">\(N\)</span> labelled reviews can be replaced by an <span class="math inline">\(N\times k\)</span> matrix <span class="math inline">\(X=(x_{ij})\)</span> with entries <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>, where <span class="math inline">\(x_{ij}=1\)</span> if and only if the <span class="math inline">\(j^{th}\)</span> keyword appears in the <span class="math inline">\(i^{th}\)</span> review.</p>
 <p>The labels of <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> for unfavorable or favorable reviews can also be packaged up into a <span class="math inline">\(N\times 1\)</span> vector <span class="math inline">\(Y\)</span> that serves as our “target” variable.</p>
-<p>Setting things up this way lets us express the computations of our probabilities <span class="math inline">\(P(w_{i}|\pm)\)</span> in vector form. In fact, <span class="math inline">\(X^{\intercal}Y\)</span> is the sum of the rows of <span class="math inline">\(X\)</span> corresponding to positive reviews (expressed as a column vector), and therefore <span class="math display">\[
-P_{+} = \frac{1}{N}X^{\intercal}Y = \left[\begin{array} PP(w_{1}|+)\\ P(w_{2}|+) \\ \vdots \\P(w_{k}|+)\end{array}\right].
+<p>Setting things up this way lets us express the computations of our probabilities <span class="math inline">\(P(w_{i}|\pm)\)</span> in vector form. In fact, <span class="math inline">\(Y^{\intercal}X\)</span> is the sum of the rows of <span class="math inline">\(X\)</span> corresponding to positive reviews, and therefore, letting <span class="math inline">\(N_{\pm}\)</span> denote the number of <span class="math inline">\(\pm\)</span> reviews, <span class="math display">\[
+P_{+} = \frac{1}{N_{+}}Y^{\intercal}X = \left[\begin{array}{cccc} P(w_{1}|+)&amp; P(w_{2}|+) &amp; \cdots &amp;P(w_{k}|+)\end{array}\right].
 \]</span> Similarly, since <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> have zero and one entries only, if we write <span class="math inline">\(1-Y\)</span> and <span class="math inline">\(1-X\)</span> for the matrices obtained by replacing every entry <span class="math inline">\(z\)</span> by <span class="math inline">\(1-z\)</span> in each matrix, we have: <span class="math display">\[
-P_{-} = \frac{1}{N}(1-X)^{\intercal}(1-Y) =  \left[\begin{array} PP(w_{1}|-)\\ P(w_{2}|-) \\ \vdots \\P(w_{k}|-)\end{array}\right].
+P_{-} = \frac{1}{N_{-}}(1-Y)^{\intercal}X =  \left[\begin{array}{cccc} P(w_{1}|-)&amp; P(w_{2}|-) &amp; \cdots &amp;P(w_{k}|-)\end{array}\right].
 \]</span></p>
-<p>Since <span class="math inline">\(P(+)\)</span> is the fraction of positive reviews among all reviews, we can compute it as <span class="math inline">\(P(+)=\frac{1}{N}Y^{T}Y\)</span>, and <span class="math inline">\(P(-)=1-P(+)\)</span>.</p>
+<p>Note that the number of positive reviews is <span class="math inline">\(N_{+}=Y^{\intercal}Y\)</span> and the number of negative ones is <span class="math inline">\(N_{-}=N-N_{+}\)</span>. Since <span class="math inline">\(P(+)\)</span> is the fraction of positive reviews among all reviews, we can compute it as <span class="math inline">\(P(+)=\frac{1}{N}Y^{\intercal}Y\)</span>, and <span class="math inline">\(P(-)=1-P(+)\)</span>.</p>
 <h2 data-number="1.5" id="likelihood"><span class="header-section-number">1.5</span> Likelihood</h2>
 <p>If a review has an associated feature vector <span class="math inline">\(f=(f_1,\ldots, f_k)\)</span>, then by independence the probability of that feature vector ocurring within one of the <span class="math inline">\(\pm\)</span> classes is <span class="math display">\[
 P(f|\pm) = \prod_{i: f_{i}=1} P(w_{i}|\pm)\prod_{i: f_{i}=0}(1-P(w_{i}|\pm))
@@ -302,14 +311,15 @@ P(f|\pm) = \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}(1-P(w_{i}|\pm))^{(1-f_{i})}.
 <p>These products aren’t practical to work with – they are often the product of many, many small numbers and are therefore really tiny. Therefore it’s much more practical to work with their logarithms. <span id="eq:loglikelihood" class="eqnos"><span class="math display">\[
 \log P(f|\pm) = \sum_{i=1}^{k} f_{i}\log P(w_{i}|\pm) + (1-f_{i})\log(1-P(w_{i}|\pm))
 \]</span><span class="eqnos-number">(2)</span></span></p>
-<p>If we have a group of reviews <span class="math inline">\(N\)</span> organized in a matrix <span class="math inline">\(X\)</span>, where each row is the feature vector associated to the corresponding review, then we can compute all of this at once. We’ll write <span class="math inline">\(\log P(X|\pm)\)</span> as the column vector whose <span class="math inline">\(i^{th}\)</span> entry is <span class="math inline">\(\log P(f_{i}|\pm)\)</span>: <span id="eq:matrixlikelihood" class="eqnos"><span class="math display">\[
-\log P(X|\pm) = XP_{\pm}+(1-X)(1-P_{\pm}).
+<p>If we have a group of reviews <span class="math inline">\(N\)</span> organized in a matrix <span class="math inline">\(X\)</span>, where each row is the feature vector associated to the corresponding review, then we can compute all of this at once. We’ll write <span class="math inline">\(\log P_{\pm}=\log P(X|\pm)\)</span> as the row vector whose <span class="math inline">\(i^{th}\)</span> entry is <span class="math inline">\(\log P(f_{i}|\pm)\)</span>:</p>
+<p><span id="eq:matrixlikelihood" class="eqnos"><span class="math display">\[
+\log P(X|\pm) = X(\log P_{\pm})^{\intercal}+(1-X)(\log (1-P_{\pm}))^{\intercal}.
 \]</span><span class="eqnos-number">(3)</span></span></p>
 <p>By Bayes Theorem, we can express the chance that our review with feature vector <span class="math inline">\(f\)</span> is positive or negative by the formula: <span class="math display">\[
 \log P(\pm|f) = \log P(f|\pm)+\log P(\pm) - \log P(f)
 \]</span> where <span class="math display">\[
 P(\pm) = \frac{\hbox{\rm the number of $\pm$ reviews}}{\hbox{\rm total number of reviews}}
-\]</span> and <span class="math inline">\(P(f)\)</span> is the fraction of reviews with the given feature vector.</p>
+\]</span> and <span class="math inline">\(P(f)\)</span> is the fraction of reviews with the given feature vector. (Note: in practice, some of these probabilities will be zero, and so the log will not be defined. A common practical approach to dealing with this is to introduce a “fake document” into both classes in which every vocabulary word appears – this guarantees that the frequency matrix will have no zeros in it).</p>
 <p>A natural classification rule would be to say that a review is positive if <span class="math inline">\(\log P(+|f)&gt;\log P(-|f)\)</span>, and negative otherwise. In applying this, we can avoid computing <span class="math inline">\(P(f)\)</span> by just comparing <span class="math inline">\(\log P(f|+)+\log P(+)\)</span> and <span class="math inline">\(\log P(f|-)+\log P(-)\)</span> computed using eq. <a href="#eq:loglikelihood">2</a>. Then we say:</p>
 <ul>
 <li>a review is positive if <span class="math inline">\(\log P(f|+)+\log P(+)&gt;\log P(f|-)+\log P(-)\)</span> and negative otherwise.</li>
@@ -325,7 +335,7 @@ P(\pm) = \frac{\hbox{\rm the number of $\pm$ reviews}}{\hbox{\rm total number of
 </div>
 <h2 data-number="1.7" id="other-models-the-binomial-and-gaussian-models."><span class="header-section-number">1.7</span> Other models: the binomial and gaussian models.</h2>
 <p>We have discussed a version of Naive Bayes based on the Bernoulli model, in which we imagine applying a set of independent yes/no tests to some data to determine its most likely class. Concretely, in our sentiment analysis problem, we looked for the presence or absence of certain words, but paid no attention to whether a word occurred more than once.</p>
-<p>The binomial model is an alternative approach to the Bernoulli model and takes a different point of view on the text data. It is sometimes called the “bag of words” model. Suppose have a vocabulary of words <span class="math inline">\(w\)</span>, and two types of documents <span class="math inline">\(\pm\)</span>. For each word we have probabilities <span class="math inline">\(P_{+}(w)\)</span> and <span class="math inline">\(P_{-}(w)\)</span> that measure the chance that a particular word in each class is the given word. These probabilities can be derived in a naive sense by looking at the frequency with which they occur in documents of the two classes. In this statistical model a document in class <span class="math inline">\(+\)</span> is constructed by successively choosing words from the vocabulary according to the probabilities <span class="math inline">\(P_{+}(w)\)</span>.</p>
+<p>The binomial model is an alternative approach to the Bernoulli model and takes a different point of view on the text data. It is sometimes called the “bag of words” model. Suppose I have a vocabulary of words <span class="math inline">\(w\)</span>, and two types of documents <span class="math inline">\(\pm\)</span>. For each word we have probabilities <span class="math inline">\(P_{+}(w)\)</span> and <span class="math inline">\(P_{-}(w)\)</span> that measure the chance that a particular word in each class is the given word. These probabilities can be derived in a naive sense by looking at the frequency with which they occur in documents of the two classes. In this statistical model a document in class <span class="math inline">\(+\)</span> is constructed by successively choosing words from the vocabulary according to the probabilities <span class="math inline">\(P_{+}(w)\)</span>.</p>
 <p>Given a document to classify, one looks at the frequencies of the vocabulary words and computes the likelihood of that distribution in each of the two classes, and chooses the more likely class.</p>
 <p>This approach is better suited to longer documents, and it requires working with large vocabularies, but it does take account of how often the vocabulary words appear in the document.</p>
 <p>The Gaussian model takes a different approach and is useful for classifying numerical data. Given a set of labelled training data, one assumes that each feature comes from a normal distribution, with the mean and variance depending on the associated class. One uses the training data to estimate these means and variances. Then, given a piece of data to classify, one computes the likelihood of the data arising from the two different classes, and chooses the more likely one.</p>

@@ -83,7 +83,7 @@ block of this method is a test based on a single word.  For example, let's consi
 **great** among all of our amazon reviews.  It turns out that **great** occurs $5$ times in negative
 reviews and $92$ times in positive reviews among our $1000$ examples.
 So it seems that seeing the word **great** in a review makes it more likely to be positive.
-The appearances of great are summarized in +@tbl:great . We write **~great** for the case where
+The appearances of great are summarized in +@tbl:great . We write ~**great** for the case where
 **great** does *not* appear.
 
 |            | + | - | total |
@@ -119,7 +119,7 @@ that the review is positive.
 What if you *do not* see the word **great**? A similar calculation from the table yields
 
 $$
-P(+|\mathbf{~great}) = \frac{408}{903} = .452
+P(+|\sim\mathbf{great}) = \frac{408}{903} = .452
 $$
 
 In other words, *not* seeing the word great gives a little evidence that the review
@@ -140,7 +140,7 @@ Based on this data, the "naive" probabilities we are interested in are:
 
 \begin{align*}
 P(+|\mathbf{waste}) &= 0\\
-P(+|~\mathbf{waste}) &= .51
+P(+|\sim\mathbf{waste}) &= .51
 \end{align*}
 
 In other words, if you see **waste** you definitely have a negative review,
@@ -164,9 +164,33 @@ given review are independent events.
 Independence means that we have
 \begin{align*}
 P(\mathbf{great},\mathbf{waste}|\pm) &= P(\mathbf{great}|\pm)P(\mathbf{waste}|\pm)\\
-P(\mathbf{great},\mathbf{~waste}|\pm) &= P(\mathbf{great}|\pm)P(\mathbf{~waste}|\pm)\\
+P(\mathbf{great},\sim\mathbf{waste}|\pm) &= P(\mathbf{great}|\pm)P(\sim\mathbf{waste}|\pm)\\
  &\vdots \\
 \end{align*}
+
+So for example, if a document contains the word **great** and does *not* contain the word **waste**,
+then the probability of it being a positive review is:
+$$
+P(+|\mathbf{great},\sim\mathbf{waste}) = \frac{P(\mathbf{great}|+)P(\sim\mathbf{waste}|+)P(+)}{P(\mathbf{great},\sim\mathbf{waste})}
+$$
+while the probability of it being a negative review is 
+$$
+P(-|\mathbf{great},\sim\mathbf{waste}) = \frac{P(\mathbf{great}|-)P(\sim\mathbf{waste}|-)P(-)}{P(\mathbf{great},\sim\mathbf{waste})}
+$$
+Rather than compute these probabilities (which involves working out the denominators), let's just compare them.
+Since they have the same denominators, we just need to compare numerators, which we call $L$ for likelihood:
+Using the data from +@tbl:great and +@tbl:waste, we obtain:
+$$
+L(+|\mathbf{great},\sim\mathbf{waste}) = (.184)(1)(.5) = .092
+$$
+and
+$$
+L(-|\mathbf{great},\sim\mathbf{waste}) = (.01)(.028)(.5) = .00014
+$$
+so our data suggests strongly that this is a positive review.
+
+
+## Feature vectors
 
 To generalize this, suppose that we have extracted keywords $w_1,\ldots, w_k$ from our data
 and we have computed the empirical values
@@ -182,7 +206,6 @@ so that if a word occurs multiple times in a review it only contributes 1 to the
 is called the *Bernoulli* Naive Bayes -- we are thinking of each keyword as yielding a yes/no test 
 on each review.  
 
-## Feature vectors
 
 Given a review, we look to see whether each of our $k$ keywords appears or does not.  We encode
 this information as a vector of length $k$ containing $0$'s and $1$'s indicating the absence
@@ -204,18 +227,18 @@ The labels of $0$ or $1$ for unfavorable or favorable reviews can also be packag
 that serves as our "target" variable. 
 
 Setting things up this way lets us express the computations of our probabilities $P(w_{i}|\pm)$ in vector form.
-In fact, $X^{\intercal}Y$ is the sum of the rows of $X$ corresponding to positive reviews (expressed as a column vector), and therefore
+In fact, $Y^{\intercal}X$ is the sum of the rows of $X$ corresponding to positive reviews, and therefore, letting $N_{\pm}$ denote the number of $\pm$ reviews, 
 $$
-P_{+} = \frac{1}{N}X^{\intercal}Y = \left[\begin{array} PP(w_{1}|+)\\ P(w_{2}|+) \\ \vdots \\P(w_{k}|+)\end{array}\right].
+P_{+} = \frac{1}{N_{+}}Y^{\intercal}X = \left[\begin{array}{cccc} P(w_{1}|+)& P(w_{2}|+) & \cdots &P(w_{k}|+)\end{array}\right].
 $$
 Similarly, since $Y$ and $X$ have zero and one entries only, if we write $1-Y$ and $1-X$ for the matrices obtained
 by replacing every entry $z$ by $1-z$ in each matrix, we have:
 $$
-P_{-} = \frac{1}{N}(1-X)^{\intercal}(1-Y) =  \left[\begin{array} PP(w_{1}|-)\\ P(w_{2}|-) \\ \vdots \\P(w_{k}|-)\end{array}\right].
+P_{-} = \frac{1}{N_{-}}(1-Y)^{\intercal}X =  \left[\begin{array}{cccc} P(w_{1}|-)& P(w_{2}|-) & \cdots &P(w_{k}|-)\end{array}\right].
 $$
 
-Since  $P(+)$ is the fraction of positive reviews among all reviews, we can compute it as  $P(+)=\frac{1}{N}Y^{T}Y$,
-and $P(-)=1-P(+)$.
+Note that the number of positive reviews is $N_{+}=Y^{\intercal}Y$ and the number of negative ones is $N_{-}=N-N_{+}$.
+Since  $P(+)$ is the fraction of positive reviews among all reviews, we can compute it as  $P(+)=\frac{1}{N}Y^{\intercal}Y$, and $P(-)=1-P(+)$.
 
 ## Likelihood
 
@@ -237,10 +260,11 @@ $$
 $${#eq:loglikelihood}
 
 If we have a group of reviews $N$ organized in a matrix $X$, where each row is the feature vector associated
-to the corresponding review, then we can compute all of this at once.  We'll write $\log P(X|\pm)$ as the
-column vector whose $i^{th}$ entry is $\log P(f_{i}|\pm)$:
+to the corresponding review, then we can compute all of this at once.  We'll write $\log P_{\pm}=\log P(X|\pm)$ as the
+row vector whose $i^{th}$ entry is $\log P(f_{i}|\pm)$:
+
 $$
-\log P(X|\pm) = XP_{\pm}+(1-X)(1-P_{\pm}).
+\log P(X|\pm) = X(\log P_{\pm})^{\intercal}+(1-X)(\log (1-P_{\pm}))^{\intercal}.
 $${#eq:matrixlikelihood}
 
 
@@ -253,7 +277,11 @@ where
 $$
 P(\pm) = \frac{\hbox{\rm the number of $\pm$ reviews}}{\hbox{\rm total number of reviews}}
 $$
-and $P(f)$ is the fraction of reviews with the given feature vector.  
+and $P(f)$ is the fraction of reviews with the given feature vector.  (Note: in practice,
+some of these probabilities will be zero, and so the log will not be defined.  A common 
+practical approach
+to dealing with this is to introduce a "fake document" into both classes in
+which every vocabulary word appears -- this guarantees that the frequency matrix will have no zeros in it).
 
 A natural classification rule would be to say that a review is positive if $\log P(+|f)>\log P(-|f)$,
 and negative otherwise.  In applying this, we can avoid computing $P(f)$ by just comparing 
@@ -293,7 +321,7 @@ sentiment analysis problem, we looked for the presence or absence of certain wor
 to whether a word occurred more than once.  
 
 The binomial model is an alternative approach to the Bernoulli model and takes a different point of view
-on the text data.  It is sometimes called the "bag of words" model.  Suppose have a vocabulary of words $w$,
+on the text data.  It is sometimes called the "bag of words" model.  Suppose I have a vocabulary of words $w$,
 and two types of documents $\pm$. For each word we have probabilities $P_{+}(w)$ and $P_{-}(w)$ that measure
 the chance that a particular word in each class is the given word. These probabilities can be derived in a naive
 sense by looking at the frequency with which they occur in documents of the two classes.
