@@ -447,6 +447,89 @@ reviews at once. Using \cref{eq:matrixlikelihood} and the vectors
 our decision inequality and subtract them. The positive entries indicate
 positive reviews, and the negative ones, negative reviews.
 
+\hypertarget{the-bag-of-words}{%
+\subsection{The Bag of Words}\label{the-bag-of-words}}
+
+In our analysis above, we thought of the presence or absence of certain
+key words as a set of independent tests that provided evidence of
+whether our review was positive or negative. This approach is suited to
+short pieces of text, but what about longer documents? In that case, we
+might want to consider not just the presence or absence of words, but
+the frequency with which they appear. Multinomial Naive Bayes, based on
+the ``bag of words'' model, is a classification method similar to
+Bernoulli Naive Bayes but which takes term frequency into account.
+
+Let's consider, as above, the problem of classifying documents into one
+of two classes. We assume that we have a set of keywords
+\(w_1,\ldots, w_k\). For each class \(\pm\), we have a set of
+probabilities \(P(w_i|\pm)\) with the property that \[
+\sum_{i=1}^{k}P(w_{i}|\pm)=1.
+\]
+
+The ``bag of words'' model says that we construct a document of length
+\(N\) in, say, the \(+\) class by independently drawing a word \(N\)
+times from the set \(w_1,\ldots, w_k\) with probabilities
+\(P(w_{i}|+)\). The name ``bag of words'' comes from thinking of each
+class as having an associated bag containing the words
+\(w_1,\ldots, w_k\) with relative frequencies given by the
+probabilities, and generating a document by repeatedly drawing a word
+from the bag.
+
+In the Multinomial Naive Bayes method, we estimate the probabilities
+\(P(w_{i}|\pm)\) by counting the number of times each word occurs in a
+document of the given class: \[
+P(w_{i}|\pm) = \frac{\hbox{\rm number of times word $i$ occurs in $\pm$ documents}}{\hbox{\rm total number of words in $\pm$ documents}}
+\] This is the ``naive'' part of the algorithm. Package up these
+probabilities in vectors: \[
+P_{\pm} = \left[\begin{array}{ccc} P(w_{1}|\pm) & \cdots & P(w_{k}|\pm)\end{array}\right].
+\]
+
+As in the Bernoulli case, we often add a fake document to each class
+where all of the words occur once, in order to avoid having zero
+frequencies when we take a logarithm later.
+
+Now, given a document, we associate a feature vector \(\mathbf{f}\)
+whose \(i^{th}\) entry is the frequency with which word \(i\) appears in
+that document. The probability of obtaining a particular document with
+feature vector \(\mathbf{f}=(f_1,\ldots, f_k)\) from the bag of words
+associated with class \(\pm\) is given by the ``multinomial''
+distribution: \[
+P(\mathbf{f}|\pm)=\frac{N!}{i_1!i_2!\cdots i_k!} \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}
+\] which generalizes the binomial distribution to multiple choices.
+
+From Bayes Theorem, we have \[
+P(\pm|\mathbf{f}) = \frac{P(\mathbf{f}|\pm)P(\pm)}{P(\mathbf{f})}
+\] where \(P(\pm)\) is estimated by the fraction of documents (total) in
+each class.
+
+We classify our document by considering \(P(\pm|\mathbf{f})\) and
+concluding:
+
+\begin{itemize}
+\tightlist
+\item
+  document with feature vector \(\mathbf{f}\) is in class \(+\) if
+  \(\log P(+|\mathbf{f})>\log P(-|\mathbf{f})\).
+\end{itemize}
+
+In this comparison, both the constant (the multinomial coefficient) and
+the denominator cancel out, so we only need to compare
+\(\log P(\mathbf{f}|+)+\log P(+)\) with
+\(\log P(\mathbf{f}|-)+\log P(-)\). Writing \(C\) for the \(\log\) of
+the multinomial coefficient that we don't care about, we have \[
+\log P(\mathbf{f}|\pm) = \sum_{i=1}^{k} f_{i}\log P(w_{i}|\pm) + C.
+\] Ignoring the constant, we have \[
+\log P(\mathbf{f}|\pm) = \mathbf{f}\log P_{\pm}^{\intercal}
+\] in vector form.
+
+Therefore, just as in the Bernoulli case, we can package up our document
+\(i\) as an \(N\times k\) data matrix \(X\), where position \(ij\) gives
+the number of times word \(j\) occurs in document \(i\). Then we can
+compute the vector \[
+\hat{Y} = X\log P_{+}^{\intercal} + \log P(+)-X\log(P_{-})^{\intercal} - \log P(-)
+\] and assign those documents where \(\hat{Y}>0\) to the \(+\) class and
+the rest to the \(-\) class.
+
 \hypertarget{other-applications}{%
 \subsection{Other applications}\label{other-applications}}
 
@@ -466,7 +549,9 @@ that are labelled, and we wish to construct a classifier that can decide
 whether a new \(28x28\) bitmap is a zero or one. An example of such a
 bitmap is given in \cref{fig:mnist0}. We can view each \(28x28\) bitmap
 as a vector of length \(784\) with \(0/1\) entries and apply the same
-approach outlined above.
+approach outlined above. However, there are other methods that are more
+commonly used for this problem, such as logistic regression and neural
+networks.
 
 \begin{figure}
 \hypertarget{fig:mnist0}{%
@@ -475,48 +560,6 @@ approach outlined above.
 \caption{Handwritten 0}\label{fig:mnist0}
 }
 \end{figure}
-
-\hypertarget{other-models-the-binomial-and-gaussian-models.}{%
-\subsection{Other models: the binomial and gaussian
-models.}\label{other-models-the-binomial-and-gaussian-models.}}
-
-We have discussed a version of Naive Bayes based on the Bernoulli model,
-in which we imagine applying a set of independent yes/no tests to some
-data to determine its most likely class. Concretely, in our sentiment
-analysis problem, we looked for the presence or absence of certain
-words, but paid no attention to whether a word occurred more than once.
-
-The binomial model is an alternative approach to the Bernoulli model and
-takes a different point of view on the text data. It is sometimes called
-the ``bag of words'' model. Suppose I have a vocabulary of words \(w\),
-and two types of documents \(\pm\). For each word we have probabilities
-\(P_{+}(w)\) and \(P_{-}(w)\) that measure the chance that a particular
-word in each class is the given word. These probabilities can be derived
-in a naive sense by looking at the frequency with which they occur in
-documents of the two classes. In this statistical model a document in
-class \(+\) is constructed by successively choosing words from the
-vocabulary according to the probabilities \(P_{+}(w)\).
-
-Given a document to classify, one looks at the frequencies of the
-vocabulary words and computes the likelihood of that distribution in
-each of the two classes, and chooses the more likely class.
-
-This approach is better suited to longer documents, and it requires
-working with large vocabularies, but it does take account of how often
-the vocabulary words appear in the document.
-
-The Gaussian model takes a different approach and is useful for
-classifying numerical data. Given a set of labelled training data, one
-assumes that each feature comes from a normal distribution, with the
-mean and variance depending on the associated class. One uses the
-training data to estimate these means and variances. Then, given a piece
-of data to classify, one computes the likelihood of the data arising
-from the two different classes, and chooses the more likely one.
-
-What unites all of these methods under the heading of Naive Bayes is
-that the parameters are estimated simply from empirical data -- that's
-the naive part -- and Bayes theorem is used to compute the likelihood of
-membership in each of the two classes.
 
 \hypertarget{bibliography}{%
 \section*{References}\label{bibliography}}
