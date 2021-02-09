@@ -335,10 +335,10 @@ frequency with which word $i$ appears in that document.  The probability of obta
 a particular document with feature vector $\mathbf{f}=(f_1,\ldots, f_k)$ from the bag of words
 associated with class $\pm$ is given by the "multinomial" distribution:
 $$
-P(\mathbf{f}|\pm)=\frac{N!}{i_1!i_2!\cdots i_k!} \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}
+P(\mathbf{f}|\pm)=\frac{N!}{f_1!f_2!\cdots f_k!} \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}
 $$
 which generalizes the binomial distribution to multiple choices. The constant will prove irrelevant,
-so let's call the product $L_{\pm})$:
+so let's call the interesting part $L_{\pm}$:
 $$
 L(\mathbf{f}|\pm)= \prod_{i=1}^{k} P(w_{i}|\pm)^{f_{i}}
 $$
@@ -351,7 +351,7 @@ where $P(\pm)$ is estimated by the fraction of documents (total) in each class.
 
 We classify our document by considering $P(\pm|\mathbf{f})$ and concluding:
 
-- document with feature vector $\mathbf{f}$  is in class $+$ if $\log P(+|\mathbf{f})>\log P(-|\mathbf{f})$.
+- a document with feature vector $\mathbf{f}$  is in class $+$ if $\log P(+|\mathbf{f})>\log P(-|\mathbf{f})$.
 
 In this comparison, both the constant (the multinomial coefficient) and the denominator cancel out,
 so we only need to compare $\log L(\mathbf{f}|+)+\log P(+)$ with $\log L(\mathbf{f}|-)+\log P(-)$
