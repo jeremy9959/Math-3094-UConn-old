@@ -51,7 +51,22 @@ Goals:
 
 - Get an introduction to the key ideas from probability that play a role in machine learning.
 - Learn about mean, variance, independence, conditional probability, and Bayes theorem.
-- Introduce the idea of maximum likelihood.
+- Try out the Naive Bayes classification method
+- Introduce the ideas of statistical models and maximum likelihood.
+
+- [Probability Basics](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=1)
+- [Conditional Probability 1](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=2)
+- [Conditional Probability 2](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=3)
+- [Probability - Independence](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=4)
+- [Probability - Random Variables 1](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=5)
+- [Probability - Random Variables 2](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=6)
+- [Probability - Expectation and Variance](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=7)
+- [Probability - Statistical Models](https://www.youtube.com/watch?v=7RH04w7dWp0&list=PLHmPFY5Rz0RDVDokDgADG9CfmBhwZLF9M&index=8)
+
+*References*
+
+- Probability Notes [html](published_notes/notes/Probability.html) [pdf](published_notes/notes/Probability.pdf)
+- Naive Bayes Lab - includes datafiles and ipynb file. [zip](published_notes/notes/naive_bayes.zip) [tgz](published_notes/notes/naive_bayes.pdf)
 
 ### Logistic Regression
 
