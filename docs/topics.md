@@ -66,6 +66,7 @@ Goals:
 *References*
 
 - Probability Notes [html](published_notes/notes/Probability.html) [pdf](published_notes/notes/Probability.pdf)
+- Naive Bayes Notes [html](published_notes/notes/NaiveBayes.html) [pdf](published_notes/notes/NaiveBayes.pdf)
 - Naive Bayes Lab - includes datafiles and ipynb file. [zip](published_notes/notes/naive_bayes.zip) [tgz](published_notes/notes/naive_bayes.pdf)
 
 ### Logistic Regression
