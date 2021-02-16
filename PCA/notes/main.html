@@ -7,7 +7,7 @@
   <title>Principal Components</title>
   <style>
     html {
-      line-height: 1.5;
+      line-height: 1.7;
       font-family: Georgia, serif;
       font-size: 20px;
       color: #1a1a1a;
@@ -15,7 +15,7 @@
     }
     body {
       margin: 0 auto;
-      max-width: 36em;
+      max-width: 40em;
       padding-left: 50px;
       padding-right: 50px;
       padding-top: 50px;
@@ -35,7 +35,6 @@
       body {
         background-color: transparent;
         color: black;
-        font-size: 12pt;
       }
       p, h2, h3 {
         orphans: 3;
@@ -46,7 +45,7 @@
       }
     }
     p {
-      margin: 1em 0;
+      margin-top: 1.7em;
     }
     a {
       color: blue;
@@ -58,82 +57,59 @@
       max-width: 100%;
     }
     h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
+      margin-top: 1.7em;
     }
     ol, ul {
       padding-left: 1.7em;
-      margin-top: 1em;
+      margin-top: 1.7em;
     }
     li > ol, li > ul {
       margin-top: 0;
     }
     blockquote {
-      margin: 1em 0 1em 1.7em;
+      margin: 1.7em 0 1.7em 1.7em;
       padding-left: 1em;
       border-left: 2px solid #e6e6e6;
-      color: #606060;
+      font-style: italic;
     }
     code {
       font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      background-color: #f0f0f0;
       font-size: 85%;
       margin: 0;
+      padding: .2em .4em;
     }
     pre {
-      margin: 1em 0;
+      line-height: 1.5em;
+      padding: 1em;
+      background-color: #f0f0f0;
       overflow: auto;
     }
     pre code {
       padding: 0;
       overflow: visible;
     }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
     hr {
       background-color: #1a1a1a;
       border: none;
       height: 1px;
-      margin: 1em 0;
+      margin-top: 1.7em;
     }
     table {
-      margin: 1em 0;
       border-collapse: collapse;
       width: 100%;
       overflow-x: auto;
       display: block;
-      font-variant-numeric: lining-nums tabular-nums;
     }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
+    th, td {
+      border-bottom: 1px solid lightgray;
+      padding: 1em 3em 1em 0;
     }
     header {
-      margin-bottom: 4em;
+      margin-bottom: 6em;
       text-align: center;
     }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC a:not(:hover) {
+    nav a:not(:hover) {
       text-decoration: none;
     }
     code{white-space: pre-wrap;}
@@ -260,27 +236,27 @@ r_{XY} = \frac{\sigma_{XY}}{\sigma_{X}\sigma_{Y}}
 </table>
 </div>
 <p>If we have multiple features, as in this example, we might be interested in the variance of each feature and all of their mutual covariances. This “package” of information can be obtained “all at once” by taking advantage of some matrix algebra.</p>
-<p><strong>Definition:</strong> Let <span class="math inline">\(X\)</span> be a <span class="math inline">\(k\times N\)</span> data matrix, where the <span class="math inline">\(N\)</span> columns of <span class="math inline">\(X\)</span> correspond to different features and the <span class="math inline">\(k\)</span> rows to different samples. Let <span class="math inline">\(X_{0}\)</span> be the centered version of this data matrix, obtained by subtracting the mean <span class="math inline">\(\mu_{i}\)</span> of column <span class="math inline">\(i\)</span> from all the entries <span class="math inline">\(x_{si}\)</span> in that column. Then the <span class="math inline">\(N\times N\)</span> symmetric matrix</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(X\)</span> be a <span class="math inline">\(N\times k\)</span> data matrix, where the <span class="math inline">\(k\)</span> columns of <span class="math inline">\(X\)</span> correspond to different features and the <span class="math inline">\(N\)</span> rows to different samples. Let <span class="math inline">\(X_{0}\)</span> be the centered version of this data matrix, obtained by subtracting the mean <span class="math inline">\(\mu_{i}\)</span> of column <span class="math inline">\(i\)</span> from all the entries <span class="math inline">\(x_{si}\)</span> in that column. Then the <span class="math inline">\(k\times k\)</span> symmetric matrix</p>
 <p><span class="math display">\[
 D_{0} = \frac{1}{N}X_{0}^{\intercal}X_{0}
 \]</span></p>
 <p>is called the (sample) covariance matrix for the data.</p>
 <p><strong>Proposition:</strong> The diagonal entries <span class="math inline">\(d_{ii}\)</span> of <span class="math inline">\(D_{0}\)</span> are the variances of the columns of <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[
-d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_i)^2
+d_{ii} = \sigma_{i}^2 = \frac{1}{N}\sum_{s=1}^{N}(x_{si}-\mu_i)^2
 \]</span></p>
 <p>and the off-diagonal entries <span class="math inline">\(d_{ij} = d_{ji}\)</span> are the covariances of the <span class="math inline">\(i^{th}\)</span> and <span class="math inline">\(j^{th}\)</span> columns of <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[
-d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
+d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{N}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 \]</span></p>
 <p>The sum of the diagonal entries, the trace of <span class="math inline">\(D_{0}\)</span> is the <strong>total</strong> variance of the data.</p>
 <p><strong>Proof:</strong> This follows from the definitions, but it’s worth checking the details, which we leave as an exercise.</p>
 <h3 data-number="1.2.5" id="sec:visualizecovar"><span class="header-section-number">1.2.5</span> Visualizing the covariance matrix</h3>
-<p>If the number of features in the data is not too large, a density matrix plot provides a tool for visualizing the covariance matrix of the data. A density matrix plot is an <span class="math inline">\(N\times N\)</span> grid of plots (where <span class="math inline">\(N\)</span> is the number of features). The entry with <span class="math inline">\((i,j)\)</span> coordinates in the grid is a scatter plot of the <span class="math inline">\(i^{th}\)</span> feature against the <span class="math inline">\(j^{th}\)</span> one if <span class="math inline">\(i\not=j\)</span>, and is a histogram of the <span class="math inline">\(i^{th}\)</span> variable if <span class="math inline">\(i=j\)</span>.</p>
+<p>If the number of features in the data is not too large, a density matrix plot provides a tool for visualizing the covariance matrix of the data. A density matrix plot is an <span class="math inline">\(k\times k\)</span> grid of plots (where <span class="math inline">\(k\)</span> is the number of features). The entry with <span class="math inline">\((i,j)\)</span> coordinates in the grid is a scatter plot of the <span class="math inline">\(i^{th}\)</span> feature against the <span class="math inline">\(j^{th}\)</span> one if <span class="math inline">\(i\not=j\)</span>, and is a histogram of the <span class="math inline">\(i^{th}\)</span> variable if <span class="math inline">\(i=j\)</span>.</p>
 <p>Figure <a href="#fig:density0">2</a> is an example of a density matrix plot for a dataset with <span class="math inline">\(50\)</span> samples and <span class="math inline">\(2\)</span> features. This data has been centered, so it can be represented in a <span class="math inline">\(50\times 2\)</span> data matrix <span class="math inline">\(X_{0}\)</span>. The upper left and lower right graphs are scatter plots of the two columns, while the lower left and upper right are the histograms of the columns.</p>
 <div id="fig:density0" class="fignos">
 <figure>
-<img src="../img/density.png" style="width:50.0%" alt="Figure 2: Density Matrix Plot" /><figcaption aria-hidden="true"><span>Figure 2:</span> Density Matrix Plot</figcaption>
+<img src="../img/density2x2.png" style="width:50.0%" alt="Figure 2: Density Matrix Plot" /><figcaption aria-hidden="true"><span>Figure 2:</span> Density Matrix Plot</figcaption>
 </figure>
 </div>
 <h3 data-number="1.2.6" id="linear-combinations-of-features-scores"><span class="header-section-number">1.2.6</span> Linear Combinations of Features (Scores)</h3>
@@ -288,41 +264,41 @@ d_{ij} = \sigma_{ij} = \frac{1}{N}\sum_{s=1}^{k}(x_{si}-\mu_{i})(x_{sj}-\mu_{j})
 S = aw + be
 \]</span> for some constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> – maybe by choosing a good combination we could find a better predictor of gas mileage than using one or the other of the features individually.</p>
 <p>As another example, suppose we are interested in the impact of the nutritional content of food on weight gain in a study. We know that both calorie content and the level dietary fiber contribute to the weight gain of participants eating this particular food; maybe there is some kind of combined “calorie/fiber” score we could introduce that captures the impact of that food better.</p>
-<p><strong>Definition:</strong> Let <span class="math inline">\(X_{0}\)</span> be a (centered) <span class="math inline">\(k\times N\)</span> data matrix giving information about <span class="math inline">\(N\)</span> features for each of <span class="math inline">\(k\)</span> samples. A linear synthetic feature, or a linear score, is a linear combination of the <span class="math inline">\(N\)</span> features. The linear score is defined by constants <span class="math inline">\(a_{1},\ldots, a_{n}\)</span> so that If <span class="math inline">\(y_{1},\ldots, y_{N}\)</span> are the values of the features for a particular sample, then the linear score for that sample is</p>
+<p><strong>Definition:</strong> Let <span class="math inline">\(X_{0}\)</span> be a (centered) <span class="math inline">\(N\times k\)</span> data matrix giving information about <span class="math inline">\(k\)</span> features for each of <span class="math inline">\(N\)</span> samples. A linear synthetic feature, or a linear score, is a linear combination of the <span class="math inline">\(k\)</span> features. The linear score is defined by constants <span class="math inline">\(a_{1},\ldots, a_{k}\)</span> so that If <span class="math inline">\(y_{1},\ldots, y_{k}\)</span> are the values of the features for a particular sample, then the linear score for that sample is</p>
 <p><span class="math display">\[
-S = a_{1}y_{1}+a_{2}y_{2}+\cdots+a_{N}y_{N}
+S = a_{1}y_{1}+a_{2}y_{2}+\cdots+a_{k}y_{k}
 \]</span></p>
-<p><strong>Lemma:</strong> The values of the linear score for each of the <span class="math inline">\(k\)</span> samples can be calculated as</p>
+<p><strong>Lemma:</strong> The values of the linear score for each of the <span class="math inline">\(N\)</span> samples can be calculated as</p>
 <p><span id="eq:linearscore" class="eqnos"><span class="math display">\[
-\left[\begin{matrix} S_{1} \\ \vdots \\ S_{k}\\ \end{matrix}\right] =
+\left[\begin{matrix} S_{1} \\ \vdots \\ S_{N}\\ \end{matrix}\right] =
 X_{0}\left[
-\begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right].
+\begin{matrix} a_{1} \\ \vdots \\ a_{k}\end{matrix}\right].
 \]</span><span class="eqnos-number">(5)</span></span></p>
 <p><strong>Proof:</strong> Multiplying a matrix by a column vector computes a linear combination of the columns – that’s what this lemma says. Exercise 3 asks you to write out the indices and make sure you believe this.</p>
 <h3 data-number="1.2.7" id="mean-and-variance-of-scores"><span class="header-section-number">1.2.7</span> Mean and variance of scores</h3>
 <p>When we combine features to make a hybrid score, we assume that the features were centered to begin with, so that each features has mean zero. As a result, the mean of the hybrid features is again zero.</p>
 <p><strong>Lemma:</strong> A linear combination of features with mean zero again has mean zero.</p>
 <p><strong>Proof:</strong> Let <span class="math inline">\(S_{i}\)</span> be the score for the <span class="math inline">\(i^{th}\)</span> sample, so <span class="math display">\[
-S_{i} = \sum_{j=1}^{N} x_{ij}a_{j}.
+S_{i} = \sum_{j=1}^{k} x_{ij}a_{j}.
 \]</span> where <span class="math inline">\(X_{0}\)</span> has entries <span class="math inline">\(x_{ij}\)</span>. Then the mean value of the score is <span class="math display">\[
-\mu_{S} = \frac{1}{k}\sum_{i=1}^{k} S_{i} = \frac{1}{k}\sum_{i=1}^{k}\sum_{j=1}^{N} x_{ij}a_{j}.
+\mu_{S} = \frac{1}{k}\sum_{i=1}^{N} S_{i} = \frac{1}{N}\sum_{i=1}^{N}\sum_{j=1}^{k} x_{ij}a_{j}.
 \]</span> Reversing the order of the sum yields <span class="math display">\[
-\mu_{S} = \frac{1}{k}\sum_{j=1}^{N}\sum_{i=1}^{k} x_{ij}a_{j} = \sum_{j=1}^{N} a_{j}\frac{1}{k}(\sum_{i=1}^{k} x_{ij})=
-\sum_{j=1}^{N}a_{j}\mu_{j}=0
+\mu_{S} = \frac{1}{N}\sum_{j=1}^{k}\sum_{i=1}^{N} x_{ij}a_{j} = \sum_{j=1}^{k} a_{j}\frac{1}{N}(\sum_{i=1}^{N} x_{ij})=
+\sum_{j=1}^{k}a_{j}\mu_{j}=0
 \]</span> where <span class="math inline">\(\mu_{j}=0\)</span> is the mean of the <span class="math inline">\(j^{th}\)</span> feature (column) of <span class="math inline">\(X_{0}\)</span>.</p>
-<p>The variance is more interesting, and gives us an opportunity to put the covariance matrix to work. Remember from <a href="#eq:variancedot">2</a> that, since a score <span class="math inline">\(S\)</span> has mean zero, it’s variance is <span class="math inline">\(\sigma_{S}^2=S\cdot S\)</span> – where here the score <span class="math inline">\(S\)</span> is represented by the column vector with entries <span class="math inline">\(S_{1},\ldots S_{k}\)</span> as in eq. <a href="#eq:linearscore">5</a>.</p>
-<p><strong>Lemma:</strong> The variance of the score <span class="math inline">\(S\)</span> with weights <span class="math inline">\(a_1,\ldots a_N\)</span> is <span id="eq:ada" class="eqnos"><span class="math display">\[
-\sigma_{S}^2 = a^{\intercal}D_{0}a = \left[\begin{matrix}a_{1} &amp; \cdots &amp; a_{N}\end{matrix}\right]D_{0}
-\left[\begin{matrix} a_{1} \\ \vdots \\ a_{N}\end{matrix}\right]
-\]</span><span class="eqnos-number">(6)</span></span> More generally, if <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span> are scores with weights <span class="math inline">\(a_1,\ldots, a_N\)</span> and <span class="math inline">\(b_1,\ldots, b_N\)</span> respectively, then the covariance <span class="math inline">\(\sigma_{S_{1}S_{2}}\)</span> is <span class="math display">\[
+<p>The variance is more interesting, and gives us an opportunity to put the covariance matrix to work. Remember from <a href="#eq:variancedot">2</a> that, since a score <span class="math inline">\(S\)</span> has mean zero, it’s variance is <span class="math inline">\(\sigma_{S}^2=\frac{1}{N}S\cdot S\)</span> – where here the score <span class="math inline">\(S\)</span> is represented by the column vector with entries <span class="math inline">\(S_{1},\ldots S_{k}\)</span> as in eq. <a href="#eq:linearscore">5</a>.</p>
+<p><strong>Lemma:</strong> The variance of the score <span class="math inline">\(S\)</span> with weights <span class="math inline">\(a_1,\ldots a_k\)</span> is <span id="eq:ada" class="eqnos"><span class="math display">\[
+\sigma_{S}^2 = a^{\intercal}D_{0}a = \left[\begin{matrix}a_{1} &amp; \cdots &amp; a_{k}\end{matrix}\right]D_{0}
+\left[\begin{matrix} a_{1} \\ \vdots \\ a_{k}\end{matrix}\right]
+\]</span><span class="eqnos-number">(6)</span></span> More generally, if <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span> are scores with weights <span class="math inline">\(a_1,\ldots, a_k\)</span> and <span class="math inline">\(b_1,\ldots, b_k\)</span> respectively, then the covariance <span class="math inline">\(\sigma_{S_{1}S_{2}}\)</span> is <span class="math display">\[
 \sigma_{S_{1}S_{2}} = a^{\intercal}D_{0}b.
 \]</span></p>
 <p><strong>Proof:</strong> From eq. <a href="#eq:variancedot">2</a> and <a href="#eq:linearscore">5</a> we know that <span class="math display">\[
-\sigma_{S}^2 = S\cdot S
+\sigma_{S}^2 = \frac{1}{N}S\cdot S
 \]</span> and <span class="math display">\[
 S = X_{0}a.
-\]</span> Since <span class="math inline">\(S\cdot S = \frac{1}{N}S^{\intercal}S\)</span>, this gives us <span class="math display">\[
-\sigma_{S}^2 = \frac{1}{N}(X_{0}a)^{\intercal}(X_{0}a) = \frac{1}{N}a^{\intercal}X_{0}^{\intercal}X_{0}a = a^{\intercal}D_{0}a
+\]</span> Since <span class="math inline">\(\frac{1}{N}S\cdot S = \frac{1}{N}S^{\intercal}S\)</span>, this gives us <span class="math display">\[
+\frac{1}{N}\sigma_{S}^2 = \frac{1}{N}(X_{0}a)^{\intercal}(X_{0}a) = \frac{1}{N}a^{\intercal}X_{0}^{\intercal}X_{0}a = a^{\intercal}D_{0}a
 \]</span> as claimed.</p>
 <p>For the covariance, use a similar argument with eq. <a href="#eq:covariancedot">3</a> and eq. <a href="#eq:linearscore">5</a>. writing <span class="math inline">\(\sigma_{S_{1}S_{2}}=\frac{1}{N}S_{1}\cdot S_{2}\)</span> and the fact that <span class="math inline">\(S_{1}\)</span> and <span class="math inline">\(S_{2}\)</span> can be written as <span class="math inline">\(X_{0}a\)</span> and <span class="math inline">\(X_{0}b\)</span>.</p>
 <p>The point of this lemma is that the covariance matrix contains not just the variances and covariances of the original features, but also enough information to construct the variances and covariances for <em>any linear combination of features.</em></p>
@@ -361,8 +337,8 @@ Z = X_0 u
 <p>Finally, using our work on the covariance matrix, we see that the variance of <span class="math inline">\(Z\)</span> is given by <span class="math display">\[
 \sigma_{Z}^2 = \frac{1}{50}u^{\intercal}X_{0}^{\intercal}X_{0}u = u^{\intercal}D_{0}u
 \]</span> where <span class="math inline">\(D_{0}\)</span> is the covariance matrix of the data <span class="math inline">\(X_{0}\)</span>.</p>
-<p><strong>Lemma:</strong> Let <span class="math inline">\(X_{0}\)</span> be a <span class="math inline">\(k\times N\)</span> centered data matrix, and let <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span> be the associated covariance matrix. Let <span class="math inline">\(u\)</span> be a unit vector in “feature space” <span class="math inline">\(\mathbf{R}^{N}\)</span>. Then the score <span class="math inline">\(S=X_{0}u\)</span> can be interpreted as the coordinates of the points of <span class="math inline">\(X_{0}\)</span> projected onto the line generated by <span class="math inline">\(u\)</span>. The variance is <span class="math display">\[
-\sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{k} s_{i}^2
+<p><strong>Lemma:</strong> Let <span class="math inline">\(X_{0}\)</span> be a <span class="math inline">\(N\times k\)</span> centered data matrix, and let <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span> be the associated covariance matrix. Let <span class="math inline">\(u\)</span> be a unit vector in “feature space” <span class="math inline">\(\mathbf{R}^{k}\)</span>. Then the score <span class="math inline">\(S=X_{0}u\)</span> can be interpreted as the coordinates of the points of <span class="math inline">\(X_{0}\)</span> projected onto the line generated by <span class="math inline">\(u\)</span>. The variance of this score is <span class="math display">\[
+\sigma^{2}_{S} = u^{\intercal}D_{0}u = \sum_{i=1}^{N} s_{i}^2
 \]</span> where <span class="math inline">\(s_{i} = X_{0}[i,:]u\)</span> is the dot product of the <span class="math inline">\(i^{th}\)</span> row <span class="math inline">\(X_{0}[i,:]\)</span> with <span class="math inline">\(u\)</span>. It measures the variability in the data “in the direction of the unit vector <span class="math inline">\(u\)</span>.”</p>
 <h2 data-number="1.3" id="principal-components"><span class="header-section-number">1.3</span> Principal Components</h2>
 <h3 data-number="1.3.1" id="change-of-variance-with-direction"><span class="header-section-number">1.3.1</span> Change of variance with direction</h3>
@@ -387,10 +363,10 @@ u(\theta) = \left[\begin{matrix} \cos(\theta) &amp; \sin(\theta)\end{matrix}\rig
 </div>
 <p>Let’s try to understand why this is happening.</p>
 <h3 data-number="1.3.2" id="sec:extremalvariance"><span class="header-section-number">1.3.2</span> Directions of extremal variance</h3>
-<p>Given our centered, <span class="math inline">\(k\times N\)</span> data matrix <span class="math inline">\(X_{0}\)</span>, with its associated covariance matrix <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span>, we would like to find unit vectors <span class="math inline">\(u\)</span> in <span class="math inline">\(\mathbf{R}^{N}\)</span> so that <span class="math display">\[
+<p>Given our centered, <span class="math inline">\(N\times i\)</span> data matrix <span class="math inline">\(X_{0}\)</span>, with its associated covariance matrix <span class="math inline">\(D_{0}=\frac{1}{N}X_{0}^{\intercal}X_{0}\)</span>, we would like to find unit vectors <span class="math inline">\(u\)</span> in <span class="math inline">\(\mathbf{R}^{k}\)</span> so that <span class="math display">\[
 \sigma_{u}^{2} = u^{\intercal}D_{0}u
-\]</span> reaches its maximum and its minimum. Here <span class="math inline">\(\sigma_{u}^2\)</span> is the variance of the “linear score” <span class="math inline">\(X_{0}u\)</span> and it represents how dispersed the data is in the “u direction” in <span class="math inline">\(\mathbf{R}^{N}\)</span>.</p>
-<p>In this problem, remember that the coordinates of <span class="math inline">\(u=(u_1,\ldots, u_{N})\)</span> are the variables and the symmetric matrix <span class="math inline">\(D_{0}\)</span> is given. As usual, we to find the maximum and minimum values of <span class="math inline">\(\sigma_{u}^{2}\)</span>, we should look at the partial derivatives of <span class="math inline">\(\sigma_{u}^{2}\)</span> with respect to the variables <span class="math inline">\(u_{i}\)</span> and set them to zero. Here, however, there is a catch – we want to restrict <span class="math inline">\(u\)</span> to being a unit vector, with <span class="math inline">\(u\cdot u =\sum u_{i}^2=1\)</span>.</p>
+\]</span> reaches its maximum and its minimum. Here <span class="math inline">\(\sigma_{u}^2\)</span> is the variance of the “linear score” <span class="math inline">\(X_{0}u\)</span> and it represents how dispersed the data is in the “u direction” in <span class="math inline">\(\mathbf{R}^{k}\)</span>.</p>
+<p>In this problem, remember that the coordinates of <span class="math inline">\(u=(u_1,\ldots, u_{k})\)</span> are the variables and the symmetric matrix <span class="math inline">\(D_{0}\)</span> is given. As usual, we to find the maximum and minimum values of <span class="math inline">\(\sigma_{u}^{2}\)</span>, we should look at the partial derivatives of <span class="math inline">\(\sigma_{u}^{2}\)</span> with respect to the variables <span class="math inline">\(u_{i}\)</span> and set them to zero. Here, however, there is a catch – we want to restrict <span class="math inline">\(u\)</span> to being a unit vector, with <span class="math inline">\(u\cdot u =\sum u_{i}^2=1\)</span>.</p>
 <p>So this is a <em>constrained optimization problem</em>:</p>
 <ul>
 <li>Find extreme values of the function <span class="math display">\[
@@ -405,41 +381,41 @@ S(u, \lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u -1)
 \]</span><span class="eqnos-number">(7)</span></span></p>
 <p>Then we compute the gradient</p>
 <p><span id="eq:lagrangegradient" class="eqnos"><span class="math display">\[
-\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{N}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
+\nabla S = \left[\begin{matrix} \frac{\partial S}{\partial u_{1}} \\ \vdots \\ \frac{\partial S}{\partial u_{k}} \\ \frac{\partial S}{\partial \lambda}\end{matrix}\right]
 \]</span><span class="eqnos-number">(8)</span></span></p>
 <p>and solve the system of equations <span class="math inline">\(\nabla S=0\)</span>. Here we have written the gradient as a column vector for reasons that will become clearer shortly.</p>
 <p>Computing all of these partial derivatives looks messy, but actually if we take advantage of matrix algebra it’s not too bad. The following two lemmas explain how to do this.</p>
-<p><strong>Lemma</strong>: Let <span class="math inline">\(M\)</span> be a <span class="math inline">\(k\times N\)</span> matrix with constant coefficients and let <span class="math inline">\(u\)</span> be a <span class="math inline">\(N\times 1\)</span> column vector whose entries are <span class="math inline">\(u_1,\ldots u_{N}\)</span>. The function <span class="math inline">\(F(u) = Mu\)</span> is a linear map from <span class="math inline">\(\mathbf{R}^{N}\to\mathbf{R}^{k}\)</span>. Its (total) derivative is a linear map between the same vector spaces, and satisfies <span class="math display">\[
+<p><strong>Lemma</strong>: Let <span class="math inline">\(M\)</span> be a <span class="math inline">\(N\times k\)</span> matrix with constant coefficients and let <span class="math inline">\(u\)</span> be a <span class="math inline">\(k\times 1\)</span> column vector whose entries are <span class="math inline">\(u_1,\ldots u_{k}\)</span>. The function <span class="math inline">\(F(u) = Mu\)</span> is a linear map from <span class="math inline">\(\mathbf{R}^{k}\to\mathbf{R}^{N}\)</span>. Its (total) derivative is a linear map between the same vector spaces, and satisfies <span class="math display">\[
 D(F)(v) = Mv
-\]</span> for any <span class="math inline">\(N\times 1\)</span> vector <span class="math inline">\(v\)</span>. If <span class="math inline">\(u\)</span> is a <span class="math inline">\(1\times k\)</span> matrix, and <span class="math inline">\(G(u) = uM\)</span>, then <span class="math display">\[
+\]</span> for any <span class="math inline">\(k\times 1\)</span> vector <span class="math inline">\(v\)</span>. If <span class="math inline">\(u\)</span> is a <span class="math inline">\(1\times N\)</span> matrix, and <span class="math inline">\(G(u) = uM\)</span>, then <span class="math display">\[
 D(G)(v) = vM
 \]</span></p>
-<p>for any <span class="math inline">\(1\times k\)</span> vector <span class="math inline">\(v\)</span>. (This is the matrix version of the derivative rule that <span class="math inline">\(\frac{d}{dx}(ax)=a\)</span> for a constant <span class="math inline">\(a\)</span>.)</p>
-<p><strong>Proof:</strong> Since <span class="math inline">\(F:\mathbf{R}^{N}\to\mathbf{R}^{k}\)</span>, we can write out <span class="math inline">\(F\)</span> in more traditional function notation as <span class="math display">\[
-F(u) = (F_{1}(u_1,\ldots, u_N), \ldots, F_{k}(u_1,\ldots, u_{N})
+<p>for any <span class="math inline">\(1\times N\)</span> vector <span class="math inline">\(v\)</span>. (This is the matrix version of the derivative rule that <span class="math inline">\(\frac{d}{dx}(ax)=a\)</span> for a constant <span class="math inline">\(a\)</span>.)</p>
+<p><strong>Proof:</strong> Since <span class="math inline">\(F:\mathbf{R}^{k}\to\mathbf{R}^{N}\)</span>, we can write out <span class="math inline">\(F\)</span> in more traditional function notation as <span class="math display">\[
+F(u) = (F_{1}(u_1,\ldots, u_k), \ldots, F_{N}(u_1,\ldots, u_{k})
 \]</span> where <span class="math display">\[
-F_{i}(u_1,\ldots u_N) = \sum_{j=1}^{N} m_{ij}u_{j}.
+F_{i}(u_1,\ldots u_k) = \sum_{j=1}^{k} m_{ij}u_{j}.
 \]</span> Thus <span class="math inline">\(\frac{\partial F_{i}}{\partial u_{j}} = m_{ij}\)</span>. The total derivative <span class="math inline">\(D(F)\)</span> is the linear map with matrix <span class="math display">\[
 D(F)_{ij} = \frac{\partial F_{i}}{\partial u_{j}} = m_{ij}
 \]</span> and so <span class="math inline">\(D(F)=M\)</span>.</p>
 <p>The other result is proved the same way.</p>
-<p><strong>Lemma</strong>: Let <span class="math inline">\(D\)</span> be a symmetric <span class="math inline">\(N\times N\)</span> matrix with constant entries and let <span class="math inline">\(u\)</span> be an <span class="math inline">\(N\times 1\)</span> column vector of variables <span class="math inline">\(u_{1},\ldots, u_{N}\)</span>. Let <span class="math inline">\(F:\mathbf{R}^{N}\to R\)</span> be the function <span class="math inline">\(F(u) = u^{\intercal}Du\)</span>. Then the derivative gradient <span class="math inline">\(\nabla_{u} F\)</span> is a vector field – that is, a vector-valued function of <span class="math inline">\(u\)</span>, and is given by the formula <span class="math display">\[
+<p><strong>Lemma</strong>: Let <span class="math inline">\(D\)</span> be a symmetric <span class="math inline">\(k\times k\)</span> matrix with constant entries and let <span class="math inline">\(u\)</span> be an <span class="math inline">\(k\times 1\)</span> column vector of variables <span class="math inline">\(u_{1},\ldots, u_{k}\)</span>. Let <span class="math inline">\(F:\mathbf{R}^{k}\to R\)</span> be the function <span class="math inline">\(F(u) = u^{\intercal}Du\)</span>. Then the gradient <span class="math inline">\(\nabla_{u} F\)</span> is a vector field – that is, a vector-valued function of <span class="math inline">\(u\)</span>, and is given by the formula <span class="math display">\[
 \nabla_{u} F = 2Du
 \]</span></p>
 <p><strong>Proof:</strong> Let <span class="math inline">\(d_{ij}\)</span> be the <span class="math inline">\(i,j\)</span> entry of <span class="math inline">\(D\)</span>. We can write out the function <span class="math inline">\(F\)</span> to obtain <span class="math display">\[
-F(u_1,\ldots, u_{N}) = \sum_{i=1}^{N} \sum_{j=1}^{N} u_i d_{ij} u_j.
+F(u_1,\ldots, u_{k}) = \sum_{i=1}^{k} \sum_{j=1}^{k} u_i d_{ij} u_j.
 \]</span> Now <span class="math inline">\(\frac{\partial F}{\partial u_{i}}\)</span> is going to pick out only terms where <span class="math inline">\(u_{i}\)</span> appears, yielding: <span class="math display">\[
-\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{N} d_{ij}u_{j} + \sum_{j=1}^{N} u_{j}d_{ji}
+\frac{\partial F}{\partial u_{i}} = \sum_{j=1}^{k} d_{ij}u_{j} + \sum_{j=1}^{k} u_{j}d_{ji}
 \]</span> Here the first sum catches all of the terms where the first “u” is <span class="math inline">\(u_{i}\)</span>; and the second sum catches all the terms where the second “u” is <span class="math inline">\(u_{i}\)</span>. The diagonal terms <span class="math inline">\(u_{i}^2d_{ii}\)</span> contribute once to each sum, which is consistent with the rule that the derivative of <span class="math inline">\(u_{i}^2d_{ii} = 2u_{i}d_{ii}\)</span>. To finish the proof, notice that <span class="math display">\[
-\sum_{j=1}^{N} u_{j}d_{ji} = \sum_{j=1}^{N} d_{ij}u_{j} 
+\sum_{j=1}^{k} u_{j}d_{ji} = \sum_{j=1}^{k} d_{ij}u_{j} 
 \]</span> since <span class="math inline">\(D\)</span> is symmetric, so in fact the two terms are the same Thus <span class="math display">\[
-\frac{\partial}{\partial u_{i}}F = 2\sum_{j=1}^{N} d_{ij}u_{j}
-\]</span> But the right hand side of this equation is twice the <span class="math inline">\(i^{th}\)</span> of <span class="math inline">\(Du\)</span>, so putting the results together we get <span class="math display">\[
-\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{N}}\end{matrix}\right] = 2Du.
+\frac{\partial}{\partial u_{i}}F = 2\sum_{j=1}^{k} d_{ij}u_{j}
+\]</span> But the right hand side of this equation is twice the <span class="math inline">\(i^{th}\)</span> entry of <span class="math inline">\(Du\)</span>, so putting the results together we get <span class="math display">\[
+\nabla_{u}F = \left[\begin{matrix} \frac{\partial F}{\partial u_{1}} \\ \vdots \\ \frac{\partial F}{\partial u_{k}}\end{matrix}\right] = 2Du.
 \]</span></p>
 <p>The following theorem puts all of this work together to reduce our questions about how variance changes with direction.</p>
 <h3 data-number="1.3.3" id="sec:critvals"><span class="header-section-number">1.3.3</span> Critical values of the variance</h3>
-<p><strong>Theorem:</strong> The critical values of the variance <span class="math inline">\(\sigma_{u}^2\)</span>, as <span class="math inline">\(u\)</span> varies over unit vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span>, are the eigenvalues <span class="math inline">\(\lambda_{1},\ldots,\lambda_{N}\)</span> of the covariance matrix <span class="math inline">\(D\)</span>, and if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector corresponding to <span class="math inline">\(\lambda_{i}\)</span>, then <span class="math inline">\(\sigma_{e_{i}}^2 = \lambda_{i}\)</span>.</p>
+<p><strong>Theorem:</strong> The critical values of the variance <span class="math inline">\(\sigma_{u}^2\)</span>, as <span class="math inline">\(u\)</span> varies over unit vectors in <span class="math inline">\(\mathbf{R}^{N}\)</span>, are the eigenvalues <span class="math inline">\(\lambda_{1},\ldots,\lambda_{k}\)</span> of the covariance matrix <span class="math inline">\(D\)</span>, and if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector corresponding to <span class="math inline">\(\lambda_{i}\)</span>, then <span class="math inline">\(\sigma_{e_{i}}^2 = \lambda_{i}\)</span>.</p>
 <p><strong>Proof:</strong> Recall that we introduced the Lagrange function <span class="math inline">\(S(u,\lambda)\)</span>, whose critical points give us the solutions to our constrained optimization problem. As we said in eq. <a href="#eq:lagrange">7</a>: <span class="math display">\[
 S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u -\lambda(u\cdot u) + \lambda
 \]</span> Now apply our Matrix calculus lemmas. First, let’s treat <span class="math inline">\(\lambda\)</span> as a constant and focus on the <span class="math inline">\(u\)</span> variables. We can write <span class="math inline">\(u\cdot u = u^{\intercal} I_{N} u\)</span> where <span class="math inline">\(I_{N}\)</span> is the identity matrix to compute: <span class="math display">\[
@@ -453,7 +429,7 @@ S(u,\lambda) = u^{\intercal}D_{0}u - \lambda(u\cdot u - 1) = u^{\intercal}D_{0}u
 \]</span> The first equation says that <span class="math inline">\(\lambda\)</span> must be an eigenvalue, and <span class="math inline">\(u\)</span> an eigenvector: <span class="math display">\[
 D_{0}u = \lambda u
 \]</span> while the second says <span class="math inline">\(u\)</span> must be a unit vector <span class="math inline">\(u\cdot u=\|u\|^2=1\)</span>. The second part of the result follows from the fact that if <span class="math inline">\(e_{i}\)</span> is a unit eigenvector with eigenvalue <span class="math inline">\(\lambda_{i}\)</span> then <span class="math display">\[
-\sigma_{e_{i}}^2 = e_{i}^{\intercal}De_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
+\sigma_{e_{i}}^2 = e_{i}^{\intercal}D_{0}e_{i} = \lambda_{i}\|e_{i}\|^2=\lambda_{i}.
 \]</span></p>
 <p>To really make this result pay off, we need to recall some key facts about the eigenvalues and eigenvectors of symmetric matrices. Because these facts are so central to this result, and to other applications throughout machine learning and mathematics generally, we provide proofs in section <a href="#sec:spectraltheorem">1.5</a>.</p>
 <hr />
@@ -470,13 +446,13 @@ D_{0}u = \lambda u
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">1. All of the eigenvalues <span class="math inline">\(\lambda_{1},\ldots, \lambda_{N}\)</span> of <span class="math inline">\(D\)</span> are real. If <span class="math inline">\(u^{\intercal}Du\ge 0\)</span> for all <span class="math inline">\(u\in\mathbf{R}^{N}\)</span>, then all eigenvalues <span class="math inline">\(\lambda_{i}\)</span> are non-negative. In the latter case we say that <span class="math inline">\(D\)</span> is <em>positive semi-definite.</em></td>
+<td style="text-align: left;">1. All of the eigenvalues <span class="math inline">\(\lambda_{1},\ldots, \lambda_{l}\)</span> of <span class="math inline">\(D\)</span> are real. If <span class="math inline">\(u^{\intercal}Du\ge 0\)</span> for all <span class="math inline">\(u\in\mathbf{R}^{k}\)</span>, then all eigenvalues <span class="math inline">\(\lambda_{i}\)</span> are non-negative. In the latter case we say that <span class="math inline">\(D\)</span> is <em>positive semi-definite.</em></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2. If <span class="math inline">\(v\)</span> is an eigenvector for <span class="math inline">\(D\)</span> with eigenvalue <span class="math inline">\(\lambda\)</span>, and <span class="math inline">\(w\)</span> is an eigenvector with a different eigenvalue <span class="math inline">\(\lambda&#39;\)</span>, then <span class="math inline">\(v\)</span> and <span class="math inline">\(w\)</span> are orthogonal: <span class="math inline">\(v\cdot w = 0\)</span>.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">3. There is an orthonormal basis <span class="math inline">\(u_{1},\ldots, u_{N}\)</span> of <span class="math inline">\(\mathbf{R}^{N}\)</span> made up of eigenvectors of <span class="math inline">\(D\)</span> corresponding to the eigenvalues <span class="math inline">\(\lambda_{i}\)</span>.</td>
+<td style="text-align: left;">3. There is an orthonormal basis <span class="math inline">\(u_{1},\ldots, u_{k}\)</span> of <span class="math inline">\(\mathbf{R}^{k}\)</span> made up of eigenvectors of <span class="math inline">\(D\)</span> corresponding to the eigenvalues <span class="math inline">\(\lambda_{i}\)</span>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">4. Let <span class="math inline">\(\Lambda\)</span> be the diagonal matrix with entries <span class="math inline">\(\lambda_{1},\ldots, \lambda_{N}\)</span> and let <span class="math inline">\(P\)</span> be the matrix whose columns are made up of the vectors <span class="math inline">\(u_{i}\)</span>. Then <span class="math inline">\(D = P\Lambda P^{\intercal}.\)</span></td>
@@ -487,38 +463,60 @@ D_{0}u = \lambda u
 <hr />
 <p>If we combine this theorem with the facts summarized in table <a href="#tbl:symmmat">2</a> then we get a complete picture. Let <span class="math inline">\(D_{0}\)</span> be the covariance matrix of our data. Since <span class="math display">\[
 \sigma_{u}^2 = u^{\intercal}D_{0}u\ge 0 \hbox{(it&#39;s a sum of squares)}
-\]</span> we know that the eigenvalues <span class="math inline">\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{N}\ge 0\)</span> are all nonnegative. Choose a corresponding sequence <span class="math inline">\(u_{1},\ldots u_{N}\)</span> of orthogonal eigenvectors where all <span class="math inline">\(\|u_{i}\|^2=1\)</span>. Since the <span class="math inline">\(u_{i}\)</span> form a basis of <span class="math inline">\(\mathbf{R}^{N}\)</span>, any score is a linear combination of the <span class="math inline">\(u_{i}\)</span>: <span class="math display">\[
-S = \sum a_{i}u_{i}.
-\]</span> Since <span class="math inline">\(u_{i}^{\intercal}Du_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)</span> unless <span class="math inline">\(i=j\)</span>, in which case it is <span class="math inline">\(\lambda_{i}\)</span>, we can compute <span class="math display">\[
-\sigma_{S}^2 = \sum_{i=1}^{N} \lambda_{i}a_{i}^2,
-\]</span> and <span class="math inline">\(\|S\|^2=\sum a_{i}^2\)</span> since the <span class="math inline">\(u_{i}\)</span> are an orthonormal set. So in these coordinates, are optimization problem is:</p>
+\]</span> we know that the eigenvalues <span class="math inline">\(\lambda_{1}\ge\lambda_{2}\ge \cdots \ge \lambda_{k}\ge 0\)</span> are all nonnegative. Choose a corresponding sequence <span class="math inline">\(u_{1},\ldots u_{k}\)</span> of orthogonal eigenvectors where all <span class="math inline">\(\|u_{i}\|^2=1\)</span>. Since the <span class="math inline">\(u_{i}\)</span> form a basis of <span class="math inline">\(\mathbf{R}^{N}\)</span>, any score is a linear combination of the <span class="math inline">\(u_{i}\)</span>: <span class="math display">\[
+S = \sum_{i=1}^{k} a_{i}u_{i}.
+\]</span> Since <span class="math inline">\(u_{i}^{\intercal}D_{0}u_{j} = \lambda_{j}u_{i}^{\intercal}u_{j} = 0\)</span> unless <span class="math inline">\(i=j\)</span>, in which case it is <span class="math inline">\(\lambda_{i}\)</span>, we can compute <span class="math display">\[
+\sigma_{S}^2 = \sum_{i=1}^{k} \lambda_{i}a_{i}^2,
+\]</span> and <span class="math inline">\(\|S\|^2=\sum_{i=1}^{k} a_{i}^2\)</span> since the <span class="math inline">\(u_{i}\)</span> are an orthonormal set. So in these coordinates, our optimization problem is:</p>
 <ul>
 <li>maximize <span class="math inline">\(\sum \lambda_{i}a_{i}^2\)</span></li>
 <li>subject to the constraint <span class="math inline">\(\sum a_{i}^2 = 1\)</span>.</li>
 </ul>
-<p>We don’t need any fancy math to see that the maximum happens when <span class="math inline">\(a_{1}=1\)</span> and the other <span class="math inline">\(a_{j}=0\)</span>, and in that case, the maximum is <span class="math inline">\(\lambda_{1}\)</span>. (If <span class="math inline">\(\lambda_{1}\)</span> occurs more than once, there may be a whole subspace of directions where the variance is maximal). Similarly, the minimum value is <span class="math inline">\(\lambda_{N}\)</span> and occurs when <span class="math inline">\(a_{N}=1\)</span> and the others are zero.</p>
+<p>We don’t need any fancy math to see that the maximum happens when <span class="math inline">\(a_{1}=1\)</span> and the other <span class="math inline">\(a_{j}=0\)</span>, and in that case, the maximum is <span class="math inline">\(\lambda_{1}\)</span>. (If <span class="math inline">\(\lambda_{1}\)</span> occurs more than once, there may be a whole subspace of directions where the variance is maximal). Similarly, the minimum value is <span class="math inline">\(\lambda_{k}\)</span> and occurs when <span class="math inline">\(a_{k}=1\)</span> and the others are zero.</p>
 <h3 data-number="1.3.4" id="sec:subspaces"><span class="header-section-number">1.3.4</span> Subspaces of extremal variance</h3>
-<p>We can generalize the question asked in section <a href="#sec:extremalvariance">1.3.2</a> by seeking, not just a vector <span class="math inline">\(u\)</span> pointing in the direction of the extremal variance, but instead the <em>subspace</em> <span class="math inline">\(U_{s}\)</span> of dimension <span class="math inline">\(s\)</span> with the property that the total variance of the projection of the data into <span class="math inline">\(U_{s}\)</span> is maximal compared to its projection into other subspaces of that dimension.</p>
-<p>To make this concrete, suppose we consider a subspace <span class="math inline">\(E\)</span> of <span class="math inline">\(\mathbf{R}^{N}\)</span> of dimension <span class="math inline">\(k\)</span> with basis <span class="math inline">\(w_{1},\ldots, w_{k}\)</span>. Complete this to a basis <span class="math inline">\(w_{1},\ldots, w_{s},w_{s+1},\ldots, w_{N}\)</span> of <span class="math inline">\(\mathbf{R}^{N}\)</span> and then apply the Gram Schmidt Process (see section <a href="#sec:gsprocess">1.5.1</a>) to find an orthonormal basis <span class="math inline">\(w&#39;_{1},\ldots,w&#39;_{s},w&#39;_{s+1},\ldots, w&#39;_{N}\)</span> where the <span class="math inline">\(w&#39;_{1},\ldots, w&#39;_{s}\)</span> are an orthonormal basis for <span class="math inline">\(E\)</span>. Let <span class="math inline">\(W\)</span> be the <span class="math inline">\(k\times s\)</span> matrix whose columns are the <span class="math inline">\(w&#39;_{i}\)</span> for <span class="math inline">\(i=1,\ldots,s\)</span>. The rows of the matrix <span class="math inline">\(X_{0}s\)</span> given the coordinates of the projection of each sample into the subspace <span class="math inline">\(E\)</span> expressed in terms of the scores corresponding to these vectors <span class="math inline">\(w&#39;_{i}\)</span>. The total variance of these projections is</p>
+<p>We can generalize the idea of the variance of our data in a particular direction to a higher dimensional version of <em>total variance</em> in a subspace. Suppose that <span class="math inline">\(E\)</span> is a subspace of <span class="math inline">\(\mathbf{R}^{k}\)</span> and <span class="math inline">\(U\)</span> is a matrix whose columns span <span class="math inline">\(E\)</span> – the columns of <span class="math inline">\(U\)</span> are the weights of a family of scores that span <span class="math inline">\(E\)</span>. The values of these scores are <span class="math inline">\(XU\)</span> and the covariance matrix of this projected data is <span class="math inline">\(\frac{1}{N}U^{\intercal}X^{\intercal}XU=U^{\intercal}D_{0}U\)</span>.<br />
+Finally, the <em>total variance</em> <span class="math inline">\(\sigma_{E}^2\)</span> of the data projected into <span class="math inline">\(E\)</span> is the sum of the diagonal entries of the matrix</p>
 <p><span class="math display">\[
-\sigma_{E}^2 = \sum_{i=1}^{s} \|X_{0}w&#39;_{i}\|^2 = \sum_{i=1}^{s} (w&#39;_{i})^{\intercal}X_{0}^{\intercal}X_{0}w&#39;_{i}  = \sum_{i=1}^{s} (w&#39;_{i})^{\intercal}D_{0}w&#39;_{i}
+\sigma^2_{E} = \mathop{trace}(U^{\intercal}D_{0}U)
 \]</span></p>
-<p>If we want to maximize this, we have the constrained optimization problem of finding <span class="math inline">\(w_{1},\ldots, w_{s}\)</span> so that</p>
+<p>Just as the variance in a given direction <span class="math inline">\(u\)</span> depends on the scaling of <span class="math inline">\(u\)</span>, the variance in a subspace depends on the scaling of the columns of <span class="math inline">\(U\)</span>. To normalize this scaling, we assume that the columns of <span class="math inline">\(U\)</span> are an orthonormal basis of the subspace <span class="math inline">\(E\)</span>.</p>
+<p>Now we can generalize the question asked in section <a href="#sec:extremalvariance">1.3.2</a> by seeking, not just a vector <span class="math inline">\(u\)</span> pointing in the direction of the extremal variance, but instead the <em>subspace</em> <span class="math inline">\(U_{s}\)</span> of dimension <span class="math inline">\(s\)</span> with the property that the total variance of the projection of the data into <span class="math inline">\(U_{s}\)</span> is maximal compared to its projection into other subspaces of that dimension.</p>
+<p><strong>Theorem:</strong> Let <span class="math inline">\(u_{1},\ldots,u_{k}\)</span> be the eigenvectors of <span class="math inline">\(D_{0}\)</span> with eigenvalues <span class="math inline">\(\lambda_{1}\ge \lambda_{2}\ge\cdots \ge\lambda_{k}\ge 0\)</span>. Given <span class="math inline">\(1\le s\le k\)</span>, choose <span class="math inline">\(s\)</span> of the largest eigenvalues of <span class="math inline">\(D_{0}\)</span> and let <span class="math inline">\(U\)</span> be the matrix whose columns are the corresponding eigenvectors. (There may be several choices here, since some of the eigenvalues may be the same.) The subspaces constructed in this way have the largest total variance among all subspaces of dimension <span class="math inline">\(s\)</span>, and that total variance is <span class="math inline">\(\sum_{i=1}^{s} \lambda_{i}\)</span>. These are called subspaces of extremal variance.</p>
+<p>Overlooking the issue of repeated eigenvalues, this can be phrased more concisely by saying that the eigenvectors corresponding to the <span class="math inline">\(s\)</span> largest eigenvalues span the subspace of dimension <span class="math inline">\(s\)</span> such that the projection of the data into that subspace has maximal variance among all subspaces of dimension <span class="math inline">\(s\)</span>.</p>
+<p><strong>Proof:</strong> To make this concrete, suppose we consider a subspace <span class="math inline">\(E\)</span> of <span class="math inline">\(\mathbf{R}^{k}\)</span> of dimension <span class="math inline">\(t\)</span> with basis <span class="math inline">\(w_{1},\ldots, w_{t}\)</span>. Complete this to a basis <span class="math inline">\(w_{1},\ldots, w_{t},w_{t+1},\ldots, w_{k}\)</span> of <span class="math inline">\(\mathbf{R}^{k}\)</span> and then apply the Gram Schmidt Process (see section <a href="#sec:gsprocess">1.5.1</a>) to find an orthonormal basis <span class="math inline">\(w&#39;_{1},\ldots,w&#39;_{s},w&#39;_{s+1},\ldots, w&#39;_{k}\)</span> where the <span class="math inline">\(w&#39;_{1},\ldots, w&#39;_{t}\)</span> are an orthonormal basis for <span class="math inline">\(E\)</span>. Let <span class="math inline">\(W\)</span> be the <span class="math inline">\(k\times t\)</span> matrix whose columns are the <span class="math inline">\(w&#39;_{i}\)</span> for <span class="math inline">\(i=1,\ldots,t\)</span>. The rows of the matrix <span class="math inline">\(X_{0}W\)</span> given the coordinates of the projection of each sample into the subspace <span class="math inline">\(E\)</span> expressed in terms of the scores corresponding to these vectors <span class="math inline">\(w&#39;_{i}\)</span>. The total variance of these projections is</p>
+<p><span class="math display">\[
+\sigma_{E}^2 = \sum_{i=1}^{t} \|X_{0}w&#39;_{i}\|^2 = \sum_{i=1}^{t} (w&#39;_{i})^{\intercal}X_{0}^{\intercal}X_{0}w&#39;_{i}  = \sum_{i=1}^{t} (w&#39;_{i})^{\intercal}D_{0}w&#39;_{i}
+\]</span></p>
+<p>If we want to maximize this, we have the constrained optimization problem of finding <span class="math inline">\(w&#39;_{1},\ldots, w&#39;_{t}\)</span> so that</p>
 <ul>
-<li><span class="math inline">\(\sum_{i=1}^{s} w_{i}^{\intercal}D_{0}w_{i}\)</span> is maximal</li>
-<li>subject to the constraint that each <span class="math inline">\(w_{i}\)</span> has <span class="math inline">\(\|w_{i}\|^2=1\)</span>.</li>
-<li>and that the <span class="math inline">\(w_{i}\)</span> are linearly independent.</li>
+<li><span class="math inline">\(\sum_{i=1}^{t} (w&#39;_{i})^{\intercal}D_{0}w&#39;_{i}\)</span> is maximal</li>
+<li>subject to the constraint that each <span class="math inline">\(w_{i}\)</span> has <span class="math inline">\(\|w&#39;_{i}\|^2=1\)</span>,</li>
+<li>and that the <span class="math inline">\(w&#39;_{i}\)</span> are orthogonal, meaning <span class="math inline">\(w&#39;_{i}\cdot w&#39;_{j}=0\)</span> for <span class="math inline">\(i\not=j\)</span>,</li>
+<li>and that the <span class="math inline">\(w&#39;_{i}\)</span> are linearly independent.</li>
 </ul>
-<p><strong>Theorem:</strong> The solution <span class="math inline">\(w_{1},\ldots, w_{s}\)</span> to this constrained optimization problem is <span class="math inline">\(u_{1},\ldots, u_{s}\)</span> where <span class="math inline">\(u_{i}\)</span> is the <span class="math inline">\(i^{th}\)</span> principal direction for <span class="math inline">\(D_{0}\)</span>, that is, a unit eigenvector for <span class="math inline">\(D_{0}\)</span> corresponding to its <span class="math inline">\(i^{th}\)</span> largest eigenvalue.</p>
-<p><strong>Proof:</strong> The Lagrange multiplier for this problem is <span class="math display">\[
-S(w,\lambda_{1},\lambda_{2},\ldots, \lambda_{s}) = \sum_{i=1}^{s} (w_{i}^{\intercal}D_{0}w_{i} -\lambda_{i}(w_{i}^{\intercal}w_{i}-1)).
-\]</span> Each <span class="math inline">\(\frac{\partial}{\partial w_{i}} S\)</span> is exactly as in our computation in the case of a single vector and yields the equations <span class="math display">\[
-D_{0}w_{i}-\lambda_{i}w_{i}=0.
-\]</span> and the <span class="math inline">\(\frac{\partial}{\partial \lambda_{i}} S=0\)</span> conditions mean that <span class="math inline">\(w_{i}\)</span> is of unit length. In other words, the critical points occur at unit eigenvectors of <span class="math inline">\(D_{0}\)</span>. To satisfy linear independence, we need <span class="math inline">\(s\)</span> independent eigenvalues. And, finally, if we choose any <span class="math inline">\(s\)</span> of the eigenvectors of <span class="math inline">\(D_{0}\)</span> corresponding to eigenvalues <span class="math inline">\(\mu_{1},\ldots,\mu_{s}\)</span>, then the value</p>
-<p><span class="math display">\[
-\sigma_{E}^2 = \sum_{i=1}^{s} \mu_{i}^2.
+<p>Then the span <span class="math inline">\(E\)</span> of these <span class="math inline">\(w&#39;_{i}\)</span> is subspace of extremal variance.</p>
+<p><strong>Theorem:</strong> A <span class="math inline">\(t\)</span>-dimensional subspace <span class="math inline">\(E\)</span> is a subspace of extremal variance if and only if it is spanned by <span class="math inline">\(t\)</span> orthonormal eigenvectors of the matrix <span class="math inline">\(D_{0}\)</span> corresponding to the <span class="math inline">\(t\)</span> largest eigenvalues for <span class="math inline">\(D_{0}\)</span>.</p>
+<p><strong>Proof:</strong> We can approach this problem using Lagrange multipliers and matrix calculus if we are careful. Our unknown is <span class="math inline">\(k\times t\)</span> matrix <span class="math inline">\(W\)</span> whose columns are the <span class="math inline">\(t\)</span> (unknown) vectors <span class="math inline">\(w&#39;_{i}\)</span>. The objective function that we are seeking to maximize is <span class="math display">\[
+F = \mathop{trace}(W^{\intercal}D_{0}W) = \sum_{i=1}^{t} (w&#39;_{i})^{\intercal}D_{0}w_{i}.
+\]</span> The constraints are the requirements that <span class="math inline">\(\|w&#39;_{i}\|^2=1\)</span> and <span class="math inline">\(w&#39;_{i}\cdot w&#39;_{j}=0\)</span> if <span class="math inline">\(i\not=j\)</span>. If we introduction a matrix of lagrange multipliers <span class="math inline">\(\Lambda=(\lambda_{ij})\)</span>, where <span class="math inline">\(\lambda_{ij}\)</span> is the multiplier that goes with the the first of these constraints when <span class="math inline">\(i=j\)</span>, and the second when <span class="math inline">\(i\not=j\)</span>, we can express our Lagrange function as: <span class="math display">\[
+S(W,\Lambda) = \mathop{trace}(W^{\intercal}D_{0}W) - (W^{\intercal}W-I)\Lambda
+\]</span> where <span class="math inline">\(I\)</span> is the <span class="math inline">\(t\times t\)</span> identity matrix.</p>
+<p>Taking the derivatives with respect to the entries of <span class="math inline">\(W\)</span> and of <span class="math inline">\(\Lambda\)</span> yields the following two equations: <span class="math display">\[\begin{align*}
+D_{0}W &amp;= W\Lambda \\
+W^{\intercal}W &amp;= I \\
+\end{align*}\]</span></p>
+<p>The first of these equations says that the space <span class="math inline">\(E\)</span> spanned by the columns of <span class="math inline">\(W\)</span> is <em>invariant</em> under <span class="math inline">\(D_{0}\)</span>, while the second says that the columns of <span class="math inline">\(W\)</span> form an orthonormal basis.</p>
+<p>Let’s assume for the moment that we have a matrix <span class="math inline">\(W\)</span> that satisfies these conditions.<br />
+Then it must be the case that <span class="math inline">\(\Lambda\)</span> is a symmetric, real valued <span class="math inline">\(t\times t\)</span> matrix, since <span class="math display">\[
+W^{\intercal}D_{0}W = W^{\intercal}W\Lambda = \Lambda.
+\]</span> and the matrix on the left is symmetric.</p>
+<p>By the properties of real symmetric matrices (the spectral theorem), there are orthonormal vectors <span class="math inline">\(q_{1},\ldots q_{t}\)</span> that are eigenvectors of <span class="math inline">\(\Lambda\)</span> with corresponding eigenvalues <span class="math inline">\(\tau_{i}\)</span>. If we let <span class="math inline">\(Q\)</span> be the matrix whose columns are the vectors <span class="math inline">\(q_{i}\)</span> and let <span class="math inline">\(T\)</span> be the diagonal <span class="math inline">\(t\times t\)</span> matrix whose entries are the <span class="math inline">\(\tau_{i}\)</span>, we have <span class="math display">\[
+\Lambda Q = QT.
 \]</span></p>
-<p>To maximize this it’s clear that we should choose the <span class="math inline">\(\mu_{i}\)</span> to be the <span class="math inline">\(s\)</span> largest eigenvalues and <span class="math inline">\(w_{i}\)</span> to be the corresponding eigenvectors.</p>
+<p>If we go back to our original equations, we see that if <span class="math inline">\(W\)</span> exists such that <span class="math inline">\(DW=W\Lambda\)</span>, then there is a matrix <span class="math inline">\(Q\)</span> with orthonormal columns and a diagonal matrix <span class="math inline">\(T\)</span> such that <span class="math display">\[
+D_{0}WQ = W\Lambda Q = W Q T.
+\]</span> In other words, <span class="math inline">\(WQ\)</span> is a matrix whose columns are eigenvectors of <span class="math inline">\(D_{0}\)</span> with eigenvalues <span class="math inline">\(\tau_{i}\)</span> for <span class="math inline">\(i=1,\ldots, t\)</span>.</p>
+<p>Thus we see how to construct an invariant subspace <span class="math inline">\(E\)</span> and a solution matrix <span class="math inline">\(W\)</span>. Such an <span class="math inline">\(E\)</span> is spanned by <span class="math inline">\(t\)</span> orthonormal eigenvectors <span class="math inline">\(q_{i}\)</span> with eigenvalues <span class="math inline">\(\tau_{i}\)</span> of <span class="math inline">\(D_{0}\)</span>; and <span class="math inline">\(W\)</span> is is the matrix whose columns are the <span class="math inline">\(q_{i}\)</span>. Further, in that case, the total variance associated to <span class="math inline">\(E\)</span> is the sum of the eigenvalues <span class="math inline">\(\tau_{i}\)</span>; to make this as large as possible, we should choose our eigenvectors to correspond to <span class="math inline">\(t\)</span> of the largest eigenvalues of <span class="math inline">\(D_{0}\)</span>. This concludes the proof.</p>
 <h3 data-number="1.3.5" id="definition-of-principal-components"><span class="header-section-number">1.3.5</span> Definition of Principal Components</h3>
 <p><strong>Definition:</strong> The orthonormal unit eigenvectors <span class="math inline">\(u_{i}\)</span> for <span class="math inline">\(D_{0}\)</span> are the <em>principal directions</em> or <em>principal components</em> for the data <span class="math inline">\(X_{0}\)</span>.</p>
 <p><strong>Theorem:</strong> The maximum variance occurs in the principal direction(s) associated to the largest eigenvalue, and the minimum variance in the principal direction(s) associated with the smallest one. The covariance between scores in principal directions associatedwith different eigenvalues is zero.</p>
@@ -538,9 +536,9 @@ H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
 </ol>
 <h2 data-number="1.4" id="dimensionality-reduction-via-principal-components"><span class="header-section-number">1.4</span> Dimensionality Reduction via Principal Components</h2>
 <p>The principal components associated with a dataset separate out directions in the feature space in which the data is most (or least) variable. One of the main applications of this information is to enable us to take data with a great many features – a set of points in a high dimensional space – and, by focusing our attention on the scores corresponding to the principal directions, capture most of the information in the data in a much lower dimensional setting.</p>
-<p>To illustrate how this is done, let <span class="math inline">\(X\)</span> be a <span class="math inline">\(k\times N\)</span> data matrix, let <span class="math inline">\(X_{0}\)</span> be its centered version, and let <span class="math inline">\(D_{0} = \frac{1}{N}X_{0}^{\intercal}X\)</span> be the associated covariance matrix.</p>
-<p>Apply the spectral theorem (described in table <a href="#tbl:symmmat">2</a>) and proved in section <a href="#sec:spectraltheorem">1.5</a> to the covariance matrix to obtain eigenvalues <span class="math inline">\(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{N}\ge 0\)</span> and associated eigenvectors <span class="math inline">\(u_{1},\ldots, u_{N}\)</span>. The scores <span class="math inline">\(S_{i}=X_{0}u_{i}\)</span> give the values of the data in the principal directions. The variance of <span class="math inline">\(S_{i}\)</span> is <span class="math inline">\(\lambda_{i}\)</span>.</p>
-<p>Now choose a number <span class="math inline">\(t&lt;N\)</span> and consider the vectors <span class="math inline">\(S_{1},\ldots, S_{t}\)</span>. The <span class="math inline">\(j^{th}\)</span> entry in <span class="math inline">\(S_{i}\)</span> is the value of the score <span class="math inline">\(S_{i}\)</span> for the <span class="math inline">\(j^{th}\)</span> data point. Because <span class="math inline">\(S_{1},\ldots, S_{t}\)</span> capture the most significant variability in the original data, we can learn a lot about our data by considering just these <span class="math inline">\(t\)</span> features of the data, instead of needing all <span class="math inline">\(N\)</span>.</p>
+<p>To illustrate how this is done, let <span class="math inline">\(X\)</span> be a <span class="math inline">\(N\times k\)</span> data matrix, let <span class="math inline">\(X_{0}\)</span> be its centered version, and let <span class="math inline">\(D_{0} = \frac{1}{N}X_{0}^{\intercal}X\)</span> be the associated covariance matrix.</p>
+<p>Apply the spectral theorem (described in table <a href="#tbl:symmmat">2</a>) and proved in section <a href="#sec:spectraltheorem">1.5</a> to the covariance matrix to obtain eigenvalues <span class="math inline">\(\lambda_{1}\ge \lambda_{2}\ge\cdots \lambda_{k}\ge 0\)</span> and associated eigenvectors <span class="math inline">\(u_{1},\ldots, u_{k}\)</span>. The scores <span class="math inline">\(S_{i}=X_{0}u_{i}\)</span> give the values of the data in the principal directions. The variance of <span class="math inline">\(S_{i}\)</span> is <span class="math inline">\(\lambda_{i}\)</span>.</p>
+<p>Now choose a number <span class="math inline">\(t&lt;k\)</span> and consider the vectors <span class="math inline">\(S_{1},\ldots, S_{t}\)</span>. The <span class="math inline">\(j^{th}\)</span> entry in <span class="math inline">\(S_{i}\)</span> is the value of the score <span class="math inline">\(S_{i}\)</span> for the <span class="math inline">\(j^{th}\)</span> data point. Because <span class="math inline">\(S_{1},\ldots, S_{t}\)</span> capture the most significant variability in the original data, we can learn a lot about our data by considering just these <span class="math inline">\(t\)</span> features of the data, instead of needing all <span class="math inline">\(N\)</span>.</p>
 <p>To illustrate, let’s look at an example. We begin with a synthetic dataset <span class="math inline">\(X_{0}\)</span> which has <span class="math inline">\(200\)</span> samples and <span class="math inline">\(15\)</span> features. The data (some of it) for some of the samples is shown in table <a href="#tbl:rawdata">3</a>.</p>
 <div id="tbl:rawdata" class="tablenos">
 <table id="tbl:rawdata">
@@ -665,8 +663,8 @@ H(v) = \max_{v\not = 0}\frac{v^{\intercal}Dv}{v^{\intercal}v}.
 <p>If we were dealing with real data, we would now want to investigate the different groups of points to see if we can understand what characteristics the principal components have identified.</p>
 <h3 data-number="1.4.1" id="loadings"><span class="header-section-number">1.4.1</span> Loadings</h3>
 <p>There’s one last piece of the PCA puzzle that we are going to investigate. In fig. <a href="#fig:principalvalues">12</a>, we plotted our data points in the coordinates given by the first two principal components. In geometric terms, we took the cloud of <span class="math inline">\(200\)</span> points in <span class="math inline">\(\mathbf{R}^{15}\)</span> given by the rows of <span class="math inline">\(X_{0}\)</span> and projected those points into the two dimensional plane spanned by the eigenvectors <span class="math inline">\(u_{1}\)</span> and <span class="math inline">\(u_{2}\)</span>, and then plotted the distribution of the points in that plane.</p>
-<p>More generally, suppose we take our dataset <span class="math inline">\(X_{0}\)</span> and consider the first <span class="math inline">\(t\)</span> principal components corresponding to the eigenvectors <span class="math inline">\(u_{1},\ldots, u_{t}\)</span>. The projection of the data into the space spanned by these eigenvectors is the represented by the <span class="math inline">\(S = k\times t\)</span> matrix <span class="math inline">\(X_{0}U\)</span> where <span class="math inline">\(U\)</span> is the <span class="math inline">\(N\times t\)</span> matrix whose columns are the eigenvectors <span class="math inline">\(u_{i}\)</span>. Each row of <span class="math inline">\(S\)</span> gives the values of the score arising from <span class="math inline">\(u_{i}\)</span> in the <span class="math inline">\(i^{th}\)</span> column for <span class="math inline">\(i=1,\ldots, t\)</span>.</p>
-<p>The remaining question that we wish to consider is: how can we see some evidence of the original features in subspace? We can answer this by imagining that we had an artificial sample <span class="math inline">\(x\)</span> that has a measurement of <span class="math inline">\(1\)</span> for the <span class="math inline">\(i^{th}\)</span> feature and a measurement of zero for all the other features. The corresponding point is represented by a <span class="math inline">\(1\times N\)</span> row vector with a <span class="math inline">\(1\)</span> in position <span class="math inline">\(i\)</span>. The projection of this synthetic sample into the span of the first <span class="math inline">\(t\)</span> principal components is the <span class="math inline">\(1\times t\)</span> vector <span class="math inline">\(xU\)</span>. Notice, however, that <span class="math inline">\(xU\)</span> is just the <span class="math inline">\(i^{th}\)</span> row of the matrix <span class="math inline">\(U\)</span>. This vector in the space spanned by the <span class="math inline">\(u_{i}\)</span> is called the “loading” of the <span class="math inline">\(i^{th}\)</span> feature in the principal components.</p>
+<p>More generally, suppose we take our dataset <span class="math inline">\(X_{0}\)</span> and consider the first <span class="math inline">\(t\)</span> principal components corresponding to the eigenvectors <span class="math inline">\(u_{1},\ldots, u_{t}\)</span>. The projection of the data into the space spanned by these eigenvectors is the represented by the <span class="math inline">\(S = k\times t\)</span> matrix <span class="math inline">\(X_{0}U\)</span> where <span class="math inline">\(U\)</span> is the <span class="math inline">\(k\times t\)</span> matrix whose columns are the eigenvectors <span class="math inline">\(u_{i}\)</span>. Each row of <span class="math inline">\(S\)</span> gives the values of the score arising from <span class="math inline">\(u_{i}\)</span> in the <span class="math inline">\(i^{th}\)</span> column for <span class="math inline">\(i=1,\ldots, t\)</span>.</p>
+<p>The remaining question that we wish to consider is: how can we see some evidence of the original features in subspace? We can answer this by imagining that we had an artificial sample <span class="math inline">\(x\)</span> that has a measurement of <span class="math inline">\(1\)</span> for the <span class="math inline">\(i^{th}\)</span> feature and a measurement of zero for all the other features. The corresponding point is represented by a <span class="math inline">\(1\times k\)</span> row vector with a <span class="math inline">\(1\)</span> in position <span class="math inline">\(i\)</span>. The projection of this synthetic sample into the span of the first <span class="math inline">\(t\)</span> principal components is the <span class="math inline">\(1\times t\)</span> vector <span class="math inline">\(xU\)</span>. Notice, however, that <span class="math inline">\(xU\)</span> is just the <span class="math inline">\(i^{th}\)</span> row of the matrix <span class="math inline">\(U\)</span>. This vector in the space spanned by the <span class="math inline">\(u_{i}\)</span> is called the “loading” of the <span class="math inline">\(i^{th}\)</span> feature in the principal components.</p>
 <p>This is illustrated in section <a href="#loadings">1.4.1</a>, which shows a line along the direction of the loading corresponding to the each feature added to the scatter plot of the data in the plane spanned by the first two principal components. One observation one can make is that some of the features are more “left to right,” like features <span class="math inline">\(7\)</span> and <span class="math inline">\(8\)</span>, while others are more “top to bottom,” like <span class="math inline">\(6\)</span>. So points that lie on the left side of the plot have smaller values of features <span class="math inline">\(7\)</span> and <span class="math inline">\(8\)</span>, while those at the top of the plot have larger values of feature <span class="math inline">\(6\)</span>.</p>
 <div id="fig:loadings" class="fignos">
 <figure>

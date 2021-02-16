@@ -617,19 +617,22 @@ by \[
 P(S)=p^{k}(1-p)^{N-k}
 \] for some \(0\le p\le 1\). In other words, \(X\) is the sample space
 consisting of \(N\) independent flips of a coin with probability of
-heads given by \(p\).\\
-Let \(f:X\to \mathbb{R}\) be the function which counts the number of
-\(H\) in the string. Then \(f\) is a random variable called a
-\emph{binomial random variable} with parameters \(p\) and \(N\).
-Clearly, a binomial random variable with \(N=1\) is just a Bernoulli
-variable with parameter \(p\).
+heads given by \(p\).
 
-If \(f\) is a binomial random variable with parameters \(p\) and \(N\),
-then \[
+Let \(f:X\to \mathbb{R}\) be the function which counts the number of
+\(H\) in the string. We can express \(f\) in terms of Bernoulli random
+variables; indeed, \[
+f=X_1+\ldots+X_N
+\] where each \(X_i\) is a Bernoulli random variable with parameter
+\(p\).
+
+Now \[
 P(f=k) = \binom{N}{k}p^{k}(1-p)^{N-k}
 \] since \(f^{-1}(\{k\})\) is the number of elements in the subset of
 strings of \(H\) and \(T\) of length \(N\) containing exactly \(k\)
-\(H\)'s.
+\(H\)'s. This is our old friend the binomial distribution. So \emph{a
+binomial distribution is the distribution of the sum of \(N\)
+independent Bernoulli random variables.}
 
 For an example with a continuous random variable, suppose our sample
 space is \(\mathbf{R}^{2}\) and the probability density is the simple
@@ -1056,7 +1059,7 @@ P(t,t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)e^{-(t-t_*)^2/2}.
 
 Now we make a bunch of measurements to obtain
 \(\mathbf{t}_0=(t_1,\ldots, t_n)\). We have \[
-P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-(\mathbf{t}-t_*\mathbf{e})^2/2}.
+P(\mathbf{t}=\mathbf{t}_0|t_{*}) = \left(\frac{1}{\sqrt{2\pi}}\right)^ne^{-\|\mathbf{t}-t_*\mathbf{e}\|^2/2}.
 \]
 
 The total probability \(T=P(\mathbf{t}=\mathbf{t_0})\) is hard to
@@ -1072,7 +1075,7 @@ exponential \[
 e^{-(\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2)/30}.
 \] Since \(\mathbf{t}\) is a vector of constants -- it is a vector of
 our particular measurements -- the exponent \[
-\|\mathbf{t}-t_{*}\mathbf{e}\|^2+(t_{*}-30)^2 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
+\|\mathbf{t}-t_{*}\mathbf{e}\|^2/2+(t_{*}-30)^2/30 = (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2
 \] is a quadratic polynomial in \(t_{*}\) that simplifies: \[
 (t_{*}-30)^2/30+\sum_{i} (t_{i}-t_{*})^2/2 = At_{*}^2+Bt_{*}+C.
 \] Here \[

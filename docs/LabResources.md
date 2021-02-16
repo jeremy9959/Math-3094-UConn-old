@@ -19,3 +19,4 @@ document is here.](https://github.com/jeremy9959/Math-3094-Spring-2021/blob/mast
   - [Video 2 (Linear Algebra)](https://www.youtube.com/watch?v=wp3KQ83bGTg&list=PLHmPFY5Rz0RAcyoEBZFSeazyRV5AsSxOO&index=5)
   - [Video 3 (Plotting)](https://www.youtube.com/watch?v=wp3KQ83bGTg&list=PLHmPFY5Rz0RAcyoEBZFSeazyRV5AsSxOO&index=6)
 
+- Using scikit-learn [html](published_notes/notes/SKlearn.html) [ipynb](published_notes/notes/SKlearn.ipynb)

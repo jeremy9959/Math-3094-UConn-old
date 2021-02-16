@@ -1,0 +1,234 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\author{}
+\date{}
+
+\begin{document}
+
+\lstset{columns=fullflexible,breaklines=true,basicstyle=\small\ttfamily,backgroundcolor=\color{gray!10}}
+
+\hypertarget{naive-bayes-for-classification}{%
+\section{Naive Bayes for
+Classification}\label{naive-bayes-for-classification}}
+
+\hypertarget{sentiment-analysis}{%
+\subsection{Sentiment Analysis}\label{sentiment-analysis}}
+
+\begin{itemize}
+\item
+  Sentiment analysis is the problem of extracting the author's tone from
+  a piece of text.
+\item
+  A simple example is deciding if a product review is positive or
+  negative. Here are some short reviews of Amazon products, labelled
+  with a 0 if they are negative or a 1 if they are positive.
+\end{itemize}
+
+\begin{lstlisting}
+So there is no way for me to plug it in here in the US unless I go by a converter.  0
+Good case, Excellent value. 1
+Great for the jawbone.  1
+Tied to charger for conversations lasting more than 45 minutes.MAJOR PROBLEMS!! 0
+The mic is great.   1
+\end{lstlisting}
+
+\begin{itemize}
+\item
+  We have three files each with 1000 labelled reviews, 500 of which are
+  positive, 500 negative:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    amazon reviews of products
+  \item
+    yelp reviews of restaurants
+  \item
+    imdb reviews of movies
+  \end{itemize}
+\item
+  Our method will be \emph{supervised learning} where we use a set of
+  pre-labelled reviews to develop an algorithm that we can then apply to
+  new, unlabelled reviews.
+\item
+  Building a Spam filter is another example of this type of problem.
+\end{itemize}
+
+\newpage
+
+\hypertarget{bernoulli-tests}{%
+\subsection{Bernoulli tests}\label{bernoulli-tests}}
+
+\begin{itemize}
+\tightlist
+\item
+  Building block: presence or absence of keywords. Each word is a
+  ``test.''
+\end{itemize}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+& + & - & total\tabularnewline
+\midrule
+\endhead
+\textbf{great} & 92 & 5 & 97\tabularnewline
+\textasciitilde{}\textbf{great} & 408 & 495 & 903\tabularnewline
+total & 500 & 500 & 1000\tabularnewline
+\bottomrule
+\end{longtable}
+
+\[ P (\mathbf{great} | +) =  .184 \]
+
+\[ P(\mathbf{great})  = .097 \]
+
+\[P(+|\mathbf{great}) = .948 \]
+
+\[P(+|\sim\mathbf{great}) = .452\]
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+& + & - & total\tabularnewline
+\midrule
+\endhead
+\textbf{waste} & 0 & 14 & 14\tabularnewline
+\textasciitilde{}\textbf{waste} & 500 & 486 & 986\tabularnewline
+total & 500 & 500 & 1000\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{align*}
+P(+|\mathbf{waste}) &= 0\\
+P(+|\sim\mathbf{waste}) &= .51
+\end{align*}
+
+\hypertarget{independence-assumption}{%
+\subsection{Independence assumption}\label{independence-assumption}}
+
+\begin{itemize}
+\tightlist
+\item
+  We make the (false) assumption that each keyword gives an independent
+  test.
+\end{itemize}
+
+\begin{align*}
+P(\mathbf{great},\mathbf{waste}|\pm) &= P(\mathbf{great}|\pm)P(\mathbf{waste}|\pm)\\
+P(\mathbf{great},\sim\mathbf{waste}|\pm) &= P(\mathbf{great}|\pm)P(\sim\mathbf{waste}|\pm)\\
+ &\vdots \\
+\end{align*}
+
+\[
+P(+|\mathbf{great},\sim\mathbf{waste}) = \frac{P(\mathbf{great}|+)P(\sim\mathbf{waste}|+)P(+)}{P(\mathbf{great},\sim\mathbf{waste})}
+\]
+
+\[
+P(-|\mathbf{great},\sim\mathbf{waste}) = \frac{P(\mathbf{great}|-)P(\sim\mathbf{waste}|-)P(-)}{P(\mathbf{great},\sim\mathbf{waste})}
+\]
+
+\begin{itemize}
+\tightlist
+\item
+  Decision rule: compare probabilities. But only the numerator matters
+  -- this is called the ``likelihood.''
+\end{itemize}
+
+\[
+L(+|\mathbf{great},\sim\mathbf{waste}) = (.184)(1)(.5) = .092
+\]
+
+\[
+L(-|\mathbf{great},\sim\mathbf{waste}) = (.01)(.028)(.5) = .00014
+\]
+
+\hypertarget{feature-vectors}{%
+\subsection{Feature vectors}\label{feature-vectors}}
+
+\begin{itemize}
+\item
+  Given words \(w_1,\ldots, w_k\), with probabilities \(P(w_{i}|\pm)\),
+  we imagine independent tests.
+\item
+  The ``naive'' probabilities come from the training data:
+\end{itemize}
+
+\[
+P(w_{i}|\pm) = \frac{\hbox{\rm number of \pm reviews that include $w_{i}$}}{\hbox{\rm total $\pm$ reviews}}
+\]
+
+\begin{itemize}
+\item
+  All we need to know about a document is whether or not each of the key
+  words appears.
+\item
+  So a document can be replaced by a vector of \(1/0\) (called a
+  ``feature vector'') where \(f_{i}=1\) if \(w_{i}\) appears, and \(0\)
+  if it doesn't appear.
+\end{itemize}
+
+\end{document}
