@@ -20,7 +20,7 @@ you obtain.
 
 We suggest meeting with you to discuss your plans before you get too far along.
 
-The project will be due March 15, 2021.
+The project will be due March 22, 2021.
 
 ## Datasets
 
@@ -37,3 +37,6 @@ Some data that we have worked with or will work with in class are:
 - [Haberman survival data](https://archive.ics.uci.edu/ml/datasets/Haberman%27s+Survival)
 - [Amazon/Yelp/IMDB reviews](https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences)
 - [Penguin classification data](https://github.com/allisonhorst/palmerpenguins)
+- [MNIST handwritten digits](http://yann.lecun.com/exdb/mnist/)
+
+
