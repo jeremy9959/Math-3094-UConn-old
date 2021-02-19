@@ -18,6 +18,9 @@ Your project should be presented as a Jupyter notebook that includes a thorough
 explanation of your work together with any code that you work with and any results that
 you obtain.
 
+If you need a place to start, you could pick one of the labs we have done and develop
+the ideas there in more depth or using different data.
+
 We suggest meeting with you to discuss your plans before you get too far along.
 
 The project will be due March 22, 2021.
