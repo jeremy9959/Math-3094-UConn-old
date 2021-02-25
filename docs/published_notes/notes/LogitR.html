@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Logistic Regression</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 data-number="1" id="logistic-regression"><span class="header-section-number">1</span> Logistic Regression</h1>
+<h2 data-number="1.1" id="maximum-likelihood"><span class="header-section-number">1.1</span> Maximum Likelihood</h2>
+<p>Suppose that there is a coin which you think is biased. You flip the coin 10 times and get 7 heads. Based on this <em>training data</em> set, what is the probability that the next flip will show heads? Can you justify your answer? To provide a rigorous argument for the answer, we can use <em>maximum likelihood</em> estimation.</p>
+<p>Let <span class="math inline">\(y\)</span> be the (unknown) probability that the biased coin shows heads. Since there are only two possible results, heads or tails, the experiment of flipping the coin is a <em>Bernoulli trial</em>. We introduce a <em>Bernoulli random variable</em> <span class="math inline">\(T\)</span> such that <span class="math display">\[ T=\begin{cases} 1 &amp; \text{ if the coin shows heads}, \\ 0 &amp; \text{ otherwise}. \end{cases} \]</span> with probabilities <span class="math display">\[ P(T=1|y)=y \quad \text{ and } \quad P(T=0|y)=1-y, \quad \text{respectively}. \]</span><br />
+The probability mass function <span class="math inline">\(\operatorname{Ber}(t|y)\)</span> of <span class="math inline">\(T\)</span> can be written in a compact way <span class="math display">\[ \operatorname{Ber}(t|y)= y^t (1-y)^{1-t}, \quad t=0,1. \]</span></p>
+<p>Suppose that we have a data set <span class="math inline">\(\mathcal D = \{ t_1, \dots, t_N \}\)</span> of observed values of <span class="math inline">\(t \in \{ 0,1 \}\)</span> from <span class="math inline">\(N\)</span> coin flips. Let <span class="math inline">\(p(\mathcal D|y)\)</span> denote the probability of getting the set <span class="math inline">\(\mathcal D\)</span>, given that <span class="math inline">\(y\)</span> is the probability of the biased coin. Since each flip is independent, the probability <span class="math inline">\(p(\mathcal D|y)\)</span> is equal to the product of the probabilities of individual flip results, i.e. it is equal to <span class="math display">\[ p(\mathcal D| y) = \prod_{n=1}^N \operatorname{Ber}(t_n|y) = \prod_{n=1}^N y^{t_n} (1-y)^{1-t_n}. \]</span></p>
+<p>This is a function of <span class="math inline">\(y\)</span>; as <span class="math inline">\(y\)</span> varies, the function <span class="math inline">\(p(\mathcal D|y)\)</span> produces probabilities of the set <span class="math inline">\(\mathcal D\)</span> determined by <span class="math inline">\(y\)</span>. When <span class="math inline">\(p(\mathcal D|y)\)</span> is maximized at a value <span class="math inline">\(y_{\mathrm {ML}}\)</span>, we can say that <span class="math inline">\(y_{\mathrm{ML}}\)</span> has maximum likelihood based on the data st <span class="math inline">\(\mathcal D\)</span>. This leads to</p>
+<p><span class="math display">\[\text{ Task: Estimate a value $y_{\mathrm{ML}}$ that maximizes $p(\mathcal D|y)$}.\]</span></p>
+<p>This is a Calculus problem. We will have to take the derivative of the function. Before taking the derivative, we notice that the expression of <span class="math inline">\(p(\mathcal D|y)\)</span> is a product of exponentials. In such a situation, logarithmic differentiation can be used to ease the process of differentiation, and the function can be replace by <span class="math display">\[ \ln p(\mathcal D|y) = \sum_{n=1}^N \{ t_n \ln y + (1-t_n) \ln(1-y)\} .\]</span></p>
+<p>Now we take the derivative of the function with respect to <span class="math inline">\(y\)</span>, set the derivative equal to <span class="math inline">\(0\)</span> to obtain a critical value, and check if the critical value <span class="math inline">\(y_{\mathrm{ML}}\)</span> indeed maximizes the function. The result is <span class="math display">\[ y_{\mathrm{ML}}= \frac 1 N \sum_{n=1}^N t_n ,\]</span> which is the <em>sample mean</em>. This justifies our guess for a biased coin in a rigorous way.</p>
+<p><strong>Exercises</strong>: Provide details to obtain <span class="math inline">\(y_{\mathrm{ML}}\)</span>.</p>
+<h2 data-number="1.2" id="logistic-regression-1"><span class="header-section-number">1.2</span> Logistic Regression</h2>
+<p>Suppose that there is a certain test (similar to GRE) for undergraduate students who apply for a graduate program. The test score is used for admission decisions as one of the credentials that students provide. The table below shows the test scores of 10 students and the results of admission decisions:</p>
+<center>
+<table>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x\)</span></th>
+<th>:</th>
+<th style="text-align: center;"><span class="math inline">\(272\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(331\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(295\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(287\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(315\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(266\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(303\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(294\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(317\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(309\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(t\)</span></td>
+<td>:</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(x\)</span> test score, <span class="math inline">\(t=1\)</span> accepted, <span class="math inline">\(t=0\)</span> rejected</p>
+</center>
+<p>There is a student whose test score is 299. Based on this data, what is the probability that the student will be accepted? If the probability is greater than 0.5, we can <em>classify</em> the student as <em>Likely Accepted</em>; if the probability is less than 0.5, as <em>Likely Rejected</em>. This type of problem is called <em>classification</em> problem in machine learning.</p>
+<p>An answer to this problem would have a procedure to produce probability <span class="math inline">\(y\)</span> from a test score <span class="math inline">\(x\)</span>. A typical way to obtain a number between 0 and 1 (that is to be considered as probability) from an arbitrary real number is to use a function whose graph is an <span class="math inline">\(S\)</span>-shaped curve, called a <em>sigmoid</em> function. One of the most common sigmoid functions is the <em>logistic</em> function <span class="math display">\[ \sigma(x) = \frac {e^x}{e^x+1}= \frac 1 {1+e^{-x}}.\]</span></p>
+<div id="fig:des" class="fignos">
+<figure>
+<img src="sigmoid.png" style="width:30.0%" alt="" /><figcaption><span>Figure 1:</span> Graph of the Logistic Function</figcaption>
+</figure>
+</div>
+<p>Clearly, the logistic function converts <span class="math inline">\((-\infty, \infty)\)</span> to <span class="math inline">\((0,1)\)</span>. In particular, the value <span class="math inline">\(0\)</span> corresponds to <span class="math inline">\(0.5\)</span>. In order to apply this function to<br />
+a data set <span class="math inline">\(\{ x_1, x_2, \dots , x_N \}\)</span> of test scores, we need to first adjust the values <span class="math inline">\(x_n\)</span> in accordance with the logistic function in such a way that the result will best fit for the given data. Here we make an assumption that the adjustment is done by a linear function of the form <span class="math inline">\(w_1 x_n+w_2\)</span> so that the probability is given by <span class="math display">\[\begin{equation} \label{eqn-y-sigma} y_n=\sigma(w_1 x_n +w_2). \end{equation}\]</span> This is the same kind of assumption we made for linear regression.</p>
+<p>Now the question is how to find the best values of <span class="math inline">\(w_0\)</span> and <span class="math inline">\(w_1\)</span>. Let us consider the likelihood of the given data set. Each score <span class="math inline">\(x\)</span> corresponds to probability <span class="math inline">\(y\)</span> and a student with score <span class="math inline">\(x\)</span> will be accepted with probability <span class="math inline">\(y\)</span> through a Bernoulli trial. It is like flipping a biased coin with probability <span class="math inline">\(y\)</span>. Given a data set <span class="math inline">\(\mathcal D=\{(x_n, t_n) \}\)</span>, <span class="math inline">\(t_n \in \{ 0,1 \}\)</span>, <span class="math inline">\(n=1, \dots, N\)</span>, we compute the likelihood of this data set and obtain <span class="math display">\[ p(\mathcal D|{\boldsymbol{w}}) =  \prod_{n=1}^N \operatorname{Ber}(t_n|y_n) = \prod_{n=1}^N y_n^{t_n} (1-y_n)^{1-t_n}, \]</span> where <span class="math inline">\(y_n= \sigma(w_1 x_n+w_2)\)</span> and <span class="math inline">\({\boldsymbol{w}}=(w_1, w_2)\)</span>. The best choice of <span class="math inline">\({\boldsymbol{w}}=(w_1,w_2)\)</span> would make this likelihood the largest possible. Thus our task can be summarized as the following.</p>
+<p><span class="math display">\[\text{Task: Determine ${\boldsymbol{w}}$ that maximize the likelihood $p(\mathcal D|{\boldsymbol{w}})$.}\]</span></p>
+<p>Test scores make only one feature in credentials for admission decisions. Assume that there are <span class="math inline">\(k\)</span> different features.<br />
+Then the <span class="math inline">\(n^\mathrm{th}\)</span> student provides credentials <span class="math inline">\(\{x_{n1}, x_{n2}, \dots , x_{nk} \}\)</span>, and as in linear regression, the credentials of <span class="math inline">\(N\)</span> student can be arranged into a matrix <span class="math display">\[  \begin{bmatrix} x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1k} \\ x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2k} \\ \vdots &amp; \vdots &amp; &amp; \vdots \\ x_{N1} &amp; x_{N2} &amp; \cdots &amp; x_{Nk} \end{bmatrix} .\]</span></p>
+<p>The function in  is now generalized to <span class="math display">\[ y_n=\sigma(w_1 x_{n1}+ w_2 x_{n2} + \cdots + w_k x_{nk}+w_{k+1} ), \]</span> which can be rewritten in vector notations <span class="math display">\[ y_n= \sigma( {\boldsymbol{x}}_n{\boldsymbol{w}}) ,\]</span> where <span class="math inline">\({\boldsymbol{w}}=(w_1, w_2, \dots , w_k, w_{k+1})^\top\)</span> is a column vector to be determined and <span class="math inline">\({\boldsymbol{x}}_n=(x_{n1}, x_{n2}, \dots, x_{nk}, 1)\)</span>. With <span class="math inline">\(y_n=\sigma({\boldsymbol{x}}_n {\boldsymbol{w}})\)</span>, the expression of the likelihood <span class="math inline">\(p(\mathcal D| {\boldsymbol{w}})\)</span> does not change.</p>
+<p>To make differentiation easier, we take the logarithm of the likelihood and want to determine <span class="math inline">\({\boldsymbol{w}}\)</span> which maximizes <span class="math display">\[ \ln p(\mathcal D|{\boldsymbol{w}}) = \sum_{n=1}^N \{ t_n \ln y_n + (1-t_n) \ln (1-y_n)\} ,\]</span> or equivalently, <span class="math inline">\({\boldsymbol{w}}\)</span> which minimizes <span class="math display">\[ E({\boldsymbol{w}}):=-\ln p(\mathcal D|{\boldsymbol{w}}) = -\sum_{n=1}^N \{ t_n \ln y_n + (1-t_n) \ln (1-y_n)\} .\]</span> This problem is called <em>logistic regression</em>.</p>
+<p>Unlike linear regression, it is difficult to find closed form formulas for solutions to this problem. Instead, we will use an inductive process to approximate the vector <span class="math inline">\({\boldsymbol{w}}\)</span>. We will study two standard methods for this purpose, called <em>Gradient Descent</em> and <em>Newton’s Method</em>.</p>
+<h2 data-number="1.3" id="applying-gradient-descent-and-newtons-method-to-the-logistic-regression"><span class="header-section-number">1.3</span> Applying Gradient Descent and Newton’s method to the logistic regression:</h2>
+<p><span class="math display">\[ E ({\boldsymbol{w}}) = - \ln p(t|{\boldsymbol{w}}) = - \sum_{n=1}^N \{ t_n \ln y_n + (1-t_n) \ln (1-y_n)\},  \]</span> where <span class="math inline">\(y_n=\sigma(a_n)=\sigma({\boldsymbol{x}}_n^\top {\boldsymbol{w}})\)</span>. Note that <span class="math inline">\(\sigma&#39;(x) =\sigma(x)(1-\sigma(x))\)</span>.</p>
+<ul>
+<li><p>We obtain <span class="math display">\[ \nabla E({\boldsymbol{w}})=\left [ \sum_{n=1}^N (y_n-t_n)x_{nj} \right ] = X^\top ({\boldsymbol{y}}-\mathbf{t}), \]</span> where <span class="math display">\[ X=\begin{bmatrix} x_{11} &amp;\cdots &amp;x_{1k} &amp;1 \\ x_{21} &amp;\cdots &amp; x_{2k} &amp;1 \\ \vdots &amp;  &amp; \vdots&amp; \vdots \\ x_{N1} &amp; \cdots &amp; x_{Nk} &amp;1 \\\end{bmatrix}, \quad {\boldsymbol{y}}=\begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_N \end{bmatrix}, \quad \text{ and } \mathbf{t}= \begin{bmatrix} t_1 \\ t_2 \\ \vdots \\ t_N \end{bmatrix} . \]</span></p></li>
+<li><p>For Gradient Descent, we have <span class="math display">\[ \boxed{{\boldsymbol{w}}_{i+1} = {\boldsymbol{w}}_i - \eta X^\top ({\boldsymbol{y}}-\mathbf{t}) },\]</span> where <span class="math inline">\(R\)</span> and <span class="math inline">\({\boldsymbol{y}}\)</span> are determined by <span class="math inline">\({\boldsymbol{w}}_i\)</span> in each step.</p></li>
+<li><p>We also get <span class="math display">\[ \mathbf H E= \left [\sum_{n=1}^N y_n(1-y_n) x_{ni}x_{nj} \right ] = X^\top R X, \]</span> where <span class="math inline">\(R=\operatorname{diag}( y_n(1-y_n))\)</span>.</p></li>
+<li><p>For Newton’s Method,<br />
+<span class="math display">\[ \boxed{{\boldsymbol{w}}_{i+1} = {\boldsymbol{w}}_i - \eta (X R X^\top)^{-1} X ({\boldsymbol{y}}-\mathbf{t}) },\]</span> where <span class="math inline">\(R\)</span> and <span class="math inline">\({\boldsymbol{y}}\)</span> are determined by <span class="math inline">\({\boldsymbol{w}}_i\)</span> in each step.</p></li>
+</ul>
+<h3 data-number="1.3.1" id="example-test-scores-and-admission-to-a-graduate-school"><span class="header-section-number">1.3.1</span> Example: Test scores and admission to a graduate school</h3>
+<ul>
+<li><p>Choose <span class="math inline">\(k=1\)</span>. Then <span class="math inline">\(a_n=w_1x_n+w_2\)</span>. From the data, we have <span class="math display">\[X^\top= \begin{bmatrix}
+272&amp;331&amp;295&amp;287&amp;315&amp;266&amp;303&amp;294&amp;317&amp;309 \\  1 &amp;1 &amp;1 &amp;1 &amp;1 &amp;1 &amp;1 &amp;1 &amp;1 &amp;1  \end{bmatrix}, \]</span> and <span class="math display">\[ \mathbf{t}=[0,1,1,0,1,0,0,0,1,1]^\top .\]</span></p></li>
+<li><p>Choose <span class="math inline">\({\boldsymbol{w}}_0=(0,0)^\top\)</span>. Then <span class="math inline">\({\boldsymbol{w}}_i\)</span> converges to <span class="math display">\[ ( 0.1910,-57.2937)^\top .\]</span></p></li>
+<li><p>If <span class="math inline">\(x=299\)</span>, then the probability of admission is <span class="math display">\[ y= \sigma( 0.1910*299-57.2937) \approx 0.454 .\]</span></p></li>
+</ul>
+<p><br><br><br></p>
+</body>
+</html>
