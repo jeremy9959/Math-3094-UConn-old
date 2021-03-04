@@ -80,6 +80,7 @@ Goals:
 - Do some sample computations to see Logistic Regression in action
 - Generalize binary logistic regression to multi-class logistic regression
     - [Logistic Regression](slides/logistic-regression.pdf)
+    - [Multi-class Logistic Regression](slides/multi-LR.pdf)
 
 *References*
 
