@@ -87,5 +87,21 @@ Goals:
 - Logistic Regression [html](published_notes/notes/LogitR.html) [pdf](published_notes/notes/LogitR.pdf)
 - Logistic Regression lab - includes datafiles and ipynb file. [zip](published_notes/notes/LogitRegLab.zip) [tgz](published_notes/notes/LogitRegLab.tgz) 
 
+### Principal Component Analysis
+
+Goals:
+
+- Learn about how the covariance matrix encodes variation in linear combinations of features
+- Learn the correlation coefficient
+- Understand principal components and their relationship to eigenvectors of the covariance matrix
+- See how to use principal components for dimension reduction.
+- Do some examples.
+
+*References*
+
+- Principal Component Analysis [html](published_notes/notes/PCA.html) [pdf](published_notes/notes/PCA.pdf)
+- Lab -- stay tuned.
+- [Youtube Lectures](https://www.youtube.com/watch?v=WrYCUQWO0NE&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY)
+
 
 
