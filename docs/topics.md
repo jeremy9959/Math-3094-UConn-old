@@ -97,14 +97,14 @@ Goals:
 - See how to use principal components for dimension reduction.
 - Do some examples.
 
-- [Variance, Covariance, Correlation, and the Covariance Matrix](https://www.youtube.com/watch?v=WrYCUQWO0NE&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=2)
-- [Scores](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=3)
-- [Geometry of Scores](https://www.youtube.com/watch?v=TmIr5lg4i4k&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=4)
-- [Principal Directions - First Look](https://www.youtube.com/watch?v=ZydwxPG0_o8&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=5)
-- [Finding the Principal Directions](https://www.youtube.com/watch?v=x9Nu10WF6lg&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=6)
-- [The Spectral Theorem](https://www.youtube.com/watch?v=_vxLZ1M8xr8&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=7)
-- [Dimension Reduction](https://www.youtube.com/watch?v=tOWBQEQ9qpI&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=8)
-- [Loadings](https://www.youtube.com/watch?v=hdxPdIrfF2s&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=9)
+- [Variance, Covariance, Correlation, and the Covariance Matrix](https://youtu.be/WrYCUQWO0NE)
+- [Scores](https://youtu.be/rhr2Le7-OPM)
+- [Geometry of Scores](https://youtu.be/TmIr5lg4i4k)
+- [Principal Directions - First Look](https://youtu.be/ZydwxPG0_o8)
+- [Finding the Principal Directions](https://youtu.be/x9Nu10WF6lg)
+- [The Spectral Theorem](https://youtu.be/_vxLZ1M8xr8)
+- [Dimension Reduction](https://youtu.be/tOWBQEQ9qpI)
+- [Loadings](https://youtu.be/hdxPdIrfF2s)
 
 *References*
 
