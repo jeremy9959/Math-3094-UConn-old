@@ -100,7 +100,7 @@ Goals:
 *References*
 
 - Principal Component Analysis [html](published_notes/notes/PCA.html) [pdf](published_notes/notes/PCA.pdf)
-- Lab -- stay tuned.
+- Lab [zip](published_notes/notes/PCALab.zip) [tgz](published_notes/notes/PCALab.tgz)
 - [Youtube Lectures](https://www.youtube.com/watch?v=WrYCUQWO0NE&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY)
 
 
