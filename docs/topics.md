@@ -109,7 +109,7 @@ Goals:
 *References*
 
 - Principal Component Analysis [html](published_notes/notes/PCA.html) [pdf](published_notes/notes/PCA.pdf)
-- Lab [zip](published_notes/notes/PCALab.zip) [tgz](published_notes/notes/PCALab.tgz)
+- PCA Lab -- includes notebook(s) and data [zip](published_notes/notes/PCALab.zip) [tgz](published_notes/notes/PCALab.tgz)
 
 
 
