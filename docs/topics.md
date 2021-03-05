@@ -97,11 +97,20 @@ Goals:
 - See how to use principal components for dimension reduction.
 - Do some examples.
 
+- [Variance, Covariance, Correlation, and the Covariance Matrix](https://www.youtube.com/watch?v=WrYCUQWO0NE&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=2)
+- [Scores](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=3)
+- [Geometry of Scores](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=4)
+- [Principal Directions - First Look](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=5)
+- [Finding the Principal Directions](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=6)
+- [The Spectral Theorem](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=7)
+- [Dimension Reduction](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=8)
+- [Loadings](https://www.youtube.com/watch?v=rhr2Le7-OPM&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY&index=9)
+
 *References*
 
 - Principal Component Analysis [html](published_notes/notes/PCA.html) [pdf](published_notes/notes/PCA.pdf)
 - Lab [zip](published_notes/notes/PCALab.zip) [tgz](published_notes/notes/PCALab.tgz)
-- [Youtube Lectures](https://www.youtube.com/watch?v=WrYCUQWO0NE&list=PLHmPFY5Rz0RDFTmrlEaNouDBGCp-QvgDY)
+
 
 
 
