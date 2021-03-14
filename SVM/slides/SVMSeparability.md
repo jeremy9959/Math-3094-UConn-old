@@ -148,7 +148,7 @@ $$
 **Definition:** The *optimal margin* $\tau(A^{+},A^{-})$ between $A^{+}$ and $A^{-}$ is
 the largest value of $\tau_{w}$ as $w$ varies over vectors in $\mathbb{R}^{k}$ such that $B^{-}(w)<B^{+}(w)$:
 $$
-\tau(A^{+},A^{-}) = \max_{w}\tau_{w}(A^{+},A^{-}) = \max_{w}\frac{B^{+}(w)+B^{-}(w)}{\|w\|}
+\tau(A^{+},A^{-}) = \max_{w}\tau_{w}(A^{+},A^{-}) = \max_{w}\frac{B^{+}(w)-B^{-}(w)}{\|w\|}
 $$
 If $w$ gives this maximum value, then the *optimal margin classifying hyperplane* is the hyperplane 
 $$
