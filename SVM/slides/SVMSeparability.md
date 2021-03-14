@@ -92,10 +92,10 @@ B^{-}(w)=\max_{x\in A^{-}}w\cdot x
 $$
 and
 $$
-B^{+}(w)=\min_{x\in A^{+}} w\cdot B
+B^{+}(w)=\min_{x\in A^{+}} w\cdot x
 $$
 So our sets $A^{\pm}$ are linearly separable if $B^{-}<B^{+}$ and in this case any $-b$ between
-this two values gives a separating hyperplane $f(x)=w\cdot x+b=0$.
+these two values gives a separating hyperplane $f(x)=w\cdot x+b=0$.
 
 \newpage
 ## Supporting hyperplanes and geometric margins
