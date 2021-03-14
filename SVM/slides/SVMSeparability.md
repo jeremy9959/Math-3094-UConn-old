@@ -59,7 +59,7 @@ f(x)=w\cdot x+b>0
 $$
 when $x$ is a row of $X$ corresponding to a $y$-value of $+1$, and
 $$
-f(x) = w\cdot +b<0
+f(x) = w\cdot x +b<0
 $$
 when $x$ is a row of $X$ corresponding to to a $y$ value of $-1$.   In this case $f(x)=w\cdot x+b=0$
 is called a *separating hyperplane* for the data. 
@@ -84,7 +84,8 @@ $$
 \max_{x\in A^{-}}w\cdot x<\min_{x\in A^{+}} w\cdot B
 $${#eq:separable}
 
-
+\newpage
+## More on linear separability
 Let
 $$
 B^{-}(w)=\max_{x\in A^{-}}w\cdot x
@@ -104,7 +105,7 @@ A different point of view:
 - Let $f^{+}_{i}(x)=w\cdot x-w\cdot x_{i}$ for $x_{i}\in A^{+}$.  
 - Let $f^{-}_{i}(x) = w\cdot x -w\cdot x_{i}$ for $x_{i}\in A^{-}$. 
 
-Then $f^{\pm}(x)=0$ is a family of hyperplanes parallel to $w$ through the points in $A^{\pm}$.
+Then $f_{i}^{\pm}(x)=0$ is a family of hyperplanes parallel to $w$ through the points in $A^{\pm}$.
 
 ![Margin](../img/penguinhwy2.png){height=50%}
 
