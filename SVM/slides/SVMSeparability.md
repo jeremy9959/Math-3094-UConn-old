@@ -152,7 +152,7 @@ $$
 $$
 If $w$ gives this maximum value, then the *optimal margin classifying hyperplane* is the hyperplane 
 $$
-f(x) = w\cdot x - \frac{B^{+}(w)-B^{-}(w)}{2}
+f(x) = w\cdot x - \frac{B^{+}(w)+B^{-}(w)}{2}
 $$
 that runs "down the middle" between the two supporting hyperplanes $f^{-}(x)=w\cdot x-B^{-}(w)=0$
 and $f^{+}(x)=w\cdot x-B^{+}(w)=0$. 
