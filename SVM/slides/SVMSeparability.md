@@ -81,7 +81,7 @@ $$
 
 **Proposition:** $A^{+}$ and $A^{-}$ are linearly separable if there is a $w\in\mathbb{R}^{k}$ so that
 $$
-\max_{x\in A^{-}}w\cdot x<\min_{x\in A^{+}} w\cdot B
+\max_{x\in A^{-}}w\cdot x<\min_{x\in A^{+}} w\cdot x
 $${#eq:separable}
 
 \newpage
