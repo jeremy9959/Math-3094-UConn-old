@@ -113,4 +113,16 @@ Goals:
 
 
 
+### Bayesian Linear Regression
+
+Goals:
+
+- Learn the process of Bayesian inference
+- Understand over-fitting in linear regression
+- Study Bayesian linear regression
+- Understand the ideas of linear discriminant analysis
+
+*References*
+
+
 
