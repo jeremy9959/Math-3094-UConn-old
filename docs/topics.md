@@ -117,10 +117,9 @@ Goals:
 
 Goals:
 
-- Learn the process of Bayesian inference
+- Learn the process of Bayesian inference (see also the notes on probability above).
   - [Intro to Bayesian Inference](https://youtu.be/sk1elwY_Ggo)
   - [Bayesian Coin Flipping](https://youtu.be/NHfQ_88y0CE)
-
 - Understand over-fitting in linear regression
 - Study Bayesian linear regression
 - Understand the ideas of linear discriminant analysis
