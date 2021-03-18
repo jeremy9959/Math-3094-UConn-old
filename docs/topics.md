@@ -124,5 +124,6 @@ Goals:
 
 *References*
 
+- Bayesian Regression Lab -- includes notebook(s) and data [zip](published_notes/notes/bayesian-regression.zip) [tgz](published_notes/notes/bayesian-regression.tgz)
 
 
