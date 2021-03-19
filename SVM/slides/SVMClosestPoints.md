@@ -12,43 +12,6 @@ $C(A^{\pm})$.
 ![Solution](../img/solution.png){height=50%}
 
 \newpage
-## Convex Hulls and Margins
-
-**Proposition:** Let $A^+$ and $A^-$ be two linearly separable sets.  
-
-
-
-1. There are points
-$p^*\in C(A^{+})$ and $q^*\in C(A^{-})$ so that 
-$$
-\|p^{*}-q^{*}\| = D = \min_{{p\in C(A^+)}\atop{q\in C(A^-)}}\|p-q\|.
-$$
-Further, if $(p_{1}^{*},q_{1}^{*})$ and $(p_{2}^{*},q_{2}^{*})$ are two pairs of points
-with $D=\|p_{1}^{*}-q_{1}^{*}\|=\|p_{2}^{*}-q_{2}^{*}\|$ then $p_{1}^{*}-q_{1}^{*}=p_{2}^{*}-q_{2}^{*}$.
-![Solution](../img/solution.png){height=50%}
-
-\vfill
-\newpage
-## Convex Hulls and Margins
-
-2. Let
-\begin{enumerate}
-\item 	$w=p^{*}-q^{*}$
-\item $B^{+}=w\cdot p^{*}$
-\item $B^{-}=w\cdot q^{*}$.
-\item $f^{\pm}(x)=w\cdot x - B^{\pm}$
-\end{enumerate}
-Then the hyperplanes $f^{\pm}(x)=0$ are supporting hyperplanes for
-$A^{\pm}$ respectively, and the associated margin
-$$
-\tau_{w}(A^{+},A^{-})=\frac{B^{+}-B^{-}}{\|w\|}=\|p^{*}-q^{*}\|
-$$
-is optimal.
-
-
-![Solution](../img/solution.png){height=50%}
-
-\newpage
 ## Optimal margin vs distance
 
 **Proposition:** The optimal margin between linearly separable sets $A^{\pm}$ is at most
@@ -86,6 +49,45 @@ is greater than zero.
 2. If we can find supporting hyperplanes $f^{\pm}=0$ whose margin
 **equals** the minimal distance between the convex hulls, then those **must be at** the optimal margin.
 \vfill
+
+\newpage
+
+
+## Convex Hulls and Margins
+
+**Proposition:** Let $A^+$ and $A^-$ be two linearly separable sets.  
+
+
+
+1. There are points
+$p^*\in C(A^{+})$ and $q^*\in C(A^{-})$ so that 
+$$
+\|p^{*}-q^{*}\| = D = \min_{{p\in C(A^+)}\atop{q\in C(A^-)}}\|p-q\|.
+$$
+Further, if $(p_{1}^{*},q_{1}^{*})$ and $(p_{2}^{*},q_{2}^{*})$ are two pairs of points
+with $D=\|p_{1}^{*}-q_{1}^{*}\|=\|p_{2}^{*}-q_{2}^{*}\|$ then $p_{1}^{*}-q_{1}^{*}=p_{2}^{*}-q_{2}^{*}$.
+![Solution](../img/solution.png){height=50%}
+
+\vfill
+\newpage
+## Convex Hulls and Margins
+
+2. Let
+\begin{enumerate}
+\item 	$w=p^{*}-q^{*}$
+\item $B^{+}=w\cdot p^{*}$
+\item $B^{-}=w\cdot q^{*}$.
+\item $f^{\pm}(x)=w\cdot x - B^{\pm}$
+\end{enumerate}
+Then the hyperplanes $f^{\pm}(x)=0$ are supporting hyperplanes for
+$A^{\pm}$ respectively, and the associated margin
+$$
+\tau_{w}(A^{+},A^{-})=\frac{B^{+}-B^{-}}{\|w\|}=\|p^{*}-q^{*}\|
+$$
+is optimal.
+
+
+![Solution](../img/solution.png){height=50%}
 
 \newpage
 ## Closest points
