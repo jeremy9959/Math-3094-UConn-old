@@ -424,7 +424,7 @@ w\cdot(p-q)\ge B^{+}-B^{-}>0
 $$
 and so 
 $$
-\|p-q\|\ge\frac{B^{+}-B^{-}}{\|w\|\tau_{w}(A^{+},A^{-})}
+\|p-q\|\ge\frac{B^{+}-B^{-}}{\|w\|}=\tau_{w}(A^{+},A^{-})
 $$
 Since this holds for any $w$, we have the result for $\tau(A^{+},A^{-})$.
 
@@ -497,7 +497,7 @@ $$
 \frac{d}{ds}\|t(s)\|^2|_{s=0} = v_{1}\cdot(v_{2}-v_{1})=v_{1}\cdot v_{2}-\|v_{1}\|^2\le 0
 $$
 since $v_{1}\cdot v_{2}\le D^{2}$ and $\|v_{1}\|^2=D^2$. If $v_{1}\cdot v_{2}<D^{2}$, then
-this derivative would be negative, which by the mean value theorem would mean that there is a value of
+this derivative would be negative, which would mean that there is a value of
 $s$ where $t(s)$ would be less than $D$.  Since that can't happen, we conclude that $v_{1}\cdot v_{2}=D^{2}$
 which means that $v_{1}=v_{2}$ -- the vectors have the same magnitude $D$ and are parallel.
 This establishes uniqueness.  
@@ -536,7 +536,7 @@ so
 $$
 \frac{dD(s)}{ds}|_{s=0} = 2(f^{+}(p')-f^{+}(p))<0
 $$
-since $f(p)=0$. This means that $D(s)$ is decreasing along $t(s)$ and so by the mean value theorem
+since $f(p)=0$. This means that $D(s)$ is decreasing along $t(s)$ and so 
 there is a point $s'$ along $t(s)$ where $\|t(s')-q\|<D$.  This contradicts the fact that $D$ is the minimal
 distance.  The same argument shows that $f^{-}(x)=0$ is also a supporting hyperplane.
 
