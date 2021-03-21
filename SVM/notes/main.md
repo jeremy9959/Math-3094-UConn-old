@@ -755,7 +755,7 @@ M_{i,j} = \max\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}
 $$
 and 
 $$
-\delta_{i,j} = -\frac{(p(\lambda^{+})-q(\lambda^{-}))\cdot(x_{i}^{+}-x_{j}^{-})}{\|x^+_{i}-x^{-}_{j}\|^2}.
+\delta_{i,j} = \frac{1-(p(\lambda^{+})-q(\lambda^{-}))\cdot(x_{i}^{+}-x_{j}^{-})}{\|x^+_{i}-x^{-}_{j}\|^2}.
 $$
 If $\delta_{i,j}\ge M$ then set $\delta^{*}=\delta_{i,j}$; otherwise set $\delta^{*}=M$.  Then update
 the $\lambda^{\pm}$ by the equations:
@@ -780,7 +780,7 @@ where $B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Since $w=p-q$ we can simplify this
 
 $$
 f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}=0.
-$$
+p$$
 
 In +@fig:penguinsolution, we show the result of applying this algorithm to the penguin data
 and illustrate the closest points as found by an implementation of the SMO algorithm, together
