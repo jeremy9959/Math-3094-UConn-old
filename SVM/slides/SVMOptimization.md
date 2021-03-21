@@ -8,11 +8,11 @@ fontsize: 14pt
 
 **Problem:** Given two linearly separable sets of points  $A^{\pm}\subset \mathbb{R}^{k}$:
 $$
-A^{+}=\{x_{1}^{+},\ldots, x_{n_{+}}\}
+A^{+}=\{x_{1}^{+},\ldots, x^+_{n_{+}}\}
 $$
 and
 $$
-A^{-}=\{x_{1}^{-},\ldots, x_{n_{-}}\}
+A^{-}=\{x_{1}^{-},\ldots, x^-_{n_{-}}\}
 $$
 Find points $p\in C(A^{+})$ and $q\in C(A^{-})$ so that
 $$
@@ -25,11 +25,11 @@ $$
 
 As above, let our linearly separable sets be
 $$
-A^{+}=\{x_{1}^{+},\ldots, x_{n_{+}}\}
+A^{+}=\{x_{1}^{+},\ldots, x^+_{n_{+}}\}
 $$
 and
 $$
-A^{-}=\{x_{1}^{-},\ldots, x_{n_{-}}\}
+A^{-}=\{x_{1}^{-},\ldots, x^-_{n_{-}}\}
 $$
 
 **Problem 1:** Let $\lambda^{\pm}=(\lambda_{1}^{\pm},\ldots,\lambda^{\pm}_{n_{\pm}})$ be
@@ -104,7 +104,7 @@ $$
 Since $(\lambda^{+},\lambda^{-})$ minimize $Q(\lambda^{+},\lambda^{-})$, this inequality
 must be an equality.  Therefore
 $$
-\alpha^2\|w(\sigma^{+},\sigma^{-})\| = \alpha^2\|w(\tau^{+},\tau^{-})\|^2
+\alpha^2\|w(\sigma^{+},\sigma^{-})\|^2 = \alpha^2\|w(\tau^{+},\tau^{-})\|^2
 $$
 so $(\tau^{+},\tau^{-})$ also gives a minimal value for problem 1.
 \vfill
