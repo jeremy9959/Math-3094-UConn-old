@@ -12,7 +12,7 @@ Q(\lambda^{+},\lambda^{-}) = \|\sum_{i=1}^{n_{+}}\lambda_{i}^{+}x^{+}_{i}-\sum_{
 $$
 subject to the constraints $\lambda^{\pm}_{i}\ge 0$ for all $i$ and 
 $$
-\sum_{i=1}^{n_{+}}\lambda^{+}_{i} = \sum_{i=1}^{n_{-}}\lambda^{-}_{i}=\alpha>0.
+\sum_{i=1}^{n_{+}}\lambda^{+}_{i} = \sum_{i=1}^{n_{-}}\lambda^{-}_{i}=\alpha.
 $$
 
 **Strategy:** 

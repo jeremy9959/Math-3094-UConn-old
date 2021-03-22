@@ -633,17 +633,23 @@ subject to the constraints that all $\lambda^{\pm}_{i}\ge 0$ and
 $$
 \alpha = \sum_{i=1}^{n_{+}}\lambda^+_{i} = \sum_{i=1}^{n_{-}}\lambda^{-}_{i}.
 $$
-
+  
 Problem 2 is like problem 1, except we don't require the sums of the $\lambda^{\pm}_{i}$ to be 
 one, but only that they be equal to each other; and we modify the objective function slightly.
 It turns out that the solution to this optimization problem easily yields the solution to our original one.
 
 **Lemma:**  Suppose $\lambda^{+}$ and $\lambda^{-}$ satisfy the constraints of problem 2 and
-yield the minimal value for the objective function $Q(\lambda^{+},\lambda^{-})$.  Rescale the
+yield the minimal value for the objective function $Q(\lambda^{+},\lambda^{-})$.  Then $\alpha\not=0$.
+Rescale the
 $\lambda^{\pm}$ to have sum equal to one by dividing by $\alpha$, yielding 
 $\tau^{\pm}=(1/\alpha)\lambda^{\pm}$.  Then $w(\tau^{+},\tau^{-})$ is a solution to optimization problem 1.
 
-**Proof:** First of all, notice that $\tau^{\pm}$ still satisfy the constraints of problem 2.
+**Proof:**  To show that $\alpha\not=0$, suppose that $\lambda^{\pm}_{i}=0$ for all $i\not=1$ and
+$\lambda=\lambda^{+}_{1}=\lambda^{-}_{1}$.  The one-variable quadratic function $Q(\lambda)$ takes
+its minimum value at $\lambda=1/\|x_{1}^{+}-x_{1}^{-}\|^2$ and its value at that point is negative.  Therefore
+the minimum value of $Q$ is negative, which means $\alpha\not=0$ at that minimum point. 
+
+For the equivalence, notice that $\tau^{\pm}$ still satisfy the constraints of problem 2.
 Therefore
 $$
 Q(\lambda^{+},\lambda^{-}) = \|w(\lambda^{+},\lambda^{-})\|^2-2\alpha\le \|w(\tau^{+},\tau^{-})\|^2-2.

@@ -68,13 +68,29 @@ $$
 Let $\lambda^{\pm}$ be values that minimize $Q(\lambda^{+},\lambda^{-})$ where all $\lambda^{\pm}_{i}\ge 0$
 and 
 $$
-\alpha = \sum_{i=1}^{n_{+}}\lambda_{i}^{+} = \sum_{i=1}^{n_{-}}\lambda_{i}^{-}>0.
+\alpha = \sum_{i=1}^{n_{+}}\lambda_{i}^{+} = \sum_{i=1}^{n_{-}}\lambda_{i}^{-}.
 $$
-Then  $\tau^{\pm}=(1/\alpha)\lambda^{\pm}$  is a solution to optimization problem 1.
+Then $\alpha\not=0$ at the $(\lambda^{+},\lambda^{-})$ that yield the minimum  and
+$\tau^{\pm}=(1/\alpha)\lambda^{\pm}$  is a solution to optimization problem 1.
+
+\newpage
 
 ## Equivalence of the reformulated problem
 
-**Proof:**  We have $(\lambda^{+},\lambda^{-})$ solving problem 2 and $(\sigma^{+},\sigma^{-})$
+**Proof:**  
+
+First let all $\lambda^{\pm}_{i}=0$ except $\lambda=\lambda^{\pm}_{1}$.  Then
+$$
+Q(\lambda^{+},\lambda^{-})=Q(\lambda)=\lambda^2\|x_{1}^{+}-x_{1}^{-}\|^2-2\lambda.
+$$
+This takes its minimum value at $\lambda=1/\|x_{1}^{+}-x_{1}^{-}\|^2$ and at that point
+$$
+Q(\lambda)=-\frac{1}{\|x_{1}^{+}-x_{1}^{-}\|^2}<0.
+$$  
+Therefore the minimum value is negative.  But if $\alpha=0$, then all $\lambda^{\pm}_{i}=0$,
+so $Q=0$ at such a point.  Therefore $\alpha\not=0$ at the minimum value. 
+
+To show the equivalence, we have $(\lambda^{+},\lambda^{-})$ solving problem 2 and $(\sigma^{+},\sigma^{-})$
 solving problem 1; and finally we have $(\tau^{+},\tau^{-})=(1/\alpha)(\lambda^{+},\lambda^{-})$.
 
 \vfill
