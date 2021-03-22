@@ -779,8 +779,8 @@ $$
 where $B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Since $w=p-q$ we can simplify this to obtain
 
 $$
-f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}=0.
-p$$
+f(x)=(p-q)\cdot x -\frac{\|p\|^2-\|q\|^2}{2}=0.
+$$
 
 In +@fig:penguinsolution, we show the result of applying this algorithm to the penguin data
 and illustrate the closest points as found by an implementation of the SMO algorithm, together

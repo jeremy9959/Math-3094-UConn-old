@@ -17,6 +17,8 @@ $$
 
 **Strategy:** 
 
+0. Start at a random point $\lambda^{+},\lambda^{-}$ satisfying the constraints.
+\vfill
 1. Pick a pair $\lambda^{+}_{i}$ and $\lambda^{-}_{j}$.  
 \vfill
 2. Holding all other $\lambda^{\pm}$ constant, change $\lambda^{+}_{i}$ and $\lambda^{-}_{j}$
@@ -25,10 +27,11 @@ $$
 \lambda^{+}_{i} + \delta\ge 0\hbox{\rm\ and\ }\lambda^{-}_{j}+\delta\ge 0
 $$
 and $Q(\lambda^{+},\lambda^{-})$ decreases when you replace $\lambda^{+}_{i}$ by $\lambda^{+}_{i}+\delta$
-and $\lambda^{-}_{j}$ by $\lambda^{-}_{j}+\delta$. 
+and $\lambda^{-}_{j}$ by $\lambda^{-}_{j}+\delta$.  Note the constraints are still satisfied.
 \vfill
 3.  Repeat this process until the $\lambda^{\pm}$ change by an amount less than some preset tolerance.
 \vfill
+4. $p(\lambda^{+})=\sum_{i=1}^{n_{+}}\lambda_{i}^{+}x^{+}_{i}$ and $q(\lambda^{-})=\sum_{i=1}^{n_{-}}\lambda_{i}^{-}x^{-}_{i}$ are the closest points.
 \newpage
 
 ## SMO algorithm continued
@@ -44,19 +47,29 @@ Q(\lambda^+,\lambda^-) = \|w(\lambda^+,\lambda^-)\|^2-\sum_{i=1}^{n_{+}}\lambda^
 $$
 \vfill
 Changing $\lambda^+_{i}\mapsto \lambda^{+}_{i}+\delta$ and $\lambda^-_{j}\mapsto \lambda^{-}_{j}+\delta$
-amounts to computing
+amounts to replacing $w(\lambda^+,\lambda^-)$ by 
 $$
 w_{\delta,i,j}(\lambda^+,\lambda^-) = w(\lambda^+,\lambda^-)+\delta(x^{+}_{i}-x^{-}_{j}).
 $$
 \vfill
+Also, $\alpha\mapsto \alpha+\delta$.
+
 To make the change that makes $Q$ get as much smaller as possible, we want to choose $\delta$
 to minimize
 $$
-Q_{new} = \|w_{\delta,i,j}(\lambda^{+},\lambda^{-})\|^2-2\alpha
+Q_{new}(\delta) = \|w_{\delta,i,j}(\lambda^{+},\lambda^{-})\|^2-2\alpha-2\delta
 $$
 subject to the constraint that $\delta\ge\max\{-\lambda^{+},-\lambda^{i}\}.$
 \vfill
-This is a one variable minimization problem.
+This is a one variable minimization problem of a quadratic polynomial.
+
+\newpage
+
+## SMO continued
+
+![Minimizing the 1-variable quadratic objective function](../img/quadratic.png){width=70%}
+
+Remember that $\delta\ge\min\{-\lambda_{i}^{+},-\lambda_{j}^{-}\}.$
 
 \newpage
 
@@ -128,8 +141,8 @@ If $\delta_{i,j}\ge M$ then set $\delta^{*}=\delta_{i,j}$; otherwise set $\delta
 the $\lambda^{\pm}$ by the equations:
 $$
 \begin{aligned}
-\lambda^{+}_{i}&=&\lambda^{+}_{i}+\delta_{i,j}^{*} \\
-\lambda^{+}_{j}&=&\lambda^{-}_{j}+\delta_{i,j}^{*} \\
+\lambda^{+}_{i}&=&\lambda^{+}_{i}+\delta^{*} \\
+\lambda^{+}_{j}&=&\lambda^{-}_{j}+\delta^{*} \\
 \end{aligned}
 $$
 \vfill
@@ -149,8 +162,8 @@ f(x)=w\cdot x - \frac{B^{+}+B^{-}}{2}=0
 $$
 where $B^{+}=w\cdot p$ and $B^{-}=w\cdot q$.  Since $w=p-q$ we can simplify this to obtain
 $$
-f(x)=(p-q)\dot x -\frac{\|p\|^2-\|q\|^2}{2}=0.
-p$$
+f(x)=(p-q)\cdot x -\frac{\|p\|^2-\|q\|^2}{2}=0.
+$$
 
 ![Closest points in convex hulls of penguin data](../img/solution.png){#fig:penguinsolution width=50%}
 
