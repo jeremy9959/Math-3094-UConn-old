@@ -124,6 +124,7 @@ Goals:
 - Study Bayesian linear regression
 - Understand the ideas of linear discriminant analysis
     - [Bayesian Linear Regression](slides/bayesian-lin-reg.pdf)
+    - [Linear Discriminant Analysis](slides/LDA.pdf)
 
 *References*
 
