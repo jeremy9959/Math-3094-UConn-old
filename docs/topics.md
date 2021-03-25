@@ -113,7 +113,7 @@ Goals:
 
 
 
-### Bayesian Linear Regression
+### Bayesian Regression
 
 Goals:
 
@@ -125,6 +125,7 @@ Goals:
 - Understand the ideas of linear discriminant analysis
     - [Bayesian Linear Regression](slides/bayesian-lin-reg.pdf)
     - [Linear Discriminant Analysis](slides/LDA.pdf)
+    - [Dimensionality Reduction via LDA](slides/dim-red-LDA.pdf)
 
 *References*
 
