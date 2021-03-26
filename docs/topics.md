@@ -131,3 +131,31 @@ Goals:
 - Bayesian Regression Lab -- includes notebook(s) and data [zip](published_notes/notes/bayesian-regression.zip) [tgz](published_notes/notes/bayesian-regression.tgz)
 
 
+### Support Vector Machines
+
+
+Goals:
+
+- Learn the ideas behind support vector machine classifiers
+  - [Introduction](https://youtu.be/-mFZChnwTdQ)
+  - [Optimal Margins](https://youtu.be/VOCaNMTyCdQ)
+
+- Understand the relationship between convex hulls, supporting hyperplanes, and support vector machines
+  - [Convexity, Convex Hulls, and Supporting Hyperplanes](https://youtu.be/voOt3bv0Vng)
+
+- Formulate the convex optimization problem yielding the optimal margin classifier
+  - [Closest Points and Optimal Margins 1](https://youtu.be/N4APHjxTObs)
+  - [Closest Points and Optimal Margins 2](https://youtu.be/DaF6PhZ6EaA)
+  - [Formulating the Optimization Problem](https://youtu.be/BB2NwZsPvaI)
+  
+- Learn the sequential minimum optimization algorithm
+  - [The SMO Algorithm](https://youtu.be/xsuyqXwCXRk)
+  
+- Further ideas
+  - [Kernels, inseparable sets, multiclass classification](https://youtu.be/xsuyqXwCXRk)
+
+
+*References:*
+
+- Notes on support vector machines [html](published_notes/SVM.html) [pdf](published_notes/SVM.pdf)
+- Support Vector Machines Lab (includes jupyter notebook and data files) [zip](published_notes/SVMLab.zip) [tgz](published_notes/SVMLab.tgz)
