@@ -158,5 +158,5 @@ Goals:
 
 *References:*
 
-- Notes on support vector machines [html](published_notes/notes/SVM.html) [pdf](published_notes/notes/SVM.pdf)
+- Notes on support vector machines [html](published_notes/notes/SVMNotes.html) [pdf](published_notes/notes/SVMNotes.pdf)
 - Support Vector Machines Lab (includes jupyter notebook and data files) [zip](published_notes/SVMLab.zip) [tgz](published_notes/SVMLab.tgz)
