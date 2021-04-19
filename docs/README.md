@@ -32,6 +32,8 @@ UConn LMS.
 
 [A guide to the first assigned project is here](project.md)
 
+[A guide to the second assigned project is here](project2.md)
+
 ### Resources
 
 We will use the [Campus Wire](http://campuswire.com) platform for online help and discussions.

@@ -13,6 +13,6 @@ The original penguin dataset (packaged for the statistical language R) is availa
 [here.](https://allisonhorst.github.io/palmerpenguins/articles/intro.html)
 
 A version of the dataset compiled into a csv file is available from kaggle 
-[here.](https://www.kaggle.com/parulpandey/palmer-archipelago-antarctica-penguin-data).
+[here.](https://www.kaggle.com/parulpandey/palmer-archipelago-antarctica-penguin-data)
 
 Feel free to get in touch with any questions.
