@@ -160,3 +160,18 @@ Goals:
 
 - Notes on support vector machines [html](published_notes/notes/SVMNotes.html) [pdf](published_notes/notes/SVMNotes.pdf)
 - Support Vector Machines Lab (includes jupyter notebook and data files) [zip](published_notes/notes/SVMLab.zip) [tgz](published_notes/notes/SVMLab.tgz)
+
+
+### Neural Networks 
+
+Goals:
+
+- Learn the ideas of neural networks and understand forward-propagation and back-propagation
+- Derive the back-propagation formula
+- Learn the mechanisms of basic convolutional neural networks
+
+*References*
+
+- Neural Networks Lab -- includes notebook(s) and data [zip](published_notes/notes/neural-networks.zip) [tgz](published_notes/notes/neural-networks.tgz)
+
+
