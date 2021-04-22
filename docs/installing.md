@@ -29,5 +29,18 @@ web page:
 - Follow the first set of instructions to open Anaconda-Navigator 
 - Then skip down and follow the steps labelled "Run Python in a Jupyter Notebook"
 
+### Installing Packages
+#### Method 1
+All packages can be installed at once by downloading the "environment.yml" and following the
+[guide here.](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
+
+#### Method 2
+If this does not work packages can be installed following
+[this guide](https://docs.anaconda.com/anaconda/user-guide/tasks/install-packages/)
+or with this command:
+````python
+conda install numpy tensorflow keras matplotlib bokeh seaborn holoviews
+````
+
 
 
