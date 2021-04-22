@@ -169,6 +169,7 @@ Goals:
 - Learn the ideas of neural networks and understand forward-propagation and back-propagation
 - Derive the back-propagation formula
 - Learn the mechanisms of basic convolutional neural networks
+    - [Basic Neural Networks](slides/basic-neural-networks.pdf)
 
 *References*
 
