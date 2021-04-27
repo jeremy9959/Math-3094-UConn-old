@@ -170,6 +170,7 @@ Goals:
 - Derive the back-propagation formula
 - Learn the mechanisms of basic convolutional neural networks
     - [Basic Neural Networks](slides/basic-neural-networks.pdf)
+    - [Convolutional Neural Networks](slides/cnn.pdf)
 
 *References*
 
