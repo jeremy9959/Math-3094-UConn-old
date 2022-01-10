@@ -1,14 +1,14 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
-\PassOptionsToPackage{dvipsnames,svgnames*,x11names*}{xcolor}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
 ]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -38,10 +38,10 @@
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   colorlinks=true,
-  linkcolor=blue,
-  filecolor=Maroon,
-  citecolor=Blue,
-  urlcolor=Blue,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage{graphicx}
@@ -61,36 +61,38 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 %% pandoc-secnos: required package
 \usepackage{cleveref}
 
 %% pandoc-eqnos: disable brackets around cleveref numbers
 \creflabelformat{equation}{#2#1#3}
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry sp
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set line spacing
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#3\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc} % for \widthof, \maxof
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\maxof{\widthof{#1}}{\csllabelwidth}}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth}{#1}}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \author{}
 \date{}
@@ -217,7 +219,7 @@ where we must have \(S_{xx}-\overline{x}^2\not=0\).
 In our discussion above, we thought about our data as consisting of
 \(N\) pairs \((x_i,y_i)\) corresponding to \(n\) points in the
 \(xy\)-plane \(\mathbf{R}^2\). Now let's turn that picture ``on its
-side,'' and instead think of our data as consisting of \emph{two} points
+side'', and instead think of our data as consisting of \emph{two} points
 in \(\mathbf{R}^{n}\):
 
 \[ X=\left[\begin{matrix} x_1\cr x_2\cr \vdots\cr
@@ -366,7 +368,7 @@ and the measured dependent variables \(Y\) are a column vector \[ Y =
 \]
 
 If \(m_1,\ldots, m_k\) are ``slopes'' associated with these properties
-in \cref{eq:multivariate}, and \(b\) is the ``intercept,'' then the
+in \cref{eq:multivariate}, and \(b\) is the ``intercept'', then the
 predicted value \(\hat{Y}\) is given by a matrix equation
 
 \[ \hat{Y} = X\left[\begin{matrix} m_1 \\ m_2 \\ \cdots \\
@@ -751,7 +753,7 @@ effects}, can throw off the analysis very dramatically. See
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{0}{0}
-\leavevmode\hypertarget{ref-irvine}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-irvine}{}}%
 \CSLLeftMargin{{[}1{]} }
 \CSLRightInline{\textsc{U.C. Irvine ML Repository}. {Auto MPG
 Dataset}.Available at
