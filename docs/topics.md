@@ -4,7 +4,7 @@ See [this page](LabResources.html) for help on Anaconda, Jupyter, and Python.
 
 ## Part One
 
-### Linear Regression (1/18/21-1/29/21)
+### Linear Regression 
 
 Goals 
 
@@ -30,7 +30,7 @@ Goals
 - Linear Regression lab - includes datafiles and ipynb file. [zip](published_notes/notes/RegressionLab.zip) [tgz](published_notes/notes/RegressionLab.tgz)
 - See also [the Lab Resources page](LabResources.md) for help.
 
-### Gradient Descent (2/2/21 - 2/12/21)
+### Gradient Descent 
 
 Goals:
 
