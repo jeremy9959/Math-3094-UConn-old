@@ -22,9 +22,12 @@ and practice.
 
 ### Schedule
 
-The course will meet synchronously online on Tuesdays and Thursdays from 
+The course will meet Tuesdays and Thursdays from 11:00AM to 12:15PM in Monteith 314.
+
+**First two weeks of class**: Due to the university's COVID protocols, the class
+will meet synchronously online on Tuesdays and Thursdays from 
 11:00 to 12:15 EST using BlackBoard Collaborate through the [HuskyCT](http://lms.uconn.edu)
-UConn LMS.
+UConn LMS for the first two weeks (1/18/22 - 1/27/22).
 
 ### Topics
 
