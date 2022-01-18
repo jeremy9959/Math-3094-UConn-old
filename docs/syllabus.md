@@ -1,6 +1,6 @@
 # Honors Seminar in Machine Learning
 
-Math 3094, Spring Semester 2021<br>
+Math 3094, Spring Semester 2022<br>
 University of Connecticut<br>
 
 ### Instructors
