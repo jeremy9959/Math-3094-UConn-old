@@ -23,7 +23,7 @@ the ideas there in more depth or using different data.
 
 We suggest meeting with you to discuss your plans before you get too far along.
 
-The project will be due March 22, 2021.
+The project will be due March 22, 2022.
 
 ## Datasets
 
