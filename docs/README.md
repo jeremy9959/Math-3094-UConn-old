@@ -1,10 +1,10 @@
 # Honors Seminar in Machine Learning
 
-Math 3094, Spring Semester 2022<br>
+Math 3094, Spring Semester 2023<br>
 University of Connecticut<br>
 
-### Instructors
-- [Kyu-Hwan Lee](mailto:khlee@math.uconn.edu)
+### Instructor
+
 - [Jeremy Teitelbaum](mailto:jeremy.teitelbaum@uconn.edu)
 
 
@@ -22,12 +22,7 @@ and practice.
 
 ### Schedule
 
-The course will meet Tuesdays and Thursdays from 11:00AM to 12:15PM in Monteith 314.
-
-**First two weeks of class**: Due to the university's COVID protocols, the class
-will meet synchronously online on Tuesdays and Thursdays from 
-11:00 to 12:15 EST using BlackBoard Collaborate through the [HuskyCT](http://lms.uconn.edu)
-UConn LMS for the first two weeks (1/18/22 - 1/27/22).
+The course will meet Tuesdays and Thursdays from 9:30 AM to 10:45 AM in Monteith 321. 
 
 ### Topics
 
@@ -37,6 +32,12 @@ UConn LMS for the first two weeks (1/18/22 - 1/27/22).
 
 [A guide to the second assigned project is here](project2.md)
 
+### Textbook
+
+We rely on notes currently under development by the instructor.  They can be accessed:
+
+- [on the web](https://jeremy9959.net/quarto)
+- [as a pdf file](https://jeremy9959.net/Math-3094-UConn/references/Lectures-on-Machine-Learning.pdf). *Note:* the web version is updated frequently, the pdf file less so.
 ### Resources
 
 We will use the [Campus Wire](http://campuswire.com) platform for online help and discussions.
@@ -50,8 +51,9 @@ from the Anaconda website: [www.anaconda.com](http://www.anaconda.com).
 
 A very brief guide to installing the software is [available here](installing.md).
 
-There is no official textbook for the course.  We will be providing notes as we progress. 
-The following texts may be useful as references.
+
+### Other References 
+
 
 - James, Witten, Hastie, Tibshirani.  An Introduction to Statistical Learning (with Applications
 in R).  This is an introductory text on machine learning with a more statistical emphasis
