@@ -37,7 +37,8 @@ The course will meet Tuesdays and Thursdays from 9:30 AM to 10:45 AM in Monteith
 We rely on notes currently under development by the instructor.  They can be accessed:
 
 - [on the web](https://jeremy9959.net/quarto)
-- [as a pdf file](https://jeremy9959.net/Math-3094-UConn/references/Lectures-on-Machine-Learning.pdf). *Note:* the web version is updated frequently, the pdf file less so.
+- [as a pdf file](Lectures-on-Machine-Learning.pdf). *Note:* the web version is updated frequently, the pdf file less so.
+
 ### Resources
 
 We will use the [Campus Wire](http://campuswire.com) platform for online help and discussions.
