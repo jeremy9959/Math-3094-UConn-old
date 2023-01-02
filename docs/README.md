@@ -41,7 +41,7 @@ We rely on notes currently under development by the instructor.  They can be acc
 
 ### Resources
 
-We will use the [Campus Wire](http://campuswire.com) platform for online help and discussions.
+We will use the [Campus Wire](http://campuswire.com)  platform for online help and discussions.
 Students enrolled in the course should receive an electronic invite to the forum. Contact one
 of the professors if you need access.  
 
