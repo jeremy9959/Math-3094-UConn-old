@@ -36,7 +36,7 @@ The course will meet Tuesdays and Thursdays from 9:30 AM to 10:45 AM in Monteith
 
 We rely on notes currently under development by the instructor.  They can be accessed:
 
-- [on the web](https://jeremy9959.net/quarto)
+- [on the web](https://jeremy9959.net/Mathematics-for-Machine-Learning)
 - [as a pdf file](Lectures-on-Machine-Learning.pdf). *Note:* the web version is updated frequently, the pdf file less so.
 
 ### Resources
