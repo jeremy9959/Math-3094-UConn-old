@@ -122,3 +122,50 @@ where for each row of $X$, $p(X)$ has $\sigma(ax_i+b)$ with
 (unknown) parameters $a$ and $b$.
 
 ### The case of multiple features
+
+In the case of multiple features, we have a set of $k$ measurements for each sample (perhaps exposure to different types of ads)
+and a single outcome (buy/do not buy). This yields an $N\times k$ data matrix $X$. We seek a set of weights $m_{1},\ldots, m_{k}$
+and an "intercept" $b$ so that
+
+$$
+\log\frac{p}{1-p}=\sum m_{i}x_{i}+b
+$$
+
+relates the log-odds of our event occurring with the values of the features.
+
+**Note:** Just as with linear regression, we can create a "fake" feature that is all $1$, and then extend our data matrix to $N\times (k+1)$.
+Then $b=m_{k+1}$ and we can write
+
+$$
+\log\frac{P}{1-P}=XM
+$$
+
+where the right side is an $N\times 1$ matrix and the left side is an $N\times 1$ matrix whose entries are $\log\frac{p}{1-p}$.
+
+### The probability
+
+From this we get the matrix equation
+
+$$
+P = \sigma(XM)
+$$
+
+The matrix $P$ has the probability of getting a positive outcome for each sample given the features.
+
+### A geometric remark
+
+One way to think of this is that if the features (a row of $X$), thought of as a vector, points "more in the direction of the weight vector" $M$,
+then the probability of getting a positive outcome increases. If it's perpendicular, you get even odds. If it points oppositve the weight vector,
+you're unlikely to get what you want.
+
+### The target
+
+We have a vector $Y$ which records when our event happened, and when it didn't.
+
+### The log-likelihood
+
+$$
+L(M) = Y^{\intercal}\log(\sigma(XM))+(1-Y^{\intercal})(1-\log(\sigma(XM)))
+$$
+
+**Problem:** Given $X$ and $Y$, find $M$ that maximizes this.
