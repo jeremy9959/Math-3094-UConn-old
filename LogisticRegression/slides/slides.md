@@ -177,3 +177,127 @@ $$
 ### Default with logistic line
 
 ![Default with line](scatter_default_with_line.png){height=3in}
+
+### Logistic regression for classification
+
+We can use logistic regression for classification by fitting the logistic model and then saying that a point
+should be classified as $1$ if the probability $p$ given by the model says it is $1$ with greater than $.5$ probability.
+
+We could also set a more stringent requirement.
+
+### The "decision surface"
+
+In the logistic regression model, for a given sample $x$ with features $x_{i}$ ($i=1,\ldots, k+1$),
+the log odds of that sample yielding a "positive" result is
+
+$$
+\log\frac{P}{1-P} = \sum x_{i}m_{i}
+$$
+
+where the $m_{i}$ are the weights. Notice that the equation $f(x)=\sum x_{i}m_{i}$ is a linear
+function of the features. The equation $f(x)=0$ defines a "hyperplane" in feature space.
+(In the graph above, this is the blue line on the default data). On that line, it's even odds if the target is $1$ or $0$.
+
+If $f(x)>0$, the odds are better than even that the target value for that point is $1$; and if $f(x)<0$ the odds are less than even.
+
+If you are trying to classify points, you could say points where $f(x)>0$ should be classified as $1$ (because, more likely than not,
+the model says that they are a $1$).
+
+### An example of classification
+
+The sklearn digits dataset consists of a large number of $8\times 8$ bitmap images together with labels from $0$ to $9$.
+For example:
+
+![digit](digit.png){width=2in}
+
+### Digit recogntion (two-class)
+
+We can view our images not as 8x8 arrays but as 64-entry vectors. Let's just focus on the zeros and ones.
+We fit a logistic regression model where the target is the value $0$ or $1$. This turns out to do an exceptionally good job at distinguishing these digits.
+
+## Multiclass logistic regression
+
+### Softmax
+
+In multiclass logistic regression, we imagine not only that our data depends on multiple features but
+that there are several possible outcomes to our experiment.
+
+Given numbers $z_1,\ldots, z_n$, let
+
+$$
+F(z_1,\ldots, z_n) = \sum_{i=1}^{n} e^{z_{i}}
+$$
+
+and define the "softmax" function by
+
+$$
+\sigma(z_1,\ldots, z_n)=\[\begin{matrix} \frac{e^{z_1}}{F} & \frac{e^{z_{2}}}{F} &\cdots & \frac{e^{z_{n}}}{F}\end{matrix}\right]
+$$
+
+### Softmax
+
+The softmax function is the higher dimensional generalization of the sigmoid function. Notice
+that it yields a vector of numbers between $0$ and $1$ whose sum is $1$.
+
+### One-hot encoding
+
+The second important element of multiclass regression is how to encode the labels. For example,
+in our digit problem, the labels run from $0$ to $9$. Given an image, we want to compute
+probabilities $p_0,\ldots, p_9$ which add to $1$ and, where, hopefully, the largest $p_i$ corresponds
+to the true label.
+
+To set this up we convert our labels to one hot encoding. In this picture, we replace our single
+vector with entries from $0$ to $9$ with a matrix with 10 columns. Each row of this matrix
+has a zero everywhere _except_ in the column corresponding to the label is correct.
+
+So if the label for an image is $2$, the corresponding row of the target matrix is
+
+$$
+[0,0,1,0,0,0,0,0,0,0].
+$$
+
+### The model
+
+If we have $N$ samples, $k$ features, and $r$ classes, then our weight matrix $M$ is $k\times r$,
+our target matrix $Y$ is $N\times r$, and our data matrix $X$ is $N\times k$. Our model says that
+
+$$
+P = \sigma(XM)
+$$
+
+where $\sigma(XM)$ means "apply the softmax function to each row of $XM$"; each row has $r$ entries.
+
+You can think of $P$ as an attempt to "estimate" $Y$.
+
+The rows of $P$ give the probabilities of getting each possible label for that set of features.
+
+### Max Likelihood
+
+As before we seek $M$ so that the observed classification is most likely given $M$. To find the likelihood:
+
+The probability that the $i^{th}$ sample is in class $j$ is $p_{s}(x_i; M)$ where
+$p_{s}$ is the $s^{th}$ entry in the $i^{th}$ row of the matrix $P$. We can write this as
+
+$$
+P(i,s) = \prod_{s=1}^{r} p_{s}(x_i; M)^{y_{s}}
+$$
+
+since $y_{s}$ is zero except at the correct class. Taking the logarithm makes this a sum:
+
+$$
+\log P(i,s) = \sum_{s=1}^{r} y_{s}\log p_{s}(x_{i}; M).
+$$
+
+By independence, the total log probability of this data is the sum of this over all samples and corresponding $y$-values.
+
+$$
+\log L(M) = \sum_{i=1}^{N} \sum_{s=1}^{r} y_{s}\log p_{s}(x_{i},M)
+$$
+
+This can be written in matrix form as
+
+$$
+\log L(M) = \mathrm{trace}(Y^{T}\log \sigma(XM)))
+$$
+
+We need to maximize this; we'll consider that later.
