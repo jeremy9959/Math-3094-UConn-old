@@ -64,7 +64,7 @@ Assuming independence (given $x$, $a$, and $b$) the chance of our data
 is
 
 $$
-P(\mathrm{data}|a,b)=C P(10+|x=-3)P(18+|x=-2)\cdotsP(86+|x=3)
+P(\mathrm{data}|a,b)=C P(10+|x=-3)P(18+|x=-2)\cdots P(86+|x=3)
 $$
 
 ### Still more
@@ -169,3 +169,11 @@ L(M) = Y^{\intercal}\log(\sigma(XM))+(1-Y^{\intercal})(1-\log(\sigma(XM)))
 $$
 
 **Problem:** Given $X$ and $Y$, find $M$ that maximizes this.
+
+### Credit card default
+
+![Default](scatter_default.png){height=3in}
+
+### Default with logistic line
+
+![Default with line](scatter_default_with_line.png){height=3in}
