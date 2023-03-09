@@ -212,7 +212,7 @@ For example:
 
 ### Digit recogntion (two-class)
 
-We can view our images not as 8x8 arrays but as 64-entry vectors. Let's just focus on the zeros and ones.
+We can view our images not as $8\times 8$ arrays but as 64-entry vectors. Let's just focus on the zeros and ones.
 We fit a logistic regression model where the target is the value $0$ or $1$. This turns out to do an exceptionally good job at distinguishing these digits.
 
 ## Multiclass logistic regression
@@ -231,7 +231,7 @@ $$
 and define the "softmax" function by
 
 $$
-\sigma(z_1,\ldots, z_n)=\[\begin{matrix} \frac{e^{z_1}}{F} & \frac{e^{z_{2}}}{F} &\cdots & \frac{e^{z_{n}}}{F}\end{matrix}\right]
+\sigma(z_1,\ldots, z_n)=\left[\begin{matrix} \frac{e^{z_1}}{F} & \frac{e^{z_{2}}}{F} &\cdots & \frac{e^{z_{n}}}{F}\end{matrix}\right]
 $$
 
 ### Softmax
@@ -284,6 +284,8 @@ $$
 
 since $y_{s}$ is zero except at the correct class. Taking the logarithm makes this a sum:
 
+### Matrix form of max likelihood
+
 $$
 \log P(i,s) = \sum_{s=1}^{r} y_{s}\log p_{s}(x_{i}; M).
 $$
@@ -301,3 +303,5 @@ $$
 $$
 
 We need to maximize this; we'll consider that later.
+
+### End
