@@ -32,7 +32,7 @@ $$
 
 is called the logistic function.
 
-![Logistic Curve](logistic_curve.png){width=50%}
+![Logistic Curve](../img/logistic_curve.png){width=50%}
 
 ### Sample data
 
@@ -44,7 +44,7 @@ Likelihood of event increases with $x$. Out of 100 tries:
 
 ### Two points of view
 
-![Logistic Data](logistic_plots.png){width=4in}
+![Logistic Data](../img/logistic_plots.png){width=4in}
 
 ### The Likelihood
 
@@ -172,11 +172,11 @@ $$
 
 ### Credit card default
 
-![Default](scatter_default.png){height=3in}
+![Default](../img/scatter_default.png){height=3in}
 
 ### Default with logistic line
 
-![Default with line](scatter_default_with_line.png){height=3in}
+![Default with line](../img/scatter_default_with_line.png){height=3in}
 
 ### Logistic regression for classification
 
@@ -208,7 +208,7 @@ the model says that they are a $1$).
 The sklearn digits dataset consists of a large number of $8\times 8$ bitmap images together with labels from $0$ to $9$.
 For example:
 
-![digit](digit.png){width=2in}
+![digit](../img/digit.png){width=2in}
 
 ### Digit recogntion (two-class)
 
