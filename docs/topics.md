@@ -36,7 +36,7 @@ Goals:
 - Learn the basic theory of gradient descent and how it is applied to find maxima and minima of functions
 - Apply Gradient Descent to some specific examples.
 
-  - [Gradient Descent](published_notes/notes/05-1-gradient-descent.html)
+  - [Gradient Descent](http://jeremy9959.net/Mathematics-for-Machine-Learning/chapters/05-1-gradient-descent.html)
   - [Animation](published_notes/notes/GDanimate_js.html)
 
 _References_
