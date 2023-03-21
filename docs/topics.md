@@ -75,12 +75,11 @@ Goals:
 - See how the ideas of likelihood and gradient descent combine to solve the logistic regression problem
 - Do some sample computations to see Logistic Regression in action
 - Generalize binary logistic regression to multi-class logistic regression
-  - [Logistic Regression](slides/logistic-regression.pdf)
-  - [Multi-class Logistic Regression](slides/multi-LR.pdf)
+  - [Logistic Regression](https://jeremy9959.net/Mathematics-for-Machine-Learning/chapters/05-logistic-regression.html)
 
 _References_
 
-- Logistic Regression [html](published_notes/notes/LogitR.html) [pdf](published_notes/notes/LogitR.pdf)
+- Logistic Regression [slides](published_notes/notes/logistic-regression-slides.pdf)
 - Logistic Regression lab - [zip](published_notes/notes/logistic.zip)
 
 ### Principal Component Analysis
