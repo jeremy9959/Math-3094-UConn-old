@@ -35,16 +35,13 @@ Goals:
 
 - Learn the basic theory of gradient descent and how it is applied to find maxima and minima of functions
 - Apply Gradient Descent to some specific examples.
-- Learn Newton's method and apply it to some examples.
 
-  - [Introduction to Binary Classification](slides/intro-bin-class.pdf)
-  - [Gradient Descent](slides/grad-descent.pdf)
-    - [Newton's Method](slides/Newton-method.pdf)
+  - [Gradient Descent](published_notes/notes/05-1-gradient-descent.md)
+  - [Animation](published_notes/notes/GDanimate.html)
 
 _References_
 
-- Gradient Descent [html](published_notes/notes/GD.html) [pdf](published_notes/notes/GD.pdf)
-- Gradient Descent lab - includes datafiles and ipynb file. [zip](published_notes/notes/GradientDescentLab.zip) [tgz](published_notes/notes/GradientDescentLab.tgz)
+  - Gradient Descent lab - [zip](published_notes/notes/gradient_descent.zip)
 
 ### Probability
 
